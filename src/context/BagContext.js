@@ -6,6 +6,7 @@ const BagContext = createContext();
 
 export function BagProvider({ children }) {
   const [bag, setBag] = useState([]);
+  const [isBagOpen, setIsBagOpen] = useState(false);
 
   // Load bag from localStorage on mount (client-side only)
   useEffect(() => {
@@ -27,12 +28,21 @@ export function BagProvider({ children }) {
 
   const addToBag = (item) => {
     if (!bag.some((bagItem) => bagItem.id === item.id)) {
-      saveBag([...bag, item]);
+      // Default duration is 1 month
+      saveBag([...bag, { ...item, duration: 1 }]);
     }
   };
 
   const removeFromBag = (itemId) => {
     saveBag(bag.filter((item) => item.id !== itemId));
+  };
+
+  const updateDuration = (itemId, duration) => {
+    saveBag(
+      bag.map((item) =>
+        item.id === itemId ? { ...item, duration: parseInt(duration, 10) || 1 } : item
+      )
+    );
   };
 
   const clearBag = () => {
@@ -47,8 +57,11 @@ export function BagProvider({ children }) {
     <BagContext.Provider
       value={{
         bag,
+        isBagOpen,
+        setIsBagOpen,
         addToBag,
         removeFromBag,
+        updateDuration,
         clearBag,
         isInBag,
         bagCount: bag.length,

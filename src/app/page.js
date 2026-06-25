@@ -3,6 +3,8 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import BagDrawer from "@/components/BagDrawer";
+import MediaDetailModal from "@/components/MediaDetailModal";
 import { mockAdvertisingAssets } from "@/data/mockData";
 import { useBag } from "@/context/BagContext";
 
@@ -13,6 +15,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [locationQuery, setLocationQuery] = React.useState("");
   const [activeCategory, setActiveCategory] = React.useState(null);
+  const [activeDetailAsset, setActiveDetailAsset] = React.useState(null);
 
   // Reset all search and category filters
   const handleResetFilters = () => {
@@ -51,6 +54,9 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-slate-950 text-slate-100 selection:bg-violet-500 selection:text-white">
       {/* Navbar Component */}
       <Navbar />
+
+      {/* Sliding Sidebar Drawer */}
+      <BagDrawer />
 
       {/* Hero Component with state props passed down */}
       <main className="flex-grow">
@@ -124,7 +130,10 @@ export default function Home() {
                     className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 transition-all duration-300 hover:border-slate-700/80 hover:bg-slate-900/60 hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-1"
                   >
                     {/* Image Container */}
-                    <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
+                    <div
+                      className="relative aspect-video w-full overflow-hidden bg-slate-950 cursor-pointer"
+                      onClick={() => setActiveDetailAsset(asset)}
+                    >
                       <img
                         src={asset.image}
                         alt={asset.title}
@@ -165,7 +174,10 @@ export default function Home() {
                         </p>
 
                         {/* Title */}
-                        <h3 className="text-base font-bold text-white group-hover:text-violet-300 transition-colors">
+                        <h3
+                          className="text-base font-bold text-white group-hover:text-violet-300 transition-colors cursor-pointer"
+                          onClick={() => setActiveDetailAsset(asset)}
+                        >
                           {asset.title}
                         </h3>
 
@@ -188,14 +200,15 @@ export default function Home() {
                         {/* Add to bag button */}
                         <button
                           type="button"
-                          onClick={() => (inBag ? removeFromBag(asset.id) : addToBag(asset))}
+                          disabled={inBag}
+                          onClick={() => !inBag && addToBag(asset)}
                           className={`rounded-xl px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 ${
                             inBag
-                              ? "bg-rose-950/40 text-rose-300 border border-rose-800/60 hover:bg-rose-900/60 hover:text-white"
+                              ? "bg-emerald-950/30 text-emerald-400 border border-emerald-800/40 cursor-not-allowed"
                               : "bg-slate-850 text-slate-200 border border-slate-700 hover:border-violet-500/50 hover:bg-violet-600 hover:text-white hover:shadow-[0_0_15px_rgba(139,92,246,0.25)]"
                           }`}
                         >
-                          {inBag ? "Remove" : "Add to Bag"}
+                          {inBag ? "Added" : "Add to Bag"}
                         </button>
                       </div>
                     </div>
@@ -206,6 +219,15 @@ export default function Home() {
           )}
         </section>
       </main>
+
+      {/* Sliding Sidebar Drawer */}
+      <BagDrawer />
+
+      {/* Media Detail Modal */}
+      <MediaDetailModal
+        asset={activeDetailAsset}
+        onClose={() => setActiveDetailAsset(null)}
+      />
 
       {/* Footer */}
       <footer className="border-t border-slate-900 bg-slate-950 py-8 text-center text-xs text-slate-500">

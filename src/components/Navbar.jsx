@@ -4,7 +4,7 @@ import React from "react";
 import { useBag } from "@/context/BagContext";
 
 export default function Navbar() {
-  const { bagCount } = useBag();
+  const { bagCount, setIsBagOpen } = useBag();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
@@ -40,7 +40,7 @@ export default function Navbar() {
             {/* Your Bag Button */}
             <button
               className="relative flex items-center space-x-2 rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 text-sm font-medium text-slate-200 transition-all duration-300 hover:border-violet-500/50 hover:bg-slate-900 hover:text-white hover:shadow-[0_0_15px_rgba(139,92,246,0.15)] group"
-              onClick={() => alert(`Your Bag contains ${bagCount} items.`)}
+              onClick={() => setIsBagOpen(true)}
             >
               {/* Shopping Bag Icon */}
               <svg
