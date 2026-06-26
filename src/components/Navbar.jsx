@@ -1,12 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useBag } from "@/context/BagContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const { bagCount, setIsBagOpen } = useBag();
   const { theme, toggleTheme } = useTheme();
+  const { user, setIsAuthModalOpen, setIsCampaignsModalOpen, logout } = useAuth();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/80 transition-colors duration-200 no-print">
@@ -31,12 +34,82 @@ export default function Navbar() {
               >
                 Contact Us
               </a>
-              <a
-                href="#login"
-                className="text-sm font-medium text-slate-500 transition-colors duration-200 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
-              >
-                Login
-              </a>
+              
+              {user ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="flex items-center space-x-2 rounded-full border border-slate-200 bg-slate-50/50 px-3.5 py-1.5 text-sm font-medium text-slate-700 transition-all duration-300 hover:border-violet-500/50 hover:bg-white hover:text-violet-650 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200 dark:hover:border-violet-500/50 dark:hover:bg-slate-900 dark:hover:text-white group cursor-pointer"
+                  >
+                    <div className="h-6 w-6 rounded-full bg-violet-600 dark:bg-violet-500 text-white flex items-center justify-center font-black text-[10px] tracking-tighter">
+                      {user.name.charAt(0)}
+                    </div>
+                    <span className="max-w-[100px] truncate font-bold text-slate-800 dark:text-slate-200">@{user.handle}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2.5"
+                      stroke="currentColor"
+                      className={`h-3 w-3 text-slate-500 dark:text-slate-400 transition-transform duration-200 ${
+                        isDropdownOpen ? "rotate-180" : ""
+                      }`}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                      />
+                    </svg>
+                  </button>
+
+                  {isDropdownOpen && (
+                    <>
+                      {/* Invisible overlay to close dropdown */}
+                      <div
+                        className="fixed inset-0 z-30"
+                        onClick={() => setIsDropdownOpen(false)}
+                      ></div>
+
+                      <div className="absolute right-0 mt-2 w-48 rounded-2xl border border-slate-200 bg-white py-2 shadow-xl dark:border-slate-800 dark:bg-slate-950 z-40 animate-scale-up">
+                        <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-900">
+                          <p className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                            Signed in as
+                          </p>
+                          <p className="text-xs font-bold text-slate-850 truncate dark:text-slate-200">
+                            {user.name}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setIsCampaignsModalOpen(true);
+                            setIsDropdownOpen(false);
+                          }}
+                          className="flex w-full items-center px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-violet-650 dark:text-slate-350 dark:hover:bg-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+                        >
+                          <span className="mr-2">📊</span> My Campaigns
+                        </button>
+                        <button
+                          onClick={() => {
+                            logout();
+                            setIsDropdownOpen(false);
+                          }}
+                          className="flex w-full items-center px-4 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-50 dark:text-rose-450 dark:hover:bg-rose-950/30 transition-colors cursor-pointer"
+                        >
+                          <span className="mr-2">🚪</span> Log Out
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <button
+                  onClick={() => setIsAuthModalOpen(true)}
+                  className="text-sm font-semibold text-slate-500 transition-colors duration-200 hover:text-slate-900 dark:text-slate-455 dark:hover:text-white cursor-pointer"
+                >
+                  Login
+                </button>
+              )}
             </div>
 
             {/* Your Bag Button */}

@@ -2,6 +2,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { BagProvider } from "@/context/BagContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { AuthProvider } from "@/context/AuthContext";
+import AuthModal from "@/components/AuthModal";
+import CampaignsModal from "@/components/CampaignsModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,9 +47,13 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-full flex flex-col bg-gray-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200">
         <ThemeProvider>
-          <BagProvider>
-            {children}
-          </BagProvider>
+          <AuthProvider>
+            <BagProvider>
+              {children}
+            </BagProvider>
+            <AuthModal />
+            <CampaignsModal />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
