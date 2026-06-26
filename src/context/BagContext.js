@@ -33,6 +33,15 @@ export function BagProvider({ children }) {
     }
   };
 
+  const addItemsToBag = (items) => {
+    const newItems = items.filter(
+      (item) => !bag.some((bagItem) => bagItem.id === item.id)
+    ).map((item) => ({ ...item, duration: 1 }));
+    if (newItems.length > 0) {
+      saveBag([...bag, ...newItems]);
+    }
+  };
+
   const removeFromBag = (itemId) => {
     saveBag(bag.filter((item) => item.id !== itemId));
   };
@@ -60,6 +69,7 @@ export function BagProvider({ children }) {
         isBagOpen,
         setIsBagOpen,
         addToBag,
+        addItemsToBag,
         removeFromBag,
         updateDuration,
         clearBag,
