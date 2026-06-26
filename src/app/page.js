@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import BagDrawer from "@/components/BagDrawer";
 import MediaDetailModal from "@/components/MediaDetailModal";
+import CompareModal from "@/components/CompareModal";
 import { mockAdvertisingAssets } from "@/data/mockData";
 import { useBag } from "@/context/BagContext";
 
@@ -21,6 +22,33 @@ export default function Home() {
   const [budgetInput, setBudgetInput] = React.useState("");
   const [smartPlan, setSmartPlan] = React.useState(null);
   const [smartPlanError, setSmartPlanError] = React.useState("");
+
+  // Comparison states
+  const [selectedCompareAssets, setSelectedCompareAssets] = React.useState([]);
+  const [isCompareModalOpen, setIsCompareModalOpen] = React.useState(false);
+  const [compareAlertMessage, setCompareAlertMessage] = React.useState("");
+
+  // Auto-clear comparison alert message
+  React.useEffect(() => {
+    if (compareAlertMessage) {
+      const timer = setTimeout(() => {
+        setCompareAlertMessage("");
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [compareAlertMessage]);
+
+  const toggleCompareAsset = (asset) => {
+    if (selectedCompareAssets.some((item) => item.id === asset.id)) {
+      setSelectedCompareAssets((prev) => prev.filter((item) => item.id !== asset.id));
+    } else {
+      if (selectedCompareAssets.length >= 3) {
+        setCompareAlertMessage("You can compare a maximum of 3 assets at a time.");
+        return;
+      }
+      setSelectedCompareAssets((prev) => [...prev, asset]);
+    }
+  };
 
   // Reset all search and category filters
   const handleResetFilters = () => {
@@ -156,7 +184,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
                 <h2 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center">
-                  <span className="mr-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-violet-100 text-violet-750 dark:bg-violet-950/80 dark:text-violet-400">
+                  <span className="mr-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-violet-100 text-violet-700 dark:bg-violet-950/80 dark:text-violet-400">
                     📊
                   </span>
                   Smart Campaign Planner
@@ -249,7 +277,7 @@ export default function Home() {
                   setSmartPlan(null);
                   setSmartPlanError("");
                 }}
-                className="mt-4 md:mt-0 text-sm font-semibold text-violet-650 hover:text-violet-550 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
+                className="mt-4 md:mt-0 text-sm font-semibold text-violet-600 hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
               >
                 Back to Catalog
               </button>
@@ -267,7 +295,7 @@ export default function Home() {
               {(activeCategory || searchQuery || locationQuery) && (
                 <button
                   onClick={handleResetFilters}
-                  className="mt-4 md:mt-0 text-sm font-semibold text-violet-650 hover:text-violet-550 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
+                  className="mt-4 md:mt-0 text-sm font-semibold text-violet-600 hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
                 >
                   Clear all filters
                 </button>
@@ -331,7 +359,7 @@ export default function Home() {
                             style={{ width: `${smartPlan.utilizationPercent}%` }}
                           ></div>
                         </div>
-                        <div className="flex justify-between items-center mt-1.5 text-[10px] text-slate-550 dark:text-slate-450 font-bold uppercase tracking-wider">
+                        <div className="flex justify-between items-center mt-1.5 text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
                           <span>Utilization</span>
                           <span>{smartPlan.utilizationPercent}%</span>
                         </div>
@@ -342,7 +370,7 @@ export default function Home() {
                     <button
                       type="button"
                       onClick={handleAddBundle}
-                      className="mt-6 w-full rounded-xl bg-gradient-to-r from-violet-650 to-indigo-650 px-4 py-3.5 text-sm font-bold text-white shadow-md hover:from-violet-555 hover:to-indigo-555 hover:shadow-violet-600/25 transition-all duration-300"
+                      className="mt-6 w-full rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-4 py-3.5 text-sm font-bold text-white shadow-md hover:from-violet-500 hover:to-indigo-500 hover:shadow-violet-600/25 transition-all duration-300"
                     >
                       Add Entire Bundle to Bag
                     </button>
@@ -352,14 +380,14 @@ export default function Home() {
 
               {/* Grid showing only recommended items */}
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-505 mb-6">Included Advertising Slots</h3>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-6">Included Advertising Slots</h3>
                 <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                   {smartPlan.items.map((asset) => {
                     const inBag = isInBag(asset.id);
                     return (
                       <div
                         key={asset.id}
-                        className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-350 hover:bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-slate-700/80 dark:hover:bg-slate-900/60 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-1"
+                        className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-300 hover:bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-slate-700/80 dark:hover:bg-slate-900/60 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-1"
                       >
                         {/* Image Container */}
                         <div
@@ -372,17 +400,38 @@ export default function Home() {
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                             loading="lazy"
                           />
-                          {/* Category Badge */}
-                          <span className="absolute top-3 left-3 rounded-full bg-slate-55/90 px-3 py-1 text-xs font-semibold text-violet-750 border border-violet-200/50 backdrop-blur-md dark:bg-slate-950/70 dark:text-violet-300 dark:border-violet-500/20">
+                      {/* Category Badge */}
+                          <span className="absolute top-3 left-3 rounded-full bg-slate-50/90 px-3 py-1 text-xs font-semibold text-violet-700 border border-violet-200/50 backdrop-blur-md dark:bg-slate-950/70 dark:text-violet-300 dark:border-violet-500/20">
                             {asset.category}
                           </span>
+
+                          {/* Verified Trust Badge */}
+                          <span className="absolute bottom-3 left-3 rounded-full bg-emerald-500/90 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-white border border-emerald-400/30 backdrop-blur-sm shadow-sm select-none">
+                            ✓ Verified Spot
+                          </span>
+
+                          {/* Compare Checkbox */}
+                          <div
+                            className="absolute top-3 right-3 z-10"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <label className="flex items-center space-x-1.5 rounded-full bg-slate-900/60 hover:bg-slate-900/85 px-2.5 py-1 text-[11px] font-bold text-white border border-white/20 backdrop-blur-md cursor-pointer transition-colors shadow-sm select-none">
+                              <input
+                                type="checkbox"
+                                checked={selectedCompareAssets.some((item) => item.id === asset.id)}
+                                onChange={() => toggleCompareAsset(asset)}
+                                className="h-3.5 w-3.5 rounded border-slate-300 text-violet-600 focus:ring-violet-500 accent-violet-600 cursor-pointer"
+                              />
+                              <span>Compare</span>
+                            </label>
+                          </div>
                         </div>
 
                         {/* Info Container */}
                         <div className="flex flex-1 flex-col p-6">
                           <div className="flex-1">
                             {/* Location */}
-                            <p className="text-xs font-medium text-violet-650 dark:text-violet-400 flex items-center mb-1.5">
+                            <p className="text-xs font-medium text-violet-600 dark:text-violet-400 flex items-center mb-1.5">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -404,10 +453,9 @@ export default function Home() {
                               </svg>
                               {asset.location}
                             </p>
-
                             {/* Title */}
                             <h3
-                              className="text-base font-bold text-slate-800 dark:text-white group-hover:text-violet-650 dark:group-hover:text-violet-300 transition-colors cursor-pointer"
+                              className="text-base font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors cursor-pointer"
                               onClick={() => setActiveDetailAsset(asset)}
                             >
                               {asset.title}
@@ -422,7 +470,7 @@ export default function Home() {
                           {/* Pricing and Action */}
                           <div className="mt-6 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-4">
                             <div>
-                              <p className="text-xs text-slate-450 dark:text-slate-500">Price per slot</p>
+                              <p className="text-xs text-slate-500 dark:text-slate-500">Price per slot</p>
                               <p className="text-lg font-black text-slate-900 dark:text-white">
                                 ${asset.price}
                                 <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/day</span>
@@ -436,8 +484,8 @@ export default function Home() {
                               onClick={() => !inBag && addToBag(asset)}
                               className={`rounded-xl px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 ${
                                 inBag
-                                  ? "bg-emerald-50 text-emerald-650 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/40 cursor-not-allowed"
-                                  : "bg-white text-slate-700 border border-slate-200 hover:border-violet-500/50 hover:bg-violet-600 hover:text-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:border-violet-500/50 dark:hover:bg-violet-650 dark:hover:text-white"
+                                  ? "bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/40 cursor-not-allowed"
+                                  : "bg-white text-slate-700 border border-slate-200 hover:border-violet-500/50 hover:bg-violet-600 hover:text-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:border-violet-500/50 dark:hover:bg-violet-600 dark:hover:text-white"
                               }`}
                             >
                               {inBag ? "Added" : "Add to Bag"}
@@ -467,7 +515,7 @@ export default function Home() {
                 />
               </svg>
               <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">No Advertising Slots Found</h3>
-              <p className="mt-2 text-xs text-slate-550 dark:text-slate-450 max-w-xs">
+              <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 max-w-xs">
                 We couldn't find any listings matching your search criteria. Try modifying your keywords, location, or selected category.
               </p>
               <button
@@ -500,16 +548,37 @@ export default function Home() {
                         loading="lazy"
                       />
                       {/* Category Badge */}
-                      <span className="absolute top-3 left-3 rounded-full bg-slate-50/90 px-3 py-1 text-xs font-semibold text-violet-750 border border-violet-200/50 backdrop-blur-md dark:bg-slate-950/70 dark:text-violet-300 dark:border-violet-500/20">
+                      <span className="absolute top-3 left-3 rounded-full bg-slate-50/90 px-3 py-1 text-xs font-semibold text-violet-700 border border-violet-200/50 backdrop-blur-md dark:bg-slate-950/70 dark:text-violet-300 dark:border-violet-500/20">
                         {asset.category}
                       </span>
+
+                      {/* Verified Trust Badge */}
+                      <span className="absolute bottom-3 left-3 rounded-full bg-emerald-500/90 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-white border border-emerald-400/30 backdrop-blur-sm shadow-sm select-none">
+                        ✓ Verified Spot
+                      </span>
+
+                      {/* Compare Checkbox */}
+                      <div
+                        className="absolute top-3 right-3 z-10"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <label className="flex items-center space-x-1.5 rounded-full bg-slate-900/60 hover:bg-slate-900/85 px-2.5 py-1 text-[11px] font-bold text-white border border-white/20 backdrop-blur-md cursor-pointer transition-colors shadow-sm select-none">
+                          <input
+                            type="checkbox"
+                            checked={selectedCompareAssets.some((item) => item.id === asset.id)}
+                            onChange={() => toggleCompareAsset(asset)}
+                            className="h-3.5 w-3.5 rounded border-slate-300 text-violet-600 focus:ring-violet-500 accent-violet-600 cursor-pointer"
+                          />
+                          <span>Compare</span>
+                        </label>
+                      </div>
                     </div>
 
                     {/* Info Container */}
                     <div className="flex flex-1 flex-col p-6">
                       <div className="flex-1">
                         {/* Location */}
-                        <p className="text-xs font-medium text-violet-650 dark:text-violet-400 flex items-center mb-1.5">
+                        <p className="text-xs font-medium text-violet-600 dark:text-violet-400 flex items-center mb-1.5">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -534,7 +603,7 @@ export default function Home() {
 
                         {/* Title */}
                         <h3
-                          className="text-base font-bold text-slate-800 dark:text-white group-hover:text-violet-650 dark:group-hover:text-violet-300 transition-colors cursor-pointer"
+                          className="text-base font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors cursor-pointer"
                           onClick={() => setActiveDetailAsset(asset)}
                         >
                           {asset.title}
@@ -563,8 +632,8 @@ export default function Home() {
                           onClick={() => !inBag && addToBag(asset)}
                           className={`rounded-xl px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 ${
                             inBag
-                              ? "bg-emerald-50 text-emerald-650 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/40 cursor-not-allowed"
-                              : "bg-white text-slate-700 border border-slate-200 hover:border-violet-500/50 hover:bg-violet-600 hover:text-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:border-violet-500/50 dark:hover:bg-violet-650 dark:hover:text-white"
+                              ? "bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/40 cursor-not-allowed"
+                              : "bg-white text-slate-700 border border-slate-200 hover:border-violet-500/50 hover:bg-violet-600 hover:text-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:border-violet-500/50 dark:hover:bg-violet-600 dark:hover:text-white"
                           }`}
                         >
                           {inBag ? "Added" : "Add to Bag"}
@@ -587,6 +656,85 @@ export default function Home() {
         asset={activeDetailAsset}
         onClose={() => setActiveDetailAsset(null)}
       />
+
+      {/* Compare Modal */}
+      <CompareModal
+        selectedAssets={selectedCompareAssets}
+        isOpen={isCompareModalOpen}
+        onClose={() => setIsCompareModalOpen(false)}
+      />
+
+      {/* Toast Alert for Max Comparison limit */}
+      {compareAlertMessage && (
+        <div className="fixed top-6 left-1/2 z-50 w-full max-w-md px-4 animate-toast-slide-in no-print">
+          <div className="flex items-center justify-between gap-3 bg-red-50 dark:bg-red-950/90 border border-red-200 dark:border-red-900/50 rounded-2xl p-4 shadow-xl backdrop-blur-md">
+            <div className="flex items-center gap-2.5 text-red-800 dark:text-red-200 text-sm font-semibold">
+              <span>⚠️</span>
+              <span>{compareAlertMessage}</span>
+            </div>
+            <button
+              onClick={() => setCompareAlertMessage("")}
+              className="text-red-500 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200 cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Comparison Action Bar */}
+      {selectedCompareAssets.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 z-40 w-full max-w-2xl px-4 no-print animate-slide-up">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl border border-slate-200/80 bg-white/95 p-4 shadow-2xl backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/95 transition-all">
+            {/* Previews and count */}
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-2">
+                {selectedCompareAssets.map((asset) => (
+                  <div key={asset.id} className="relative group/thumb">
+                    <img
+                      src={asset.image}
+                      alt={asset.title}
+                      className="h-10 w-10 rounded-full object-cover border-2 border-white dark:border-slate-900 shadow-md"
+                    />
+                    {/* Individual remove button on hover */}
+                    <button
+                      onClick={() => setSelectedCompareAssets(prev => prev.filter(item => item.id !== asset.id))}
+                      className="absolute -top-1 -right-1 hidden group-hover/thumb:flex h-4.5 w-4.5 items-center justify-center rounded-full bg-rose-500 text-white text-[10px] shadow cursor-pointer font-bold"
+                      title="Remove"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="text-xs font-semibold text-slate-500 dark:text-slate-450">
+                <span className="font-extrabold text-slate-900 dark:text-white">
+                  {selectedCompareAssets.length}
+                </span>
+                /3 Items Selected
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex items-center gap-2.5 w-full sm:w-auto">
+              <button
+                onClick={() => setSelectedCompareAssets([])}
+                className="flex-1 sm:flex-none text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              >
+                Clear All
+              </button>
+              <button
+                onClick={() => setIsCompareModalOpen(true)}
+                className="flex-1 sm:flex-none rounded-xl bg-violet-600 hover:bg-violet-500 text-white px-5 py-2.5 text-xs font-bold shadow-lg shadow-violet-600/25 hover:shadow-violet-600/35 transition-all duration-300 whitespace-nowrap flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <span>⚖️</span> Compare Side-by-Side
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white dark:border-slate-900 dark:bg-slate-950 py-8 text-center text-xs text-slate-400 dark:text-slate-500 transition-colors duration-200 no-print">

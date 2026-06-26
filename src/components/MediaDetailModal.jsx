@@ -5,6 +5,11 @@ import { useBag } from "@/context/BagContext";
 
 export default function MediaDetailModal({ asset, onClose }) {
   const { addToBag, removeFromBag, isInBag } = useBag();
+  const [expandedImage, setExpandedImage] = React.useState(null);
+
+  React.useEffect(() => {
+    setExpandedImage(null);
+  }, [asset]);
 
   if (!asset) return null;
 
@@ -107,8 +112,11 @@ export default function MediaDetailModal({ asset, onClose }) {
               </svg>
               {asset.location}
             </p>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-2xl">
-              {asset.title}
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-2xl flex flex-wrap items-center gap-2">
+              <span>{asset.title}</span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-800/40">
+                ✓ Verified Spot
+              </span>
             </h3>
           </div>
         </div>
@@ -206,8 +214,63 @@ export default function MediaDetailModal({ asset, onClose }) {
               ))}
             </div>
             {isCompletelyBooked && (
-              <p className="text-[10px] text-red-600 dark:text-red-450 font-semibold mt-2.5 text-center">
+              <p className="text-[10px] text-red-650 dark:text-red-450 font-semibold mt-2.5 text-center">
                 ⚠️ This media slot is fully booked for all upcoming months.
+              </p>
+            )}
+          </div>
+
+          {/* Past Executions / Proof of Performance Gallery */}
+          <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-4 dark:border-slate-800/80 dark:bg-slate-950/20">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-3 flex items-center">
+              <span className="mr-1.5 text-emerald-500">🛡️</span>
+              Past Executions / Proof of Performance
+            </h4>
+
+            {expandedImage && (
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 p-1 mb-3.5 animate-scale-up dark:border-slate-800 dark:bg-slate-950">
+                <img
+                  src={expandedImage}
+                  alt="Expanded proof of performance campaign"
+                  className="w-full h-auto max-h-72 object-cover rounded-xl"
+                />
+                <button
+                  type="button"
+                  onClick={() => setExpandedImage(null)}
+                  className="absolute top-3.5 right-3.5 rounded-full bg-slate-950/70 hover:bg-slate-950 text-white p-2 transition-colors cursor-pointer"
+                  title="Close Preview"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-3.5 h-3.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            )}
+
+            {asset.pastExecutions && asset.pastExecutions.length > 0 ? (
+              <div className="flex gap-3 overflow-x-auto pb-1.5 scrollbar-thin">
+                {asset.pastExecutions.map((imgUrl, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setExpandedImage(expandedImage === imgUrl ? null : imgUrl)}
+                    className={`relative flex-shrink-0 h-16 w-24 rounded-xl overflow-hidden border-2 cursor-pointer transition-all ${
+                      expandedImage === imgUrl
+                        ? "border-violet-600 ring-2 ring-violet-500/20 dark:border-violet-400"
+                        : "border-slate-200 hover:border-slate-400 dark:border-slate-800 dark:hover:border-slate-700"
+                    }`}
+                  >
+                    <img
+                      src={imgUrl}
+                      alt={`Proof campaign ${idx + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-slate-500 dark:text-slate-400 italic">
+                ✨ New Asset &mdash; Your campaign could be the first showcased here!
               </p>
             )}
           </div>
