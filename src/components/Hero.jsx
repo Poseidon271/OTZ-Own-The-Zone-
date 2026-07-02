@@ -7,10 +7,11 @@ export default function Hero({
   setSearchQuery,
   locationQuery,
   setLocationQuery,
-  activeCategory,
-  setActiveCategory,
+  selectedCategory,
+  setSelectedCategory,
+  setCurrentView,
 }) {
-  const categories = ["Billboards", "Digital Ads", "Cinema", "Radio"];
+  const categories = ["Mass-Media", "Events", "Digital", "BTL", "Mobile"];
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -18,15 +19,21 @@ export default function Hero({
   };
 
   const toggleCategory = (category) => {
-    if (activeCategory === category) {
-      setActiveCategory(null); // Deselect if clicked again
+    if (selectedCategory === category) {
+      setSelectedCategory(null);
+      setCurrentView("categories"); // Reset view
     } else {
-      setActiveCategory(category);
+      setSelectedCategory(category);
+      setCurrentView("subcategories"); // Change to subcategories view
+      const exploreSec = document.getElementById("explore");
+      if (exploreSec) {
+        exploreSec.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32">
+    <section className="relative overflow-hidden pt-20 pb-12 sm:pt-24 sm:pb-16">
       {/* Background glow effects */}
       <div className="absolute top-1/4 left-1/2 -z-10 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-600/[0.06] dark:bg-violet-600/10 blur-[120px]"></div>
       <div className="absolute top-1/3 left-1/3 -z-10 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/[0.06] dark:bg-indigo-500/10 blur-[100px]"></div>
@@ -49,7 +56,7 @@ export default function Hero({
 
         {/* Hero Subheading */}
         <p className="mx-auto mt-6 max-w-xl text-base text-slate-500 dark:text-slate-400 sm:text-lg">
-          Find premium billboards, high-impact digital displays, cinema ads, and top-rated radio slots in one click.
+          Find premium mass-media, events, digital ads, local BTL, and mobile solutions in one click.
         </p>
 
         {/* Search Console */}
@@ -78,7 +85,7 @@ export default function Hero({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search media (e.g. Times Square, Metro Billboards)"
+                placeholder="Search media (e.g. Bandra Sea Link, Rajiv Chowk, Metro)"
                 className="ml-2.5 w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none dark:text-slate-100 dark:placeholder-slate-500"
               />
             </div>
@@ -111,7 +118,7 @@ export default function Hero({
                 type="text"
                 value={locationQuery}
                 onChange={(e) => setLocationQuery(e.target.value)}
-                placeholder="Enter Location (e.g. New York, Miami)"
+                placeholder="Enter Location (e.g. Mumbai, Delhi, Bengaluru)"
                 className="ml-2.5 w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none dark:text-slate-100 dark:placeholder-slate-500"
               />
             </div>
@@ -130,10 +137,10 @@ export default function Hero({
         <div className="mt-8">
           <div className="flex flex-wrap items-center justify-center gap-2.5">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mr-1.5">
-              Popular:
+              Popular Categories:
             </span>
             {categories.map((category) => {
-              const isSelected = activeCategory === category;
+              const isSelected = selectedCategory === category;
               return (
                 <button
                   key={category}
@@ -141,7 +148,7 @@ export default function Hero({
                   onClick={() => toggleCategory(category)}
                   className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all duration-300 ${
                     isSelected
-                      ? "bg-violet-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.4)] border border-violet-500"
+                      ? "bg-violet-650 text-white shadow-[0_0_12px_rgba(139,92,246,0.4)] border border-violet-500"
                       : "bg-slate-100 text-slate-650 hover:bg-slate-200 hover:text-slate-800 border border-slate-200 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 dark:border-slate-800"
                   }`}
                 >

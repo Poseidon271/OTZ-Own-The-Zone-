@@ -219,8 +219,8 @@ export default function BagDrawer() {
 
                           {/* Calculations */}
                           <div className="text-right">
-                            <span className="text-xs font-semibold text-slate-750 dark:text-slate-400">
-                              ${item.price * (item.duration || 1)}
+                            <span className="text-xs font-semibold text-slate-755 dark:text-slate-400">
+                              ₹{(item.price * (item.duration || 1)).toLocaleString()}
                             </span>
                           </div>
                         </div>
@@ -243,7 +243,7 @@ export default function BagDrawer() {
                       <span className="text-slate-500 dark:text-slate-400 text-xs">Based on selected durations</span>
                     </div>
                     <span className="text-2xl font-black text-violet-650 dark:text-violet-400">
-                      ${totalBudget.toLocaleString()}
+                      ₹{totalBudget.toLocaleString()}
                     </span>
                   </div>
 
@@ -317,8 +317,8 @@ export default function BagDrawer() {
                 <td className="py-4 text-slate-600">{item.category}</td>
                 <td className="py-4 text-slate-600">{item.location}</td>
                 <td className="py-4 text-slate-700">{item.duration || 1} {item.duration === 1 ? 'Month' : 'Months'}</td>
-                <td className="py-4 text-right text-slate-700">${item.price.toLocaleString()}</td>
-                <td className="py-4 text-right font-bold text-slate-900">${(item.price * (item.duration || 1)).toLocaleString()}</td>
+                <td className="py-4 text-right text-slate-705">₹{item.price.toLocaleString()}</td>
+                <td className="py-4 text-right font-bold text-slate-900">₹{(item.price * (item.duration || 1)).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
@@ -331,7 +331,7 @@ export default function BagDrawer() {
           </div>
           <div className="text-right">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Campaign Budget</h3>
-            <p className="text-3xl font-black text-violet-650">${totalBudget.toLocaleString()}</p>
+            <p className="text-3xl font-black text-violet-650">₹{totalBudget.toLocaleString()}</p>
           </div>
         </div>
 

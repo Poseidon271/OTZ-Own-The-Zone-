@@ -98,7 +98,7 @@ export default function CompareModal({ selectedAssets, isOpen, onClose }) {
                 </td>
                 {selectedAssets.map((asset) => (
                   <td key={asset.id} className="py-4 px-4 font-black text-slate-900 dark:text-white text-lg">
-                    ${asset.price}
+                    ₹{asset.price.toLocaleString()}
                     <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/day</span>
                   </td>
                 ))}

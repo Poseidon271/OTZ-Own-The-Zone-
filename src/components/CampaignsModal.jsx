@@ -121,7 +121,7 @@ export default function CampaignsModal() {
                 {/* Pricing / Schedule block */}
                 <div className="text-left md:text-right min-w-[150px]">
                   <div className="text-sm font-black text-slate-900 dark:text-white">
-                    ${camp.budget.toLocaleString()} / mo
+                    ₹{camp.budget.toLocaleString()} / mo
                   </div>
                   <div className="text-xs text-slate-500 dark:text-slate-450 mt-1">
                     {camp.schedule}

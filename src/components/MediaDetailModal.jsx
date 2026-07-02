@@ -279,9 +279,9 @@ export default function MediaDetailModal({ asset, onClose }) {
         {/* Footer Pricing & CTA Section */}
         <div className="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-row items-center justify-between flex-shrink-0 dark:border-slate-800 dark:bg-slate-950 transition-colors duration-200">
           <div>
-            <p className="text-xs text-slate-500">Base Price / Month</p>
+            <p className="text-xs text-slate-550">Base Price / Month</p>
             <p className="text-xl font-black text-slate-900 dark:text-white">
-              ${asset.price * 30}
+              ₹{(asset.price * 30).toLocaleString()}
               <span className="text-xs font-normal text-slate-500 dark:text-slate-400"> (est. net)</span>
             </p>
           </div>
