@@ -7,29 +7,10 @@ export default function Hero({
   setSearchQuery,
   locationQuery,
   setLocationQuery,
-  selectedCategory,
-  setSelectedCategory,
-  setCurrentView,
 }) {
-  const categories = ["Mass-Media", "Events", "Digital", "BTL", "Mobile"];
-
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     // Live filtering happens instantly, but submission is handled gracefully
-  };
-
-  const toggleCategory = (category) => {
-    if (selectedCategory === category) {
-      setSelectedCategory(null);
-      setCurrentView("categories"); // Reset view
-    } else {
-      setSelectedCategory(category);
-      setCurrentView("subcategories"); // Change to subcategories view
-      const exploreSec = document.getElementById("explore");
-      if (exploreSec) {
-        exploreSec.scrollIntoView({ behavior: "smooth" });
-      }
-    }
   };
 
   return (
@@ -39,25 +20,19 @@ export default function Hero({
       <div className="absolute top-1/3 left-1/3 -z-10 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/[0.06] dark:bg-indigo-500/10 blur-[100px]"></div>
 
       <div className="mx-auto max-w-4xl px-6 text-center">
-        {/* Sub-badge */}
-        <div className="mx-auto mb-6 flex max-w-fit items-center space-x-2 rounded-full border border-violet-500/20 bg-violet-500/5 px-4 py-1.5 text-xs font-semibold text-violet-600 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400 animate-fade-in">
-          <span>Introducing OTZ Marketplace</span>
-          <span className="h-1 w-1 rounded-full bg-violet-400"></span>
-          <span className="text-slate-500 dark:text-slate-300">The Future of Media Booking</span>
+        {/* Typography Container */}
+        <div className="mx-auto mb-10 flex flex-col items-center justify-center text-center animate-fade-in">
+          {/* Line 1 (The Brand) */}
+          <h1 className="text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-7xl">
+            <span className="bg-gradient-to-r from-violet-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(139,92,246,0.1)] dark:from-violet-400 dark:via-indigo-400 dark:to-purple-400 dark:drop-shadow-[0_2px_10px_rgba(139,92,246,0.15)]">
+              OTZ
+            </span>
+          </h1>
+          {/* Line 2 (The Tagline) */}
+          <p className="mt-5 text-2xl font-bold tracking-tight leading-tight text-slate-800 dark:text-slate-100 sm:text-3xl max-w-3xl">
+            The New Age Marketing Enablement Engine
+          </p>
         </div>
-
-        {/* Hero Heading */}
-        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-6xl">
-          Discover & Book <br />
-          <span className="bg-gradient-to-r from-violet-650 via-indigo-550 to-purple-650 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(139,92,246,0.1)] dark:from-violet-400 dark:via-indigo-300 dark:to-purple-400 dark:drop-shadow-[0_2px_10px_rgba(139,92,246,0.15)]">
-            Advertising Spaces
-          </span>
-        </h1>
-
-        {/* Hero Subheading */}
-        <p className="mx-auto mt-6 max-w-xl text-base text-slate-500 dark:text-slate-400 sm:text-lg">
-          Find premium mass-media, events, digital ads, local BTL, and mobile solutions in one click.
-        </p>
 
         {/* Search Console */}
         <form
@@ -86,7 +61,7 @@ export default function Hero({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search media (e.g. Bandra Sea Link, Rajiv Chowk, Metro)"
-                className="ml-2.5 w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none dark:text-slate-100 dark:placeholder-slate-500"
+                className="ml-2.5 w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none dark:text-slate-100 dark:placeholder-slate-550"
               />
             </div>
 
@@ -119,7 +94,7 @@ export default function Hero({
                 value={locationQuery}
                 onChange={(e) => setLocationQuery(e.target.value)}
                 placeholder="Enter Location (e.g. Mumbai, Delhi, Bengaluru)"
-                className="ml-2.5 w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none dark:text-slate-100 dark:placeholder-slate-500"
+                className="ml-2.5 w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none dark:text-slate-100 dark:placeholder-slate-550"
               />
             </div>
 
@@ -132,32 +107,6 @@ export default function Hero({
             </button>
           </div>
         </form>
-
-        {/* Filter Chips - Phase 2 Preview */}
-        <div className="mt-8">
-          <div className="flex flex-wrap items-center justify-center gap-2.5">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mr-1.5">
-              Popular Categories:
-            </span>
-            {categories.map((category) => {
-              const isSelected = selectedCategory === category;
-              return (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() => toggleCategory(category)}
-                  className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all duration-300 ${
-                    isSelected
-                      ? "bg-violet-650 text-white shadow-[0_0_12px_rgba(139,92,246,0.4)] border border-violet-500"
-                      : "bg-slate-100 text-slate-650 hover:bg-slate-200 hover:text-slate-800 border border-slate-200 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 dark:border-slate-800"
-                  }`}
-                >
-                  {category}
-                </button>
-              );
-            })}
-          </div>
-        </div>
       </div>
     </section>
   );

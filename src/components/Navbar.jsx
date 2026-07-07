@@ -5,7 +5,7 @@ import { useBag } from "@/context/BagContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/context/AuthContext";
 
-export default function Navbar() {
+export default function Navbar({ onLogoClick }) {
   const { bagCount, setIsBagOpen } = useBag();
   const { theme, toggleTheme } = useTheme();
   const { user, setIsAuthModalOpen, setIsCampaignsModalOpen, logout } = useAuth();
@@ -17,12 +17,17 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo Section */}
           <div className="flex-shrink-0 flex items-center">
-            <a href="#" className="flex items-center space-x-2 group">
+            <button
+              onClick={(e) => {
+                if (onLogoClick) onLogoClick();
+              }}
+              className="flex items-center space-x-2 group focus:outline-none cursor-pointer bg-transparent border-0 p-0 font-inherit"
+            >
               <span className="text-2xl font-black tracking-wider bg-gradient-to-r from-violet-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent transition-all duration-300 group-hover:from-violet-500 group-hover:to-purple-500 dark:from-violet-400 dark:via-indigo-400 dark:to-purple-500 dark:group-hover:from-violet-300 dark:group-hover:to-purple-400">
                 OTZ
               </span>
               <span className="h-1.5 w-1.5 rounded-full bg-violet-600 dark:bg-violet-500 animate-pulse"></span>
-            </a>
+            </button>
           </div>
 
           {/* Navigation Links, Bag Button & Theme Toggle */}
