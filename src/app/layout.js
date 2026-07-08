@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
 import CampaignsModal from "@/components/CampaignsModal";
+import LeadPopup from "@/components/LeadPopup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,7 @@ export default function RootLayout({ children }) {
             </BagProvider>
             <AuthModal />
             <CampaignsModal />
+            <LeadPopup />
           </AuthProvider>
         </ThemeProvider>
       </body>
