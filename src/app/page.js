@@ -70,10 +70,12 @@ export default function Home() {
   // Search and Taxonomy View State Machine States
   const [searchQuery, setSearchQuery] = React.useState("");
   const [locationQuery, setLocationQuery] = React.useState("");
-  const [currentView, setCurrentView] = React.useState("categories"); // 'categories', 'subcategories', 'products'
+  const [currentView, setCurrentView] = React.useState("categories"); // 'categories', 'subcategories', 'products', 'intersection'
   const [selectedCategory, setSelectedCategory] = React.useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = React.useState(null);
   const [activeDetailAsset, setActiveDetailAsset] = React.useState(null);
+  const [selectedProductSector, setSelectedProductSector] = React.useState("");
+  const [selectedTargetAudience, setSelectedTargetAudience] = React.useState("");
 
   // Helper for lightweight HTML5 History API sync
   const pushViewState = (view, category = null, subCategory = null) => {
@@ -157,6 +159,8 @@ export default function Home() {
     setLocationQuery("");
     setSelectedCategory(null);
     setSelectedSubCategory(null);
+    setSelectedProductSector("");
+    setSelectedTargetAudience("");
     setCurrentView("categories");
     setBudgetInput("");
     setSmartPlan(null);
@@ -177,42 +181,72 @@ export default function Home() {
     } else {
       // Revert to correct view based on current selection path
       if (selectedSubCategory) {
-        setCurrentView("products");
+        if (selectedProductSector && selectedTargetAudience) {
+          setCurrentView("products");
+        } else {
+          setCurrentView("intersection");
+        }
       } else if (selectedCategory) {
         setCurrentView("subcategories");
       } else {
         setCurrentView("categories");
       }
     }
-  }, [searchQuery, locationQuery, selectedCategory, selectedSubCategory]);
+  }, [searchQuery, locationQuery, selectedCategory, selectedSubCategory, selectedProductSector, selectedTargetAudience]);
 
-  // Perform live query filtering on mock dataset
-  const filteredAssets = mockAdvertisingAssets.filter((asset) => {
-    // 1. Keyword Search Query Filter
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      const titleMatch = asset.title.toLowerCase().includes(query);
-      const descMatch = asset.description.toLowerCase().includes(query);
-      const specsMatch = asset.specs.toLowerCase().includes(query);
-      if (!titleMatch && !descMatch && !specsMatch) {
-        return false;
-      }
+  // Perform live query filtering on mock dataset with intersectional match logic
+  const getFilteredAssetsAndFallback = () => {
+    // 1. If keyword/location search is active, bypass categories/intersection
+    if (searchQuery || locationQuery) {
+      return {
+        assets: mockAdvertisingAssets.filter((asset) => {
+          if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            const titleMatch = asset.title.toLowerCase().includes(query);
+            const descMatch = asset.description.toLowerCase().includes(query);
+            const specsMatch = asset.specs.toLowerCase().includes(query);
+            if (!titleMatch && !descMatch && !specsMatch) return false;
+          }
+          if (locationQuery) {
+            const loc = locationQuery.toLowerCase();
+            if (!asset.location.toLowerCase().includes(loc)) return false;
+          }
+          return true;
+        }),
+        isFallback: false
+      };
     }
-    // 2. Location Query Filter
-    if (locationQuery) {
-      const loc = locationQuery.toLowerCase();
-      if (!asset.location.toLowerCase().includes(loc)) {
-        return false;
+
+    // 2. Standard media buying flow filtering (with category + subcategory)
+    if (selectedSubCategory) {
+      const subCategoryAssets = mockAdvertisingAssets.filter(
+        (asset) => asset.subCategory === selectedSubCategory
+      );
+
+      // If we have selected product sector & target audience filters from the configuration step
+      if (selectedProductSector && selectedTargetAudience) {
+        const exactMatch = subCategoryAssets.filter(
+          (asset) =>
+            asset.productSector === selectedProductSector &&
+            asset.targetAudience === selectedTargetAudience
+        );
+
+        if (exactMatch.length > 0) {
+          return { assets: exactMatch, isFallback: false };
+        } else {
+          // Fallback to showing everything in this subcategory
+          return { assets: subCategoryAssets, isFallback: true };
+        }
       }
+
+      return { assets: subCategoryAssets, isFallback: false };
     }
-    // 3. Sub-Category Taxonomy Filter (only if NOT searching)
-    if (!searchQuery && !locationQuery) {
-      if (selectedSubCategory && asset.subCategory !== selectedSubCategory) {
-        return false;
-      }
-    }
-    return true;
-  });
+
+    // Default case (e.g. no subcategory selected yet or other views)
+    return { assets: [], isFallback: false };
+  };
+
+  const { assets: filteredAssets, isFallback: showFallbackBanner } = getFilteredAssetsAndFallback();
 
   // Smart Budget Allocator Logic
   const generateBundle = (totalBudgetInput) => {
@@ -291,32 +325,42 @@ export default function Home() {
   };
 
   const generatePlanningRecommendation = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!planningProductType || !planningAudience || !planningBudget) {
       return;
     }
 
-    const budgetVal = parseFloat(planningBudget);
+    const budgetVal = parseFloat(planningBudget) || 0;
+    const durationMonths = parseInt(planningDuration) || 1;
 
-    // Filter logic
-    const recommendations = mockAdvertisingAssets.filter((asset) => {
-      // 1. Product Type filter
-      if (asset.category !== planningProductType) {
-        return false;
+    // Filter items where productSector matches Dropdown 1 AND targetAudience matches Dropdown 2
+    const matchingItems = mockAdvertisingAssets.filter(
+      (asset) =>
+        asset.productSector === planningProductType &&
+        asset.targetAudience === planningAudience
+    );
+
+    // Sort matching items by daily price descending to prioritize premium assets
+    const sorted = [...matchingItems].sort((a, b) => b.price - a.price);
+
+    const bundle = [];
+    let currentTotalCost = 0;
+
+    for (const asset of sorted) {
+      const assetCost = asset.price * durationMonths * 30;
+      if (currentTotalCost + assetCost <= budgetVal) {
+        bundle.push(asset);
+        currentTotalCost += assetCost;
       }
-      // 2. Budget filter
-      if (asset.price > budgetVal) {
-        return false;
-      }
-      // 3. Target Audience filter (via mapped audiences)
-      const mappedAudiences = assetAudienceMap[asset.id] || ["General Audience"];
-      if (!mappedAudiences.includes(planningAudience)) {
-        return false;
-      }
-      return true;
+    }
+
+    setPlanningResults({
+      bundle,
+      allMatches: matchingItems,
+      totalCost: currentTotalCost,
+      maxBudget: budgetVal,
+      duration: durationMonths
     });
-
-    setPlanningResults(recommendations);
     setPlanningStep(2);
   };
 
@@ -456,17 +500,6 @@ export default function Home() {
                 >
                   &larr; Back to Core Pillars
                 </button>
-                {planningStep === 2 && (
-                  <button
-                    onClick={() => {
-                      setPlanningStep(1);
-                      setPlanningResults(null);
-                    }}
-                    className="text-sm font-bold text-violet-600 dark:text-violet-400 hover:underline cursor-pointer"
-                  >
-                    Refine Parameters
-                  </button>
-                )}
               </div>
 
               {planningStep === 1 ? (
@@ -484,36 +517,37 @@ export default function Home() {
                     </p>
                   </div>
 
-                  {/* Product Type Chips */}
-                  <div className="space-y-3">
-                    <label className="block text-sm font-bold text-slate-800 dark:text-slate-200">
-                      1. Product Type / Channel
-                    </label>
-                    <div className="flex flex-wrap gap-2.5">
-                      {Object.keys(taxonomy).map((cat) => {
-                        const isSelected = planningProductType === cat;
-                        const meta = categoryMetadata[cat];
-                        return (
-                          <button
-                            key={cat}
-                            type="button"
-                            onClick={() => setPlanningProductType(cat)}
-                            className={`flex items-center gap-2 rounded-2xl px-5.5 py-3 text-xs font-black uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                              isSelected
-                                ? "bg-violet-600 text-white shadow-lg shadow-violet-600/20 border-2 border-violet-500 scale-105"
-                                : "bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-800 border-2 border-slate-100 dark:bg-slate-950 dark:text-slate-350 dark:hover:bg-slate-900 dark:border-slate-800/80"
-                            }`}
-                          >
-                            <span>{meta.icon}</span>
-                            <span>{cat}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Target Audience Dropdown */}
+                    {/* Dropdown 1: Product Sector */}
+                    <div className="space-y-3">
+                      <label htmlFor="planning-sector" className="block text-sm font-bold text-slate-800 dark:text-slate-200">
+                        1. Product Sector
+                      </label>
+                      <select
+                        id="planning-sector"
+                        value={planningProductType}
+                        onChange={(e) => setPlanningProductType(e.target.value)}
+                        className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-800 outline-none focus:border-violet-500 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 focus:ring-2 focus:ring-violet-500/20 cursor-pointer font-medium"
+                        required
+                      >
+                        <option value="">Select Product Sector...</option>
+                        <option value="News & Infotainment">News & Infotainment</option>
+                        <option value="Food & Hospitality">Food & Hospitality</option>
+                        <option value="Music & Entertainment">Music & Entertainment</option>
+                        <option value="Sports & Gaming">Sports & Gaming</option>
+                        <option value="Wellness & Fitness">Wellness & Fitness</option>
+                        <option value="Medical & Healthcare">Medical & Healthcare</option>
+                        <option value="Travel & Tourism">Travel & Tourism</option>
+                        <option value="Fashion & Lifestyle">Fashion & Lifestyle</option>
+                        <option value="Automobiles">Automobiles</option>
+                        <option value="Real Estate">Real Estate</option>
+                        <option value="Education">Education</option>
+                        <option value="Finance">Finance</option>
+                        <option value="FMCG">FMCG</option>
+                      </select>
+                    </div>
+
+                    {/* Dropdown 2: Target Audience Vertical */}
                     <div className="space-y-3">
                       <label htmlFor="planning-audience" className="block text-sm font-bold text-slate-800 dark:text-slate-200">
                         2. Target Audience Vertical
@@ -522,18 +556,26 @@ export default function Home() {
                         id="planning-audience"
                         value={planningAudience}
                         onChange={(e) => setPlanningAudience(e.target.value)}
-                        className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-800 outline-none focus:border-violet-500 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 focus:ring-2 focus:ring-violet-500/20 cursor-pointer"
+                        className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-800 outline-none focus:border-violet-500 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 focus:ring-2 focus:ring-violet-500/20 cursor-pointer font-medium"
                         required
                       >
                         <option value="">Select Audience Vertical...</option>
                         <option value="News & Infotainment">News & Infotainment</option>
+                        <option value="Food & Hospitality">Food & Hospitality</option>
+                        <option value="Music & Entertainment">Music & Entertainment</option>
                         <option value="Sports & Gaming">Sports & Gaming</option>
+                        <option value="Wellness & Fitness">Wellness & Fitness</option>
+                        <option value="Medical & Healthcare">Medical & Healthcare</option>
+                        <option value="Travel & Tourism">Travel & Tourism</option>
                         <option value="Fashion & Lifestyle">Fashion & Lifestyle</option>
-                        <option value="General Audience">General Audience</option>
+                        <option value="Automobiles">Automobiles</option>
+                        <option value="Real Estate">Real Estate</option>
+                        <option value="Education">Education</option>
+                        <option value="Finance">Finance</option>
                       </select>
                     </div>
 
-                    {/* Budget Allocation Input */}
+                    {/* Input 3: Maximum Budget Allocation */}
                     <div className="space-y-3">
                       <label htmlFor="planning-budget" className="block text-sm font-bold text-slate-800 dark:text-slate-200">
                         3. Maximum Budget Allocation (₹)
@@ -547,40 +589,32 @@ export default function Home() {
                           type="number"
                           value={planningBudget}
                           onChange={(e) => setPlanningBudget(e.target.value)}
-                          placeholder="e.g. 100000"
+                          placeholder="e.g. 500000"
                           min="1000"
                           className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3.5 pl-9 pr-4 text-sm text-slate-800 outline-none focus:border-violet-500 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 focus:ring-2 focus:ring-violet-500/20 font-semibold"
                           required
                         />
                       </div>
                     </div>
-                  </div>
 
-                  {/* Booking Duration */}
-                  <div className="space-y-4 pt-2">
-                    <div className="flex justify-between items-center">
-                      <label htmlFor="planning-duration" className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                    {/* Input 4: Campaign Duration (Months) */}
+                    <div className="space-y-3">
+                      <label htmlFor="planning-duration" className="block text-sm font-bold text-slate-800 dark:text-slate-200">
                         4. Campaign Booking Duration
                       </label>
-                      <span className="text-sm font-black text-violet-600 dark:text-violet-400">
-                        {planningDuration} {planningDuration === 1 ? 'Month' : 'Months'}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <input
+                      <select
                         id="planning-duration"
-                        type="range"
-                        min="1"
-                        max="12"
                         value={planningDuration}
                         onChange={(e) => setPlanningDuration(parseInt(e.target.value))}
-                        className="w-full h-2 rounded-lg bg-slate-100 dark:bg-slate-800 appearance-none cursor-pointer accent-violet-600"
-                      />
-                    </div>
-                    <div className="flex justify-between text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                      <span>1 Month</span>
-                      <span>6 Months</span>
-                      <span>12 Months</span>
+                        className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-800 outline-none focus:border-violet-500 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 focus:ring-2 focus:ring-violet-500/20 cursor-pointer font-medium"
+                        required
+                      >
+                        {[...Array(12).keys()].map((i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1} {i + 1 === 1 ? "Month" : "Months"}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
 
@@ -590,151 +624,282 @@ export default function Home() {
                       type="submit"
                       className="w-full rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-650 px-6 py-4 text-sm font-bold text-white shadow-md hover:from-violet-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-violet-600/20 transition-all cursor-pointer flex items-center justify-center gap-2"
                     >
-                      <span>🚀</span> Generate Recommendation Plan
+                      <span>🚀</span> Generate Strategy Plan
                     </button>
                   </div>
                 </form>
               ) : (
                 /* Step 2: Recommendations results */
-                <div className="space-y-8 animate-fade-in">
-                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60 dark:backdrop-blur-md">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                      Recommended Strategy Package Options
-                    </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-450 mt-1.5">
-                      Based on **{planningProductType}** for **{planningAudience}** within **₹{parseFloat(planningBudget).toLocaleString()}** budget limit ({planningDuration} {planningDuration === 1 ? 'month' : 'months'} execution).
-                    </p>
+                <div className="space-y-10 animate-fade-in">
+                  {/* Summary Header */}
+                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60 dark:backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                      <h3 className="text-xl font-black text-slate-900 dark:text-white">
+                        Campaign Planning Strategy
+                      </h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-450 mt-1.5">
+                        Parameters: Sector <span className="font-semibold text-slate-750 dark:text-slate-305">"{planningProductType}"</span> &rarr; Target Audience <span className="font-semibold text-slate-750 dark:text-slate-305">"{planningAudience}"</span> over <span className="font-semibold text-slate-750 dark:text-slate-305">{planningResults?.duration} {planningResults?.duration === 1 ? 'month' : 'months'}</span>.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setPlanningStep(1);
+                        setPlanningResults(null);
+                      }}
+                      className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-900 px-4.5 py-2 text-xs font-bold text-violet-600 dark:text-violet-400 cursor-pointer transition-colors shadow-sm"
+                    >
+                      ⚙️ Adjust Parameters
+                    </button>
                   </div>
 
-                  {planningResults && planningResults.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-                      {planningResults.map((asset) => {
-                        const inBag = isInBag(asset.id);
-                        return (
-                          <div
-                            key={asset.id}
-                            className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-350 hover:bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-slate-700/80 dark:hover:bg-slate-900/60 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-1"
-                          >
-                            {/* Image Container */}
-                            <div
-                              className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-slate-950 cursor-pointer"
-                              onClick={() => setActiveDetailAsset(asset)}
-                            >
-                              <img
-                                src={asset.image}
-                                alt={asset.title}
-                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                loading="lazy"
-                              />
-                              <span className="absolute top-3 left-3 rounded-full bg-slate-50/90 px-3 py-1 text-xs font-semibold text-violet-750 border border-violet-200/50 backdrop-blur-md dark:bg-slate-950/70 dark:text-violet-300 dark:border-violet-500/20">
-                                {asset.subCategory || asset.category}
-                              </span>
-                              <span className="absolute bottom-3 left-3 rounded-full bg-emerald-500/90 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-white border border-emerald-400/30 backdrop-blur-sm shadow-sm select-none">
-                                ✓ Verified Spot
-                              </span>
-                              <div
-                                className="absolute top-3 right-3 z-10"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                <label className="flex items-center space-x-1.5 rounded-full bg-slate-900/60 hover:bg-slate-900/85 px-2.5 py-1 text-[11px] font-bold text-white border border-white/20 backdrop-blur-md cursor-pointer transition-colors shadow-sm select-none">
-                                  <input
-                                    type="checkbox"
-                                    checked={selectedCompareAssets.some((item) => item.id === asset.id)}
-                                    onChange={() => toggleCompareAsset(asset)}
-                                    className="h-3.5 w-3.5 rounded border-slate-300 text-violet-600 focus:ring-violet-500 accent-violet-600 cursor-pointer"
-                                  />
-                                  <span>Compare</span>
-                                </label>
-                              </div>
-                            </div>
-                            {/* Info Container */}
-                            <div className="flex flex-1 flex-col p-6">
-                              <div className="flex-1">
-                                <p className="text-xs font-medium text-violet-650 dark:text-violet-400 flex items-center mb-1.5">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="2"
-                                    stroke="currentColor"
-                                    className="mr-1 h-3.5 w-3.5"
+                  {/* Our Smart Strategic Recommendation Container */}
+                  <div className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50/40 via-white to-indigo-50/20 p-6 md:p-8 shadow-lg dark:border-violet-950/40 dark:from-slate-900/60 dark:to-indigo-950/20 dark:backdrop-blur-md space-y-6">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-violet-100/60 dark:border-violet-900/40 pb-4 gap-4">
+                      <div>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-violet-750 dark:bg-violet-950/60 dark:text-violet-300 border border-violet-200/30">
+                          ✨ AI Engine Select
+                        </span>
+                        <h4 className="text-2xl font-black text-slate-900 dark:text-white mt-2">
+                          Our Smart Strategic Recommendation
+                        </h4>
+                      </div>
+                      {planningResults?.bundle.length > 0 && (
+                        <div className="text-left md:text-right">
+                          <p className="text-[10px] text-slate-450 dark:text-slate-500 uppercase tracking-widest font-extrabold">Total Bundle Cost</p>
+                          <p className="text-2xl font-black text-violet-650 dark:text-violet-400">
+                            ₹{planningResults.totalCost.toLocaleString()}
+                          </p>
+                          <p className="text-[10px] text-slate-400 dark:text-slate-500">
+                            Remaining Budget: ₹{(planningResults.maxBudget - planningResults.totalCost).toLocaleString()}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
+                    {planningResults?.bundle.length > 0 ? (
+                      <div className="space-y-6">
+                        {/* Bundle Breakdown List */}
+                        <div className="divide-y divide-slate-150 dark:divide-slate-800 bg-white/60 dark:bg-slate-950/30 rounded-2xl border border-slate-150/60 dark:border-slate-850/60 overflow-hidden shadow-inner">
+                          {planningResults.bundle.map((asset) => {
+                            const inBag = isInBag(asset.id);
+                            return (
+                              <div key={asset.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-white/90 dark:hover:bg-slate-900/40 transition-colors">
+                                <div className="flex items-center gap-4">
+                                  <div 
+                                    className="h-14 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 cursor-pointer"
+                                    onClick={() => setActiveDetailAsset(asset)}
                                   >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                                  </svg>
-                                  {asset.location}
-                                </p>
-                                <h3
-                                  className="text-base font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors cursor-pointer"
-                                  onClick={() => setActiveDetailAsset(asset)}
-                                >
-                                  {asset.title}
-                                </h3>
-                                <p className="mt-2 text-xs text-slate-550 dark:text-slate-400">
-                                  Est. Reach: <span className="font-semibold text-slate-700 dark:text-slate-300">{asset.reach}</span>
-                                </p>
-                              </div>
-                              <div className="mt-6 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-4">
-                                <div>
-                                  <p className="text-xs text-slate-450 dark:text-slate-505 font-bold">Estimated Cost</p>
-                                  <p className="text-lg font-black text-slate-900 dark:text-white">
-                                    ₹{(asset.price * planningDuration * 30).toLocaleString()}
-                                    <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/total</span>
-                                  </p>
-                                  <p className="text-[10px] text-slate-400 font-medium">₹{asset.price.toLocaleString()}/day</p>
+                                    <img src={asset.image} alt={asset.title} className="h-full w-full object-cover" />
+                                  </div>
+                                  <div>
+                                    <h5 
+                                      className="text-sm font-bold text-slate-800 dark:text-white hover:text-violet-600 dark:hover:text-violet-300 transition-colors cursor-pointer"
+                                      onClick={() => setActiveDetailAsset(asset)}
+                                    >
+                                      {asset.title}
+                                    </h5>
+                                    <p className="text-[11px] text-slate-455 dark:text-slate-500 flex items-center gap-1 mt-0.5">
+                                      📍 {asset.location} &bull; 📊 {asset.reach}
+                                    </p>
+                                  </div>
                                 </div>
-                                <button
-                                  type="button"
-                                  disabled={inBag}
-                                  onClick={() => !inBag && addToBag(asset)}
-                                  className={`rounded-xl px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 ${
-                                    inBag
-                                      ? "bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/40 cursor-not-allowed"
-                                      : "bg-white text-slate-700 border border-slate-200 hover:border-violet-500/50 hover:bg-violet-600 hover:text-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:border-violet-500/50 dark:hover:bg-violet-600 dark:hover:text-white"
-                                  }`}
+                                <div className="flex items-center justify-between sm:justify-end gap-6 border-t sm:border-t-0 border-slate-100 dark:border-slate-800/60 pt-2 sm:pt-0">
+                                  <div className="text-left sm:text-right">
+                                    <p className="text-xs font-black text-slate-900 dark:text-white">
+                                      ₹{(asset.price * planningResults.duration * 30).toLocaleString()}
+                                    </p>
+                                    <p className="text-[9px] text-slate-400 dark:text-slate-500">
+                                      ₹{asset.price.toLocaleString()}/day for {planningResults.duration}M
+                                    </p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      if (inBag) {
+                                        removeFromBag(asset.id);
+                                      } else {
+                                        addToBag(asset);
+                                        updateDuration(asset.id, planningResults.duration);
+                                      }
+                                    }}
+                                    className={`rounded-lg px-3 py-1.5 text-[10px] font-bold tracking-wide transition-all duration-300 cursor-pointer ${
+                                      inBag
+                                        ? "bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-600 hover:text-white dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900/30 dark:hover:bg-rose-650"
+                                        : "bg-white text-slate-700 border border-slate-200 hover:border-violet-500/50 hover:bg-violet-600 hover:text-white dark:bg-slate-850 dark:text-slate-200 dark:border-slate-750 dark:hover:bg-violet-600 dark:hover:text-white"
+                                    }`}
+                                  >
+                                    {inBag ? "Remove" : "Add"}
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* Bulk Action button */}
+                        <div className="flex justify-end pt-2">
+                          {planningResults.bundle.every((item) => isInBag(item.id)) ? (
+                            <button
+                              type="button"
+                              disabled
+                              className="rounded-2xl bg-emerald-500 text-white shadow-md border border-emerald-400/30 px-6 py-4 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-not-allowed opacity-90 font-sans"
+                            >
+                              <span>✓</span> All Items Added to Bag
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                addItemsToBag(planningResults.bundle);
+                                planningResults.bundle.forEach((item) => {
+                                  updateDuration(item.id, planningResults.duration);
+                                });
+                                setIsBagOpen(true);
+                              }}
+                              className="rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-650 hover:from-violet-500 hover:to-indigo-500 text-white shadow-lg shadow-violet-600/20 hover:shadow-xl px-6 py-4 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer font-sans"
+                            >
+                              <span>💼</span> Add Recommended Package to Bag
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white/40 dark:border-slate-800 dark:bg-slate-950/20 py-12 text-center px-4 font-sans space-y-3">
+                        <span className="text-3xl">⚠️</span>
+                        <h4 className="text-sm font-bold text-slate-850 dark:text-slate-200">
+                          Budget constraints too restrictive
+                        </h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-450 max-w-md leading-relaxed">
+                          We couldn't fit any single asset matching this sector and audience combination within your total budget of **₹{planningResults?.maxBudget.toLocaleString()}** for **{planningResults?.duration} {planningResults?.duration === 1 ? 'month' : 'months'}** (minimum cost per asset: ₹{Math.min(...(planningResults?.allMatches.map(a => a.price * planningResults.duration * 30) || [0])).toLocaleString()}). Try increasing your budget or choosing matching assets manually below.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Manual Customization Grid */}
+                  <div className="space-y-6 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <div className="text-center md:text-left">
+                      <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                        Explore All Available Matches
+                      </h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-405 mt-1">
+                        Browse through all available advertisement listings for this sector and target vertical. Build a custom campaign mix manually.
+                      </p>
+                    </div>
+
+                    {planningResults?.allMatches && planningResults.allMatches.length > 0 ? (
+                      <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                        {planningResults.allMatches.map((asset) => {
+                          const inBag = isInBag(asset.id);
+                          return (
+                            <div
+                              key={asset.id}
+                              className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-350 hover:bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-slate-700/80 dark:hover:bg-slate-900/60 hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-1"
+                            >
+                              {/* Image Container */}
+                              <div
+                                className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-slate-950 cursor-pointer"
+                                onClick={() => setActiveDetailAsset(asset)}
+                              >
+                                <img
+                                  src={asset.image}
+                                  alt={asset.title}
+                                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                  loading="lazy"
+                                />
+                                <span className="absolute top-3 left-3 rounded-full bg-slate-50/90 px-3 py-1 text-xs font-semibold text-violet-750 border border-violet-200/50 backdrop-blur-md dark:bg-slate-950/70 dark:text-violet-300 dark:border-violet-500/20">
+                                  {asset.subCategory || asset.category}
+                                </span>
+                                <span className="absolute bottom-3 left-3 rounded-full bg-emerald-500/90 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-white border border-emerald-400/30 backdrop-blur-sm shadow-sm select-none">
+                                  ✓ Verified Spot
+                                </span>
+                                <div
+                                  className="absolute top-3 right-3 z-10"
+                                  onClick={(e) => e.stopPropagation()}
                                 >
-                                  {inBag ? "Added" : "Add to Bag"}
-                                </button>
+                                  <label className="flex items-center space-x-1.5 rounded-full bg-slate-900/60 hover:bg-slate-900/85 px-2.5 py-1 text-[11px] font-bold text-white border border-white/20 backdrop-blur-md cursor-pointer transition-colors shadow-sm select-none">
+                                    <input
+                                      type="checkbox"
+                                      checked={selectedCompareAssets.some((item) => item.id === asset.id)}
+                                      onChange={() => toggleCompareAsset(asset)}
+                                      className="h-3.5 w-3.5 rounded border-slate-300 text-violet-600 focus:ring-violet-500 accent-violet-600 cursor-pointer"
+                                    />
+                                    <span>Compare</span>
+                                  </label>
+                                </div>
+                              </div>
+                              {/* Info Container */}
+                              <div className="flex flex-1 flex-col p-6">
+                                <div className="flex-1">
+                                  <p className="text-xs font-medium text-violet-650 dark:text-violet-400 flex items-center mb-1.5">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      strokeWidth="2"
+                                      stroke="currentColor"
+                                      className="mr-1 h-3.5 w-3.5"
+                                    >
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                    </svg>
+                                    {asset.location}
+                                  </p>
+                                  <h3
+                                    className="text-base font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors cursor-pointer"
+                                    onClick={() => setActiveDetailAsset(asset)}
+                                  >
+                                    {asset.title}
+                                  </h3>
+                                  <p className="mt-2 text-xs text-slate-550 dark:text-slate-400">
+                                    Est. Reach: <span className="font-semibold text-slate-700 dark:text-slate-300">{asset.reach}</span>
+                                  </p>
+                                </div>
+                                <div className="mt-6 flex items-center justify-between border-t border-slate-100 dark:border-slate-850 pt-4">
+                                  <div>
+                                    <p className="text-xs text-slate-450 dark:text-slate-505 font-bold">Estimated Cost</p>
+                                    <p className="text-lg font-black text-slate-900 dark:text-white">
+                                      ₹{(asset.price * planningResults.duration * 30).toLocaleString()}
+                                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/total</span>
+                                    </p>
+                                    <p className="text-[10px] text-slate-400 font-medium">₹{asset.price.toLocaleString()}/day</p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      if (inBag) {
+                                        removeFromBag(asset.id);
+                                      } else {
+                                        addToBag(asset);
+                                        updateDuration(asset.id, planningResults.duration);
+                                      }
+                                    }}
+                                    className={`rounded-xl px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
+                                      inBag
+                                        ? "bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-600 hover:text-white dark:bg-rose-950/30 dark:text-rose-455 dark:border-rose-900/40 dark:hover:bg-rose-650"
+                                        : "bg-white text-slate-700 border border-slate-200 hover:border-violet-500/50 hover:bg-violet-600 hover:text-white dark:bg-slate-805 dark:text-slate-200 dark:border-slate-700 dark:hover:border-violet-500/50 dark:hover:bg-violet-600 dark:hover:text-white"
+                                    }`}
+                                  >
+                                    {inBag ? "Remove from Bag" : "Add to Bag"}
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900/10 py-20 text-center px-4 animate-fade-in font-sans">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="mx-auto h-12 w-12 text-slate-400 dark:text-slate-600"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M2.25 13.5h3.86a2.25 2.25 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18"
-                        />
-                      </svg>
-                      <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">
-                        No Matching Media Slots Found
-                      </h3>
-                      <p className="mt-2 text-xs text-slate-500 dark:text-slate-450 max-w-xs leading-relaxed">
-                        We couldn't find any single asset that meets all specified constraints. Try increasing your maximum budget or broadening your target audience selections.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setPlanningStep(1);
-                          setPlanningResults(null);
-                        }}
-                        className="mt-6 rounded-xl bg-violet-650 px-5 py-2.5 text-xs font-semibold text-white shadow-md hover:bg-violet-500 transition-colors cursor-pointer"
-                      >
-                        Adjust Form Parameters
-                      </button>
-                    </div>
-                  )}
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900/10 py-20 text-center px-4 font-sans">
+                        <span className="text-3xl">🫙</span>
+                        <h4 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">
+                          No Matching Placements Found
+                        </h4>
+                        <p className="mt-2 text-xs text-slate-555 dark:text-slate-450 max-w-xs leading-relaxed font-medium">
+                          We couldn't find any advertising assets matching sector **{planningProductType}** and target vertical **{planningAudience}**.
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
@@ -776,28 +941,47 @@ export default function Home() {
               </button>
             </div>
           ) : (
-            <div className={`flex flex-col md:flex-row md:items-end justify-between mb-10 ${currentView === "categories" ? "md:items-center md:justify-center text-center" : ""}`}>
-              <div className={currentView === "categories" ? "max-w-xl mx-auto" : ""}>
-                <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
-                  {currentView === "categories" && "Explore Media Channels"}
-                  {currentView === "subcategories" && `${selectedCategory}`}
-                  {currentView === "products" && (selectedSubCategory ? `${selectedSubCategory} Placements` : "Search Results")}
-                </h2>
-                <p className="mt-2 text-slate-500 dark:text-slate-400 text-sm">
-                  {currentView === "categories" && "Select a top category domain from below to start discovery."}
-                  {currentView === "subcategories" && `Choose from the specialized subcategories under ${selectedCategory}.`}
-                  {currentView === "products" && `${filteredAssets.length} matching spaces available in India.`}
-                </p>
-              </div>
-              {(selectedCategory || selectedSubCategory || searchQuery || locationQuery) && (
-                <button
-                  onClick={handleResetFilters}
-                  className="mt-4 md:mt-0 text-sm font-semibold text-violet-600 hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
-                >
-                  Clear all filters & reset
-                </button>
+            <>
+              {currentView !== "intersection" && (
+                <div className={`flex flex-col md:flex-row md:items-end justify-between mb-10 ${currentView === "categories" ? "md:items-center md:justify-center text-center" : ""}`}>
+                  <div className={currentView === "categories" ? "max-w-xl mx-auto" : ""}>
+                    <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+                      {currentView === "categories" && "Explore Media Channels"}
+                      {currentView === "subcategories" && `${selectedCategory}`}
+                      {currentView === "products" && (
+                        selectedSubCategory ? (
+                          selectedProductSector && selectedTargetAudience ? (
+                            <span className="flex flex-col sm:flex-row sm:items-center gap-2">
+                              <span>{selectedSubCategory} Placements</span>
+                              <span className="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/40 border border-violet-200/50 dark:border-violet-500/20 px-2.5 py-1 rounded-xl w-fit">
+                                🎯 {selectedProductSector} &rarr; {selectedTargetAudience}
+                              </span>
+                            </span>
+                          ) : (
+                            `${selectedSubCategory} Placements`
+                          )
+                        ) : (
+                          "Search Results"
+                        )
+                      )}
+                    </h2>
+                    <p className="mt-2 text-slate-500 dark:text-slate-400 text-sm">
+                      {currentView === "categories" && "Select a top category domain from below to start discovery."}
+                      {currentView === "subcategories" && `Choose from the specialized subcategories under ${selectedCategory}.`}
+                      {currentView === "products" && `${filteredAssets.length} matching spaces available in India.`}
+                    </p>
+                  </div>
+                  {(selectedCategory || selectedSubCategory || searchQuery || locationQuery) && (
+                    <button
+                      onClick={handleResetFilters}
+                      className="mt-4 md:mt-0 text-sm font-semibold text-violet-600 hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
+                    >
+                      Clear all filters & reset
+                    </button>
+                  )}
+                </div>
               )}
-            </div>
+            </>
           )}
 
           {/* Conditional Rendering: Smart Plan suggestion OR Default catalog list */}
@@ -1053,8 +1237,10 @@ export default function Home() {
                           key={sub}
                           onClick={() => {
                             setSelectedSubCategory(sub);
-                            setCurrentView("products");
-                            pushViewState("products", selectedCategory, sub);
+                            setSelectedProductSector("");
+                            setSelectedTargetAudience("");
+                            setCurrentView("intersection");
+                            pushViewState("intersection", selectedCategory, sub);
                           }}
                           className="group flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center shadow-sm transition-all duration-300 hover:border-violet-500/40 hover:bg-violet-50/20 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-violet-500/20 dark:hover:bg-violet-950/20 hover:-translate-y-1 cursor-pointer"
                         >
@@ -1074,9 +1260,9 @@ export default function Home() {
                 </div>
               )}
 
-              {currentView === "products" && (
-                <div className="space-y-8 animate-fade-in">
-                  {!searchQuery && !locationQuery && selectedCategory && (
+              {currentView === "intersection" && (
+                <div className="space-y-6 max-w-2xl mx-auto animate-fade-in">
+                  <div className="flex items-center justify-between">
                     <button
                       onClick={() => {
                         setSelectedSubCategory(null);
@@ -1088,8 +1274,137 @@ export default function Home() {
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-4 h-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
                       </svg>
-                      <span>← Back to {selectedCategory} Options</span>
+                      <span>← Back to {selectedCategory} Subcategories</span>
                     </button>
+                  </div>
+
+                  <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-md dark:border-slate-800 dark:bg-slate-900/60 dark:backdrop-blur-md space-y-8">
+                    <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+                      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-violet-650 dark:text-violet-400">
+                        <span>{subcategoryIcons[selectedSubCategory] || "📁"}</span>
+                        <span>{selectedSubCategory} Campaign Matcher</span>
+                      </div>
+                      <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
+                        Configure Your Campaign Match
+                      </h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                        Select your business vertical matrix mapping to unlock the best-fit advertisement placements.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Dropdown 1: Select Your Product Sector */}
+                      <div className="space-y-3">
+                        <label htmlFor="sector-select" className="block text-sm font-bold text-slate-800 dark:text-slate-200">
+                          Select Your Product Sector
+                        </label>
+                        <select
+                          id="sector-select"
+                          value={selectedProductSector}
+                          onChange={(e) => setSelectedProductSector(e.target.value)}
+                          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-800 outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 cursor-pointer"
+                        >
+                          <option value="">Select Product Sector...</option>
+                          <option value="News & Infotainment">News & Infotainment</option>
+                          <option value="Food & Hospitality">Food & Hospitality</option>
+                          <option value="Music & Entertainment">Music & Entertainment</option>
+                          <option value="Sports & Gaming">Sports & Gaming</option>
+                          <option value="Wellness & Fitness">Wellness & Fitness</option>
+                          <option value="Medical & Healthcare">Medical & Healthcare</option>
+                          <option value="Travel & Tourism">Travel & Tourism</option>
+                          <option value="Fashion & Lifestyle">Fashion & Lifestyle</option>
+                          <option value="Automobiles">Automobiles</option>
+                          <option value="Real Estate">Real Estate</option>
+                          <option value="Education">Education</option>
+                          <option value="Finance">Finance</option>
+                          <option value="FMCG">FMCG</option>
+                        </select>
+                      </div>
+
+                      {/* Dropdown 2: Select Target Audience Vertical */}
+                      <div className="space-y-3">
+                        <label htmlFor="audience-select" className="block text-sm font-bold text-slate-800 dark:text-slate-200">
+                          Select Target Audience Vertical
+                        </label>
+                        <select
+                          id="audience-select"
+                          value={selectedTargetAudience}
+                          onChange={(e) => setSelectedTargetAudience(e.target.value)}
+                          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-800 outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 cursor-pointer"
+                        >
+                          <option value="">Select Target Audience...</option>
+                          <option value="News & Infotainment">News & Infotainment</option>
+                          <option value="Food & Hospitality">Food & Hospitality</option>
+                          <option value="Music & Entertainment">Music & Entertainment</option>
+                          <option value="Sports & Gaming">Sports & Gaming</option>
+                          <option value="Wellness & Fitness">Wellness & Fitness</option>
+                          <option value="Medical & Healthcare">Medical & Healthcare</option>
+                          <option value="Travel & Tourism">Travel & Tourism</option>
+                          <option value="Fashion & Lifestyle">Fashion & Lifestyle</option>
+                          <option value="Automobiles">Automobiles</option>
+                          <option value="Real Estate">Real Estate</option>
+                          <option value="Education">Education</option>
+                          <option value="Finance">Finance</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Submit / Reveal Button */}
+                    <div className="pt-4 border-t border-slate-150 dark:border-slate-800">
+                      <button
+                        type="button"
+                        disabled={!selectedProductSector || !selectedTargetAudience}
+                        onClick={() => {
+                          setCurrentView("products");
+                          pushViewState("products", selectedCategory, selectedSubCategory);
+                        }}
+                        className={`w-full rounded-2xl px-6 py-4 text-sm font-bold text-white shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                          selectedProductSector && selectedTargetAudience
+                            ? "bg-gradient-to-r from-violet-600 to-indigo-650 hover:from-violet-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-violet-600/20"
+                            : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-650 cursor-not-allowed shadow-none"
+                        }`}
+                      >
+                        <span>🔍</span> Reveal Matching Ad Slots
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentView === "products" && (
+                <div className="space-y-8 animate-fade-in">
+                  {!searchQuery && !locationQuery && selectedCategory && (
+                    <button
+                      onClick={() => {
+                        if (selectedProductSector && selectedTargetAudience) {
+                          setCurrentView("intersection");
+                          pushViewState("intersection", selectedCategory, selectedSubCategory);
+                        } else {
+                          setSelectedSubCategory(null);
+                          setCurrentView("subcategories");
+                          pushViewState("subcategories", selectedCategory, null);
+                        }
+                      }}
+                      className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-white transition-all cursor-pointer"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                      </svg>
+                      <span>
+                        {selectedProductSector && selectedTargetAudience
+                          ? "← Back to Campaign Matcher"
+                          : `← Back to ${selectedCategory} Options`}
+                      </span>
+                    </button>
+                  )}
+
+                  {showFallbackBanner && (
+                    <div className="rounded-2xl border border-amber-250 bg-amber-50/70 p-4 dark:border-amber-900/50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 text-sm font-medium flex items-center gap-3 animate-fade-in shadow-sm">
+                      <span className="text-xl">⚠️</span>
+                      <div>
+                        <span className="font-bold">No exact matches</span> for this specific combination yet. Showing related alternatives in this sub-category.
+                      </div>
+                    </div>
                   )}
 
                   {filteredAssets.length === 0 ? (

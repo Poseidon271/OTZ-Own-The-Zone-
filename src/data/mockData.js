@@ -14,7 +14,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x400/2e1065/ffffff?text=Tata+Safari+Bandra",
       "https://placehold.co/600x400/1e1b4b/ffffff?text=Airtel+5G+SeaLink"
-    ]
+    ],
+    productSector: "FMCG",
+    targetAudience: "Wellness & Fitness"
   },
   {
     id: "asset-2",
@@ -31,7 +33,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x400/111827/ffffff?text=Mahindra+XUV700+WEH",
       "https://placehold.co/600x400/0f172a/ffffff?text=JioMart+Delivery"
-    ]
+    ],
+    productSector: "Automobiles",
+    targetAudience: "Fashion & Lifestyle"
   },
   {
     id: "asset-3",
@@ -45,7 +49,9 @@ export const mockAdvertisingAssets = [
     reach: "25K monthly viewers",
     specs: "30s video slot, Dolby Digital Sound",
     availability: { "Jul": false, "Aug": false, "Sep": false, "Oct": false, "Nov": false, "Dec": false },
-    pastExecutions: []
+    pastExecutions: [],
+    productSector: "Music & Entertainment",
+    targetAudience: "Fashion & Lifestyle"
   },
   {
     id: "asset-4",
@@ -62,7 +68,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x400/312e81/ffffff?text=Amul+Morning+Spot",
       "https://placehold.co/600x400/1e1b4b/ffffff?text=HDFC+Bank+Ad"
-    ]
+    ],
+    productSector: "News & Infotainment",
+    targetAudience: "Finance"
   },
   {
     id: "asset-5",
@@ -79,7 +87,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x400/4c1d95/ffffff?text=Air+India+Wrap",
       "https://placehold.co/600x400/030712/ffffff?text=Jio+Fiber+Bus+Wrap"
-    ]
+    ],
+    productSector: "Travel & Tourism",
+    targetAudience: "Food & Hospitality"
   },
   {
     id: "asset-6",
@@ -96,7 +106,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x400/065f46/ffffff?text=Myntra+EORS+Shelter",
       "https://placehold.co/600x400/1f2937/ffffff?text=Zomato+Biryani+Ad"
-    ]
+    ],
+    productSector: "FMCG",
+    targetAudience: "Wellness & Fitness"
   },
   {
     id: "asset-7",
@@ -110,7 +122,9 @@ export const mockAdvertisingAssets = [
     reach: "300K monthly shoppers",
     specs: "55-inch Touchscreen, 10s slot",
     availability: { "Jul": true, "Aug": true, "Sep": false, "Oct": false, "Nov": true, "Dec": true },
-    pastExecutions: []
+    pastExecutions: [],
+    productSector: "Fashion & Lifestyle",
+    targetAudience: "Fashion & Lifestyle"
   },
   {
     id: "asset-8",
@@ -127,7 +141,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x400/1e1b4b/ffffff?text=Kuku+FM+Podcast+Integration",
       "https://placehold.co/600x400/020617/ffffff?text=CoinSwitch+TRS+Integration"
-    ]
+    ],
+    productSector: "Real Estate",
+    targetAudience: "Real Estate"
   },
   {
     id: "asset-9",
@@ -144,7 +160,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x405/451a03/ffffff?text=Jawan+PreShow+Teaser",
       "https://placehold.co/600x405/1c1917/ffffff?text=Prime+Video+Mirzapur"
-    ]
+    ],
+    productSector: "Food & Hospitality",
+    targetAudience: "Travel & Tourism"
   },
   {
     id: "asset-10",
@@ -161,7 +179,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x400/172554/ffffff?text=Paytm+Welcomes+You",
       "https://placehold.co/600x400/0f172a/ffffff?text=MakeMyTrip+Airport+Premium"
-    ]
+    ],
+    productSector: "Finance",
+    targetAudience: "Finance"
   },
   {
     id: "asset-11",
@@ -178,7 +198,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x400/111827/ffffff?text=Swiggy+Instamart+Spot",
       "https://placehold.co/600x400/090d16/ffffff?text=Maruti+Suzuki+DriveTime"
-    ]
+    ],
+    productSector: "Education",
+    targetAudience: "Education"
   },
   {
     id: "asset-12",
@@ -195,7 +217,9 @@ export const mockAdvertisingAssets = [
     pastExecutions: [
       "https://placehold.co/600x400/581c87/ffffff?text=Vi+Metro+Wraps",
       "https://placehold.co/600x400/0f172a/ffffff?text=LIC+Pillar+Prints"
-    ]
+    ],
+    productSector: "Medical & Healthcare",
+    targetAudience: "Wellness & Fitness"
   },
   {
     id: "asset-13",
@@ -211,7 +235,9 @@ export const mockAdvertisingAssets = [
     availability: { "Jul": true, "Aug": true, "Sep": true, "Oct": true, "Nov": true, "Dec": true },
     pastExecutions: [
       "https://placehold.co/600x400/0f172a/ffffff?text=Mamaearth+UGC+Campaign"
-    ]
+    ],
+    productSector: "FMCG",
+    targetAudience: "Wellness & Fitness"
   },
   {
     id: "asset-14",
@@ -225,7 +251,9 @@ export const mockAdvertisingAssets = [
     reach: "40K attendees",
     specs: "10ft x 10ft Space, 5A Electricity Included",
     availability: { "Jul": false, "Aug": false, "Sep": true, "Oct": false, "Nov": false, "Dec": false },
-    pastExecutions: []
+    pastExecutions: [],
+    productSector: "Sports & Gaming",
+    targetAudience: "Sports & Gaming"
   },
   {
     id: "asset-15",
@@ -239,6 +267,8 @@ export const mockAdvertisingAssets = [
     reach: "1M active impressions",
     specs: "Full-screen interstitial (static/video)",
     availability: { "Jul": true, "Aug": true, "Sep": true, "Oct": true, "Nov": true, "Dec": true },
-    pastExecutions: []
+    pastExecutions: [],
+    productSector: "Sports & Gaming",
+    targetAudience: "Sports & Gaming"
   }
 ];
