@@ -8,33 +8,33 @@ export const taxonomy = {
 
 export const categoryMetadata = {
   "Mass-Media": {
-    icon: "📺",
+    icon: "television",
     description: "Broad reach channels like TV, Radio, Cinema, and Outdoor billboards.",
-    gradient: "from-blue-500 to-indigo-650",
-    darkGradient: "dark:from-blue-600 dark:to-indigo-800"
+    gradient: "from-[#B8C7D9] to-[#A8C7D8]",
+    darkGradient: "dark:from-[#B8C7D9] dark:to-[#A8C7D8]"
   },
   "Events": {
-    icon: "🎪",
+    icon: "ferris-wheel",
     description: "Exhibitions, conferences, seminars, and experiential community gatherings.",
-    gradient: "from-amber-500 to-orange-600",
-    darkGradient: "dark:from-amber-600 dark:to-orange-700"
+    gradient: "from-[#D4E2EC] to-[#B8C7D9]",
+    darkGradient: "dark:from-[#D4E2EC] dark:to-[#B8C7D9]"
   },
   "Digital": {
-    icon: "💻",
+    icon: "laptop",
     description: "Web placements, influencer sponsorship, PR campaigns, and digital groups.",
-    gradient: "from-violet-500 to-fuchsia-600",
-    darkGradient: "dark:from-violet-600 dark:to-fuchsia-700"
+    gradient: "from-[#A8C7D8] to-[#B8C7D9]",
+    darkGradient: "dark:from-[#A8C7D8] dark:to-[#B8C7D9]"
   },
   "BTL": {
-    icon: "🏬",
+    icon: "store-outline",
     description: "Below-the-line local channels: in-transit wraps, malls, and societies.",
-    gradient: "from-emerald-500 to-teal-650",
-    darkGradient: "dark:from-emerald-650 dark:to-teal-850"
+    gradient: "from-[#A8C7D8] to-[#B8C7D9]",
+    darkGradient: "dark:from-[#A8C7D8] dark:to-[#B8C7D9]"
   },
   "Mobile": {
-    icon: "📱",
+    icon: "cellphone",
     description: "Mobile-first broadcasts, SMS marketing, and in-app display inventory.",
-    gradient: "from-rose-500 to-pink-600",
-    darkGradient: "dark:from-rose-600 dark:to-pink-700"
+    gradient: "from-[#B8C7D9] to-[#D4E2EC]",
+    darkGradient: "dark:from-[#B8C7D9] dark:to-[#D4E2EC]"
   }
 };

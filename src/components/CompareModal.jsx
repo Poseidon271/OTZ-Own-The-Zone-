@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useBag } from "@/context/BagContext";
+import MdiIcon from "@/components/MdiIcon";
 
 export default function CompareModal({ selectedAssets, isOpen, onClose }) {
   const { addToBag, isInBag } = useBag();
@@ -17,7 +18,7 @@ export default function CompareModal({ selectedAssets, isOpen, onClose }) {
       ></div>
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-4xl bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl flex flex-col animate-scale-up max-h-[90vh] dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200">
+      <div className="relative w-full max-w-4xl frost-card rounded-3xl overflow-hidden flex flex-col animate-scale-up max-h-[90vh] transition-colors duration-200">
         
         {/* Close Button */}
         <button
@@ -25,26 +26,13 @@ export default function CompareModal({ selectedAssets, isOpen, onClose }) {
           className="absolute top-4 right-4 text-slate-500 hover:text-slate-900 p-2 rounded-xl hover:bg-slate-100 backdrop-blur-md transition-colors z-20 border border-slate-250 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-950/50 dark:border-slate-800/40"
           title="Close Modal"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2.5"
-            stroke="currentColor"
-            className="h-5 w-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <MdiIcon name="close" className="text-xl" />
         </button>
 
         {/* Modal Header */}
         <div className="px-6 py-5 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-950 flex-shrink-0">
           <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center">
-            <span className="mr-2">⚖️</span> Media Space Comparison
+            <MdiIcon name="scale-balance" className="mr-2 text-2xl text-violet-600 dark:text-violet-400" /> Media Space Comparison
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Review base pricing, creative specifications, and reach side-by-side.

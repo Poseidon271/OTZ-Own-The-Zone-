@@ -7,6 +7,7 @@ import AuthModal from "@/components/AuthModal";
 import CampaignsModal from "@/components/CampaignsModal";
 import LeadPopup from "@/components/LeadPopup";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,34 +30,25 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const storedTheme = localStorage.getItem('theme');
-                  if (storedTheme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                } catch (e) {}
-              })()
-            `,
-          }}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css"
         />
       </head>
-      <body className="min-h-full flex flex-col bg-gray-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200">
-        <ThemeProvider>
-          <AuthProvider>
-            <BagProvider>
-              {children}
-            </BagProvider>
-            <AuthModal />
-            <CampaignsModal />
-            <LeadPopup />
-          </AuthProvider>
-        </ThemeProvider>
+      <body className="min-h-full bg-[var(--surface-canvas)] text-[var(--text-primary)] transition-theme antialiased overflow-x-hidden">
+        {/* Existing Application Container */}
+        <div className="relative z-10 min-h-full flex flex-col">
+          <ThemeProvider>
+            <AuthProvider>
+              <BagProvider>
+                {children}
+              </BagProvider>
+              <AuthModal />
+              <CampaignsModal />
+              <LeadPopup />
+            </AuthProvider>
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );

@@ -1,0 +1,5142 @@
+[
+  {
+    "id": "lst-ooh-1",
+    "group_id": "grp-ooh-0",
+    "owner_account_id": "acc-host-ooh-0",
+    "media_type": "OOH",
+    "title": "Bandra Worli Sea Link Toll Billboard - #100",
+    "parent_network": "Times OOH",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.2M weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 150000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-2",
+    "group_id": "grp-ooh-1",
+    "owner_account_id": "acc-host-ooh-1",
+    "media_type": "OOH",
+    "title": "DND Flyway Gantry Billboard Billboard - #101",
+    "parent_network": "Delhi OOH",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.4M weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 160000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-3",
+    "group_id": "grp-ooh-2",
+    "owner_account_id": "acc-host-ooh-2",
+    "media_type": "OOH",
+    "title": "Western Express Highway (WEH) Bandra Billboard - #102",
+    "parent_network": "Adspace India",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "800K weekly",
+    "reach_source": "IRS 2026 Q1",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 95000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-4",
+    "group_id": "grp-ooh-3",
+    "owner_account_id": "acc-host-ooh-3",
+    "media_type": "OOH",
+    "title": "DLF CyberHub Main Entrance LED Billboard - #103",
+    "parent_network": "DLF Media",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "750K weekly",
+    "reach_source": "Platform Insights 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 120000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-5",
+    "group_id": "grp-ooh-4",
+    "owner_account_id": "acc-host-ooh-4",
+    "media_type": "OOH",
+    "title": "Andheri Link Road Junction Billboard - #104",
+    "parent_network": "Times OOH",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "600K weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 75000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-6",
+    "group_id": "grp-ooh-5",
+    "owner_account_id": "acc-host-ooh-5",
+    "media_type": "OOH",
+    "title": "Connaught Place Radial Road Billboard - #105",
+    "parent_network": "CP Outdoor",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "850K weekly",
+    "reach_source": "IRS 2026 Q1",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 100000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-7",
+    "group_id": "grp-ooh-6",
+    "owner_account_id": "acc-host-ooh-6",
+    "media_type": "OOH",
+    "title": "Juhu Tara Road Billboard Billboard - #106",
+    "parent_network": "Juhu Media",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "400K weekly",
+    "reach_source": "Self-declared",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 60000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-8",
+    "group_id": "grp-ooh-7",
+    "owner_account_id": "acc-host-ooh-7",
+    "media_type": "OOH",
+    "title": "Noida Sector 18 Market Plaza Billboard - #107",
+    "parent_network": "Noida Signs",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "500K weekly",
+    "reach_source": "Self-declared",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 65000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-9",
+    "group_id": "grp-ooh-8",
+    "owner_account_id": "acc-host-ooh-8",
+    "media_type": "OOH",
+    "title": "Lower Parel Flyover Gantry Billboard - #108",
+    "parent_network": "Times OOH",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "900K weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 110000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-10",
+    "group_id": "grp-ooh-9",
+    "owner_account_id": "acc-host-ooh-9",
+    "media_type": "OOH",
+    "title": "MG Road Gurgaon Pillars Billboard - #109",
+    "parent_network": "Delhi OOH",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "650K weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 85000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-11",
+    "group_id": "grp-ooh-10",
+    "owner_account_id": "acc-host-ooh-10",
+    "media_type": "OOH",
+    "title": "Sion Circle High-Impact LED Billboard - #110",
+    "parent_network": "Signage Corp",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "500K weekly",
+    "reach_source": "IRS 2026 Q2",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 80000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-12",
+    "group_id": "grp-ooh-11",
+    "owner_account_id": "acc-host-ooh-11",
+    "media_type": "OOH",
+    "title": "NH8 Gurgaon Toll Plaza Billboard - #111",
+    "parent_network": "National Trans",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.8M weekly",
+    "reach_source": "IRS 2026 Q1",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 180000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-13",
+    "group_id": "grp-ooh-12",
+    "owner_account_id": "acc-host-ooh-12",
+    "media_type": "OOH",
+    "title": "Chhatrapati Shivaji Terminal Entrance Billboard - #112",
+    "parent_network": "CST Media",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.5M weekly",
+    "reach_source": "Platform Insights 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 130000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-14",
+    "group_id": "grp-ooh-13",
+    "owner_account_id": "acc-host-ooh-13",
+    "media_type": "OOH",
+    "title": "South Ext Part II Ring Road Billboard - #113",
+    "parent_network": "Delhi OOH",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "700K weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 95000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-15",
+    "group_id": "grp-ooh-14",
+    "owner_account_id": "acc-host-ooh-14",
+    "media_type": "OOH",
+    "title": "Worli Naka Backlit Display Billboard - #114",
+    "parent_network": "Worli Outdoor",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "350K weekly",
+    "reach_source": "Self-declared",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 55000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-16",
+    "group_id": "grp-ooh-15",
+    "owner_account_id": "acc-host-ooh-15",
+    "media_type": "OOH",
+    "title": "Noida-Greater Noida Expressway Gantry Billboard - #115",
+    "parent_network": "Noida Express",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "800K weekly",
+    "reach_source": "IRS 2026 Q2",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 110000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-17",
+    "group_id": "grp-ooh-16",
+    "owner_account_id": "acc-host-ooh-16",
+    "media_type": "OOH",
+    "title": "Link Road Malad Digital Screen Billboard - #116",
+    "parent_network": "Times OOH",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "450K weekly",
+    "reach_source": "Platform Insights 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 70000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-18",
+    "group_id": "grp-ooh-17",
+    "owner_account_id": "acc-host-ooh-17",
+    "media_type": "OOH",
+    "title": "Delhi Airport Terminal 3 Arrival LED Billboard - #117",
+    "parent_network": "GMR Media",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "2.0M weekly",
+    "reach_source": "Platform Insights 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 250000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-19",
+    "group_id": "grp-ooh-18",
+    "owner_account_id": "acc-host-ooh-18",
+    "media_type": "OOH",
+    "title": "Colaba Causeway Static Wallboard Billboard - #118",
+    "parent_network": "Heritage Media",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "300K weekly",
+    "reach_source": "IRS 2025 Q4",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 40000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-20",
+    "group_id": "grp-ooh-19",
+    "owner_account_id": "acc-host-ooh-19",
+    "media_type": "OOH",
+    "title": "Rajiv Chowk Metro Entrance Backlit Billboard - #119",
+    "parent_network": "Metro Ads",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.1M weekly",
+    "reach_source": "DMRC Traffic Report 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 90000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-21",
+    "group_id": "grp-ooh-20",
+    "owner_account_id": "acc-host-ooh-20",
+    "media_type": "OOH",
+    "title": "Bandra Worli Sea Link Toll Billboard - #120",
+    "parent_network": "Times OOH",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.2M weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 150000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-22",
+    "group_id": "grp-ooh-21",
+    "owner_account_id": "acc-host-ooh-21",
+    "media_type": "OOH",
+    "title": "DND Flyway Gantry Billboard Billboard - #121",
+    "parent_network": "Delhi OOH",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.4M weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 160000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-23",
+    "group_id": "grp-ooh-22",
+    "owner_account_id": "acc-host-ooh-22",
+    "media_type": "OOH",
+    "title": "Western Express Highway (WEH) Bandra Billboard - #122",
+    "parent_network": "Adspace India",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "800K weekly",
+    "reach_source": "IRS 2026 Q1",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 95000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-24",
+    "group_id": "grp-ooh-23",
+    "owner_account_id": "acc-host-ooh-23",
+    "media_type": "OOH",
+    "title": "DLF CyberHub Main Entrance LED Billboard - #123",
+    "parent_network": "DLF Media",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "750K weekly",
+    "reach_source": "Platform Insights 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 120000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-25",
+    "group_id": "grp-ooh-24",
+    "owner_account_id": "acc-host-ooh-24",
+    "media_type": "OOH",
+    "title": "Andheri Link Road Junction Billboard - #124",
+    "parent_network": "Times OOH",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "600K weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 75000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-26",
+    "group_id": "grp-ooh-25",
+    "owner_account_id": "acc-host-ooh-25",
+    "media_type": "OOH",
+    "title": "Connaught Place Radial Road Billboard - #125",
+    "parent_network": "CP Outdoor",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "850K weekly",
+    "reach_source": "IRS 2026 Q1",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 100000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-27",
+    "group_id": "grp-ooh-26",
+    "owner_account_id": "acc-host-ooh-26",
+    "media_type": "OOH",
+    "title": "Juhu Tara Road Billboard Billboard - #126",
+    "parent_network": "Juhu Media",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "400K weekly",
+    "reach_source": "Self-declared",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 60000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-28",
+    "group_id": "grp-ooh-27",
+    "owner_account_id": "acc-host-ooh-27",
+    "media_type": "OOH",
+    "title": "Noida Sector 18 Market Plaza Billboard - #127",
+    "parent_network": "Noida Signs",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "500K weekly",
+    "reach_source": "Self-declared",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 65000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-29",
+    "group_id": "grp-ooh-28",
+    "owner_account_id": "acc-host-ooh-28",
+    "media_type": "OOH",
+    "title": "Lower Parel Flyover Gantry Billboard - #128",
+    "parent_network": "Times OOH",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "900K weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 110000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-30",
+    "group_id": "grp-ooh-29",
+    "owner_account_id": "acc-host-ooh-29",
+    "media_type": "OOH",
+    "title": "MG Road Gurgaon Pillars Billboard - #129",
+    "parent_network": "Delhi OOH",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "650K weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 85000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-31",
+    "group_id": "grp-ooh-30",
+    "owner_account_id": "acc-host-ooh-30",
+    "media_type": "OOH",
+    "title": "Sion Circle High-Impact LED Billboard - #130",
+    "parent_network": "Signage Corp",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "500K weekly",
+    "reach_source": "IRS 2026 Q2",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 80000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-32",
+    "group_id": "grp-ooh-31",
+    "owner_account_id": "acc-host-ooh-31",
+    "media_type": "OOH",
+    "title": "NH8 Gurgaon Toll Plaza Billboard - #131",
+    "parent_network": "National Trans",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.8M weekly",
+    "reach_source": "IRS 2026 Q1",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 180000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-33",
+    "group_id": "grp-ooh-32",
+    "owner_account_id": "acc-host-ooh-32",
+    "media_type": "OOH",
+    "title": "Chhatrapati Shivaji Terminal Entrance Billboard - #132",
+    "parent_network": "CST Media",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.5M weekly",
+    "reach_source": "Platform Insights 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 130000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-34",
+    "group_id": "grp-ooh-33",
+    "owner_account_id": "acc-host-ooh-33",
+    "media_type": "OOH",
+    "title": "South Ext Part II Ring Road Billboard - #133",
+    "parent_network": "Delhi OOH",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "700K weekly",
+    "reach_source": "BARC Outdoor 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 95000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-35",
+    "group_id": "grp-ooh-34",
+    "owner_account_id": "acc-host-ooh-34",
+    "media_type": "OOH",
+    "title": "Worli Naka Backlit Display Billboard - #134",
+    "parent_network": "Worli Outdoor",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "350K weekly",
+    "reach_source": "Self-declared",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 55000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-36",
+    "group_id": "grp-ooh-35",
+    "owner_account_id": "acc-host-ooh-35",
+    "media_type": "OOH",
+    "title": "Noida-Greater Noida Expressway Gantry Billboard - #135",
+    "parent_network": "Noida Express",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "800K weekly",
+    "reach_source": "IRS 2026 Q2",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 110000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-37",
+    "group_id": "grp-ooh-36",
+    "owner_account_id": "acc-host-ooh-36",
+    "media_type": "OOH",
+    "title": "Link Road Malad Digital Screen Billboard - #136",
+    "parent_network": "Times OOH",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "450K weekly",
+    "reach_source": "Platform Insights 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 70000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-38",
+    "group_id": "grp-ooh-37",
+    "owner_account_id": "acc-host-ooh-37",
+    "media_type": "OOH",
+    "title": "Delhi Airport Terminal 3 Arrival LED Billboard - #137",
+    "parent_network": "GMR Media",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "2.0M weekly",
+    "reach_source": "Platform Insights 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 250000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-39",
+    "group_id": "grp-ooh-38",
+    "owner_account_id": "acc-host-ooh-38",
+    "media_type": "OOH",
+    "title": "Colaba Causeway Static Wallboard Billboard - #138",
+    "parent_network": "Heritage Media",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "300K weekly",
+    "reach_source": "IRS 2025 Q4",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 40000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-ooh-40",
+    "group_id": "grp-ooh-39",
+    "owner_account_id": "acc-host-ooh-39",
+    "media_type": "OOH",
+    "title": "Rajiv Chowk Metro Entrance Backlit Billboard - #139",
+    "parent_network": "Metro Ads",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "1.1M weekly",
+    "reach_source": "DMRC Traffic Report 2026",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 90000,
+    "formats": [
+      "Static Vinyl Banner",
+      "15s Digital Slot",
+      "30s Digital Slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-41",
+    "group_id": "grp-inf-0",
+    "owner_account_id": "acc-host-inf-0",
+    "media_type": "Influencer-Creator",
+    "title": "TechGyan / Sanskar (@techgyan) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M subscribers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 120000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-42",
+    "group_id": "grp-inf-1",
+    "owner_account_id": "acc-host-inf-1",
+    "media_type": "Influencer-Creator",
+    "title": "FitWithPriya (@fitwithpriya) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "850K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 55000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-43",
+    "group_id": "grp-inf-2",
+    "owner_account_id": "acc-host-inf-2",
+    "media_type": "Influencer-Creator",
+    "title": "Rohan Vlogs (@rohanvlogs) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.2M followers",
+    "reach_source": "YouTube Creator Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 80000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-44",
+    "group_id": "grp-inf-3",
+    "owner_account_id": "acc-host-inf-3",
+    "media_type": "Influencer-Creator",
+    "title": "InvestWithAbhinav (@invest_abhinav) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "450K followers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 65000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-45",
+    "group_id": "grp-inf-4",
+    "owner_account_id": "acc-host-inf-4",
+    "media_type": "Influencer-Creator",
+    "title": "BombayFoodGuide (@bombay_foodie) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "750K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 45000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-46",
+    "group_id": "grp-inf-5",
+    "owner_account_id": "acc-host-inf-5",
+    "media_type": "Influencer-Creator",
+    "title": "Ria Verma Style (@ria_style) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "600K followers",
+    "reach_source": "Self-declared",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 35000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-47",
+    "group_id": "grp-inf-6",
+    "owner_account_id": "acc-host-inf-6",
+    "media_type": "Influencer-Creator",
+    "title": "AutoRider India (@autorider) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "900K subscribers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 90000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-48",
+    "group_id": "grp-inf-7",
+    "owner_account_id": "acc-host-inf-7",
+    "media_type": "Influencer-Creator",
+    "title": "DilliWalaKhana (@dilli_food_walks) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "550K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 30000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-49",
+    "group_id": "grp-inf-8",
+    "owner_account_id": "acc-host-inf-8",
+    "media_type": "Influencer-Creator",
+    "title": "StudySmart / Anita (@studysmart) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Education & EdTech"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "650K subscribers",
+    "reach_source": "YouTube Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 50000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-50",
+    "group_id": "grp-inf-9",
+    "owner_account_id": "acc-host-inf-9",
+    "media_type": "Influencer-Creator",
+    "title": "GameTime Rohit (@gametime_rohit) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.5M subscribers",
+    "reach_source": "YouTube Creator Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 100000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-51",
+    "group_id": "grp-inf-10",
+    "owner_account_id": "acc-host-inf-10",
+    "media_type": "Influencer-Creator",
+    "title": "TechGyan / Sanskar (@techgyan) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M subscribers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 120000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-52",
+    "group_id": "grp-inf-11",
+    "owner_account_id": "acc-host-inf-11",
+    "media_type": "Influencer-Creator",
+    "title": "FitWithPriya (@fitwithpriya) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "850K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 55000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-53",
+    "group_id": "grp-inf-12",
+    "owner_account_id": "acc-host-inf-12",
+    "media_type": "Influencer-Creator",
+    "title": "Rohan Vlogs (@rohanvlogs) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.2M followers",
+    "reach_source": "YouTube Creator Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 80000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-54",
+    "group_id": "grp-inf-13",
+    "owner_account_id": "acc-host-inf-13",
+    "media_type": "Influencer-Creator",
+    "title": "InvestWithAbhinav (@invest_abhinav) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "450K followers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 65000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-55",
+    "group_id": "grp-inf-14",
+    "owner_account_id": "acc-host-inf-14",
+    "media_type": "Influencer-Creator",
+    "title": "BombayFoodGuide (@bombay_foodie) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "750K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 45000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-56",
+    "group_id": "grp-inf-15",
+    "owner_account_id": "acc-host-inf-15",
+    "media_type": "Influencer-Creator",
+    "title": "Ria Verma Style (@ria_style) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "600K followers",
+    "reach_source": "Self-declared",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 35000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-57",
+    "group_id": "grp-inf-16",
+    "owner_account_id": "acc-host-inf-16",
+    "media_type": "Influencer-Creator",
+    "title": "AutoRider India (@autorider) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "900K subscribers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 90000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-58",
+    "group_id": "grp-inf-17",
+    "owner_account_id": "acc-host-inf-17",
+    "media_type": "Influencer-Creator",
+    "title": "DilliWalaKhana (@dilli_food_walks) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "550K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 30000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-59",
+    "group_id": "grp-inf-18",
+    "owner_account_id": "acc-host-inf-18",
+    "media_type": "Influencer-Creator",
+    "title": "StudySmart / Anita (@studysmart) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Education & EdTech"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "650K subscribers",
+    "reach_source": "YouTube Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 50000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-60",
+    "group_id": "grp-inf-19",
+    "owner_account_id": "acc-host-inf-19",
+    "media_type": "Influencer-Creator",
+    "title": "GameTime Rohit (@gametime_rohit) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.5M subscribers",
+    "reach_source": "YouTube Creator Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 100000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-61",
+    "group_id": "grp-inf-20",
+    "owner_account_id": "acc-host-inf-20",
+    "media_type": "Influencer-Creator",
+    "title": "TechGyan / Sanskar (@techgyan) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M subscribers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 120000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-62",
+    "group_id": "grp-inf-21",
+    "owner_account_id": "acc-host-inf-21",
+    "media_type": "Influencer-Creator",
+    "title": "FitWithPriya (@fitwithpriya) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "850K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 55000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-63",
+    "group_id": "grp-inf-22",
+    "owner_account_id": "acc-host-inf-22",
+    "media_type": "Influencer-Creator",
+    "title": "Rohan Vlogs (@rohanvlogs) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.2M followers",
+    "reach_source": "YouTube Creator Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 80000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-64",
+    "group_id": "grp-inf-23",
+    "owner_account_id": "acc-host-inf-23",
+    "media_type": "Influencer-Creator",
+    "title": "InvestWithAbhinav (@invest_abhinav) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "450K followers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 65000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-65",
+    "group_id": "grp-inf-24",
+    "owner_account_id": "acc-host-inf-24",
+    "media_type": "Influencer-Creator",
+    "title": "BombayFoodGuide (@bombay_foodie) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "750K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 45000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-66",
+    "group_id": "grp-inf-25",
+    "owner_account_id": "acc-host-inf-25",
+    "media_type": "Influencer-Creator",
+    "title": "Ria Verma Style (@ria_style) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "600K followers",
+    "reach_source": "Self-declared",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 35000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-67",
+    "group_id": "grp-inf-26",
+    "owner_account_id": "acc-host-inf-26",
+    "media_type": "Influencer-Creator",
+    "title": "AutoRider India (@autorider) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "900K subscribers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 90000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-68",
+    "group_id": "grp-inf-27",
+    "owner_account_id": "acc-host-inf-27",
+    "media_type": "Influencer-Creator",
+    "title": "DilliWalaKhana (@dilli_food_walks) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "550K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 30000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-69",
+    "group_id": "grp-inf-28",
+    "owner_account_id": "acc-host-inf-28",
+    "media_type": "Influencer-Creator",
+    "title": "StudySmart / Anita (@studysmart) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Education & EdTech"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "650K subscribers",
+    "reach_source": "YouTube Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 50000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-70",
+    "group_id": "grp-inf-29",
+    "owner_account_id": "acc-host-inf-29",
+    "media_type": "Influencer-Creator",
+    "title": "GameTime Rohit (@gametime_rohit) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.5M subscribers",
+    "reach_source": "YouTube Creator Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 100000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-71",
+    "group_id": "grp-inf-30",
+    "owner_account_id": "acc-host-inf-30",
+    "media_type": "Influencer-Creator",
+    "title": "TechGyan / Sanskar (@techgyan) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M subscribers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 120000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-72",
+    "group_id": "grp-inf-31",
+    "owner_account_id": "acc-host-inf-31",
+    "media_type": "Influencer-Creator",
+    "title": "FitWithPriya (@fitwithpriya) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "850K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 55000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-73",
+    "group_id": "grp-inf-32",
+    "owner_account_id": "acc-host-inf-32",
+    "media_type": "Influencer-Creator",
+    "title": "Rohan Vlogs (@rohanvlogs) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.2M followers",
+    "reach_source": "YouTube Creator Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 80000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-74",
+    "group_id": "grp-inf-33",
+    "owner_account_id": "acc-host-inf-33",
+    "media_type": "Influencer-Creator",
+    "title": "InvestWithAbhinav (@invest_abhinav) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "450K followers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 65000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-75",
+    "group_id": "grp-inf-34",
+    "owner_account_id": "acc-host-inf-34",
+    "media_type": "Influencer-Creator",
+    "title": "BombayFoodGuide (@bombay_foodie) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "750K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 45000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-76",
+    "group_id": "grp-inf-35",
+    "owner_account_id": "acc-host-inf-35",
+    "media_type": "Influencer-Creator",
+    "title": "Ria Verma Style (@ria_style) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "600K followers",
+    "reach_source": "Self-declared",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 35000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-77",
+    "group_id": "grp-inf-36",
+    "owner_account_id": "acc-host-inf-36",
+    "media_type": "Influencer-Creator",
+    "title": "AutoRider India (@autorider) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "900K subscribers",
+    "reach_source": "Platform Analytics 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 90000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-78",
+    "group_id": "grp-inf-37",
+    "owner_account_id": "acc-host-inf-37",
+    "media_type": "Influencer-Creator",
+    "title": "DilliWalaKhana (@dilli_food_walks) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "550K followers",
+    "reach_source": "Instagram Insights 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 30000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-79",
+    "group_id": "grp-inf-38",
+    "owner_account_id": "acc-host-inf-38",
+    "media_type": "Influencer-Creator",
+    "title": "StudySmart / Anita (@studysmart) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Mumbai",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Education & EdTech"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "650K subscribers",
+    "reach_source": "YouTube Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 50000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-inf-80",
+    "group_id": "grp-inf-39",
+    "owner_account_id": "acc-host-inf-39",
+    "media_type": "Influencer-Creator",
+    "title": "GameTime Rohit (@gametime_rohit) Integration",
+    "parent_network": "Independent Creator",
+    "geography": [
+      "Delhi-NCR",
+      "Pan-India"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.5M subscribers",
+    "reach_source": "YouTube Creator Studio 2026",
+    "reach_date": "July 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 100000,
+    "formats": [
+      "Instagram Reel Integration",
+      "YouTube Mid-Roll Ad",
+      "Dedicated Vlog Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-81",
+    "group_id": "grp-evt-0",
+    "owner_account_id": "acc-host-evt-0",
+    "media_type": "Event or Venue",
+    "title": "Global FinTech Congress 2026 - Title Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "15K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 1000000,
+    "formats": [
+      "Title Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-82",
+    "group_id": "grp-evt-1",
+    "owner_account_id": "acc-host-evt-1",
+    "media_type": "Event or Venue",
+    "title": "India Fashion Awards Week 2026 - Co-Powered Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "30K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 900000,
+    "formats": [
+      "Co-Powered Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-83",
+    "group_id": "grp-evt-2",
+    "owner_account_id": "acc-host-evt-2",
+    "media_type": "Event or Venue",
+    "title": "Tech-X Expo India - Associate Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "45K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 420000,
+    "formats": [
+      "Associate Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-84",
+    "group_id": "grp-evt-3",
+    "owner_account_id": "acc-host-evt-3",
+    "media_type": "Event or Venue",
+    "title": "Mumbai Food Carnival - On-Ground Booth",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "80K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 105000,
+    "formats": [
+      "On-Ground Booth"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-85",
+    "group_id": "grp-evt-4",
+    "owner_account_id": "acc-host-evt-4",
+    "media_type": "Event or Venue",
+    "title": "National Auto Summit - Title Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "25K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹10L+",
+    "raw_price": 1100000,
+    "formats": [
+      "Title Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-86",
+    "group_id": "grp-evt-5",
+    "owner_account_id": "acc-host-evt-5",
+    "media_type": "Event or Venue",
+    "title": "FitFest India - Co-Powered Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "20K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 360000,
+    "formats": [
+      "Co-Powered Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-87",
+    "group_id": "grp-evt-6",
+    "owner_account_id": "acc-host-evt-6",
+    "media_type": "Event or Venue",
+    "title": "Global FinTech Congress 2026 - Associate Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "15K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 350000,
+    "formats": [
+      "Associate Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-88",
+    "group_id": "grp-evt-7",
+    "owner_account_id": "acc-host-evt-7",
+    "media_type": "Event or Venue",
+    "title": "India Fashion Awards Week 2026 - On-Ground Booth",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "30K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 225000,
+    "formats": [
+      "On-Ground Booth"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-89",
+    "group_id": "grp-evt-8",
+    "owner_account_id": "acc-host-evt-8",
+    "media_type": "Event or Venue",
+    "title": "Tech-X Expo India - Title Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "45K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹10L+",
+    "raw_price": 1200000,
+    "formats": [
+      "Title Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-90",
+    "group_id": "grp-evt-9",
+    "owner_account_id": "acc-host-evt-9",
+    "media_type": "Event or Venue",
+    "title": "Mumbai Food Carnival - Co-Powered Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "80K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 420000,
+    "formats": [
+      "Co-Powered Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-91",
+    "group_id": "grp-evt-10",
+    "owner_account_id": "acc-host-evt-10",
+    "media_type": "Event or Venue",
+    "title": "National Auto Summit - Associate Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "25K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 385000,
+    "formats": [
+      "Associate Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-92",
+    "group_id": "grp-evt-11",
+    "owner_account_id": "acc-host-evt-11",
+    "media_type": "Event or Venue",
+    "title": "FitFest India - On-Ground Booth",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "20K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 90000,
+    "formats": [
+      "On-Ground Booth"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-93",
+    "group_id": "grp-evt-12",
+    "owner_account_id": "acc-host-evt-12",
+    "media_type": "Event or Venue",
+    "title": "Global FinTech Congress 2026 - Title Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "15K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 1000000,
+    "formats": [
+      "Title Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-94",
+    "group_id": "grp-evt-13",
+    "owner_account_id": "acc-host-evt-13",
+    "media_type": "Event or Venue",
+    "title": "India Fashion Awards Week 2026 - Co-Powered Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "30K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 900000,
+    "formats": [
+      "Co-Powered Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-95",
+    "group_id": "grp-evt-14",
+    "owner_account_id": "acc-host-evt-14",
+    "media_type": "Event or Venue",
+    "title": "Tech-X Expo India - Associate Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "45K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 420000,
+    "formats": [
+      "Associate Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-96",
+    "group_id": "grp-evt-15",
+    "owner_account_id": "acc-host-evt-15",
+    "media_type": "Event or Venue",
+    "title": "Mumbai Food Carnival - On-Ground Booth",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "80K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 105000,
+    "formats": [
+      "On-Ground Booth"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-97",
+    "group_id": "grp-evt-16",
+    "owner_account_id": "acc-host-evt-16",
+    "media_type": "Event or Venue",
+    "title": "National Auto Summit - Title Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "25K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹10L+",
+    "raw_price": 1100000,
+    "formats": [
+      "Title Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-98",
+    "group_id": "grp-evt-17",
+    "owner_account_id": "acc-host-evt-17",
+    "media_type": "Event or Venue",
+    "title": "FitFest India - Co-Powered Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "20K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 360000,
+    "formats": [
+      "Co-Powered Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-99",
+    "group_id": "grp-evt-18",
+    "owner_account_id": "acc-host-evt-18",
+    "media_type": "Event or Venue",
+    "title": "Global FinTech Congress 2026 - Associate Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "15K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 350000,
+    "formats": [
+      "Associate Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-100",
+    "group_id": "grp-evt-19",
+    "owner_account_id": "acc-host-evt-19",
+    "media_type": "Event or Venue",
+    "title": "India Fashion Awards Week 2026 - On-Ground Booth",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "30K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 225000,
+    "formats": [
+      "On-Ground Booth"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-101",
+    "group_id": "grp-evt-20",
+    "owner_account_id": "acc-host-evt-20",
+    "media_type": "Event or Venue",
+    "title": "Tech-X Expo India - Title Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "45K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹10L+",
+    "raw_price": 1200000,
+    "formats": [
+      "Title Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-102",
+    "group_id": "grp-evt-21",
+    "owner_account_id": "acc-host-evt-21",
+    "media_type": "Event or Venue",
+    "title": "Mumbai Food Carnival - Co-Powered Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "80K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 420000,
+    "formats": [
+      "Co-Powered Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-103",
+    "group_id": "grp-evt-22",
+    "owner_account_id": "acc-host-evt-22",
+    "media_type": "Event or Venue",
+    "title": "National Auto Summit - Associate Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "25K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 385000,
+    "formats": [
+      "Associate Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-104",
+    "group_id": "grp-evt-23",
+    "owner_account_id": "acc-host-evt-23",
+    "media_type": "Event or Venue",
+    "title": "FitFest India - On-Ground Booth",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "20K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 90000,
+    "formats": [
+      "On-Ground Booth"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-105",
+    "group_id": "grp-evt-24",
+    "owner_account_id": "acc-host-evt-24",
+    "media_type": "Event or Venue",
+    "title": "Global FinTech Congress 2026 - Title Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "15K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 1000000,
+    "formats": [
+      "Title Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-106",
+    "group_id": "grp-evt-25",
+    "owner_account_id": "acc-host-evt-25",
+    "media_type": "Event or Venue",
+    "title": "India Fashion Awards Week 2026 - Co-Powered Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "30K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 900000,
+    "formats": [
+      "Co-Powered Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-107",
+    "group_id": "grp-evt-26",
+    "owner_account_id": "acc-host-evt-26",
+    "media_type": "Event or Venue",
+    "title": "Tech-X Expo India - Associate Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "45K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 420000,
+    "formats": [
+      "Associate Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-108",
+    "group_id": "grp-evt-27",
+    "owner_account_id": "acc-host-evt-27",
+    "media_type": "Event or Venue",
+    "title": "Mumbai Food Carnival - On-Ground Booth",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "80K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 105000,
+    "formats": [
+      "On-Ground Booth"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-109",
+    "group_id": "grp-evt-28",
+    "owner_account_id": "acc-host-evt-28",
+    "media_type": "Event or Venue",
+    "title": "National Auto Summit - Title Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "25K visitors",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹10L+",
+    "raw_price": 1100000,
+    "formats": [
+      "Title Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-evt-110",
+    "group_id": "grp-evt-29",
+    "owner_account_id": "acc-host-evt-29",
+    "media_type": "Event or Venue",
+    "title": "FitFest India - Co-Powered Sponsor",
+    "parent_network": "OTZ Originals",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English"
+    ],
+    "visibility_metric": "20K attendees",
+    "reach_source": "Exhibition Association Report",
+    "reach_date": "May 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 360000,
+    "formats": [
+      "Co-Powered Sponsor"
+    ],
+    "state": "published",
+    "verified": true,
+    "is_otz_original": true,
+    "sponsorship_tiers": [
+      "Title Sponsor",
+      "Co-Powered Sponsor",
+      "Associate Sponsor",
+      "On-Ground Booth"
+    ],
+    "event_date": "Nov 2026",
+    "image_url": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-111",
+    "group_id": "grp-dig-0",
+    "owner_account_id": "acc-host-dig-0",
+    "media_type": "Digital",
+    "title": "Inshorts News Banner - Premium Ad Block",
+    "parent_network": "Inshorts",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "100K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 20000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-112",
+    "group_id": "grp-dig-1",
+    "owner_account_id": "acc-host-dig-1",
+    "media_type": "Digital",
+    "title": "Moneycontrol FinTech Section - Premium Ad Block",
+    "parent_network": "Moneycontrol",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "120K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 24000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-113",
+    "group_id": "grp-dig-2",
+    "owner_account_id": "acc-host-dig-2",
+    "media_type": "Digital",
+    "title": "Zomato In-App Splash - Premium Ad Block",
+    "parent_network": "Zomato",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "140K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 28000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-114",
+    "group_id": "grp-dig-3",
+    "owner_account_id": "acc-host-dig-3",
+    "media_type": "Digital",
+    "title": "NDTV Food Section banner - Premium Ad Block",
+    "parent_network": "NDTV",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "160K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 32000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-115",
+    "group_id": "grp-dig-4",
+    "owner_account_id": "acc-host-dig-4",
+    "media_type": "Digital",
+    "title": "Cricbuzz Banner Slot - Premium Ad Block",
+    "parent_network": "Cricbuzz",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "180K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 36000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-116",
+    "group_id": "grp-dig-5",
+    "owner_account_id": "acc-host-dig-5",
+    "media_type": "Digital",
+    "title": "Inshorts News Banner - Premium Ad Block",
+    "parent_network": "Inshorts",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "200K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 40000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-117",
+    "group_id": "grp-dig-6",
+    "owner_account_id": "acc-host-dig-6",
+    "media_type": "Digital",
+    "title": "Moneycontrol FinTech Section - Premium Ad Block",
+    "parent_network": "Moneycontrol",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "220K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 44000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-118",
+    "group_id": "grp-dig-7",
+    "owner_account_id": "acc-host-dig-7",
+    "media_type": "Digital",
+    "title": "Zomato In-App Splash - Premium Ad Block",
+    "parent_network": "Zomato",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "240K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹10K - ₹50K",
+    "raw_price": 48000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-119",
+    "group_id": "grp-dig-8",
+    "owner_account_id": "acc-host-dig-8",
+    "media_type": "Digital",
+    "title": "NDTV Food Section banner - Premium Ad Block",
+    "parent_network": "NDTV",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "260K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 52000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-120",
+    "group_id": "grp-dig-9",
+    "owner_account_id": "acc-host-dig-9",
+    "media_type": "Digital",
+    "title": "Cricbuzz Banner Slot - Premium Ad Block",
+    "parent_network": "Cricbuzz",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "280K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 56000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-121",
+    "group_id": "grp-dig-10",
+    "owner_account_id": "acc-host-dig-10",
+    "media_type": "Digital",
+    "title": "Inshorts News Banner - Premium Ad Block",
+    "parent_network": "Inshorts",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "300K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 60000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-122",
+    "group_id": "grp-dig-11",
+    "owner_account_id": "acc-host-dig-11",
+    "media_type": "Digital",
+    "title": "Moneycontrol FinTech Section - Premium Ad Block",
+    "parent_network": "Moneycontrol",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "320K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 64000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-123",
+    "group_id": "grp-dig-12",
+    "owner_account_id": "acc-host-dig-12",
+    "media_type": "Digital",
+    "title": "Zomato In-App Splash - Premium Ad Block",
+    "parent_network": "Zomato",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "340K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 68000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-124",
+    "group_id": "grp-dig-13",
+    "owner_account_id": "acc-host-dig-13",
+    "media_type": "Digital",
+    "title": "NDTV Food Section banner - Premium Ad Block",
+    "parent_network": "NDTV",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "360K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 72000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-125",
+    "group_id": "grp-dig-14",
+    "owner_account_id": "acc-host-dig-14",
+    "media_type": "Digital",
+    "title": "Cricbuzz Banner Slot - Premium Ad Block",
+    "parent_network": "Cricbuzz",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "380K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 76000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-126",
+    "group_id": "grp-dig-15",
+    "owner_account_id": "acc-host-dig-15",
+    "media_type": "Digital",
+    "title": "Inshorts News Banner - Premium Ad Block",
+    "parent_network": "Inshorts",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "400K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 80000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-127",
+    "group_id": "grp-dig-16",
+    "owner_account_id": "acc-host-dig-16",
+    "media_type": "Digital",
+    "title": "Moneycontrol FinTech Section - Premium Ad Block",
+    "parent_network": "Moneycontrol",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "420K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 84000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-128",
+    "group_id": "grp-dig-17",
+    "owner_account_id": "acc-host-dig-17",
+    "media_type": "Digital",
+    "title": "Zomato In-App Splash - Premium Ad Block",
+    "parent_network": "Zomato",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "440K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 88000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-129",
+    "group_id": "grp-dig-18",
+    "owner_account_id": "acc-host-dig-18",
+    "media_type": "Digital",
+    "title": "NDTV Food Section banner - Premium Ad Block",
+    "parent_network": "NDTV",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "460K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 92000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-130",
+    "group_id": "grp-dig-19",
+    "owner_account_id": "acc-host-dig-19",
+    "media_type": "Digital",
+    "title": "Cricbuzz Banner Slot - Premium Ad Block",
+    "parent_network": "Cricbuzz",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "480K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 96000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-131",
+    "group_id": "grp-dig-20",
+    "owner_account_id": "acc-host-dig-20",
+    "media_type": "Digital",
+    "title": "Inshorts News Banner - Premium Ad Block",
+    "parent_network": "Inshorts",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "500K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 100000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-132",
+    "group_id": "grp-dig-21",
+    "owner_account_id": "acc-host-dig-21",
+    "media_type": "Digital",
+    "title": "Moneycontrol FinTech Section - Premium Ad Block",
+    "parent_network": "Moneycontrol",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "520K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 104000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-133",
+    "group_id": "grp-dig-22",
+    "owner_account_id": "acc-host-dig-22",
+    "media_type": "Digital",
+    "title": "Zomato In-App Splash - Premium Ad Block",
+    "parent_network": "Zomato",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "540K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 108000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-134",
+    "group_id": "grp-dig-23",
+    "owner_account_id": "acc-host-dig-23",
+    "media_type": "Digital",
+    "title": "NDTV Food Section banner - Premium Ad Block",
+    "parent_network": "NDTV",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "560K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 112000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-135",
+    "group_id": "grp-dig-24",
+    "owner_account_id": "acc-host-dig-24",
+    "media_type": "Digital",
+    "title": "Cricbuzz Banner Slot - Premium Ad Block",
+    "parent_network": "Cricbuzz",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "580K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 116000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-136",
+    "group_id": "grp-dig-25",
+    "owner_account_id": "acc-host-dig-25",
+    "media_type": "Digital",
+    "title": "Inshorts News Banner - Premium Ad Block",
+    "parent_network": "Inshorts",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "600K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 120000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-137",
+    "group_id": "grp-dig-26",
+    "owner_account_id": "acc-host-dig-26",
+    "media_type": "Digital",
+    "title": "Moneycontrol FinTech Section - Premium Ad Block",
+    "parent_network": "Moneycontrol",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "620K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 124000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-138",
+    "group_id": "grp-dig-27",
+    "owner_account_id": "acc-host-dig-27",
+    "media_type": "Digital",
+    "title": "Zomato In-App Splash - Premium Ad Block",
+    "parent_network": "Zomato",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "640K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 128000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-139",
+    "group_id": "grp-dig-28",
+    "owner_account_id": "acc-host-dig-28",
+    "media_type": "Digital",
+    "title": "NDTV Food Section banner - Premium Ad Block",
+    "parent_network": "NDTV",
+    "geography": [
+      "Pan-India",
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "660K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 132000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-dig-140",
+    "group_id": "grp-dig-29",
+    "owner_account_id": "acc-host-dig-29",
+    "media_type": "Digital",
+    "title": "Cricbuzz Banner Slot - Premium Ad Block",
+    "parent_network": "Cricbuzz",
+    "geography": [
+      "Pan-India",
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "visibility_metric": "680K monthly clicks",
+    "reach_source": "Google Analytics reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 136000,
+    "formats": [
+      "250x250 Banner Box",
+      "Header Interstitial Box",
+      "Sponsored Native Post"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-141",
+    "group_id": "grp-trp-0",
+    "owner_account_id": "acc-host-trp-0",
+    "media_type": "TV",
+    "title": "Star Sports Plus Prime Slot Spot",
+    "parent_network": "Star",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M viewers",
+    "reach_source": "BARC reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 80000,
+    "formats": [
+      "10s Prime video spot"
+    ],
+    "state": "published",
+    "verified": false,
+    "image_url": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-142",
+    "group_id": "grp-trp-1",
+    "owner_account_id": "acc-host-trp-1",
+    "media_type": "Radio",
+    "title": "Radio City 91.1 FM Prime Slot Spot",
+    "parent_network": "Radio",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "350K listeners",
+    "reach_source": "IRS reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 105000,
+    "formats": [
+      "30s Audio slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-143",
+    "group_id": "grp-trp-2",
+    "owner_account_id": "acc-host-trp-2",
+    "media_type": "Print",
+    "title": "Times of India Delhi Edition Prime Slot Spot",
+    "parent_network": "Times",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.8M circulation",
+    "reach_source": "ABC circulation data",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 130000,
+    "formats": [
+      "Quarter page block"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-144",
+    "group_id": "grp-trp-3",
+    "owner_account_id": "acc-host-trp-3",
+    "media_type": "TV",
+    "title": "Zee TV Prime Slot Prime Slot Spot",
+    "parent_network": "Zee",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M viewers",
+    "reach_source": "BARC reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 155000,
+    "formats": [
+      "10s Prime video spot"
+    ],
+    "state": "published",
+    "verified": false,
+    "image_url": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-145",
+    "group_id": "grp-trp-4",
+    "owner_account_id": "acc-host-trp-4",
+    "media_type": "Radio",
+    "title": "Fever 104 FM Prime Slot Spot",
+    "parent_network": "Fever",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "350K listeners",
+    "reach_source": "IRS reports",
+    "reach_date": "June 2026",
+    "price_band": "₹50K - ₹2L",
+    "raw_price": 180000,
+    "formats": [
+      "30s Audio slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-146",
+    "group_id": "grp-trp-5",
+    "owner_account_id": "acc-host-trp-5",
+    "media_type": "TV",
+    "title": "Star Sports Plus Prime Slot Spot",
+    "parent_network": "Star",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M viewers",
+    "reach_source": "BARC reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 205000,
+    "formats": [
+      "10s Prime video spot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-147",
+    "group_id": "grp-trp-6",
+    "owner_account_id": "acc-host-trp-6",
+    "media_type": "Radio",
+    "title": "Radio City 91.1 FM Prime Slot Spot",
+    "parent_network": "Radio",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "350K listeners",
+    "reach_source": "IRS reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 230000,
+    "formats": [
+      "30s Audio slot"
+    ],
+    "state": "published",
+    "verified": false,
+    "image_url": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-148",
+    "group_id": "grp-trp-7",
+    "owner_account_id": "acc-host-trp-7",
+    "media_type": "Print",
+    "title": "Times of India Delhi Edition Prime Slot Spot",
+    "parent_network": "Times",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.8M circulation",
+    "reach_source": "ABC circulation data",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 255000,
+    "formats": [
+      "Quarter page block"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-149",
+    "group_id": "grp-trp-8",
+    "owner_account_id": "acc-host-trp-8",
+    "media_type": "TV",
+    "title": "Zee TV Prime Slot Prime Slot Spot",
+    "parent_network": "Zee",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M viewers",
+    "reach_source": "BARC reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 280000,
+    "formats": [
+      "10s Prime video spot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-150",
+    "group_id": "grp-trp-9",
+    "owner_account_id": "acc-host-trp-9",
+    "media_type": "Radio",
+    "title": "Fever 104 FM Prime Slot Spot",
+    "parent_network": "Fever",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "350K listeners",
+    "reach_source": "IRS reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 305000,
+    "formats": [
+      "30s Audio slot"
+    ],
+    "state": "published",
+    "verified": false,
+    "image_url": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-151",
+    "group_id": "grp-trp-10",
+    "owner_account_id": "acc-host-trp-10",
+    "media_type": "TV",
+    "title": "Star Sports Plus Prime Slot Spot",
+    "parent_network": "Star",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M viewers",
+    "reach_source": "BARC reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 330000,
+    "formats": [
+      "10s Prime video spot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-152",
+    "group_id": "grp-trp-11",
+    "owner_account_id": "acc-host-trp-11",
+    "media_type": "Radio",
+    "title": "Radio City 91.1 FM Prime Slot Spot",
+    "parent_network": "Radio",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Technology & SaaS"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "350K listeners",
+    "reach_source": "IRS reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 355000,
+    "formats": [
+      "30s Audio slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-153",
+    "group_id": "grp-trp-12",
+    "owner_account_id": "acc-host-trp-12",
+    "media_type": "Print",
+    "title": "Times of India Delhi Edition Prime Slot Spot",
+    "parent_network": "Times",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Real Estate & Infrastructure"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.8M circulation",
+    "reach_source": "ABC circulation data",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 380000,
+    "formats": [
+      "Quarter page block"
+    ],
+    "state": "published",
+    "verified": false,
+    "image_url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-154",
+    "group_id": "grp-trp-13",
+    "owner_account_id": "acc-host-trp-13",
+    "media_type": "TV",
+    "title": "Zee TV Prime Slot Prime Slot Spot",
+    "parent_network": "Zee",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Healthcare & Wellness"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M viewers",
+    "reach_source": "BARC reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 405000,
+    "formats": [
+      "10s Prime video spot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-155",
+    "group_id": "grp-trp-14",
+    "owner_account_id": "acc-host-trp-14",
+    "media_type": "Radio",
+    "title": "Fever 104 FM Prime Slot Spot",
+    "parent_network": "Fever",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Automobiles"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "350K listeners",
+    "reach_source": "IRS reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 430000,
+    "formats": [
+      "30s Audio slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-156",
+    "group_id": "grp-trp-15",
+    "owner_account_id": "acc-host-trp-15",
+    "media_type": "TV",
+    "title": "Star Sports Plus Prime Slot Spot",
+    "parent_network": "Star",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Entertainment & Sports"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M viewers",
+    "reach_source": "BARC reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 455000,
+    "formats": [
+      "10s Prime video spot"
+    ],
+    "state": "published",
+    "verified": false,
+    "image_url": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-157",
+    "group_id": "grp-trp-16",
+    "owner_account_id": "acc-host-trp-16",
+    "media_type": "Radio",
+    "title": "Radio City 91.1 FM Prime Slot Spot",
+    "parent_network": "Radio",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "Finance & Insurance"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "350K listeners",
+    "reach_source": "IRS reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 480000,
+    "formats": [
+      "30s Audio slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-158",
+    "group_id": "grp-trp-17",
+    "owner_account_id": "acc-host-trp-17",
+    "media_type": "Print",
+    "title": "Times of India Delhi Edition Prime Slot Spot",
+    "parent_network": "Times",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Food & Hospitality"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "1.8M circulation",
+    "reach_source": "ABC circulation data",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 505000,
+    "formats": [
+      "Quarter page block"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-159",
+    "group_id": "grp-trp-18",
+    "owner_account_id": "acc-host-trp-18",
+    "media_type": "TV",
+    "title": "Zee TV Prime Slot Prime Slot Spot",
+    "parent_network": "Zee",
+    "geography": [
+      "Mumbai"
+    ],
+    "niche_tags": [
+      "FMCG"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "2.5M viewers",
+    "reach_source": "BARC reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 530000,
+    "formats": [
+      "10s Prime video spot"
+    ],
+    "state": "published",
+    "verified": false,
+    "image_url": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "lst-trp-160",
+    "group_id": "grp-trp-19",
+    "owner_account_id": "acc-host-trp-19",
+    "media_type": "Radio",
+    "title": "Fever 104 FM Prime Slot Spot",
+    "parent_network": "Fever",
+    "geography": [
+      "Delhi-NCR"
+    ],
+    "niche_tags": [
+      "Fashion & Lifestyle"
+    ],
+    "language": [
+      "Hindi",
+      "English"
+    ],
+    "visibility_metric": "350K listeners",
+    "reach_source": "IRS reports",
+    "reach_date": "June 2026",
+    "price_band": "₹2L - ₹10L",
+    "raw_price": 555000,
+    "formats": [
+      "30s Audio slot"
+    ],
+    "state": "published",
+    "verified": true,
+    "image_url": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=800"
+  }
+]

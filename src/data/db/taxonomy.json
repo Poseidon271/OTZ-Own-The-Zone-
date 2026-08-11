@@ -1,0 +1,66 @@
+{
+  "niches": [
+    "FMCG",
+    "Fashion & Lifestyle",
+    "Technology & SaaS",
+    "Real Estate & Infrastructure",
+    "Healthcare & Wellness",
+    "Automobiles",
+    "Entertainment & Sports",
+    "Education & EdTech",
+    "Finance & Insurance",
+    "Food & Hospitality"
+  ],
+  "goals": [
+    {
+      "value": "awareness",
+      "label": "Brand Awareness"
+    },
+    {
+      "value": "app downloads",
+      "label": "App Downloads"
+    },
+    {
+      "value": "subscribers",
+      "label": "Increase Subscribers"
+    },
+    {
+      "value": "orders",
+      "label": "Drive Orders/Sales"
+    },
+    {
+      "value": "portal visits",
+      "label": "Portal Visits"
+    },
+    {
+      "value": "footfall",
+      "label": "Increase Footfall"
+    }
+  ],
+  "media_types": [
+    "TV",
+    "Print",
+    "Radio",
+    "OOH",
+    "Digital",
+    "Influencer-Creator",
+    "Event or Venue",
+    "Production partner"
+  ],
+  "cities": [
+    "Mumbai",
+    "Delhi-NCR"
+  ],
+  "price_bands": [
+    "₹10K - ₹50K",
+    "₹50K - ₹2L",
+    "₹2L - ₹10L",
+    "₹10L+"
+  ],
+  "visibility_bands": [
+    "< 100K views",
+    "100K - 500K views",
+    "500K - 2M views",
+    "2M+ views"
+  ]
+}

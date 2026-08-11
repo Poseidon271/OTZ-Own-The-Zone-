@@ -1,0 +1,22 @@
+[
+  {
+    "id": "usr-ops-1",
+    "account_id": "acc-ops-1",
+    "name": "Operations Manager",
+    "email": "ops@otz.com",
+    "phone": "9999999999",
+    "role": "ops",
+    "created_at": "2026-08-11T21:20:23.575Z"
+  },
+  {
+    "id": "use-ut592kvpq",
+    "account_id": "acc-nyf40ihjz",
+    "name": "Aditya",
+    "email": "divyamlohaniwal@gmail.com",
+    "phone": "9891981700",
+    "role": "host",
+    "last_login_at": "2026-08-11T21:20:35.374Z",
+    "created_at": "2026-08-11T21:20:23.585Z",
+    "updated_at": "2026-08-11T21:20:35.375Z"
+  }
+]

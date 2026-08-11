@@ -1,0 +1,19 @@
+[
+  {
+    "id": "acc-ops-1",
+    "role": "ops",
+    "name": "Own The Zone Team",
+    "company": "OTZ Ops",
+    "state": "verified",
+    "created_at": "2026-08-11T21:20:23.574Z"
+  },
+  {
+    "id": "acc-nyf40ihjz",
+    "name": "Aditya",
+    "company": "bitbucks",
+    "role": "host",
+    "state": "verified",
+    "created_at": "2026-08-11T21:20:23.584Z",
+    "updated_at": "2026-08-11T21:20:35.374Z"
+  }
+]

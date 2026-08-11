@@ -5,20 +5,20 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const BagContext = createContext();
 
 export function BagProvider({ children }) {
-  const [bag, setBag] = useState([]);
-  const [isBagOpen, setIsBagOpen] = useState(false);
-
-  // Load bag from localStorage on mount (client-side only)
-  useEffect(() => {
-    const savedBag = localStorage.getItem("otz_bag");
-    if (savedBag) {
-      try {
-        setBag(JSON.parse(savedBag));
-      } catch (e) {
-        console.error("Failed to parse saved bag items", e);
+  const [bag, setBag] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedBag = localStorage.getItem("otz_bag");
+      if (savedBag) {
+        try {
+          return JSON.parse(savedBag);
+        } catch (e) {
+          console.error("Failed to parse saved bag items", e);
+        }
       }
     }
-  }, []);
+    return [];
+  });
+  const [isBagOpen, setIsBagOpen] = useState(false);
 
   // Sync bag to localStorage whenever it changes
   const saveBag = (newBag) => {

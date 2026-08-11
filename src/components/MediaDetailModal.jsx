@@ -2,14 +2,17 @@
 
 import React from "react";
 import { useBag } from "@/context/BagContext";
+import MdiIcon from "@/components/MdiIcon";
 
 export default function MediaDetailModal({ asset, onClose }) {
   const { addToBag, removeFromBag, isInBag } = useBag();
   const [expandedImage, setExpandedImage] = React.useState(null);
+  const [prevAsset, setPrevAsset] = React.useState(asset);
 
-  React.useEffect(() => {
+  if (asset !== prevAsset) {
+    setPrevAsset(asset);
     setExpandedImage(null);
-  }, [asset]);
+  }
 
   if (!asset) return null;
 
@@ -50,27 +53,14 @@ export default function MediaDetailModal({ asset, onClose }) {
       ></div>
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl flex flex-col animate-scale-up max-h-[90vh] dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200">
+      <div className="relative w-full max-w-2xl frost-card rounded-3xl overflow-hidden flex flex-col animate-scale-up max-h-[90vh] transition-colors duration-200">
         {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-slate-500 hover:text-slate-900 p-2 rounded-xl hover:bg-slate-100 backdrop-blur-md transition-colors z-20 border border-slate-200 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-950/50 dark:border-slate-800/40"
           title="Close Modal"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2.5"
-            stroke="currentColor"
-            className="h-5 w-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <MdiIcon name="close" className="text-xl" />
         </button>
 
         {/* Visual Header Banner */}
@@ -91,31 +81,13 @@ export default function MediaDetailModal({ asset, onClose }) {
           {/* Absolute bottom details */}
           <div className="absolute bottom-5 left-6 right-6">
             <p className="text-xs font-semibold text-violet-600 dark:text-violet-400 flex items-center mb-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                className="mr-1 h-3.5 w-3.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                />
-              </svg>
+              <MdiIcon name="map-marker-outline" className="mr-1 text-base" />
               {asset.location}
             </p>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-2xl flex flex-wrap items-center gap-2">
               <span>{asset.title}</span>
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-800/40">
-                ✓ Verified Spot
+                <MdiIcon name="check-decagram" className="text-emerald-500 text-sm" /> Verified Spot
               </span>
             </h3>
           </div>
@@ -156,20 +128,7 @@ export default function MediaDetailModal({ asset, onClose }) {
           {/* Creative Specs Panel */}
           <div className="rounded-2xl border border-slate-200 bg-slate-100/40 p-4 dark:border-slate-800/80 dark:bg-slate-950/40">
             <h4 className="text-xs font-bold uppercase tracking-wider text-violet-650 dark:text-violet-400 mb-2 flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                className="mr-1.5 h-4 w-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.813 15.904L9 21l8.904-4.473L21 21l-8.904-4.473L9.813 15.904zM3 21h18M3 10h18M3 6h18"
-                />
-              </svg>
+              <MdiIcon name="file-cog-outline" className="mr-1.5 text-base" />
               Creative & Technical Requirements
             </h4>
             <p className="text-xs text-slate-700 dark:text-slate-300 font-medium leading-relaxed font-mono">
@@ -180,20 +139,7 @@ export default function MediaDetailModal({ asset, onClose }) {
           {/* Availability Timeline Section */}
           <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-4 dark:border-slate-800/80 dark:bg-slate-950/20">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-505 mb-3 flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                className="mr-1.5 h-4 w-4 text-violet-500"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                />
-              </svg>
+              <MdiIcon name="calendar-clock-outline" className="mr-1.5 text-base text-violet-500" />
               Availability Timeline (Next 6 Months)
             </h4>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
@@ -223,7 +169,7 @@ export default function MediaDetailModal({ asset, onClose }) {
           {/* Past Executions / Proof of Performance Gallery */}
           <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-4 dark:border-slate-800/80 dark:bg-slate-950/20">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-3 flex items-center">
-              <span className="mr-1.5 text-emerald-500">🛡️</span>
+              <MdiIcon name="shield-check-outline" className="mr-1.5 text-base text-emerald-500" />
               Past Executions / Proof of Performance
             </h4>
 
@@ -240,9 +186,7 @@ export default function MediaDetailModal({ asset, onClose }) {
                   className="absolute top-3.5 right-3.5 rounded-full bg-slate-950/70 hover:bg-slate-950 text-white p-2 transition-colors cursor-pointer"
                   title="Close Preview"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-3.5 h-3.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  <MdiIcon name="close" className="text-xs" />
                 </button>
               </div>
             )}

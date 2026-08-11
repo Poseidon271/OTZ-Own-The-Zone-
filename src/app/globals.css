@@ -1,71 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap');
 @import "tailwindcss";
+@import "@mdi/font/css/materialdesignicons.min.css";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
+/* Design Tokens & CSS Variables */
 :root {
-  --background: #f9fafb;
-  --foreground: #0f172a;
+  /* Default Light Theme (Grid White canvas) */
+  --surface-canvas: #F6F7F9;
+  --surface-raised: #FFFFFF;
+  --surface-subtle: #EDEFF3;
+  --surface-inverse: #0B1E3B;
+  
+  --border-default: #D9DEE2;
+  --border-strong: #B6BFC9;
+  --border-focus: #FF5A1F;
+  
+  --text-primary: #1C2430;
+  --text-secondary: #55606E;
+  --text-tertiary: #8A94A1;
+  --text-inverse: #FFFFFF;
+  
+  --action-primary: #FF5A1F;
+  --action-primary-hover: #E64E15;
+  --action-primary-active: #CC450F;
+  --action-primary-disabled: #FFC4AE;
+  
+  --status-success: #2BD67B;
+  --status-success-text: #0F7A43;
+  --status-warning: #C77700;
+  --status-error: #D64545;
+  --status-featured: #F5B31E;
+
+  /* Shadows (Navy-tinted rgba(11,30,59,...)) */
+  --shadow-raised: 0 1px 2px rgba(11,30,59,0.06);
+  --shadow-floating: 0 4px 12px rgba(11,30,59,0.10);
+  --shadow-modal: 0 16px 40px rgba(11,30,59,0.18);
+  
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-ui: 'Inter', sans-serif;
 }
 
-.dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
+/* Dark Theme overrides (Midnight Zone canvas) */
+.theme-dark {
+  --surface-canvas: #0B1E3B;
+  --surface-raised: #132A4F;
+  --surface-subtle: #08172D;
+  --surface-inverse: #F6F7F9;
+  
+  --border-default: #1E375C;
+  --border-strong: #2F4D78;
+  
+  --text-primary: #FFFFFF;
+  --text-secondary: #A5B5CD;
+  --text-tertiary: #677E9E;
+  --text-inverse: #1C2430;
+
+  --shadow-raised: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-floating: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-modal: 0 16px 48px rgba(0,0,0,0.5);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* Base Body settings */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--surface-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-ui), sans-serif;
+  transition: background-color 0.22s ease-out, color 0.22s ease-out;
+  min-height: 100vh;
 }
 
-@media print {
-  .no-print {
-    display: none !important;
+/* Custom theme overrides to bypass original CSS overrides */
+/* Set clean default transitions */
+.transition-theme {
+  transition: all 0.22s ease-out;
+}
+
+/* Typography styles based on PRD Section 8.3 */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-ui {
+  font-family: var(--font-ui);
+}
+
+/* Headings */
+.text-display {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 700;
+}
+@media (max-width: 768px) {
+  .text-display {
+    font-size: 32px;
+    line-height: 36px;
   }
 }
 
-/* Custom premium transitions */
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+}
+
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: 23px;
+  line-height: 30px;
+  font-weight: 600;
+}
+
+.text-h3 {
+  font-family: var(--font-ui);
+  font-size: 19px;
+  line-height: 26px;
+  font-weight: 600;
+}
+
+.text-body-default {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.text-body-strong {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.text-small {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.text-caption-default {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+/* Ensure money values have tabular alignment */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Focus state token (Section 8.2 & 8.5) */
+.focus-ring:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--border-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Button Component Specs (Section 8.5) */
+.btn-primary {
+  background-color: var(--action-primary);
+  color: #0B1E3B; /* Midnight Zone label text for AA contrast compliance */
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  height: 44px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--action-primary-hover);
+}
+
+.btn-primary:active:not(:disabled) {
+  background-color: var(--action-primary-active);
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  background-color: var(--action-primary-disabled);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  height: 44px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out;
+  cursor: pointer;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--surface-subtle);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Forms & inputs (Section 8.5) */
+.input-field {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+  border-radius: 6px;
+  height: 44px;
+  padding: 0 14px;
+  font-size: 14px;
+  width: 100%;
+  transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+.input-field.error {
+  border-color: var(--status-error) !important;
+}
+
+/* Card classes */
+.card-raised {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  box-shadow: var(--shadow-raised);
+  transition: transform 0.22s ease-out, box-shadow 0.22s ease-out, border-color 0.22s ease-out;
+}
+
+.card-raised:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-floating);
+  border-color: var(--border-strong);
+}
+
+/* Micro-animations */
+.animate-sweep-green {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-sweep-green::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(43, 214, 123, 0.2), transparent);
+  transition: all 0.6s ease;
+}
+
+.animate-sweep-green:hover::after {
+  left: 100%;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.22s ease-out forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes scaleUp {
-  from { transform: scale(0.95); opacity: 0; }
+  from { transform: scale(0.97); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
-
-@keyframes slideUp {
-  from { transform: translate(-50%, 2rem) scale(0.95); opacity: 0; }
-  to { transform: translate(-50%, 0) scale(1); opacity: 1; }
-}
-
-@keyframes toastSlideIn {
-  from { transform: translate(-50%, -2rem); opacity: 0; }
-  to { transform: translate(-50%, 0); opacity: 1; }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.2s ease-out forwards;
-}
-
-.animate-scale-up {
-  animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-toast-slide-in {
-  animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
