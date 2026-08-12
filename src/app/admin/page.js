@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import MdiIcon from "@/components/MdiIcon";
 
+// Import ScrollX primitives
+import { ColumnLines } from "@/components/scrollx/column-lines";
+import { ShinyButton } from "@/components/scrollx/shiny-button";
+import { VercelCard } from "@/components/scrollx/vercel-card";
+import { AnimatedCounter } from "@/components/scrollx/statscount";
+import { OtzTerminal } from "@/components/scrollx/otz-terminal";
+
 export default function AdminPage() {
   const router = useRouter();
 
@@ -200,59 +207,74 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="theme-light min-h-screen bg-[#F6F7F9] flex items-center justify-center">
-        <div className="text-slate-900 text-sm animate-pulse">Initializing Administrative dashboard panels...</div>
+      <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] flex items-center justify-center">
+        <div className="text-white text-sm animate-pulse">Initializing Administrative Console...</div>
       </div>
     );
   }
 
-  // Get dynamic stage colors
+  // Get stage colors helper
   const getStageColorClass = (stage) => {
     const s = stage?.toLowerCase() || "";
     if (s.includes("confirm") || s.includes("live") || s.includes("complete")) {
-      return "bg-emerald-50 text-[var(--status-success-text)] border-emerald-200";
+      return "bg-emerald-500/10 text-emerald-450 border-emerald-900/30";
     }
     if (s.includes("quote") || s.includes("review")) {
-      return "bg-amber-50 text-[var(--status-warning)] border-amber-200";
+      return "bg-amber-500/10 text-amber-400 border-amber-900/30";
     }
-    return "bg-slate-100 text-slate-700 border-slate-200";
+    return "bg-slate-500/10 text-slate-400 border-slate-900/30";
   };
 
   // Compute Analytics conversion counts dynamically (Section 9.2)
-  const stats = {
-    sessionHits: 1200,
-    popupViews: 980,
-    ProfilingCompletes: 450,
-    verifiedLeads: accounts.length + 15, // verified user accounts
-    enquiriesSubmitted: enquiries.length,
-    quotesShared: enquiries.filter(e => e.stage === "Quote shared").length,
-    bookingsConfirmed: enquiries.filter(e => ["Confirmed", "Live", "Completed"].includes(e.stage)).length
-  };
+  const statsList = [
+    { label: "Accounts Verified", value: accounts.length + 15, suffix: "" },
+    { label: "Enquiries Submitted", value: enquiries.length, suffix: "" },
+    { label: "Quotes Shared", value: enquiries.filter(e => e.stage === "Quote shared").length, suffix: "" },
+    { label: "Bookings Confirmed", value: enquiries.filter(e => ["Confirmed", "Live", "Completed"].includes(e.stage)).length, suffix: "" }
+  ];
+
+  const adminTerminalCommands = [
+    { text: "> initializing admin audit trail listener...", color: "text-[var(--text-secondary)]" },
+    { text: "✓ session.verify(): usr-ops-1 session authorized", color: "text-emerald-500" },
+    { text: `✓ database.import_listings(): ${listings.length} properties verified`, color: "text-[#FF5A1F]" },
+    { text: "✓ enquiry.assign_ops(): enquiries list loaded", color: "text-emerald-500" },
+    { text: "✓ admin.moderation(): system idle", color: "text-[var(--text-secondary)]" }
+  ];
 
   return (
-    <div className="theme-light min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] pb-16">
+    <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] pb-16 relative overflow-hidden font-sans">
+      {/* Background ScrollX Grid Lines */}
+      <ColumnLines
+        columnWidth={80}
+        columnCount={16}
+        radialFadeStart={35}
+        radialFadeEnd={80}
+        noiseOpacity={0.03}
+        className="absolute inset-0 z-0 pointer-events-none"
+      />
+
       <Navbar onLogoClick={() => router.push("/")} />
 
-      <main className="max-w-7xl mx-auto px-6 pt-24 space-y-8">
+      <main className="max-w-7xl mx-auto px-6 pt-24 space-y-8 relative z-10 text-left">
         
         {/* Console Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[var(--border-default)] pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[var(--border-default)] pb-6 w-full">
           <div>
-            <div className="flex items-center gap-1.5 text-xs text-[var(--text-secondary)] font-bold">
-              <span className="h-1.5 w-1.5 bg-[var(--border-focus)] rounded-full animate-pulse" />
+            <div className="flex items-center gap-1.5 text-[10px] text-[var(--text-secondary)] font-bold uppercase tracking-wider">
+              <span className="h-1.5 w-1.5 bg-[var(--action-primary)] rounded-full animate-pulse" />
               <span>CONTROL CONSOLE &bull; Least-Privilege Enforced</span>
             </div>
-            <h1 className="text-h1 text-[var(--text-primary)] font-display mt-1">OTZ Operations Center</h1>
+            <h1 className="text-2xl font-black text-white font-display mt-1">OTZ Operations Center</h1>
           </div>
 
           {/* Navigation Tab selectors */}
-          <div className="flex flex-wrap p-1 bg-slate-100 rounded-xl border border-[var(--border-default)]">
+          <div className="flex flex-wrap p-1 bg-[var(--surface-raised)]/60 rounded-xl border border-[var(--border-default)]">
             {["enquiries", "moderation", "seeder", "accounts", "analytics", "audit"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors uppercase tracking-wider cursor-pointer ${
-                  activeTab === tab ? "bg-[#0B1E3B] text-white" : "text-[var(--text-secondary)] hover:text-black"
+                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer capitalize ${
+                  activeTab === tab ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
                 }`}
               >
                 {tab}
@@ -261,418 +283,408 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* ENQUIRIES PIPELINE MANAGER PANEL */}
+        {/* 1. ENQUIRIES & PIPELINE MANAGER TAB */}
         {activeTab === "enquiries" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in">
-            {/* Enquiry list table (Column Left) */}
-            <div className="lg:col-span-7 space-y-4">
-              <h3 className="text-h3 font-bold">Demand Pipeline Queue</h3>
-
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
+            {/* Pipeline List aside */}
+            <div className="lg:col-span-7 space-y-4 w-full">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-white">Campaign Pipeline Rows</h3>
               {enquiries.length > 0 ? (
-                <div className="space-y-3">
+                <div className="grid grid-cols-1 gap-4">
                   {enquiries.map((enq) => (
-                    <div
+                    <VercelCard
                       key={enq.id}
+                      bordered={true}
+                      glowEffect={true}
+                      animateOnHover={false}
                       onClick={() => {
                         setSelectedEnquiry(enq);
                         setPipelineForm({ stage: enq.stage, assignee: enq.assignee, noteText: "" });
-                        setPipelineSuccess(false);
                       }}
-                      className={`p-5 bg-white border rounded-xl shadow-sm cursor-pointer transition-all hover:border-[var(--border-strong)] ${
-                        selectedEnquiry?.id === enq.id ? "border-[var(--border-focus)] ring-2 ring-[var(--border-focus)]/10" : "border-[var(--border-default)]"
-                      }`}
+                      className={cn("p-1 bg-[var(--surface-raised)]/40 rounded-xl text-left w-full h-full cursor-pointer", selectedEnquiry?.id === enq.id && "border-[var(--action-primary)]")}
                     >
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-wider block">
-                            {enq.type} &bull; ID: {enq.id}
-                          </span>
-                          <h4 className="text-body-strong text-[var(--text-primary)] mt-0.5">{enq.listingTitle}</h4>
-                          <span className="text-[10px] font-bold text-[var(--text-secondary)]">Client: {enq.userCompany} ({enq.userName})</span>
+                      <div className="p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 w-full">
+                        <div className="space-y-1 text-left">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] font-mono">ENQ: {enq.id}</span>
+                            <span className="text-[9px] text-[var(--text-secondary)]">&bull; {enq.brandCompany}</span>
+                          </div>
+                          <h4 className="text-sm font-bold text-white line-clamp-1">{enq.listingTitle}</h4>
+                          <p className="text-[10px] text-[var(--text-secondary)] font-semibold flex gap-2">
+                            <span>Assignee: {enq.assignee === "ops-unassigned" ? "Unassigned" : enq.assignee}</span>
+                            <span>&bull;</span>
+                            <span>Stage: {enq.stage}</span>
+                          </p>
                         </div>
-
-                        <div className={`px-3 py-1 rounded-full border text-xs font-bold ${getStageColorClass(enq.stage)}`}>
+                        <div className={`px-3 py-1 rounded-full border text-[10px] font-bold shrink-0 ${getStageColorClass(enq.stage)}`}>
                           {enq.stage}
                         </div>
                       </div>
-                    </div>
+                    </VercelCard>
                   ))}
                 </div>
               ) : (
-                <div className="p-8 bg-white border border-[var(--border-default)] rounded-xl text-center text-slate-400">
-                  <MdiIcon name="email-open-outline" className="text-4xl block mx-auto mb-2 text-slate-300" />
-                  <p className="text-small">No demand inquiries captured in current database state.</p>
+                <div className="p-8 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-500">
+                  <MdiIcon name="inbox-outline" className="text-4xl block mx-auto mb-2" />
+                  <p className="text-xs">No campaign demand enquiries logged in the pipeline.</p>
                 </div>
               )}
             </div>
 
-            {/* Pipeline workflow editor (Column Right - Section 6.3) */}
-            <div className="lg:col-span-5">
+            {/* Selected Enquiry Pipeline update Panel */}
+            <div className="lg:col-span-5 w-full">
               {selectedEnquiry ? (
-                <div className="p-6 bg-white border border-[var(--border-default)] rounded-xl shadow-sm space-y-6 animate-scale-up">
-                  <div>
-                    <h3 className="text-h3 font-bold">Manage Workflow Stage</h3>
-                    <p className="text-caption-default text-[var(--text-secondary)] mt-0.5">Enquiry ID: {selectedEnquiry.id}</p>
-                  </div>
-
-                  {/* Client Information */}
-                  <div className="p-4 bg-slate-50 border border-[var(--border-default)] rounded-lg text-xs space-y-2">
-                    <div>
-                      <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] block">Sender Details</span>
-                      <span className="font-bold text-[var(--text-primary)]">{selectedEnquiry.userName} ({selectedEnquiry.userCompany})</span>
-                      <span className="block text-[var(--text-secondary)] mt-0.5">{selectedEnquiry.userPhone} | {selectedEnquiry.userEmail}</span>
+                <VercelCard bordered={true} className="p-2 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl w-full text-left font-sans">
+                  <div className="p-6 space-y-6 w-full">
+                    <div className="border-b border-[var(--border-default)] pb-4 w-full">
+                      <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)]">Campaign Details Editor</span>
+                      <h4 className="text-base font-bold text-white mt-1">Enquiry #{selectedEnquiry.id}</h4>
                     </div>
-                    <div>
-                      <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] block">Message Prompt</span>
-                      <span className="italic block text-[var(--text-secondary)]">&ldquo;{selectedEnquiry.message}&rdquo;</span>
-                    </div>
-                  </div>
 
-                  {/* Stage Timeline comments history */}
-                  <div className="space-y-3 pt-2 border-t border-[var(--border-default)]">
-                    <span className="text-xs font-bold text-[var(--text-secondary)] uppercase block">Timeline Notes / Audit Logs</span>
-                    <div className="max-h-40 overflow-y-auto space-y-2 pr-1 text-xs">
-                      {selectedEnquiry.notes?.map((n, idx) => (
-                        <div key={idx} className="p-2.5 rounded bg-slate-50 border border-slate-200">
-                          <div className="flex justify-between items-center text-[9px] font-bold text-[var(--text-tertiary)] uppercase">
-                            <span>Author: {n.author}</span>
-                            <span>{new Date(n.timestamp).toLocaleString()}</span>
-                          </div>
-                          <p className="text-slate-700 mt-1">{n.text}</p>
+                    <div className="space-y-3.5 text-xs">
+                      <div>
+                        <span className="font-bold text-[var(--text-secondary)] block">Target Asset Placements:</span>
+                        <span className="text-white font-semibold">{selectedEnquiry.listingTitle}</span>
+                      </div>
+                      <div>
+                        <span className="font-bold text-[var(--text-secondary)] block">Brand Demander:</span>
+                        <span className="text-white font-semibold">{selectedEnquiry.brandName} ({selectedEnquiry.brandCompany})</span>
+                      </div>
+                      <div>
+                        <span className="font-bold text-[var(--text-secondary)] block">Contact Phone:</span>
+                        <span className="text-white font-mono font-semibold">{selectedEnquiry.brandPhone} | {selectedEnquiry.brandEmail}</span>
+                      </div>
+                      <div className="p-3 bg-[var(--surface-canvas)] rounded-lg border border-[var(--border-default)]">
+                        <span className="font-bold text-[var(--text-secondary)] block mb-1">Proposal message:</span>
+                        <p className="italic text-[var(--text-secondary)] leading-relaxed">&ldquo;{selectedEnquiry.message}&rdquo;</p>
+                      </div>
+                    </div>
+
+                    {/* Timeline Notes list */}
+                    {selectedEnquiry.notes && selectedEnquiry.notes.length > 0 && (
+                      <div className="space-y-2 border-t border-[var(--border-default)] pt-4 w-full">
+                        <span className="text-[10px] font-bold text-[var(--text-secondary)] uppercase block">Ops Notes Log</span>
+                        <div className="space-y-2 max-h-32 overflow-y-auto pr-1">
+                          {selectedEnquiry.notes.map((n, idx) => (
+                            <div key={idx} className="p-2 rounded bg-[var(--surface-canvas)] text-[10px] leading-relaxed border border-[var(--border-default)]">
+                              <div className="flex justify-between text-[8px] text-[var(--text-secondary)] font-bold uppercase mb-1">
+                                <span>{n.author}</span>
+                                <span>{new Date(n.timestamp).toLocaleDateString()}</span>
+                              </div>
+                              <p className="text-white font-medium">{n.text}</p>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Action Form */}
-                  <form onSubmit={handleUpdatePipeline} className="space-y-4 pt-2 border-t border-[var(--border-default)]">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="space-y-1">
-                        <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)]">Enquiry Stage</label>
-                        <select
-                          value={pipelineForm.stage}
-                          onChange={(e) => setPipelineForm({ ...pipelineForm, stage: e.target.value })}
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-xs font-semibold"
-                        >
-                          <option value="Enquiry received">Enquiry received</option>
-                          <option value="In review">In review</option>
-                          <option value="Quote shared">Quote shared</option>
-                          <option value="Confirmed">Confirmed (Booking)</option>
-                          <option value="Live">Live (Campaign)</option>
-                          <option value="Completed">Completed</option>
-                        </select>
                       </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)]">Assignee Operator</label>
-                        <input
-                          type="text"
-                          value={pipelineForm.assignee}
-                          onChange={(e) => setPipelineForm({ ...pipelineForm, assignee: e.target.value })}
-                          placeholder="ops-agent-1"
-                          className="input-field focus-ring text-xs"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)]">Add Comments Note</label>
-                      <textarea
-                        rows={2}
-                        value={pipelineForm.noteText}
-                        onChange={(e) => setPipelineForm({ ...pipelineForm, noteText: e.target.value })}
-                        placeholder="Type updates (e.g. quote shared at ₹1.2L via email)..."
-                        className="w-full p-2.5 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-xs resize-none"
-                      />
-                    </div>
-
-                    {pipelineSuccess && (
-                      <p className="text-xs text-[var(--status-success-text)] font-bold bg-emerald-50 p-2.5 rounded-lg border border-emerald-100">
-                        Pipeline workflow coordinates verified. Brand dashboard updated.
-                      </p>
                     )}
 
-                    <button
-                      type="submit"
-                      className="btn-primary w-full shadow focus-ring"
-                      style={{ color: "#0B1E3B" }}
-                    >
-                      Update Pipeline coordinates
-                    </button>
-                  </form>
-                </div>
+                    {/* Form Update */}
+                    <form onSubmit={handleUpdatePipeline} className="space-y-4 border-t border-[var(--border-default)] pt-4 w-full">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="space-y-1">
+                          <label className="block text-[9px] font-bold text-[var(--text-secondary)] uppercase">Pipeline Stage</label>
+                          <select
+                            value={pipelineForm.stage}
+                            onChange={(e) => setPipelineForm({ ...pipelineForm, stage: e.target.value })}
+                            className="w-full h-9 px-2 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-md text-xs cursor-pointer focus:outline-none"
+                          >
+                            <option value="Awaiting response">Awaiting response</option>
+                            <option value="In negotiations">In negotiations</option>
+                            <option value="Quote shared">Quote shared</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Live">Live</option>
+                            <option value="Completed">Completed</option>
+                          </select>
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="block text-[9px] font-bold text-[var(--text-secondary)] uppercase">Assignee Team</label>
+                          <select
+                            value={pipelineForm.assignee}
+                            onChange={(e) => setPipelineForm({ ...pipelineForm, assignee: e.target.value })}
+                            className="w-full h-9 px-2 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-md text-xs cursor-pointer focus:outline-none"
+                          >
+                            <option value="ops-unassigned">Unassigned</option>
+                            <option value="ops-mumbai">Ops Mumbai</option>
+                            <option value="ops-delhi">Ops Delhi</option>
+                            <option value="ops-digital">Ops Digital</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[9px] font-bold text-[var(--text-secondary)] uppercase">Append Progress Note</label>
+                        <input
+                          type="text"
+                          value={pipelineForm.noteText}
+                          onChange={(e) => setPipelineForm({ ...pipelineForm, noteText: e.target.value })}
+                          placeholder="e.g. Rate card approved by Times OOH team."
+                          className="w-full h-9 px-2 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-md text-xs"
+                        />
+                      </div>
+
+                      {pipelineSuccess && (
+                        <p className="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
+                          <MdiIcon name="check-bold" /> Pipeline details synchronized.
+                        </p>
+                      )}
+
+                      <ShinyButton
+                        type="submit"
+                        className="w-full py-2.5 text-xs font-bold rounded-lg shadow"
+                      >
+                        Update pipeline
+                      </ShinyButton>
+                    </form>
+                  </div>
+                </VercelCard>
               ) : (
-                <div className="p-6 bg-slate-50 border border-[var(--border-default)] rounded-xl text-center text-slate-400">
-                  <p className="text-small">Select an enquiry card from the pipeline queue to manage stages.</p>
+                <div className="p-8 rounded-xl border border-dashed border-[var(--border-default)] bg-[var(--surface-raised)]/20 text-center text-slate-500">
+                  <MdiIcon name="cursor-default-click-outline" className="text-4xl block mx-auto mb-2" />
+                  <p className="text-xs">Click any enquiry row to configure assignment and pipeline stage updates.</p>
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* MODERATION QUEUE PANEL */}
+        {/* 2. PLACEMENT MODERATION TAB */}
         {activeTab === "moderation" && (
-          <div className="space-y-6 animate-fade-in">
-            <h3 className="text-h3 font-bold">Supply Intake Verification Queue</h3>
+          <div className="space-y-4 w-full">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white">Supply Verification Moderation</h3>
 
-            {listings.filter(l => l.state !== "published").length > 0 ? (
-              <div className="grid grid-cols-1 gap-4">
-                {listings.filter(l => l.state !== "published").map((item) => (
-                  <div
+            {listings.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                {listings.map((item) => (
+                  <VercelCard
                     key={item.id}
-                    className="p-6 bg-white border border-[var(--border-default)] rounded-xl shadow-sm space-y-4"
+                    bordered={true}
+                    glowEffect={true}
+                    animateOnHover={false}
+                    className="p-1 bg-[var(--surface-raised)]/40 rounded-xl text-left w-full h-full font-sans"
                   >
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                      <div>
-                        <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-wider block">
-                          Media Type: {item.media_type} &bull; Host ID: {item.owner_account_id}
-                        </span>
-                        <h4 className="text-body-strong text-[var(--text-primary)] mt-0.5">{item.title}</h4>
-                        <div className="text-xs text-[var(--text-secondary)] font-semibold flex gap-3 mt-1">
-                          <span>Reach: {item.visibility_metric} ({item.reach_source})</span>
-                          <span>Format spec: {item.formats?.join(", ")}</span>
+                    <div className="p-5 flex flex-col justify-between h-full w-full space-y-4">
+                      <div className="text-left w-full space-y-1">
+                        <div className="flex justify-between items-center w-full">
+                          <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] font-mono">LISTING: {item.id}</span>
+                          <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider ${
+                            item.state === "published"
+                              ? "bg-emerald-500/10 text-emerald-450 border border-emerald-900/30"
+                              : item.state === "rejected"
+                              ? "bg-red-500/10 text-[var(--status-error)] border border-red-900/30"
+                              : "bg-amber-500/10 text-[var(--status-warning)] border border-amber-900/30"
+                          }`}>
+                            {item.state}
+                          </span>
+                        </div>
+                        <h4 className="text-sm font-bold text-white line-clamp-1">{item.title}</h4>
+                        <div className="text-[10px] text-[var(--text-secondary)] font-semibold flex flex-wrap gap-x-4 gap-y-1">
+                          <span>Owner: {item.owner_company}</span>
+                          <span>Reach: {item.visibility_metric} (Src: {item.reach_source})</span>
+                          <span>Rate: {item.price_band}</span>
                         </div>
                       </div>
 
-                      <div className="shrink-0 flex items-center gap-2">
-                        {/* Approve */}
-                        <button
-                          onClick={() => handlePublishListing(item.id)}
-                          className="btn-primary h-9 px-4 text-xs font-bold flex items-center gap-1"
-                          style={{ color: "#0B1E3B" }}
-                        >
-                          <MdiIcon name="check-bold" /> Publish listing
-                        </button>
-                        
-                        {/* Reject trigger */}
-                        <button
-                          onClick={() => setRejectingListingId(item.id)}
-                          className="btn-secondary h-9 px-4 text-xs font-bold flex items-center gap-1 border-red-200 text-[var(--status-error)] hover:bg-red-50"
-                        >
-                          <MdiIcon name="close" /> Reject
-                        </button>
+                      {/* Proposals spec sheet attachment details */}
+                      {item.specs && (
+                        <p className="text-[10px] text-[var(--text-secondary)] italic p-2 bg-[var(--surface-canvas)] rounded border border-[var(--border-default)]">
+                          Specs: {item.specs}
+                        </p>
+                      )}
+
+                      {/* Moderation Controls actions */}
+                      <div className="pt-3 border-t border-[var(--border-default)] flex flex-col gap-3 w-full">
+                        {rejectingListingId === item.id ? (
+                          <form
+                            onSubmit={handleRejectListing}
+                            className="flex gap-2 w-full"
+                          >
+                            <input
+                              type="text"
+                              value={rejectionReason}
+                              onChange={(e) => setRejectionReason(e.target.value)}
+                              placeholder="Reason (e.g. rate card illegible)..."
+                              className="h-9 px-2 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-md text-xs flex-grow focus:outline-none focus:border-[var(--status-error)]"
+                              required
+                            />
+                            <button
+                              type="submit"
+                              className="h-9 px-3 bg-red-650 hover:bg-red-700 text-white rounded-md text-xs font-bold cursor-pointer shrink-0"
+                            >
+                              Confirm Reject
+                            </button>
+                            <button
+                              onClick={() => setRejectingListingId(null)}
+                              className="h-9 px-3 border border-[var(--border-default)] hover:bg-[var(--surface-hover)] text-white rounded-md text-xs font-semibold cursor-pointer shrink-0"
+                            >
+                              Cancel
+                            </button>
+                          </form>
+                        ) : (
+                          <div className="flex justify-end gap-3 w-full">
+                            {item.state !== "published" && (
+                              <ShinyButton
+                                onClick={() => handlePublishListing(item.id)}
+                                className="px-4 py-2 text-xs font-bold rounded-lg"
+                              >
+                                Approve & Publish Live
+                              </ShinyButton>
+                            )}
+                            {item.state !== "rejected" && (
+                              <button
+                                onClick={() => setRejectingListingId(item.id)}
+                                className="rounded-lg border border-red-900/40 text-[var(--status-error)] hover:bg-red-500/10 px-4 py-2 text-xs font-bold cursor-pointer"
+                              >
+                                Reject Submission
+                              </button>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
-
-                    {/* Rejection comment text input */}
-                    {rejectingListingId === item.id && (
-                      <form onSubmit={handleRejectListing} className="p-4 bg-red-50/50 border border-red-200 rounded-lg flex gap-2">
-                        <input
-                          type="text"
-                          value={rejectionReason}
-                          onChange={(e) => setRejectionReason(e.target.value)}
-                          placeholder="State rejection reason details (e.g. reach metrics require audited source documentation)..."
-                          className="input-field bg-white focus-ring text-xs flex-grow"
-                          required
-                        />
-                        <button
-                          type="submit"
-                          className="btn-primary h-11 px-4 text-xs shrink-0"
-                          style={{ backgroundColor: "#D64545", color: "#FFF" }}
-                        >
-                          Submit Rejection
-                        </button>
-                      </form>
-                    )}
-                  </div>
+                  </VercelCard>
                 ))}
               </div>
             ) : (
-              <div className="p-8 bg-white border border-[var(--border-default)] rounded-xl text-center text-slate-400">
-                <p className="text-small">Moderation queue empty. All host listings published.</p>
+              <div className="p-8 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-400 w-full">
+                <MdiIcon name="check-decagram-outline" className="text-4xl block mx-auto mb-2 text-slate-500" />
+                <p className="text-xs">All host listings moderation checks cleared.</p>
               </div>
             )}
           </div>
         )}
 
-        {/* BULK CSV SEEDER IMPORT PANEL */}
+        {/* 3. CSV BULK DATA SEEDER TAB */}
         {activeTab === "seeder" && (
-          <div className="max-w-3xl bg-white p-8 rounded-2xl border border-[var(--border-default)] shadow-sm space-y-6 animate-fade-in">
-            <div>
-              <h3 className="text-h3 font-bold">CSV Bulk Seeder Console</h3>
-              <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                Bulk seed listings directly into the database. Reports error rows and validates schemas.
-              </p>
-            </div>
+          <div className="max-w-3xl w-full">
+            <VercelCard bordered={true} className="p-2 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl w-full text-left font-sans">
+              <div className="p-6 space-y-6 w-full text-left">
+                <div>
+                  <h3 className="text-lg font-bold text-white uppercase tracking-wider">CSV Catalog Seeder</h3>
+                  <p className="text-xs text-[var(--text-secondary)] mt-0.5">
+                    Bulk upload inventory listings. Format: Title, Media_Type, Parent_Network, Location, Niche, Reach, Price_Band, Price_Day, Formats
+                  </p>
+                </div>
 
-            {/* Template specs */}
-            <div className="p-4 bg-slate-50 border border-[var(--border-default)] rounded-lg text-[10px] font-mono leading-relaxed space-y-1">
-              <span className="font-bold text-[var(--text-primary)] block mb-1">CSV Template Columns Format (Separated by comma):</span>
-              <p className="text-slate-600 select-all">title,media_type,parent_network,geography,niche_tags,visibility_metric,reach_source,price_band,formats,raw_price</p>
-              <span className="font-bold text-slate-400 block pt-1">Sample Row:</span>
-              <p className="text-slate-400 select-all">Times CP Gantry billboard,OOH,Times OOH,Delhi-NCR,FMCG,1.2M weekly,BARC reports 2026,₹2L - ₹10L,Static vinyl;Backlit display,450000</p>
-            </div>
+                <form onSubmit={handleCsvImport} className="space-y-4 w-full">
+                  <div className="space-y-1">
+                    <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Raw CSV Data</label>
+                    <textarea
+                      rows="6"
+                      value={csvData}
+                      onChange={(e) => setCsvData(e.target.value)}
+                      placeholder={`Bandra Gantry Block C, OOH, Times Media, Mumbai, FMCG, 800K views, ₹10K - ₹50K, 15000, 15s loop slot
+STAR Star Plus, TV, Star Network, National Grid, FMCG, 12M reach, ₹10L+, 120000, 30s ad spot`}
+                      className="w-full p-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg text-xs font-mono focus:outline-none focus:border-[var(--action-primary)]"
+                    />
+                  </div>
 
-            <form onSubmit={handleCsvImport} className="space-y-4">
-              <textarea
-                rows={8}
-                value={csvData}
-                onChange={(e) => setCsvData(e.target.value)}
-                placeholder="Paste CSV rows here..."
-                className="w-full p-4 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] font-mono text-xs leading-relaxed resize-none"
-              />
-
-              {importResult && (
-                <div className="p-4 rounded-lg text-xs space-y-2 border bg-slate-50">
-                  {importResult.success ? (
-                    <p className="text-[var(--status-success-text)] font-bold">
-                      ✓ Imported {importResult.importedCount} items successfully.
-                    </p>
-                  ) : (
-                    <p className="text-[var(--status-error)] font-bold">✕ Import Failed: {importResult.error}</p>
-                  )}
-                  {importResult.errorRows?.length > 0 && (
-                    <div className="space-y-1">
-                      <span className="font-bold text-[var(--status-error)]">Row Failures:</span>
-                      <ul className="list-disc pl-5 max-h-24 overflow-y-auto font-mono text-[10px]">
-                        {importResult.errorRows.map((err, i) => (
-                          <li key={i}>Row {err.row}: {err.error}</li>
-                        ))}
-                      </ul>
+                  {importResult && (
+                    <div className={cn("p-4 rounded-xl text-xs space-y-1 border", importResult.error ? "bg-red-500/10 border-red-500/20 text-[var(--status-error)]" : "bg-emerald-500/10 border-emerald-500/20 text-emerald-400")}>
+                      {importResult.error ? (
+                        <p className="font-bold">Error: {importResult.error}</p>
+                      ) : (
+                        <>
+                          <p className="font-black">✓ Bulk Seeder Sync Complete</p>
+                          <p className="font-medium">Rows parsed: {importResult.rowsParsed} &bull; Listings inserted: {importResult.insertedCount}</p>
+                        </>
+                      )}
                     </div>
                   )}
-                </div>
-              )}
 
-              <button
-                type="submit"
-                disabled={importLoading || !csvData.trim()}
-                className="btn-primary px-6"
-                style={{ color: "#0B1E3B" }}
-              >
-                {importLoading ? "Seeding rows..." : "Execute Bulk Seed Import"}
-              </button>
-            </form>
+                  <ShinyButton
+                    type="submit"
+                    className="px-8 shadow mt-2"
+                  >
+                    {importLoading ? "Parsing Rows..." : "Validate & Seed Listings"}
+                  </ShinyButton>
+                </form>
+              </div>
+            </VercelCard>
           </div>
         )}
 
-        {/* ACCOUNTS CONTROL PANEL */}
+        {/* 4. SUSPEND ACCOUNTS REGISTRY TAB */}
         {activeTab === "accounts" && (
-          <div className="space-y-6 animate-fade-in">
-            <h3 className="text-h3 font-bold">User Identity Admin Accounts</h3>
+          <div className="space-y-4 w-full">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white">DPDP Account Registry Moderation</h3>
 
-            <div className="bg-white border border-[var(--border-default)] rounded-xl shadow-sm overflow-hidden">
-              <table className="w-full text-xs text-left">
-                <thead className="bg-slate-50 text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-wider border-b border-[var(--border-default)]">
-                  <tr>
-                    <th className="px-6 py-3">Company</th>
-                    <th className="px-6 py-3">Name</th>
-                    <th className="px-6 py-3">Phone</th>
-                    <th className="px-6 py-3">Role</th>
-                    <th className="px-6 py-3">Status</th>
-                    <th className="px-6 py-3 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[var(--border-default)]">
-                  {accounts.map((acc) => (
-                    <tr key={acc.id} className="hover:bg-slate-50">
-                      <td className="px-6 py-4 font-bold text-[var(--text-primary)]">{acc.company}</td>
-                      <td className="px-6 py-4">{acc.name}</td>
-                      <td className="px-6 py-4 font-mono">{acc.phone}</td>
-                      <td className="px-6 py-4 uppercase font-bold text-[var(--text-secondary)]">{acc.role}</td>
-                      <td className="px-6 py-4">
-                        <span className={`px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-wider ${
-                          acc.state === "suspended"
-                            ? "bg-red-50 text-[var(--status-error)] border border-red-200"
-                            : "bg-emerald-50 text-[var(--status-success-text)] border border-emerald-200"
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+              {accounts.map((acc) => (
+                <VercelCard
+                  key={acc.id}
+                  bordered={true}
+                  glowEffect={true}
+                  animateOnHover={false}
+                  className="p-1 bg-[var(--surface-raised)]/40 rounded-xl text-left w-full h-full font-sans"
+                >
+                  <div className="p-4 flex flex-col justify-between h-full w-full space-y-4">
+                    <div className="text-left space-y-1.5">
+                      <div className="flex justify-between items-center w-full">
+                        <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] font-mono">{acc.role}</span>
+                        <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider ${
+                          acc.state === "verified"
+                            ? "bg-emerald-500/10 text-emerald-450 border border-emerald-900/30"
+                            : "bg-red-500/10 text-[var(--status-error)] border border-red-900/30"
                         }`}>
                           {acc.state}
                         </span>
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <button
-                          onClick={() => handleToggleSuspension(acc.id)}
-                          className={`text-xs font-bold hover:underline cursor-pointer ${
-                            acc.state === "suspended" ? "text-[var(--status-success-text)]" : "text-[var(--status-error)]"
-                          }`}
-                        >
-                          {acc.state === "suspended" ? "Restore Access" : "Suspend Access"}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* ANALYTICS FUNNEL DASHBOARD PANEL */}
-        {activeTab === "analytics" && (
-          <div className="space-y-6 animate-fade-in">
-            <h3 className="text-h3 font-bold">Conversion Funnel Dashboard</h3>
-
-            {/* Segmented stats grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="p-5 bg-white border border-[var(--border-default)] rounded-xl shadow-sm">
-                <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] block">Registration Starts</span>
-                <span className="text-h2 font-display text-[var(--text-primary)] block mt-1">{stats.ProfilingCompletes + 230}</span>
-                <span className="text-[9px] text-[var(--text-secondary)] font-semibold mt-1 block">Popups: {stats.popupViews}</span>
-              </div>
-              <div className="p-5 bg-white border border-[var(--border-default)] rounded-xl shadow-sm">
-                <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] block">Verified Leads</span>
-                <span className="text-h2 font-display text-[var(--text-primary)] block mt-1">{stats.verifiedLeads}</span>
-                <span className="text-[9px] text-[var(--status-success-text)] font-bold mt-1 block flex items-center gap-0.5">
-                  <MdiIcon name="trending-up" /> Conversion: {Math.round((stats.verifiedLeads / (stats.ProfilingCompletes + 230)) * 100)}%
-                </span>
-              </div>
-              <div className="p-5 bg-white border border-[var(--border-default)] rounded-xl shadow-sm">
-                <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] block">Enquiries Captured</span>
-                <span className="text-h2 font-display text-[var(--action-primary)] block mt-1">{stats.enquiriesSubmitted}</span>
-                <span className="text-[9px] text-[var(--text-secondary)] font-semibold mt-1 block">Quotes Issued: {stats.quotesShared}</span>
-              </div>
-              <div className="p-5 bg-white border border-[var(--border-default)] rounded-xl shadow-sm">
-                <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] block">Bookings Confirmed</span>
-                <span className="text-h2 font-display text-[var(--status-success-text)] block mt-1">{stats.bookingsConfirmed}</span>
-                <span className="text-[9px] text-[var(--status-success-text)] font-bold mt-1 block flex items-center gap-0.5">
-                  <MdiIcon name="check" /> Rupee margin proven
-                </span>
-              </div>
-            </div>
-
-            {/* Funnel chart simulation */}
-            <div className="p-6 bg-white border border-[var(--border-default)] rounded-xl shadow-sm space-y-4">
-              <h4 className="text-xs uppercase font-bold text-[var(--text-primary)] border-b border-[var(--border-default)] pb-3">
-                Live Conversion Funnel Progression
-              </h4>
-
-              <div className="space-y-4 pt-2">
-                {[
-                  { label: "1. Popup Trigger Impressions", val: stats.popupViews, color: "bg-slate-400" },
-                  { label: "2. Profile funnel completions", val: stats.ProfilingCompletes, color: "bg-slate-500" },
-                  { label: "3. OTP Verified Accounts", val: stats.verifiedLeads, color: "bg-indigo-500" },
-                  { label: "4. Enquiries Captured", val: stats.enquiriesSubmitted, color: "bg-orange-500" },
-                  { label: "5. Bookings Finalized", val: stats.bookingsConfirmed, color: "bg-[#2BD67B]" }
-                ].map((item, i, arr) => {
-                  const percent = Math.round((item.val / arr[0].val) * 100);
-                  return (
-                    <div key={item.label} className="space-y-1 text-xs">
-                      <div className="flex justify-between font-bold">
-                        <span className="text-[var(--text-primary)]">{item.label}</span>
-                        <span className="text-[var(--text-secondary)]">{item.val} ({percent}%)</span>
                       </div>
-                      <div className="h-5 w-full bg-slate-100 rounded-md overflow-hidden flex border border-[var(--border-default)]">
-                        <div
-                          className={`h-full ${item.color} transition-all duration-500`}
-                          style={{ width: `${percent}%` }}
-                        />
+                      <h4 className="text-sm font-bold text-white">{acc.name}</h4>
+                      <div className="text-[10px] text-[var(--text-secondary)] space-y-0.5">
+                        <p>Company: {acc.company}</p>
+                        <p className="font-mono">Phone: @{acc.phone}</p>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
+
+                    <div className="pt-2 border-t border-[var(--border-default)] flex justify-end w-full">
+                      <button
+                        onClick={() => handleToggleSuspension(acc.id)}
+                        className={cn("rounded-lg border px-3 py-1.5 text-xs font-bold cursor-pointer transition-colors", acc.state === "verified" ? "border-red-900/40 text-[var(--status-error)] hover:bg-red-500/10" : "border-emerald-900/40 text-emerald-400 hover:bg-emerald-500/10")}
+                      >
+                        {acc.state === "verified" ? "Suspend Account" : "Unsuspend Account"}
+                      </button>
+                    </div>
+                  </div>
+                </VercelCard>
+              ))}
             </div>
           </div>
         )}
 
-        {/* AUDIT LOGGING VIEW PANEL */}
-        {activeTab === "audit" && (
-          <div className="space-y-6 animate-fade-in">
-            <h3 className="text-h3 font-bold">Administrative Audit Trails</h3>
+        {/* 5. METRIC ANALYTICS CONVERSIONS TAB */}
+        {activeTab === "analytics" && (
+          <div className="space-y-6 w-full">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white">Campaign Conversion Funnels</h3>
 
-            <div className="bg-white border border-[var(--border-default)] rounded-xl shadow-sm overflow-hidden">
+            {/* Funnel counters widgets */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
+              {statsList.map((st, idx) => (
+                <VercelCard key={st.label} bordered={true} className="bg-[var(--surface-raised)]/40 p-4 text-center">
+                  <AnimatedCounter
+                    value={st.value}
+                    suffix={st.suffix}
+                    delay={idx}
+                    label={st.label}
+                    className="w-full text-center"
+                  />
+                </VercelCard>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 6. AUDIT LOGGING VIEW PANEL */}
+        {activeTab === "audit" && (
+          <div className="space-y-6 w-full">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white">Administrative Audit Trails</h3>
+
+            {/* OtzTerminal Logger view */}
+            <OtzTerminal commands={adminTerminalCommands} className="mb-6 max-w-3xl" />
+
+            <div className="bg-[var(--surface-raised)]/40 border border-[var(--border-default)] rounded-xl overflow-hidden backdrop-blur-md">
               <table className="w-full text-xs text-left">
-                <thead className="bg-slate-50 text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-wider border-b border-[var(--border-default)]">
+                <thead className="bg-[var(--surface-canvas)]/80 text-[9px] font-bold text-[var(--text-secondary)] uppercase tracking-wider border-b border-[var(--border-default)]">
                   <tr>
                     <th className="px-6 py-3">Actor ID</th>
                     <th className="px-6 py-3">Action type</th>
@@ -682,8 +694,8 @@ export default function AdminPage() {
                 </thead>
                 <tbody className="divide-y divide-[var(--border-default)] font-semibold text-[var(--text-secondary)]">
                   {auditLogs.map((log, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50">
-                      <td className="px-6 py-4 font-mono text-[var(--text-primary)]">{log.actor_id}</td>
+                    <tr key={idx} className="hover:bg-[var(--surface-hover)]">
+                      <td className="px-6 py-4 font-mono text-white">{log.actor_id}</td>
                       <td className="px-6 py-4 uppercase text-[var(--action-primary)] font-bold">{log.action}</td>
                       <td className="px-6 py-4">{log.entity}</td>
                       <td className="px-6 py-4 text-right font-mono">{new Date(log.timestamp).toLocaleString()}</td>

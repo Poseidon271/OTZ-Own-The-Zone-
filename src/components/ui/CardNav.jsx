@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import MdiIcon from "@/components/MdiIcon";
+import { ShinyButton } from "@/components/ui/shiny-button";
 
 export default function CardNav({ onLogoClick }) {
   const router = useRouter();
@@ -159,14 +160,12 @@ export default function CardNav({ onLogoClick }) {
                 >
                   Log in
                 </button>
-                <a
-                  href="https://wa.me/919999999999?text=I%27m%20interested%20in%20Own%20The%20Zone%20campaigns"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border border-white/20 hover:bg-white/5 rounded-full px-5 py-2 text-xs font-bold text-white transition-all flex items-center justify-center cursor-pointer"
+                 <ShinyButton
+                  onClick={() => window.open("https://wa.me/919999999999?text=I%27m%20interested%20in%20Own%20The%20Zone%20campaigns", "_blank")}
+                  className="px-5 py-1.5 text-xs font-bold shadow-md rounded-full ml-3"
                 >
                   Talk to us
-                </a>
+                </ShinyButton>
               </>
             )}
           </div>
@@ -231,16 +230,15 @@ export default function CardNav({ onLogoClick }) {
                 </button>
               </div>
             ) : (
-              <button
+              <ShinyButton
                 onClick={() => {
                   setIsMobileMenuOpen(false);
                   setIsAuthModalOpen(true);
                 }}
-                className="w-full text-center btn-primary"
-                style={{ color: "#0B1E3B" }}
+                className="w-full text-center font-bold"
               >
                 Sign In
-              </button>
+              </ShinyButton>
             )}
           </div>
         )}

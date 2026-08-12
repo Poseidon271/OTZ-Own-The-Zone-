@@ -1,0 +1,224 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle2, Circle, ArrowRight, ChevronDown, Sparkles, Search, BarChart2, RefreshCw } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+function useLoop(ms) {
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), ms);
+    return () => clearInterval(id);
+  }, [ms]);
+  return tick;
+}
+
+export function DeployIllustration() {
+  const loop = useLoop(5000);
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setStep(0), 0),
+      setTimeout(() => setStep(1), 600),
+      setTimeout(() => setStep(2), 1400),
+      setTimeout(() => setStep(3), 2400),
+      setTimeout(() => setStep(4), 3200),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, [loop]);
+
+  const lines = [
+    { text: "$ npx otz-engine deploy --campaign", color: "text-[var(--text-secondary)]" },
+    { text: "✓ Campaign spaces compiled", color: "text-emerald-500" },
+    { text: "✓ Placement rates verified", color: "text-emerald-500" },
+    { text: "✓ Live on 8 zones (2.1s)", color: "text-[var(--action-primary)]" },
+  ];
+
+  return (
+    <div className="flex h-full flex-col justify-center p-5 text-left">
+      <div className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-canvas)] p-4 font-mono text-xs">
+        {lines.map((line, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -4 }}
+            animate={{ opacity: step >= i ? 1 : 0, x: step >= i ? 0 : -4 }}
+            transition={{ duration: 0.3 }}
+            className={cn("leading-6", line.color)}
+          >
+            {line.text}
+            {step === i && i < lines.length - 1 && (
+              <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity }} className="ml-0.5 inline-block h-3.5 w-px bg-[var(--text-primary)] align-middle" />
+            )}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function AlertIllustration() {
+  const loop = useLoop(6000);
+  const [sliderPct, setSliderPct] = useState(0);
+  const [accepted, setAccepted] = useState(false);
+  const rafRef = useRef(null);
+
+  useEffect(() => {
+    const resetTimer = setTimeout(() => {
+      setSliderPct(0);
+      setAccepted(false);
+    }, 0);
+
+    const t = setTimeout(() => {
+      const start = performance.now();
+      const duration = 1600;
+      const animate = (now) => {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        setSliderPct(eased * 100);
+        if (p < 1) rafRef.current = requestAnimationFrame(animate);
+        else setTimeout(() => setAccepted(true), 150);
+      };
+      rafRef.current = requestAnimationFrame(animate);
+    }, 800);
+
+    return () => {
+      clearTimeout(resetTimer);
+      clearTimeout(t);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [loop]);
+
+  return (
+    <div className="flex h-full flex-col items-center justify-center gap-3 p-5 text-center">
+      <div className="flex size-10 items-center justify-center rounded-full border border-yellow-500/30 bg-yellow-500/10">
+        <motion.div
+          animate={{ y: [0, -3, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <span className="text-lg">⚠️</span>
+        </motion.div>
+      </div>
+      <p className="text-xs font-medium text-[var(--text-primary)]">Placement Audits Check</p>
+      <p className="text-[11px] leading-relaxed text-[var(--text-secondary)]">
+        SLA checking verified 8 zones match planned impressions.
+      </p>
+      <AnimatePresence mode="wait">
+        {accepted ? (
+          <motion.div
+            key="done"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            className="flex h-9 w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 text-xs font-medium text-white"
+          >
+            <CheckCircle2 className="size-3.5" /> Checked & Verified
+          </motion.div>
+        ) : (
+          <motion.div key="slider" className="relative h-9 w-full overflow-hidden rounded-xl bg-[var(--surface-canvas)]">
+            <div className="absolute inset-0 flex items-center justify-center gap-1 text-[11px] text-[var(--text-secondary)]">
+              <ArrowRight className="size-3" /> Slide to approve report
+            </div>
+            <div className="absolute left-0 top-0 h-full rounded-xl bg-emerald-400/20" style={{ width: `${sliderPct}%` }} />
+            <div
+              className="absolute top-1 flex h-7 w-9 items-center justify-center rounded-lg bg-emerald-500 cursor-pointer"
+              style={{ left: `calc(${sliderPct}% - ${sliderPct * 0.36}px)` }}
+            >
+              <ArrowRight className="size-3 text-white" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export function ChecklistIllustration() {
+  const loop = useLoop(7000);
+  const ALL_TASKS = ["Connect campaign goal", "Configure target mix", "Verify rate cards", "Approve placements", "Review SLA reports"];
+  const allTasksLength = ALL_TASKS.length;
+  const [completed, setCompleted] = useState(1);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setCompleted(1), 0),
+      ...[1400, 2800, 4200, 5600].map((delay) =>
+        setTimeout(() => setCompleted((c) => Math.min(c + 1, allTasksLength)), delay)
+      ),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, [loop, allTasksLength]);
+
+  return (
+    <div className="flex h-full flex-col justify-center gap-3 p-5 text-left">
+      <div className="flex items-center gap-2">
+        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--surface-canvas)]">
+          <motion.div
+            animate={{ width: `${(completed / ALL_TASKS.length) * 100}%` }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="h-full rounded-full bg-emerald-500"
+          />
+        </div>
+        <motion.span key={completed} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="whitespace-nowrap text-[10px] text-[var(--text-secondary)]">
+          {completed}/{ALL_TASKS.length}
+        </motion.span>
+      </div>
+      <div className="flex flex-col gap-2">
+        {ALL_TASKS.slice(0, 4).map((task, i) => {
+          const done = i < completed;
+          return (
+            <motion.div key={task} animate={{ opacity: done ? 1 : 0.4 }} className="flex items-center gap-2.5">
+              <AnimatePresence mode="wait">
+                {done ? (
+                  <motion.div key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 500, damping: 25 }}>
+                    <CheckCircle2 className="size-3.5 shrink-0 text-emerald-500" />
+                  </motion.div>
+                ) : (
+                  <Circle className="size-3.5 shrink-0 text-[var(--border-default)]" />
+                )}
+              </AnimatePresence>
+              <span className={cn("text-xs", done ? "text-[var(--text-primary)] line-through decoration-[var(--text-secondary)]/50" : "text-[var(--text-secondary)]")}>
+                {task}
+              </span>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export function ContextMenuIllustration() {
+  return (
+    <div className="flex h-full flex-col justify-center gap-3 p-5 text-left">
+      <motion.div
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, delay: 0.2 }}
+        className="overflow-hidden rounded-xl border border-[var(--border-default)] bg-[var(--surface-raised)]"
+      >
+        {[
+          { icon: <Search className="size-3" />, label: "Configure strategy" },
+          { icon: <Sparkles className="size-3 text-emerald-500 animate-pulse" />, label: "Optimize media mix", special: true },
+          { icon: <BarChart2 className="size-3" />, label: "View placements" },
+          { icon: <RefreshCw className="size-3" />, label: "Re-run audit" },
+        ].map((row) => (
+          <div
+            key={row.label}
+            className={cn(
+              "flex items-center gap-2 border-b border-[var(--border-default)] px-3.5 py-2.5 text-xs last:border-0 select-none",
+              row.special
+                ? "bg-emerald-500/10 font-medium text-emerald-600 dark:text-emerald-400"
+                : "text-[var(--text-secondary)]"
+            )}
+          >
+            {row.icon}
+            {row.label}
+            {row.special && <ChevronDown className="ml-auto size-3 -rotate-90" />}
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}

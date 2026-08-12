@@ -5,6 +5,12 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import MdiIcon from "@/components/MdiIcon";
 
+// Import ScrollX primitives
+import { ColumnLines } from "@/components/scrollx/column-lines";
+import { ShinyButton } from "@/components/scrollx/shiny-button";
+import { VercelCard } from "@/components/scrollx/vercel-card";
+import { EdgeIllustration } from "@/components/scrollx/feature-illustrations";
+
 export default function DashboardPage() {
   const router = useRouter();
 
@@ -251,29 +257,23 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="theme-light min-h-screen bg-[#F6F7F9] flex items-center justify-center">
-        <div className="text-slate-900 text-sm animate-pulse">Synchronizing secure session coordinates...</div>
+      <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] flex items-center justify-center">
+        <div className="text-white text-sm animate-pulse">Loading Workspace Coordinates...</div>
       </div>
     );
   }
 
-  // Logged-out state UI
   if (!user) {
     return (
-      <div className="theme-light min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] flex flex-col justify-center items-center p-6 text-center">
-        <Navbar onLogoClick={() => router.push("/")} />
-        <div className="max-w-md p-8 rounded-2xl bg-white border border-[var(--border-default)] shadow-sm space-y-4">
-          <div className="h-14 w-14 bg-red-50 text-[var(--action-primary)] rounded-full flex items-center justify-center mx-auto text-2xl">
-            <MdiIcon name="lock-outline" />
-          </div>
-          <h1 className="text-h2">Workspace Access Gated</h1>
-          <p className="text-small text-[var(--text-secondary)] leading-relaxed">
-            Please log in or register via our verification wizard to access your campaign coordinates or list inventory.
-          </p>
-          <button onClick={openLogin} className="btn-primary w-full shadow focus-ring" style={{ color: "#0B1E3B" }}>
-            Sign In with Phone OTP
-          </button>
-        </div>
+      <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-white flex flex-col items-center justify-center p-6 text-center font-sans space-y-4">
+        <MdiIcon name="lock-outline" className="text-5xl text-[var(--action-primary)] animate-pulse" />
+        <h2 className="text-2xl font-black font-display">Secure Workspace</h2>
+        <p className="text-xs text-[var(--text-secondary)] max-w-sm">
+          Please log in with your phone number to access your brand enquiries, listings moderation, or ops details dashboard.
+        </p>
+        <ShinyButton onClick={openLogin} className="px-8 font-bold">
+          Log In Session
+        </ShinyButton>
       </div>
     );
   }
@@ -281,76 +281,93 @@ export default function DashboardPage() {
   const isBrand = user.role === "brand";
   const isHost = user.role === "host";
 
-  // Redirection link for ops users
-  if (user.role === "ops" || user.role === "admin") {
-    return (
-      <div className="theme-light min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] flex flex-col justify-center items-center p-6 text-center">
-        <Navbar onLogoClick={() => router.push("/")} />
-        <div className="max-w-md p-8 rounded-2xl bg-white border border-[var(--border-default)] shadow-sm space-y-4">
-          <h1 className="text-h2">Operations Desk</h1>
-          <p className="text-small text-[var(--text-secondary)]">Redirecting to the unified administrative console panel...</p>
-          <button onClick={() => router.push("/admin")} className="btn-primary w-full" style={{ color: "#0B1E3B" }}>
-            Open Admin Ops Console
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // Categories & options lists matching original
+  const niches = ["FMCG", "Technology & SaaS", "Corporate & B2B", "Automobile", "Education", "Real Estate", "Sports & Gaming", "Healthcare", "Fashion & Lifestyle"];
+  const priceBands = ["Under ₹10K", "₹10K - ₹50K", "₹50K - ₹2L", "₹2L - ₹10L", "₹10L+"];
+  const geographies = ["Mumbai", "Delhi NCR", "Bengaluru", "National Grid", "Regional South", "Regional West"];
+  const timelines = ["ASAP (Within 7 days)", "Next 30 days", "Quarterly", "Planning phase"];
+  const goalOptions = [
+    { value: "awareness", label: "Brand Awareness & Reach" },
+    { value: "downloads", label: "App Installs & Signups" },
+    { value: "sales", label: "Direct Conversions & Sales" },
+    { value: "footfalls", label: "Retail Footfalls & Visits" }
+  ];
+  const mediaTypes = [
+    { value: "OOH", label: "Out of Home (Billboards, Metros)" },
+    { value: "TV", label: "Television Channels" },
+    { value: "Radio", label: "FM Radio Networks" },
+    { value: "Cinema", label: "Movie Screens & Multiplexes" },
+    { value: "Digital", label: "Connected TV & OTT Slots" },
+    { value: "Influencer", label: "Influencer Placements" },
+    { value: "Print", label: "Daily Newspapers & Magazines" }
+  ];
 
-  // Get dynamic stage colors
   const getStageColorClass = (stage) => {
-    const s = stage?.toLowerCase() || "";
-    if (s.includes("confirm") || s.includes("live") || s.includes("complete")) {
-      return "bg-emerald-50 text-[var(--status-success-text)] border-emerald-200";
+    switch (stage) {
+      case "settled":
+        return "bg-emerald-500/10 text-emerald-450 border-emerald-900/30";
+      case "audit-report":
+      case "active":
+        return "bg-blue-500/10 text-blue-400 border-blue-900/30";
+      case "in-negotiation":
+        return "bg-amber-500/10 text-amber-400 border-amber-900/30";
+      default:
+        return "bg-slate-500/10 text-slate-400 border-slate-900/30";
     }
-    if (s.includes("quote") || s.includes("review")) {
-      return "bg-amber-50 text-[var(--status-warning)] border-amber-200";
-    }
-    return "bg-slate-100 text-slate-700 border-slate-200";
   };
 
   return (
-    <div className="theme-light min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] pb-16">
+    <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] pb-16 relative overflow-hidden font-sans">
+      {/* Background ScrollX Grid Lines */}
+      <ColumnLines
+        columnWidth={80}
+        columnCount={16}
+        radialFadeStart={35}
+        radialFadeEnd={80}
+        noiseOpacity={0.03}
+        className="absolute inset-0 z-0 pointer-events-none"
+      />
+
       <Navbar onLogoClick={() => router.push("/")} />
 
-      <main className="max-w-7xl mx-auto px-6 pt-24 space-y-8">
+      <main className="max-w-7xl mx-auto px-6 pt-24 space-y-8 relative z-10 text-left">
         
         {/* Workspace Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[var(--border-default)] pb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[var(--border-default)] pb-6 w-full">
           <div>
-            <div className="flex items-center gap-1.5 text-xs text-[var(--text-secondary)] font-bold">
+            <div className="flex items-center gap-1.5 text-[10px] text-[var(--text-secondary)] font-bold uppercase tracking-wider">
               <span className="h-1.5 w-1.5 bg-[var(--action-primary)] rounded-full animate-pulse" />
               <span>SECURE WORKSPACE &bull; ID: @{user.phone}</span>
             </div>
-            <h1 className="text-h1 text-[var(--text-primary)] font-display mt-1">
+            <h1 className="text-2xl font-black text-white font-display mt-1.5">
               {isBrand ? `${user.company} Brand Desk` : `${user.company} Host Portal`}
             </h1>
           </div>
 
           {/* Tab Navigation selectors */}
-          <div className="flex p-1 bg-slate-100 rounded-xl border border-[var(--border-default)]">
+          <div className="flex p-1 bg-[var(--surface-raised)]/60 rounded-xl border border-[var(--border-default)]">
             {isBrand ? (
               <>
                 <button
                   onClick={() => setActiveTab("overview")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                    activeTab === "overview" ? "bg-[#0B1E3B] text-white" : "text-[var(--text-secondary)] hover:text-black"
+                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    activeTab === "overview" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
                   }`}
                 >
                   My Enquiries
                 </button>
                 <button
                   onClick={() => setActiveTab("profile")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                    activeTab === "profile" ? "bg-[#0B1E3B] text-white" : "text-[var(--text-secondary)] hover:text-black"
+                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    activeTab === "profile" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
                   }`}
                 >
                   Edit Profile
                 </button>
                 <button
                   onClick={() => setActiveTab("settings")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                    activeTab === "settings" ? "bg-[#0B1E3B] text-white" : "text-[var(--text-secondary)] hover:text-black"
+                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    activeTab === "settings" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
                   }`}
                 >
                   Settings
@@ -360,32 +377,32 @@ export default function DashboardPage() {
               <>
                 <button
                   onClick={() => setActiveTab("listings")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                    activeTab === "listings" ? "bg-[#0B1E3B] text-white" : "text-[var(--text-secondary)] hover:text-black"
+                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    activeTab === "listings" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
                   }`}
                 >
                   My Listings
                 </button>
                 <button
                   onClick={() => setActiveTab("submit")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                    activeTab === "submit" ? "bg-[#0B1E3B] text-white" : "text-[var(--text-secondary)] hover:text-black"
+                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    activeTab === "submit" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
                   }`}
                 >
                   Submit Listing
                 </button>
                 <button
                   onClick={() => setActiveTab("enquiries")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                    activeTab === "enquiries" ? "bg-[#0B1E3B] text-white" : "text-[var(--text-secondary)] hover:text-black"
+                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    activeTab === "enquiries" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
                   }`}
                 >
                   Incoming Enquiries
                 </button>
                 <button
                   onClick={() => setActiveTab("settings")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                    activeTab === "settings" ? "bg-[#0B1E3B] text-white" : "text-[var(--text-secondary)] hover:text-black"
+                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    activeTab === "settings" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
                   }`}
                 >
                   Settings
@@ -397,225 +414,250 @@ export default function DashboardPage() {
 
         {/* BRAND WORKSPACE PANELS */}
         {isBrand && (
-          <div className="space-y-6 animate-fade-in">
+          <div className="space-y-6 animate-fade-in w-full">
             {/* Overview / My Enquiries tab */}
             {activeTab === "overview" && (
-              <div className="space-y-4">
-                <h3 className="text-h3 font-bold">My Campaign Enquiries</h3>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
                 
-                {enquiries.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-4">
-                    {enquiries.map((enq) => (
-                      <div
-                        key={enq.id}
-                        className="p-6 bg-white border border-[var(--border-default)] rounded-xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
-                      >
-                        <div className="space-y-1 max-w-xl">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] tracking-wider">
-                              Enquiry ID: {enq.id}
-                            </span>
-                            <span className="text-[9px] text-[var(--text-tertiary)]">&bull; {new Date(enq.created_at).toLocaleDateString()}</span>
-                          </div>
-                          <h4 className="text-body-strong text-[var(--text-primary)]">
-                            {enq.listingTitle}
-                          </h4>
-                          <p className="text-xs text-[var(--text-secondary)] leading-relaxed italic line-clamp-2">
-                            &ldquo;{enq.message}&rdquo;
-                          </p>
-                        </div>
+                {/* Left Side: Enquiries List */}
+                <div className="lg:col-span-8 space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-white">My Campaign Enquiries</h3>
+                  
+                  {enquiries.length > 0 ? (
+                    <div className="grid grid-cols-1 gap-4">
+                      {enquiries.map((enq) => (
+                        <VercelCard
+                          key={enq.id}
+                          bordered={true}
+                          glowEffect={true}
+                          animateOnHover={false}
+                          className="p-1 bg-[var(--surface-raised)]/40 rounded-xl text-left w-full h-full"
+                        >
+                          <div className="p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 w-full">
+                            <div className="space-y-1 max-w-xl text-left">
+                              <div className="flex items-center gap-2">
+                                <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">
+                                  Enquiry ID: {enq.id}
+                                </span>
+                                <span className="text-[9px] text-[var(--text-secondary)] font-mono">&bull; {new Date(enq.created_at).toLocaleDateString()}</span>
+                              </div>
+                              <h4 className="text-sm font-bold text-white">
+                                {enq.listingTitle}
+                              </h4>
+                              <p className="text-xs text-[var(--text-secondary)] leading-relaxed italic line-clamp-2">
+                                &ldquo;{enq.message}&rdquo;
+                              </p>
+                            </div>
 
-                        {/* Pipeline Stage display (Section 6.5) */}
-                        <div className="flex items-center gap-4 shrink-0">
-                          <div>
-                            <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] block text-left md:text-right">Assignee</span>
-                            <span className="text-xs font-bold text-[var(--text-primary)]">{enq.assignee === "ops-unassigned" ? "Awaiting Assignment" : enq.assignee}</span>
-                          </div>
+                            {/* Pipeline Stage display (Section 6.5) */}
+                            <div className="flex items-center gap-4 shrink-0">
+                              <div className="text-left">
+                                <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] block">Assignee</span>
+                                <span className="text-xs font-bold text-white">{enq.assignee === "ops-unassigned" ? "Awaiting Assignment" : enq.assignee}</span>
+                              </div>
 
-                          <div className={`px-4 py-2 rounded-full border text-xs font-bold text-center ${getStageColorClass(enq.stage)}`}>
-                            {enq.stage}
+                              <div className={`px-4 py-2 rounded-full border text-xs font-bold text-center ${getStageColorClass(enq.stage)}`}>
+                                {enq.stage}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-8 rounded-xl bg-white border border-[var(--border-default)] text-center text-slate-400">
-                    <MdiIcon name="file-document-outline" className="text-4xl block mx-auto mb-2 text-slate-350" />
-                    <p className="text-small">No enquiries submitted yet. Visit the catalog to make an enquiry.</p>
-                  </div>
-                )}
+                        </VercelCard>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-8 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-400">
+                      <MdiIcon name="file-document-outline" className="text-4xl block mx-auto mb-2 text-slate-500" />
+                      <p className="text-xs">No enquiries submitted yet. Visit the catalog to make an enquiry.</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Right Side: Active Placement Zone Map */}
+                <div className="lg:col-span-4 space-y-6 w-full">
+                  <VercelCard bordered={true} className="bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl text-left">
+                    <div className="w-full">
+                      <p className="font-mono text-[9px] uppercase tracking-widest font-extrabold text-[var(--text-secondary)] mb-2">Campaign Placements map</p>
+                      <EdgeIllustration />
+                    </div>
+                  </VercelCard>
+                </div>
               </div>
             )}
 
             {/* Edit Profile tab (Section 2.8) */}
             {activeTab === "profile" && (
-              <div className="max-w-2xl bg-white p-8 rounded-2xl border border-[var(--border-default)] shadow-sm space-y-6">
-                <div>
-                  <h3 className="text-h3 font-bold">Edit Brand Profile</h3>
-                  <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                    Modifying these metrics will instantly update your default marketplace pre-filters.
-                  </p>
-                </div>
-
-                <form onSubmit={handleProfileUpdate} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Brand Niche</label>
-                      <select
-                        value={profileForm.niche}
-                        onChange={(e) => setProfileForm({ ...profileForm, niche: e.target.value })}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-sm"
-                      >
-                        <option value="">Select Niche...</option>
-                        {niches.map(n => (
-                          <option key={n} value={n}>{n}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Budget Band</label>
-                      <select
-                        value={profileForm.budget_band}
-                        onChange={(e) => setProfileForm({ ...profileForm, budget_band: e.target.value })}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-sm"
-                      >
-                        <option value="">Select budget range...</option>
-                        {priceBands.map(b => (
-                          <option key={b} value={b}>{b}</option>
-                        ))}
-                      </select>
-                    </div>
+              <VercelCard bordered={true} className="p-2 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl w-full text-left font-sans">
+                <div className="p-6 space-y-6 w-full">
+                  <div>
+                    <h3 className="text-lg font-bold text-white uppercase tracking-wider">Edit Brand Profile</h3>
+                    <p className="text-xs text-[var(--text-secondary)] mt-0.5">
+                      Modifying these metrics will instantly update your default marketplace pre-filters.
+                    </p>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Target Location</label>
+                  <form onSubmit={handleProfileUpdate} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Brand Niche</label>
+                        <select
+                          value={profileForm.niche}
+                          onChange={(e) => setProfileForm({ ...profileForm, niche: e.target.value })}
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        >
+                          <option value="">Select Niche...</option>
+                          {niches.map(n => (
+                            <option key={n} value={n}>{n}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Budget Band</label>
+                        <select
+                          value={profileForm.budget_band}
+                          onChange={(e) => setProfileForm({ ...profileForm, budget_band: e.target.value })}
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        >
+                          <option value="">Select budget range...</option>
+                          {priceBands.map(b => (
+                            <option key={b} value={b}>{b}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Target Location</label>
+                        <select
+                          value={profileForm.geography}
+                          onChange={(e) => setProfileForm({ ...profileForm, geography: e.target.value })}
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        >
+                          <option value="">Select target city...</option>
+                          {geographies.map(g => (
+                            <option key={g} value={g}>{g}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Campaign Timeline</label>
+                        <select
+                          value={profileForm.timeline}
+                          onChange={(e) => setProfileForm({ ...profileForm, timeline: e.target.value })}
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        >
+                          <option value="">Select timeline...</option>
+                          {timelines.map(t => (
+                            <option key={t} value={t}>{t}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Primary Goal Selector */}
+                    <div className="space-y-1 pt-2">
+                      <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Primary Campaign Goal</label>
                       <select
-                        value={profileForm.geography}
-                        onChange={(e) => setProfileForm({ ...profileForm, geography: e.target.value })}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-sm"
+                        value={profileForm.primary_goal}
+                        onChange={(e) => setProfileForm({ ...profileForm, primary_goal: e.target.value })}
+                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm font-semibold cursor-pointer"
                       >
-                        <option value="">Select target city...</option>
-                        {geographies.map(g => (
-                          <option key={g} value={g}>{g}</option>
+                        <option value="">Select goal...</option>
+                        {goalOptions.map(g => (
+                          <option key={g.value} value={g.value}>{g.label}</option>
                         ))}
                       </select>
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Campaign Timeline</label>
-                      <select
-                        value={profileForm.timeline}
-                        onChange={(e) => setProfileForm({ ...profileForm, timeline: e.target.value })}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-sm"
-                      >
-                        <option value="">Select timeline...</option>
-                        {timelines.map(t => (
-                          <option key={t} value={t}>{t}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+                    {profileSuccess && (
+                      <p className="text-xs text-[var(--status-success-text)] font-bold flex items-center gap-1 animate-fade-in bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20">
+                        <MdiIcon name="check-circle-outline" /> Profile details synchronized. Live filters pre-applied.
+                      </p>
+                    )}
 
-                  {/* Primary Goal Selector */}
-                  <div className="space-y-1 pt-2">
-                    <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Primary Campaign Goal</label>
-                    <select
-                      value={profileForm.primary_goal}
-                      onChange={(e) => setProfileForm({ ...profileForm, primary_goal: e.target.value })}
-                      className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-sm font-semibold"
+                    {profileError && (
+                      <p className="text-xs text-[var(--status-error)] font-bold flex items-center gap-1 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
+                        <MdiIcon name="alert-circle-outline" /> {profileError}
+                      </p>
+                    )}
+
+                    <ShinyButton
+                      type="submit"
+                      className="px-8 shadow mt-2"
                     >
-                      <option value="">Select goal...</option>
-                      {goalOptions.map(g => (
-                        <option key={g.value} value={g.value}>{g.label}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {profileSuccess && (
-                    <p className="text-xs text-[var(--status-success-text)] font-bold flex items-center gap-1 animate-fade-in bg-emerald-50 p-3 rounded-lg border border-emerald-100">
-                      <MdiIcon name="check-circle-outline" /> Profile details synchronized. Live filters pre-applied.
-                    </p>
-                  )}
-
-                  {profileError && (
-                    <p className="text-xs text-[var(--status-error)] font-bold flex items-center gap-1 bg-red-50 p-3 rounded-lg">
-                      <MdiIcon name="alert-circle-outline" /> {profileError}
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="btn-primary px-8 shadow"
-                    style={{ color: "#0B1E3B" }}
-                  >
-                    Save Changes & Sync
-                  </button>
-                </form>
-              </div>
+                      Save Changes & Sync
+                    </ShinyButton>
+                  </form>
+                </div>
+              </VercelCard>
             )}
           </div>
         )}
 
         {/* HOST WORKSPACE PANELS */}
         {isHost && (
-          <div className="space-y-6 animate-fade-in">
+          <div className="space-y-6 animate-fade-in w-full">
             
             {/* My Listings tab (Section 2.9) */}
             {activeTab === "listings" && (
               <div className="space-y-4">
-                <h3 className="text-h3 font-bold">My Registered Properties</h3>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-white">My Registered Properties</h3>
 
                 {hostListings.length > 0 ? (
                   <div className="grid grid-cols-1 gap-4">
                     {hostListings.map((item) => (
-                      <div
+                      <VercelCard
                         key={item.id}
-                        className="p-6 bg-white border border-[var(--border-default)] rounded-xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+                        bordered={true}
+                        glowEffect={true}
+                        animateOnHover={false}
+                        className="p-1 bg-[var(--surface-raised)]/40 rounded-xl text-left w-full h-full"
                       >
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] tracking-wider">
-                              Listing ID: {item.id}
-                            </span>
-                            <span className="text-[9px] text-[var(--text-tertiary)]">&bull; {item.media_type}</span>
+                        <div className="p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
+                          <div className="space-y-1 text-left">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">
+                                Listing ID: {item.id}
+                              </span>
+                              <span className="text-[9px] text-[var(--text-secondary)] font-mono">&bull; {item.media_type}</span>
+                            </div>
+                            <h4 className="text-sm font-bold text-white">
+                              {item.title}
+                            </h4>
+                            <div className="text-xs text-[var(--text-secondary)] font-semibold flex gap-3">
+                              <span>Reach: {item.visibility_metric}</span>
+                              <span>Rate: {item.price_band}</span>
+                            </div>
                           </div>
-                          <h4 className="text-body-strong text-[var(--text-primary)]">
-                            {item.title}
-                          </h4>
-                          <div className="text-xs text-[var(--text-secondary)] font-semibold flex gap-3">
-                            <span>Reach: {item.visibility_metric}</span>
-                            <span>Rate: {item.price_band}</span>
+
+                          {/* State review indicators */}
+                          <div className="shrink-0 flex items-center gap-3">
+                            {item.state === "rejected" && item.rejection_reason && (
+                              <span className="text-xs text-[var(--status-error)] font-semibold bg-red-500/10 p-2 rounded-lg border border-red-500/20">
+                                Reason: {item.rejection_reason}
+                              </span>
+                            )}
+
+                            <span className={`px-4 py-2 rounded-full border text-xs font-bold text-center uppercase tracking-wider ${
+                              item.state === "published"
+                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-900/30"
+                                : item.state === "rejected"
+                                ? "bg-red-500/10 text-[var(--status-error)] border-red-900/30"
+                                : "bg-amber-500/10 text-[var(--status-warning)] border-amber-900/30"
+                            }`}>
+                              {item.state === "submitted" ? "Under Review" : item.state}
+                            </span>
                           </div>
                         </div>
-
-                        {/* State review indicators */}
-                        <div className="shrink-0 flex items-center gap-3">
-                          {item.state === "rejected" && item.rejection_reason && (
-                            <span className="text-xs text-[var(--status-error)] font-semibold bg-red-50 p-2 rounded-lg border border-red-200">
-                              Reason: {item.rejection_reason}
-                            </span>
-                          )}
-
-                          <span className={`px-4 py-2 rounded-full border text-xs font-bold text-center uppercase tracking-wider ${
-                            item.state === "published"
-                              ? "bg-emerald-50 text-[var(--status-success-text)] border-emerald-200"
-                              : item.state === "rejected"
-                              ? "bg-red-50 text-[var(--status-error)] border-red-200"
-                              : "bg-amber-50 text-[var(--status-warning)] border-amber-200"
-                          }`}>
-                            {item.state === "submitted" ? "Under Review" : item.state}
-                          </span>
-                        </div>
-                      </div>
+                      </VercelCard>
                     ))}
                   </div>
                 ) : (
-                  <div className="p-8 rounded-xl bg-white border border-[var(--border-default)] text-center text-slate-400">
-                    <MdiIcon name="office-building" className="text-4xl block mx-auto mb-2 text-slate-350" />
-                    <p className="text-small">No listings registered yet. Submit your first listing to begin.</p>
+                  <div className="p-8 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-400">
+                    <MdiIcon name="office-building" className="text-4xl block mx-auto mb-2 text-slate-500" />
+                    <p className="text-xs">No listings registered yet. Submit your first listing to begin.</p>
                   </div>
                 )}
               </div>
@@ -623,223 +665,229 @@ export default function DashboardPage() {
 
             {/* Submit Listing tab (Section 7.1) */}
             {activeTab === "submit" && (
-              <div className="max-w-3xl bg-white p-8 rounded-2xl border border-[var(--border-default)] shadow-sm space-y-6">
-                <div>
-                  <h3 className="text-h3 font-bold">Register Supply Placement</h3>
-                  <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                    Submissions are moderated by the OTZ operations team before going live on the marketplace.
-                  </p>
+              <VercelCard bordered={true} className="p-2 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl w-full text-left font-sans">
+                <div className="p-6 space-y-6 w-full">
+                  <div>
+                    <h3 className="text-lg font-bold text-white uppercase tracking-wider">Register Supply Placement</h3>
+                    <p className="text-xs text-[var(--text-secondary)] mt-0.5">
+                      Submissions are moderated by the OTZ operations team before going live on the marketplace.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleListingSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Listing Title</label>
+                        <input
+                          type="text"
+                          value={listingForm.title}
+                          onChange={(e) => setListingForm({ ...listingForm, title: e.target.value })}
+                          placeholder="Bandra LED Screen Block A"
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Parent Network / Owner</label>
+                        <input
+                          type="text"
+                          value={listingForm.parent_network}
+                          onChange={(e) => setListingForm({ ...listingForm, parent_network: e.target.value })}
+                          placeholder="Times OOH Media"
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Media Type</label>
+                        <select
+                          value={listingForm.media_type}
+                          onChange={(e) => setListingForm({ ...listingForm, media_type: e.target.value })}
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        >
+                          {mediaTypes.map(m => (
+                            <option key={m.value} value={m.value}>{m.label}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Geography</label>
+                        <select
+                          value={listingForm.geography}
+                          onChange={(e) => setListingForm({ ...listingForm, geography: e.target.value })}
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        >
+                          {geographies.map(g => (
+                            <option key={g} value={g}>{g}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Audience Niche</label>
+                        <select
+                          value={listingForm.niche_tags}
+                          onChange={(e) => setListingForm({ ...listingForm, niche_tags: e.target.value })}
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        >
+                          {niches.map(n => (
+                            <option key={n} value={n}>{n}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Audited Reach Metric</label>
+                        <input
+                          type="text"
+                          value={listingForm.visibility_metric}
+                          onChange={(e) => setListingForm({ ...listingForm, visibility_metric: e.target.value })}
+                          placeholder="1.2M weekly views"
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Reach Data Source</label>
+                        <input
+                          type="text"
+                          value={listingForm.reach_source}
+                          onChange={(e) => setListingForm({ ...listingForm, reach_source: e.target.value })}
+                          placeholder="BARC Outdoor June 2026"
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="space-y-1">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Cost Band</label>
+                        <select
+                          value={listingForm.price_band}
+                          onChange={(e) => setListingForm({ ...listingForm, price_band: e.target.value })}
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        >
+                          {priceBands.map(b => (
+                            <option key={b} value={b}>{b}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1 col-span-2">
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Placement Formats (Comma Separated)</label>
+                        <input
+                          type="text"
+                          value={listingForm.formats}
+                          onChange={(e) => setListingForm({ ...listingForm, formats: e.target.value })}
+                          placeholder="15s loop slot, 30s loop slot, Static gantry"
+                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Rate card mock file upload (Section 7.1) */}
+                    <div className="space-y-1.5">
+                      <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Upload Rate Card / Spec Deck (Mock scan)</label>
+                      <div className="border-2 border-dashed border-[var(--border-default)] p-4 rounded-xl text-center hover:bg-[var(--surface-hover)] transition-colors relative cursor-pointer">
+                        <input
+                          type="file"
+                          onChange={(e) => setListingForm({ ...listingForm, rateCardName: e.target.files[0]?.name || "" })}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        />
+                        <MdiIcon name="cloud-upload-outline" className="text-3xl text-slate-550 block mx-auto mb-1" />
+                        <span className="text-xs font-bold text-white block">
+                          {listingForm.rateCardName ? `Uploaded: ${listingForm.rateCardName} (Verified Safe)` : "Drag & drop or click to upload proposal sheet"}
+                        </span>
+                        <span className="text-[9px] text-[var(--text-secondary)] block">PDF, PPTX or JPG (Size Limit 10MB)</span>
+                      </div>
+                    </div>
+
+                    {submitSuccess && (
+                      <p className="text-xs text-[var(--status-success-text)] font-bold flex items-center gap-1 animate-fade-in bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20">
+                        <MdiIcon name="check-circle-outline" /> Listing successfully queued. Operations has been notified.
+                      </p>
+                    )}
+
+                    {submitError && (
+                      <p className="text-xs text-[var(--status-error)] font-bold flex items-center gap-1 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
+                        <MdiIcon name="alert-circle-outline" /> {submitError}
+                      </p>
+                    )}
+
+                    <ShinyButton
+                      type="submit"
+                      className="px-8 shadow mt-2"
+                    >
+                      Submit for Operations Review
+                    </ShinyButton>
+                  </form>
                 </div>
-
-                <form onSubmit={handleListingSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Listing Title</label>
-                      <input
-                        type="text"
-                        value={listingForm.title}
-                        onChange={(e) => setListingForm({ ...listingForm, title: e.target.value })}
-                        placeholder="Bandra LED Screen Block A"
-                        className="input-field focus-ring"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Parent Network / Owner</label>
-                      <input
-                        type="text"
-                        value={listingForm.parent_network}
-                        onChange={(e) => setListingForm({ ...listingForm, parent_network: e.target.value })}
-                        placeholder="Times OOH Media"
-                        className="input-field focus-ring"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Media Type</label>
-                      <select
-                        value={listingForm.media_type}
-                        onChange={(e) => setListingForm({ ...listingForm, media_type: e.target.value })}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-sm"
-                      >
-                        {mediaTypes.map(m => (
-                          <option key={m.value} value={m.value}>{m.label}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Geography</label>
-                      <select
-                        value={listingForm.geography}
-                        onChange={(e) => setListingForm({ ...listingForm, geography: e.target.value })}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-sm"
-                      >
-                        {geographies.map(g => (
-                          <option key={g} value={g}>{g}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Audience Niche</label>
-                      <select
-                        value={listingForm.niche_tags}
-                        onChange={(e) => setListingForm({ ...listingForm, niche_tags: e.target.value })}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-sm"
-                      >
-                        {niches.map(n => (
-                          <option key={n} value={n}>{n}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Audited Reach Metric</label>
-                      <input
-                        type="text"
-                        value={listingForm.visibility_metric}
-                        onChange={(e) => setListingForm({ ...listingForm, visibility_metric: e.target.value })}
-                        placeholder="1.2M weekly views"
-                        className="input-field focus-ring"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Reach Data Source</label>
-                      <input
-                        type="text"
-                        value={listingForm.reach_source}
-                        onChange={(e) => setListingForm({ ...listingForm, reach_source: e.target.value })}
-                        placeholder="BARC Outdoor June 2026"
-                        className="input-field focus-ring"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Cost Band</label>
-                      <select
-                        value={listingForm.price_band}
-                        onChange={(e) => setListingForm({ ...listingForm, price_band: e.target.value })}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-sm"
-                      >
-                        {priceBands.map(b => (
-                          <option key={b} value={b}>{b}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="space-y-1 col-span-2">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Placement Formats (Comma Separated)</label>
-                      <input
-                        type="text"
-                        value={listingForm.formats}
-                        onChange={(e) => setListingForm({ ...listingForm, formats: e.target.value })}
-                        placeholder="15s loop slot, 30s loop slot, Static gantry"
-                        className="input-field focus-ring"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Rate card mock file upload (Section 7.1) */}
-                  <div className="space-y-1.5">
-                    <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Upload Rate Card / Spec Deck (Mock scan)</label>
-                    <div className="border-2 border-dashed border-[var(--border-default)] p-4 rounded-xl text-center hover:bg-slate-50 transition-colors relative cursor-pointer">
-                      <input
-                        type="file"
-                        onChange={(e) => setListingForm({ ...listingForm, rateCardName: e.target.files[0]?.name || "" })}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      />
-                      <MdiIcon name="cloud-upload-outline" className="text-3xl text-slate-400 block mx-auto mb-1" />
-                      <span className="text-xs font-bold text-slate-600 block">
-                        {listingForm.rateCardName ? `Uploaded: ${listingForm.rateCardName} (Verified Safe)` : "Drag & drop or click to upload proposal sheet"}
-                      </span>
-                      <span className="text-[10px] text-slate-400 block">PDF, PPTX or JPG (Size Limit 10MB)</span>
-                    </div>
-                  </div>
-
-                  {submitSuccess && (
-                    <p className="text-xs text-[var(--status-success-text)] font-bold flex items-center gap-1 animate-fade-in bg-emerald-50 p-3 rounded-lg border border-emerald-100">
-                      <MdiIcon name="check-circle-outline" /> Listing successfully queued. Operations has been notified.
-                    </p>
-                  )}
-
-                  {submitError && (
-                    <p className="text-xs text-[var(--status-error)] font-bold flex items-center gap-1 bg-red-50 p-3 rounded-lg">
-                      <MdiIcon name="alert-circle-outline" /> {submitError}
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="btn-primary px-8 shadow"
-                    style={{ color: "#0B1E3B" }}
-                  >
-                    Submit for Operations Review
-                  </button>
-                </form>
-              </div>
+              </VercelCard>
             )}
 
             {/* Host Enquiries received tab (Section 7.3) */}
             {activeTab === "enquiries" && (
               <div className="space-y-4">
-                <h3 className="text-h3 font-bold">Enquiries Received on my Properties</h3>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-white">Enquiries Received on my Properties</h3>
 
                 {enquiries.length > 0 ? (
                   <div className="grid grid-cols-1 gap-4">
                     {enquiries.map((enq) => (
-                      <div
+                      <VercelCard
                         key={enq.id}
-                        className="p-6 bg-white border border-[var(--border-default)] rounded-xl shadow-sm space-y-4"
+                        bordered={true}
+                        glowEffect={true}
+                        animateOnHover={false}
+                        className="p-1 bg-[var(--surface-raised)]/40 rounded-xl text-left w-full h-full font-sans"
                       >
-                        <div className="flex justify-between items-start gap-4">
-                          <div>
-                            <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] tracking-wider">
-                              Placement: {enq.listingTitle}
-                            </span>
-                            <h4 className="text-body-strong text-[var(--text-primary)]">
-                              Campaign Intent Proposal
-                            </h4>
+                        <div className="p-6 space-y-4 w-full">
+                          <div className="flex justify-between items-start gap-4 w-full">
+                            <div className="text-left">
+                              <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">
+                                Placement: {enq.listingTitle}
+                              </span>
+                              <h4 className="text-sm font-bold text-white mt-1">
+                                Campaign Intent Proposal
+                              </h4>
+                            </div>
+
+                            <div className={`px-3 py-1 rounded-full border text-xs font-bold ${getStageColorClass(enq.stage)}`}>
+                              {enq.stage}
+                            </div>
                           </div>
 
-                          <div className={`px-3 py-1 rounded-full border text-xs font-bold ${getStageColorClass(enq.stage)}`}>
-                            {enq.stage}
+                          <p className="text-xs text-[var(--text-secondary)] leading-relaxed italic p-3 bg-[var(--surface-canvas)] rounded-lg">
+                            &ldquo;{enq.message}&rdquo;
+                          </p>
+
+                          {/* Brand contact details revealed on sent enquiry */}
+                          <div className="p-4 bg-[var(--surface-canvas)] border border-[var(--border-default)] rounded-lg text-xs grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            <div>
+                              <span className="text-[9px] font-bold text-[var(--text-secondary)] uppercase block">Brand Name</span>
+                              <span className="font-bold text-white">{enq.brandName}</span>
+                            </div>
+                            <div>
+                              <span className="text-[9px] font-bold text-[var(--text-secondary)] uppercase block">Company</span>
+                              <span className="font-bold text-white">{enq.brandCompany}</span>
+                            </div>
+                            <div>
+                              <span className="text-[9px] font-bold text-[var(--text-secondary)] uppercase block">Contact Coordinates</span>
+                              <span className="font-bold text-white">{enq.brandPhone} | {enq.brandEmail}</span>
+                            </div>
                           </div>
                         </div>
-
-                        <p className="text-xs text-[var(--text-secondary)] leading-relaxed italic p-3 bg-slate-50 rounded-lg">
-                          &ldquo;{enq.message}&rdquo;
-                        </p>
-
-                        {/* Brand contact details revealed on sent enquiry */}
-                        <div className="p-4 bg-blue-50/50 border border-blue-100 rounded-lg text-xs grid grid-cols-1 sm:grid-cols-3 gap-2">
-                          <div>
-                            <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase block">Brand Name</span>
-                            <span className="font-bold text-[var(--text-primary)]">{enq.brandName}</span>
-                          </div>
-                          <div>
-                            <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase block">Company</span>
-                            <span className="font-bold text-[var(--text-primary)]">{enq.brandCompany}</span>
-                          </div>
-                          <div>
-                            <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase block">Contact Coordinates</span>
-                            <span className="font-bold text-[var(--text-primary)]">{enq.brandPhone} | {enq.brandEmail}</span>
-                          </div>
-                        </div>
-                      </div>
+                      </VercelCard>
                     ))}
                   </div>
                 ) : (
-                  <div className="p-8 rounded-xl bg-white border border-[var(--border-default)] text-center text-slate-400">
-                    <MdiIcon name="email-open-outline" className="text-4xl block mx-auto mb-2 text-slate-350" />
-                    <p className="text-small">No demand inquiries received on your listings yet.</p>
+                  <div className="p-8 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-400">
+                    <MdiIcon name="email-open-outline" className="text-4xl block mx-auto mb-2 text-slate-500" />
+                    <p className="text-xs">No demand inquiries received on your listings yet.</p>
                   </div>
                 )}
               </div>
@@ -850,9 +898,9 @@ export default function DashboardPage() {
 
         {/* GENERAL SETTINGS PANEL (Section 2.10) */}
         {activeTab === "settings" && (
-          <div className="max-w-2xl bg-white p-8 rounded-2xl border border-[var(--border-default)] shadow-sm space-y-6 animate-fade-in">
+          <div className="max-w-2xl bg-[var(--surface-raised)]/40 p-8 rounded-2xl border border-[var(--border-default)] shadow-sm space-y-6 animate-fade-in w-full text-left">
             <div>
-              <h3 className="text-h3 font-bold">Account Settings</h3>
+              <h3 className="text-lg font-bold text-white uppercase tracking-wider">Account Settings</h3>
               <p className="text-xs text-[var(--text-secondary)] mt-0.5">
                 Manage your credentials, data export portfolios, and vault schedules.
               </p>
@@ -860,32 +908,32 @@ export default function DashboardPage() {
 
             <div className="space-y-4">
               {/* Data Portability */}
-              <div className="p-5 border border-[var(--border-default)] rounded-xl flex items-center justify-between gap-4 bg-slate-50">
+              <div className="p-5 border border-[var(--border-default)] rounded-xl flex items-center justify-between gap-4 bg-[var(--surface-canvas)]">
                 <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-[var(--text-primary)] uppercase">Download Data Portfolio</h4>
-                  <p className="text-caption-default text-[var(--text-secondary)] max-w-sm">
+                  <h4 className="text-xs font-bold text-white uppercase">Download Data Portfolio</h4>
+                  <p className="text-xs text-[var(--text-secondary)] max-w-sm leading-relaxed">
                     In compliance with DPDP laws, download a full portable JSON export of your credentials, profiles and timeline.
                   </p>
                 </div>
                 <button
                   onClick={handleDataExport}
-                  className="btn-secondary h-10 px-4 text-xs font-bold flex items-center gap-1.5 shrink-0"
+                  className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-raised)] text-white hover:bg-[var(--surface-hover)] h-10 px-4 text-xs font-bold flex items-center gap-1.5 shrink-0 cursor-pointer"
                 >
                   <MdiIcon name="download-outline" /> Export Data
                 </button>
               </div>
 
               {/* Account Deletion */}
-              <div className="p-5 border border-red-200 rounded-xl flex items-center justify-between gap-4 bg-red-50/50">
+              <div className="p-5 border border-red-950 rounded-xl flex items-center justify-between gap-4 bg-red-950/10">
                 <div className="space-y-1">
                   <h4 className="text-xs font-bold text-[var(--status-error)] uppercase">Request Account Deletion</h4>
-                  <p className="text-caption-default text-[var(--text-secondary)] max-w-sm">
+                  <p className="text-xs text-[var(--text-secondary)] max-w-sm leading-relaxed">
                     Initiate permanent account removal. A mandatory 30-day vault retention window applies to finalize active transactions.
                   </p>
                 </div>
                 <button
                   onClick={handleAccountDelete}
-                  className="btn-secondary border-[var(--status-error)] text-[var(--status-error)] hover:bg-red-50 h-10 px-4 text-xs font-bold flex items-center gap-1.5 shrink-0"
+                  className="rounded-xl border border-red-900/40 text-[var(--status-error)] hover:bg-red-500/10 h-10 px-4 text-xs font-bold flex items-center gap-1.5 shrink-0 cursor-pointer"
                 >
                   <MdiIcon name="delete-outline" /> Delete Account
                 </button>
