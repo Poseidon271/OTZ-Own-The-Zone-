@@ -67,16 +67,22 @@ export default function CardNav({ onLogoClick }) {
               Marketplace
             </button>
             <button
-              onClick={() => router.push("/services/media-planning")}
+              onClick={() => router.push("/media-planning")}
               className="text-xs uppercase font-bold tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
             >
               Media Planning
             </button>
             <button
-              onClick={() => router.push("/services/production")}
+              onClick={() => router.push("/media-buying")}
               className="text-xs uppercase font-bold tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
             >
-              Production
+              Media Buying
+            </button>
+            <button
+              onClick={() => router.push("/media-production")}
+              className="text-xs uppercase font-bold tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+            >
+              Media Production
             </button>
             <button
               onClick={() => {
@@ -195,16 +201,47 @@ export default function CardNav({ onLogoClick }) {
               }}
               className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
             >
-              Explore Zones
+              Marketplace
             </button>
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                router.push("/about");
+                router.push("/media-planning");
               }}
               className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
             >
-              About & Legal
+              Media Planning
+            </button>
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                router.push("/media-buying");
+              }}
+              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
+            >
+              Media Buying
+            </button>
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                router.push("/media-production");
+              }}
+              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
+            >
+              Media Production
+            </button>
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                if (user) {
+                  router.push("/dashboard?tab=listings");
+                } else {
+                  window.dispatchEvent(new CustomEvent("open-lead-popup", { detail: { intent: "host" } }));
+                }
+              }}
+              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
+            >
+              For Hosts
             </button>
 
             {user ? (

@@ -4,6 +4,7 @@ import React from "react";
 import { FadeIn } from "../fade-in";
 import { Zap, Shield, BarChart2, Link2, Bot, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // Import illustrations
 import {
@@ -23,7 +24,8 @@ const defaultFeatures = [
     icon: Zap,
     iconColor: "text-yellow-500",
     badge: "AI Strategy",
-    span: "lg:col-span-2"
+    span: "lg:col-span-2",
+    href: "/media-planning"
   },
   {
     title: "Audience SLA Verification",
@@ -52,11 +54,12 @@ const defaultFeatures = [
   },
   {
     title: "Creative Production Engine",
-    description: "Ad films and creatives dynamically generated to fit each specific zone you buy. (COMING SOON)",
+    description: "Ad films and campaign creatives custom designed to fit each specific zone you buy. Click to get production support.",
     viz: AgentsIllustration,
     icon: Bot,
     iconColor: "text-orange-500",
-    badge: "Asset Engine"
+    badge: "Creative Service",
+    href: "/media-production"
   },
   {
     title: "Live Zone Placements",
@@ -64,7 +67,8 @@ const defaultFeatures = [
     viz: EdgeIllustration,
     icon: Zap,
     iconColor: "text-emerald-500",
-    badge: "12,000+ Spots"
+    badge: "12,000+ Spots",
+    href: "/media-buying"
   },
 ];
 
@@ -91,27 +95,47 @@ export default function Features({
           {features.map((feat, i) => {
             const Viz = feat.viz;
             const Icon = feat.icon;
-            return (
-              <FadeIn key={feat.title} delay={i * 0.05}>
-                <div className={cn("group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border-default)] bg-[var(--surface-raised)] transition-all duration-300 hover:border-[#FF5A1F]/30 hover:shadow-[0_12px_24px_rgba(0,0,0,0.35)]", feat.span)}>
-                  <div className="flex flex-col justify-between gap-4 p-6 pb-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex size-9 items-center justify-center rounded-xl border border-[var(--border-default)] bg-[var(--surface-subtle)]">
-                        <Icon className={cn("size-4", feat.iconColor)} />
-                      </div>
-                      <span className="rounded-full border border-[var(--border-default)] bg-[var(--surface-subtle)] px-2.5 py-1 text-[10px] font-bold text-[var(--text-secondary)] uppercase">
-                        {feat.badge}
-                      </span>
+            const isClickable = !!feat.href;
+            
+            const cardContent = (
+              <>
+                <div className="flex flex-col justify-between gap-4 p-6 pb-4">
+                  <div className="flex items-start justify-between">
+                    <div className="flex size-9 items-center justify-center rounded-xl border border-[var(--border-default)] bg-[var(--surface-subtle)]">
+                      <Icon className={cn("size-4", feat.iconColor)} />
                     </div>
-                    <div>
-                      <h3 className="text-base font-semibold tracking-tight text-[var(--text-primary)]">{feat.title}</h3>
-                      <p className="mt-1.5 text-xs leading-relaxed text-[var(--text-secondary)]">{feat.description}</p>
-                    </div>
+                    <span className="rounded-full border border-[var(--border-default)] bg-[var(--surface-subtle)] px-2.5 py-1 text-[10px] font-bold text-[var(--text-secondary)] uppercase">
+                      {feat.badge}
+                    </span>
                   </div>
-                  <div className="mt-auto min-h-80 border-t border-[var(--border-default)] bg-[var(--surface-canvas)]/30">
-                    <Viz />
+                  <div>
+                    <h3 className="text-base font-semibold tracking-tight text-[var(--text-primary)] flex items-center gap-1.5">
+                      {feat.title}
+                      {isClickable && <ArrowRight className="size-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[var(--action-primary)]" />}
+                    </h3>
+                    <p className="mt-1.5 text-xs leading-relaxed text-[var(--text-secondary)]">{feat.description}</p>
                   </div>
                 </div>
+                <div className="mt-auto min-h-80 border-t border-[var(--border-default)] bg-[var(--surface-canvas)]/30">
+                  <Viz />
+                </div>
+              </>
+            );
+
+            return (
+              <FadeIn key={feat.title} delay={i * 0.05}>
+                {isClickable ? (
+                  <Link
+                    href={feat.href}
+                    className={cn("group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border-default)] bg-[var(--surface-raised)] transition-all duration-300 hover:border-[#FF5A1F]/30 hover:shadow-[0_12px_24px_rgba(0,0,0,0.35)] cursor-pointer", feat.span)}
+                  >
+                    {cardContent}
+                  </Link>
+                ) : (
+                  <div className={cn("group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border-default)] bg-[var(--surface-raised)] transition-all duration-300 hover:border-[#FF5A1F]/30 hover:shadow-[0_12px_24px_rgba(0,0,0,0.35)]", feat.span)}>
+                    {cardContent}
+                  </div>
+                )}
               </FadeIn>
             );
           })}

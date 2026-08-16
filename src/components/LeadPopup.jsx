@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import MdiIcon from "@/components/MdiIcon";
 
 export default function LeadPopup() {
   const router = useRouter();
+  const pathname = usePathname();
 
   // Onboarding Wizard state
   const [isOpen, setIsOpen] = useState(false);
@@ -71,31 +72,7 @@ export default function LeadPopup() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, step]);
 
-  // Initial trigger after 5 seconds
-  useEffect(() => {
-    // Check session locks
-    const isCaptured = sessionStorage.getItem("otz_onboarding_session");
-    const isUserLogged = localStorage.getItem("otz_user"); // fallback check
-    
-    if (isCaptured || isUserLogged) return;
 
-    const timer = setTimeout(() => {
-      // Don't open if they already logged in or opened another modal
-      fetch("/api/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "get-session" })
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data.user) {
-            setIsOpen(true);
-          }
-        });
-    }, 5000); // 5s delay
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Listen to custom open triggers
   useEffect(() => {

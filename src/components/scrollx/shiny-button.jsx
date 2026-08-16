@@ -23,7 +23,7 @@ function useSpotlight() {
   return { ref, onMouseMove };
 }
 
-export function ShinyButton({ children, className, href, onClick, type = "button" }) {
+export function ShinyButton({ children, className, href, onClick, type = "button", disabled, ...props }) {
   const { ref, onMouseMove } = useSpotlight();
   const style = { "--x": "50%", "--y": "50%" };
 
@@ -35,6 +35,7 @@ export function ShinyButton({ children, className, href, onClick, type = "button
         onMouseMove={onMouseMove}
         style={style}
         className={cn(spotlightClass, className)}
+        {...props}
       >
         {children}
       </Link>
@@ -48,7 +49,9 @@ export function ShinyButton({ children, className, href, onClick, type = "button
       onMouseMove={onMouseMove}
       style={style}
       onClick={onClick}
-      className={cn(spotlightClass, className)}
+      disabled={disabled}
+      className={cn(spotlightClass, className, disabled && "opacity-60 cursor-not-allowed pointer-events-none")}
+      {...props}
     >
       {children}
     </button>

@@ -38,12 +38,7 @@ const metrics = [
 export default function Home() {
   const router = useRouter();
 
-  // Helper to open the LeadPopup onboarding flow
-  const triggerOnboarding = (intent) => {
-    window.dispatchEvent(
-      new CustomEvent("open-lead-popup", { detail: { intent } })
-    );
-  };
+
 
   return (
     <div
@@ -123,20 +118,30 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-4 pt-2 z-20"
+              className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 z-20 w-full max-w-xl"
             >
-              <ShinyButton
-                onClick={() => triggerOnboarding("brand")}
-                className="px-8 py-3 text-sm font-bold shadow-lg"
+              <button
+                onClick={() => router.push("/media-buying?skipIntake=true")}
+                className="rounded-xl border border-[var(--border-default)] hover:border-[var(--action-primary)]/50 hover:bg-[#132a4f]/20 bg-[var(--surface-raised)]/40 px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 focus-ring cursor-pointer flex items-center justify-center gap-2 group shadow-md"
               >
-                Plan my campaign <MdiIcon name="arrow-right" className="ml-1.5 text-sm" />
-              </ShinyButton>
+                <MdiIcon name="magnify" className="text-base text-[var(--action-primary)] group-hover:scale-110 transition-transform" />
+                <span>Find Media</span>
+              </button>
               
               <button
-                onClick={() => router.push("/media-buying")}
-                className="rounded-xl border border-[var(--border-default)] px-8 py-2.5 text-sm font-semibold text-[var(--text-primary)] transition-all hover:border-[var(--text-primary)]/30 hover:bg-[var(--surface-hover)] focus-ring h-[42px] cursor-pointer"
+                onClick={() => router.push("/media-planning")}
+                className="rounded-xl border border-[var(--border-default)] hover:border-[var(--action-primary)]/50 hover:bg-[#132a4f]/20 bg-[var(--surface-raised)]/40 px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 focus-ring cursor-pointer flex items-center justify-center gap-2 group shadow-md"
               >
-                Browse media inventory
+                <MdiIcon name="auto-fix" className="text-base text-[var(--action-primary)] group-hover:scale-110 transition-transform" />
+                <span>Plan Media</span>
+              </button>
+
+              <button
+                onClick={() => router.push("/media-buying")}
+                className="rounded-xl border border-[var(--border-default)] hover:border-[var(--action-primary)]/50 hover:bg-[#132a4f]/20 bg-[var(--surface-raised)]/40 px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 focus-ring cursor-pointer flex items-center justify-center gap-2 group shadow-md"
+              >
+                <MdiIcon name="shopping-outline" className="text-base text-[var(--action-primary)] group-hover:scale-110 transition-transform" />
+                <span>Buy Media</span>
               </button>
             </motion.div>
 

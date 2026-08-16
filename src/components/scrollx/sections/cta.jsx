@@ -17,11 +17,7 @@ export default function CTA({
   disclaimer = "Transparent pricing · Audited placement reports · Dedicated ops desk support",
   className,
 }) {
-  const triggerOnboarding = () => {
-    window.dispatchEvent(
-      new CustomEvent("open-lead-popup", { detail: { intent: "brand" } })
-    );
-  };
+
 
   return (
     <section id="contact" className={cn("border-t border-[var(--border-default)] py-24 px-5 text-left relative z-10 bg-transparent", className)}>
@@ -32,7 +28,7 @@ export default function CTA({
               <h2 className="text-3xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-4xl md:text-5xl">{headline}</h2>
               <p className="max-w-md text-xs leading-relaxed text-[var(--text-secondary)]">{description}</p>
               <div className="flex flex-col items-center gap-3 sm:flex-row mt-2">
-                <ShinyButton onClick={triggerOnboarding} className="gap-2 px-7 py-3 font-bold text-xs">
+                <ShinyButton href="/media-planning" className="gap-2 px-7 py-3 font-bold text-xs">
                   {primaryCtaText} <ArrowRight className="size-3.5" />
                 </ShinyButton>
                 <Link href={secondaryCtaHref} className="inline-flex items-center gap-2 rounded-xl border border-[var(--border-default)] bg-[var(--surface-canvas)] px-7 py-3 text-xs font-semibold text-[var(--text-primary)] transition-all hover:border-[var(--text-primary)]/35 hover:bg-[var(--surface-hover)] focus-ring">
