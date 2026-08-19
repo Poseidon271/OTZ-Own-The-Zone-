@@ -98,7 +98,7 @@ export default function ListingClientPage({ listing }) {
   const isEvent = listing.media_type === "Event or Venue";
 
   return (
-    <div className="theme-light bg-[var(--surface-canvas)] min-h-screen text-[var(--text-primary)] pb-16">
+    <div className="theme-dark bg-[var(--surface-canvas)] min-h-screen text-[var(--text-primary)] pb-16">
       <Navbar onLogoClick={() => router.push("/")} />
 
       <main className="max-w-6xl mx-auto px-6 pt-24 space-y-8">
@@ -126,7 +126,7 @@ export default function ListingClientPage({ listing }) {
           <div className="lg:col-span-7 space-y-6">
             
             {/* Visual Cover */}
-            <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden border border-[var(--border-default)] shadow-sm bg-slate-100">
+            <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden border border-[var(--border-default)] shadow-sm bg-[var(--surface-subtle)]">
               <img
                 src={listing.image_url}
                 alt={listing.title}
@@ -159,12 +159,12 @@ export default function ListingClientPage({ listing }) {
                   </span>
                 ))}
                 {listing.geography?.map(g => (
-                  <span key={g} className="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-md border border-slate-200">
+                  <span key={g} className="bg-[var(--surface-subtle)] text-[var(--text-secondary)] text-xs font-bold px-3 py-1 rounded-md border border-[var(--border-default)]">
                     Location: {g}
                   </span>
                 ))}
                 {listing.language?.map(l => (
-                  <span key={l} className="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-md border border-slate-200">
+                  <span key={l} className="bg-[var(--surface-subtle)] text-[var(--text-secondary)] text-xs font-bold px-3 py-1 rounded-md border border-[var(--border-default)]">
                     Language: {l}
                   </span>
                 ))}
@@ -173,18 +173,18 @@ export default function ListingClientPage({ listing }) {
 
             {/* Structured Stats (Reach source disclosure Section 4.5) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[var(--border-default)]">
-              <div className="p-5 bg-white border border-[var(--border-default)] rounded-xl shadow-inner">
+              <div className="p-5 bg-[var(--surface-raised)] border border-[var(--border-default)] rounded-xl shadow-inner">
                 <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] block mb-1">Verified Audience Reach</span>
                 <div className="flex items-baseline gap-2">
                   <span className="text-h2 font-display text-[var(--text-primary)]">{listing.visibility_metric}</span>
                 </div>
                 <div className="text-[10px] text-[var(--text-secondary)] font-semibold mt-1 flex items-center gap-1">
-                  <MdiIcon name="shield-check-outline" className="text-[var(--status-success-text)]" />
+                  <MdiIcon name="shield-check-outline" className="text-[var(--status-success)]" />
                   Source: {listing.reach_source} ({listing.reach_date})
                 </div>
               </div>
 
-              <div className="p-5 bg-white border border-[var(--border-default)] rounded-xl shadow-inner">
+              <div className="p-5 bg-[var(--surface-raised)] border border-[var(--border-default)] rounded-xl shadow-inner">
                 <span className="text-[10px] uppercase font-bold text-[var(--text-tertiary)] block mb-1">Estimated Cost Band</span>
                 <div className="flex items-baseline gap-2">
                   <span className="text-h2 font-display text-[var(--action-primary)] tabular-nums">{listing.price_band}</span>
@@ -197,7 +197,7 @@ export default function ListingClientPage({ listing }) {
 
             {/* Event Specific Parameters (Section 4.4) */}
             {isEvent && (
-              <div className="p-5 bg-slate-50 border border-[var(--border-default)] rounded-xl space-y-3">
+              <div className="p-5 bg-[var(--surface-subtle)] border border-[var(--border-default)] rounded-xl space-y-3">
                 <h4 className="text-xs uppercase font-bold text-[var(--text-primary)] flex items-center gap-1.5">
                   <MdiIcon name="calendar-range" className="text-[var(--action-primary)]" />
                   <span>IP Event Details</span>
@@ -219,7 +219,7 @@ export default function ListingClientPage({ listing }) {
           {/* Column Right: Enquiry / Sponsorship Action Box */}
           <div className="lg:col-span-5">
             <div
-              className="p-8 rounded-2xl bg-white border border-[var(--border-default)] shadow-md space-y-6"
+              className="p-8 rounded-2xl bg-[var(--surface-raised)] border border-[var(--border-default)] shadow-md space-y-6"
               style={{ boxShadow: "var(--shadow-floating)" }}
             >
               <div>
@@ -233,7 +233,7 @@ export default function ListingClientPage({ listing }) {
 
               {enquirySent ? (
                 <div className="text-center py-6 space-y-4 animate-fade-in">
-                  <div className="h-14 w-14 bg-emerald-50 text-[var(--status-success-text)] rounded-full flex items-center justify-center mx-auto text-2xl animate-sweep-green border border-emerald-200">
+                  <div className="h-14 w-14 bg-[var(--status-success)]/10 text-[var(--status-success)] rounded-full flex items-center justify-center mx-auto text-2xl animate-sweep-green border border-[var(--status-success)]/20">
                     <MdiIcon name="check-bold" />
                   </div>
                   <div>
@@ -269,7 +269,7 @@ export default function ListingClientPage({ listing }) {
                               className={`p-3 rounded-lg border text-[11px] font-bold text-center transition-all cursor-pointer ${
                                 isSelected
                                   ? "border-[var(--action-primary)] bg-[var(--action-primary)]/5 text-[var(--action-primary)]"
-                                  : "border-[var(--border-default)] bg-white text-[var(--text-secondary)] hover:bg-slate-50"
+                                  : "border-[var(--border-default)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:bg-[var(--surface-subtle)]"
                               }`}
                             >
                               {tier}
@@ -289,7 +289,7 @@ export default function ListingClientPage({ listing }) {
                       <select
                         value={selectedFormat}
                         onChange={(e) => handleFormatSelect(e.target.value)}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-xs font-semibold"
+                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-raised)] text-[var(--text-primary)] rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-xs font-semibold"
                       >
                         {listing.formats.map((f) => (
                           <option key={f} value={f}>{f}</option>
@@ -308,7 +308,7 @@ export default function ListingClientPage({ listing }) {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Add timing, budget bounds or custom inquiries..."
-                      className="w-full p-3 border border-[var(--border-default)] bg-white rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-xs resize-none leading-relaxed"
+                      className="w-full p-3 border border-[var(--border-default)] bg-[var(--surface-raised)] text-[var(--text-primary)] rounded-lg focus:outline-none focus:border-[var(--border-focus)] text-xs resize-none leading-relaxed"
                     />
                   </div>
 

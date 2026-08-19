@@ -34,7 +34,7 @@ export default async function ListingPage({ params }) {
 
   if (!listing) {
     return (
-      <div className="theme-light min-h-screen bg-[#F6F7F9] text-[#1C2430] flex flex-col items-center justify-center p-6 text-center">
+      <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] flex flex-col items-center justify-center p-6 text-center">
         <h1 className="text-h1 text-[var(--status-error)] mb-2">Listing Not Found</h1>
         <p className="text-small text-[var(--text-secondary)]">The requested advertisement zone does not exist or has been removed.</p>
         <a href="/media-buying" className="btn-primary mt-6">Return to Marketplace</a>
@@ -82,7 +82,7 @@ export default async function ListingPage({ params }) {
       };
 
   return (
-    <div className="theme-light min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)]">
+    <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)]">
       {/* Schema.org Structured Data Injector */}
       <script
         type="application/ld+json"

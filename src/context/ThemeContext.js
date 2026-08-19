@@ -9,7 +9,7 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.add("dark");
+    root.classList.add("theme-dark");
     localStorage.setItem("theme", "dark");
   }, []);
 
