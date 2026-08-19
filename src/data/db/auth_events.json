@@ -7,5 +7,23 @@
     "ip": "127.0.0.1",
     "timestamp": "2026-08-11T21:20:35.375Z",
     "created_at": "2026-08-11T21:20:35.375Z"
+  },
+  {
+    "id": "aut-ir513edzn",
+    "user_id": "usr-ops-1",
+    "type": "login_success",
+    "outcome": "success",
+    "ip": "127.0.0.1",
+    "timestamp": "2026-08-18T14:21:37.064Z",
+    "created_at": "2026-08-18T14:21:37.064Z"
+  },
+  {
+    "id": "aut-o9hl97psh",
+    "user_id": "use-4gyu4iebb",
+    "type": "login_success",
+    "outcome": "success",
+    "ip": "127.0.0.1",
+    "timestamp": "2026-08-18T18:10:10.771Z",
+    "created_at": "2026-08-18T18:10:10.771Z"
   }
 ]

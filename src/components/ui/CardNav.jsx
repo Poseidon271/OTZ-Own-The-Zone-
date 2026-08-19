@@ -87,7 +87,7 @@ export default function CardNav({ onLogoClick }) {
             <button
               onClick={() => {
                 if (user) {
-                  router.push("/dashboard?tab=listings");
+                  router.push("/dashboard?tab=overview");
                 } else {
                   window.dispatchEvent(new CustomEvent("open-lead-popup", { detail: { intent: "host" } }));
                 }
@@ -234,7 +234,7 @@ export default function CardNav({ onLogoClick }) {
               onClick={() => {
                 setIsMobileMenuOpen(false);
                 if (user) {
-                  router.push("/dashboard?tab=listings");
+                  router.push("/dashboard?tab=overview");
                 } else {
                   window.dispatchEvent(new CustomEvent("open-lead-popup", { detail: { intent: "host" } }));
                 }

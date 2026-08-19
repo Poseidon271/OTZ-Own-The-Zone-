@@ -15,5 +15,32 @@
     },
     "timestamp": "2026-08-11T21:20:23.585Z",
     "created_at": "2026-08-11T21:20:23.585Z"
+  },
+  {
+    "id": "aud-ltvtil3yy",
+    "actor_id": "usr-ops-1",
+    "action": "request_otp",
+    "entity": "otp_challenges",
+    "before": null,
+    "after": null,
+    "timestamp": "2026-08-18T14:21:16.974Z",
+    "created_at": "2026-08-18T14:21:16.974Z"
+  },
+  {
+    "id": "aud-wz6wtbkme",
+    "actor_id": "use-4gyu4iebb",
+    "action": "register_account",
+    "entity": "accounts",
+    "before": null,
+    "after": {
+      "id": "acc-qa72o6jxs",
+      "name": "PERCYDON",
+      "company": "GAMING",
+      "role": "host",
+      "state": "unverified",
+      "created_at": "2026-08-18T18:10:01.910Z"
+    },
+    "timestamp": "2026-08-18T18:10:01.911Z",
+    "created_at": "2026-08-18T18:10:01.911Z"
   }
 ]

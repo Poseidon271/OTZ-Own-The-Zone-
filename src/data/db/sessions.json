@@ -9,5 +9,25 @@
     "ip": "127.0.0.1",
     "created_at": "2026-08-11T21:20:35.375Z",
     "updated_at": "2026-08-11T21:20:48.961Z"
+  },
+  {
+    "id": "ses-74bit03bp",
+    "user_id": "usr-ops-1",
+    "token": "session-7no6fy5tj1t-nw2qsur34jf",
+    "expires_at": "2026-09-17T14:21:37.064Z",
+    "revoked_at": null,
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "ip": "127.0.0.1",
+    "created_at": "2026-08-18T14:21:37.064Z"
+  },
+  {
+    "id": "ses-fw303yvmj",
+    "user_id": "use-4gyu4iebb",
+    "token": "session-jjayrsuoztq-m8a34rhqgy",
+    "expires_at": "2026-09-17T18:10:10.770Z",
+    "revoked_at": null,
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "ip": "127.0.0.1",
+    "created_at": "2026-08-18T18:10:10.770Z"
   }
 ]

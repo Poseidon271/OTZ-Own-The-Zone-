@@ -20,14 +20,16 @@ function MarketplaceContent() {
 
   // Route pre-params check to skip intake flow if deep-linking
   const hasParams = searchParams.get("q") || searchParams.get("channel") || searchParams.get("goal") || searchParams.get("step") === "2" || searchParams.get("skipIntake") === "true";
-  const [buyingStep, setBuyingStep] = useState(hasParams ? 2 : 1);
+  const [buyingStep, setBuyingStep] = useState(2); // Start in marketplace catalog directly
 
   // Intake States
   const [intakeObjective, setIntakeObjective] = useState("");
-  const [intakeGeo, setIntakeGeo] = useState("");
-  const [intakeMediaType, setIntakeMediaType] = useState("");
+  const [intakeGeo, setIntakeGeo] = useState(() => searchParams.get("geo") || "");
+  const [intakeMediaType, setIntakeMediaType] = useState(() => searchParams.get("channel") || "");
   const [intakePriceBand, setIntakePriceBand] = useState("");
-  const [hasActiveIntake, setHasActiveIntake] = useState(false);
+  const [hasActiveIntake, setHasActiveIntake] = useState(() => {
+    return !!(searchParams.get("channel") || searchParams.get("goal") || searchParams.get("q"));
+  });
 
   // Main catalog / user state
   const [listings, setListings] = useState([]);
@@ -50,6 +52,7 @@ function MarketplaceContent() {
   const [selectedGeo, setSelectedGeo] = useState("");
   const [selectedPriceBand, setSelectedPriceBand] = useState("");
   const [selectedVisibility, setSelectedVisibility] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("");
   const [onlyVerified, setOnlyVerified] = useState(false);
   const [sortBy, setSortBy] = useState("relevance");
 
@@ -69,6 +72,7 @@ function MarketplaceContent() {
   const geographies = ["Mumbai", "Delhi NCR", "Bengaluru", "National Grid", "Regional South", "Regional West"];
   const priceBands = ["Under ₹10K", "₹10K - ₹50K", "₹50K - ₹2L", "₹2L - ₹10L", "₹10L+"];
   const reachBands = ["Under 100K", "100K - 500K", "500K - 2M", "2M+"];
+  const languages = ["English", "Hindi", "Tamil", "Bengali", "Kannada", "Malayalam"];
 
   // Load session & items
   useEffect(() => {
@@ -125,27 +129,23 @@ function MarketplaceContent() {
   // GREEDY FILTER & SORT LOGIC
   const filteredAndSortedListings = useMemo(() => {
     let result = listings.filter((item) => {
-      // Search query match
-      if (searchQuery.trim()) {
-        const query = searchQuery.toLowerCase();
-        const titleMatch = item.title?.toLowerCase().includes(query);
-        const netMatch = item.parent_network?.toLowerCase().includes(query);
-        const tagsMatch = item.niche_tags?.some((t) => t.toLowerCase().includes(query));
-        if (!titleMatch && !netMatch && !tagsMatch) return false;
-      }
-
       // Media Type
       if (selectedMediaType && item.media_type !== selectedMediaType) {
         return false;
       }
 
-      // Niche
+      // Niche / Industry
       if (selectedNiche && !item.niche_tags?.includes(selectedNiche)) {
         return false;
       }
 
-      // Geography
+      // Geography / City
       if (selectedGeo && !item.geography?.includes(selectedGeo)) {
+        return false;
+      }
+
+      // Language
+      if (selectedLanguage && !item.language?.includes(selectedLanguage)) {
         return false;
       }
 
@@ -159,7 +159,7 @@ function MarketplaceContent() {
         if (selectedPriceBand === "₹10L+" && price < 1000000) return false;
       }
 
-      // Reach / Visibility
+      // Reach / Visibility (Audience Size)
       if (selectedVisibility) {
         const reachNum = parseVisibilityCount(item.visibility_metric);
         if (selectedVisibility === "Under 100K" && reachNum >= 100000) return false;
@@ -176,8 +176,55 @@ function MarketplaceContent() {
       return true;
     });
 
-    // Sort
+    // Natural Language Search Relevance Scoring
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      const queryWords = query.split(/\s+/).filter(w => w.trim().length > 1);
+
+      result = result.map((item) => {
+        let score = 0;
+        const titleLower = (item.title || "").toLowerCase();
+        const parentLower = (item.parent_network || "").toLowerCase();
+        const mediaLower = (item.media_type || "").toLowerCase();
+        const reachSrcLower = (item.reach_source || "").toLowerCase();
+        const descLower = (item.description || "").toLowerCase();
+        const targetAudienceLower = (item.target_audience || "").toLowerCase();
+
+        if (titleLower.includes(query)) score += 15;
+        if (parentLower.includes(query)) score += 10;
+
+        queryWords.forEach((word) => {
+          if (titleLower.includes(word)) score += 5;
+          if (parentLower.includes(word)) score += 4;
+          if (mediaLower.includes(word)) score += 3;
+          if (descLower.includes(word)) score += 2;
+          if (targetAudienceLower.includes(word)) score += 5;
+
+          if (item.geography?.some(g => g.toLowerCase().includes(word))) {
+            score += 6;
+          }
+          if (item.niche_tags?.some(t => t.toLowerCase().includes(word))) {
+            score += 5;
+          }
+          if (item.sectors?.some(s => s.toLowerCase().includes(word))) {
+            score += 5;
+          }
+          if (item.language?.some(l => l.toLowerCase().includes(word))) {
+            score += 3;
+          }
+        });
+
+        return { ...item, _searchScore: score };
+      }).filter(item => item._searchScore > 0);
+    }
+
+    // Sort Results
     result.sort((a, b) => {
+      if (searchQuery.trim()) {
+        const scoreDiff = (b._searchScore || 0) - (a._searchScore || 0);
+        if (scoreDiff !== 0) return scoreDiff;
+      }
+
       if (sortBy === "price-low") return a.raw_price - b.raw_price;
       if (sortBy === "price-high") return b.raw_price - a.raw_price;
       if (sortBy === "visibility") {
@@ -186,14 +233,14 @@ function MarketplaceContent() {
       if (sortBy === "newest") {
         return new Date(b.created_at || 0) - new Date(a.created_at || 0);
       }
-      // Relevance
+      // Relevance / Verified
       if (a.verified && !b.verified) return -1;
       if (!a.verified && b.verified) return 1;
       return a.id.localeCompare(b.id);
     });
 
     return result;
-  }, [listings, searchQuery, selectedMediaType, selectedNiche, selectedGeo, selectedPriceBand, selectedVisibility, onlyVerified, sortBy]);
+  }, [listings, searchQuery, selectedMediaType, selectedNiche, selectedGeo, selectedLanguage, selectedPriceBand, selectedVisibility, onlyVerified, sortBy]);
 
   // Intake Submission
   const handleIntakeSubmit = (e) => {
@@ -288,6 +335,7 @@ function MarketplaceContent() {
     setSelectedGeo("");
     setSelectedPriceBand("");
     setSelectedVisibility("");
+    setSelectedLanguage("");
     setOnlyVerified(false);
     setHasActiveIntake(false);
   };
@@ -440,23 +488,63 @@ function MarketplaceContent() {
         ) : (
           /* Step 2: Catalog Results view */
           <div className="space-y-6">
-            {/* Breadcrumbs Return Button */}
-            <div className="flex items-center justify-between">
+            {/* Catalog Page Header & CTA Bar */}
+            <div className="flex items-center justify-between flex-wrap gap-4 border-b border-[var(--border-default)] pb-6 w-full">
               <button
                 onClick={() => router.push("/")}
-                className="frost-glass inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-[var(--text-primary)] hover:border-[rgba(184,199,217,0.18)] hover:text-[var(--action-primary)] transition-all cursor-pointer border border-[var(--border-default)]"
+                className="frost-glass inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-[var(--text-primary)] hover:border-[var(--action-primary)] hover:text-[var(--action-primary)] transition-all cursor-pointer border border-[var(--border-default)] bg-[var(--surface-raised)]/20 shadow-sm"
               >
                 <MdiIcon name="arrow-left" className="text-base" /> Return to Homepage
               </button>
 
-              {hasActiveIntake && (
+              <div className="flex items-center gap-4 flex-wrap">
                 <button
-                  onClick={() => setBuyingStep(1)}
-                  className="text-xs font-bold text-[var(--action-primary)] hover:underline flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
+                  onClick={() => {
+                    if (user) {
+                      router.push("/dashboard?tab=listings");
+                    } else {
+                      window.dispatchEvent(new CustomEvent("open-lead-popup", { detail: { intent: "host" } }));
+                    }
+                  }}
+                  className="frost-glass inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white hover:border-[var(--action-primary)] hover:text-[var(--action-primary)] transition-all cursor-pointer border border-[var(--border-default)] bg-[var(--surface-raised)]/20 shadow-sm"
                 >
-                  <MdiIcon name="pencil" /> Modify Intake Details
+                  <MdiIcon name="plus-circle-outline" className="text-base text-[var(--action-primary)]" />
+                  <span>List Your Media</span>
                 </button>
-              )}
+
+                {hasActiveIntake && (
+                  <button
+                    onClick={() => setBuyingStep(1)}
+                    className="frost-glass inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold text-[var(--action-primary)] hover:bg-[#132a4f]/20 border border-[var(--action-primary)]/30 transition-all cursor-pointer"
+                  >
+                    <MdiIcon name="pencil" /> Modify Intake
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Marketplace Hero Section */}
+            <div className="text-center py-10 space-y-4 max-w-3xl mx-auto">
+              <h1 className="text-4xl md:text-5xl font-black text-white font-display tracking-tight leading-[1.15]">
+                Find the right media for your <span className="text-[var(--action-primary)]">campaign</span>.
+              </h1>
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed max-w-xl mx-auto font-medium">
+                Explore premium placements, analyze target audiences, compare rates, and book spaces instantly.
+              </p>
+            </div>
+
+            {/* Prominent Hero Search Bar */}
+            <div className="max-w-2xl mx-auto mb-12 relative w-full px-2">
+              <span className="absolute inset-y-0 left-6 flex items-center text-[var(--text-secondary)]">
+                <MdiIcon name="magnify" className="text-2xl" />
+              </span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search media, audiences, locations..."
+                className="w-full h-14 pl-14 pr-6 rounded-2xl border border-[var(--border-default)] bg-[var(--surface-raised)]/40 text-white placeholder-slate-400 focus:outline-none focus:border-[var(--action-primary)] text-sm shadow-xl font-sans"
+              />
             </div>
 
             {/* Active Intake Banner */}
@@ -517,60 +605,75 @@ function MarketplaceContent() {
                       </select>
                     </div>
 
-                    {/* Audience Niche */}
+                    {/* Industry */}
                     <div className="space-y-2 w-full">
-                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Audience Niche</label>
+                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Industry</label>
                       <select
                         value={selectedNiche}
                         onChange={(e) => setSelectedNiche(e.target.value)}
                         className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
                       >
-                        <option value="">All Niches</option>
+                        <option value="">All Industries</option>
                         {niches.map((n) => (
                           <option key={n} value={n}>{n}</option>
                         ))}
                       </select>
                     </div>
 
-                    {/* Geography */}
+                    {/* City / Location */}
                     <div className="space-y-2 w-full">
-                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Geography</label>
+                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">City / Location</label>
                       <select
                         value={selectedGeo}
                         onChange={(e) => setSelectedGeo(e.target.value)}
                         className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
                       >
-                        <option value="">All Regions</option>
+                        <option value="">All Cities / Locations</option>
                         {geographies.map((g) => (
                           <option key={g} value={g}>{g}</option>
                         ))}
                       </select>
                     </div>
 
-                    {/* Price Band */}
+                    {/* Language */}
                     <div className="space-y-2 w-full">
-                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Price Band</label>
+                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Language</label>
+                      <select
+                        value={selectedLanguage}
+                        onChange={(e) => setSelectedLanguage(e.target.value)}
+                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                      >
+                        <option value="">All Languages</option>
+                        {languages.map((l) => (
+                          <option key={l} value={l}>{l}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Price Range */}
+                    <div className="space-y-2 w-full">
+                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Price / Price Range</label>
                       <select
                         value={selectedPriceBand}
                         onChange={(e) => setSelectedPriceBand(e.target.value)}
                         className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
                       >
-                        <option value="">All Budgets</option>
+                        <option value="">All Prices</option>
                         {priceBands.map((pb) => (
                           <option key={pb} value={pb}>{pb}</option>
                         ))}
                       </select>
                     </div>
 
-                    {/* Reach Bands */}
+                    {/* Audience Size */}
                     <div className="space-y-2 w-full">
-                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Est. Monthly Reach</label>
+                      <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Audience Size</label>
                       <select
                         value={selectedVisibility}
                         onChange={(e) => setSelectedVisibility(e.target.value)}
                         className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
                       >
-                        <option value="">All Reach Bands</option>
+                        <option value="">All Sizes</option>
                         {reachBands.map((rb) => (
                           <option key={rb} value={rb}>{rb}</option>
                         ))}
@@ -596,19 +699,11 @@ function MarketplaceContent() {
 
               {/* Right column items list */}
               <section className="lg:col-span-9 space-y-6 text-left">
-                {/* Search query input */}
-                <div className="flex flex-col sm:flex-row gap-4 items-center">
-                  <div className="relative flex-grow w-full">
-                    <span className="absolute inset-y-0 left-4 flex items-center text-[var(--text-secondary)]">
-                      <MdiIcon name="magnify" className="text-xl" />
-                    </span>
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search billboard locations, news channels, radio networks..."
-                      className="w-full h-12 pl-12 pr-4 rounded-xl border border-[var(--border-default)] bg-[var(--surface-raised)]/40 text-white placeholder-slate-400 focus:outline-none focus:border-[var(--action-primary)] text-sm"
-                    />
+                {/* Results List Toolbar */}
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-white/5 pb-4 w-full">
+                  {/* Counter match count */}
+                  <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider pl-1">
+                    <span>{filteredAndSortedListings.length} Media Opportunit{filteredAndSortedListings.length !== 1 ? "ies" : "y"} found</span>
                   </div>
 
                   {/* Sort select */}
@@ -617,7 +712,7 @@ function MarketplaceContent() {
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      className="h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm font-semibold cursor-pointer"
+                      className="h-10 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-xs font-semibold cursor-pointer"
                     >
                       <option value="relevance">Relevance (Verified First)</option>
                       <option value="price-low">Price: Low to High</option>
@@ -626,12 +721,6 @@ function MarketplaceContent() {
                       <option value="newest">Newest Listed</option>
                     </select>
                   </div>
-                </div>
-
-                {/* Counter match count */}
-                <div className="flex items-center justify-between text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider pl-1">
-                  <span>Inventory Catalog</span>
-                  <span>{filteredAndSortedListings.length} Match{filteredAndSortedListings.length !== 1 ? "es" : ""} found</span>
                 </div>
 
                 {loading ? (
@@ -644,6 +733,12 @@ function MarketplaceContent() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
                     {filteredAndSortedListings.map((item) => {
                       const isAdded = isInBag(item.id);
+                      const isStrategyMatch = hasActiveIntake && (
+                        (!intakeMediaType || item.media_type === intakeMediaType) &&
+                        (!selectedNiche || item.niche_tags?.includes(selectedNiche)) &&
+                        (!intakeGeo || item.geography?.includes(intakeGeo))
+                      );
+
                       return (
                         <VercelCard
                           key={item.id}
@@ -677,6 +772,11 @@ function MarketplaceContent() {
                                 <p className="text-[9px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">
                                   {item.parent_network}
                                 </p>
+                                {isStrategyMatch && (
+                                  <div className="bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 text-[9px] font-extrabold text-[var(--action-primary)] uppercase tracking-wider px-2 py-0.5 rounded w-fit flex items-center gap-0.5">
+                                    <span>⭐ Recommended Strategy Match</span>
+                                  </div>
+                                )}
                                 <h4 className="text-base font-bold text-white leading-snug line-clamp-2">
                                   {item.title}
                                 </h4>

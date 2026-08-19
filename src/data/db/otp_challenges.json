@@ -10,5 +10,29 @@
     "consumed_at": "2026-08-11T21:20:35.373Z",
     "created_at": "2026-08-11T21:20:23.586Z",
     "updated_at": "2026-08-11T21:20:35.373Z"
+  },
+  {
+    "id": "otp-rggodjty1",
+    "user_id": "usr-ops-1",
+    "phone": "9999999999",
+    "code": "901992",
+    "purpose": "login",
+    "attempts": 0,
+    "expires_at": "2026-08-18T14:26:16.971Z",
+    "consumed_at": "2026-08-18T14:21:37.062Z",
+    "created_at": "2026-08-18T14:21:16.972Z",
+    "updated_at": "2026-08-18T14:21:37.062Z"
+  },
+  {
+    "id": "otp-nl3439ad1",
+    "user_id": "use-4gyu4iebb",
+    "phone": "8810823918",
+    "code": "570001",
+    "purpose": "registration",
+    "attempts": 0,
+    "expires_at": "2026-08-18T18:15:01.911Z",
+    "consumed_at": "2026-08-18T18:10:10.768Z",
+    "created_at": "2026-08-18T18:10:01.911Z",
+    "updated_at": "2026-08-18T18:10:10.768Z"
   }
 ]
