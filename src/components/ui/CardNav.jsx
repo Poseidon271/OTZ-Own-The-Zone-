@@ -85,16 +85,10 @@ export default function CardNav({ onLogoClick }) {
               Media Production
             </button>
             <button
-              onClick={() => {
-                if (user) {
-                  router.push("/dashboard?tab=overview");
-                } else {
-                  window.dispatchEvent(new CustomEvent("open-lead-popup", { detail: { intent: "host" } }));
-                }
-              }}
+              onClick={() => router.push("/media-owners")}
               className="text-xs uppercase font-bold tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
             >
-              For Hosts
+              For Media Owners
             </button>
 
             {user ? (
@@ -233,15 +227,11 @@ export default function CardNav({ onLogoClick }) {
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                if (user) {
-                  router.push("/dashboard?tab=overview");
-                } else {
-                  window.dispatchEvent(new CustomEvent("open-lead-popup", { detail: { intent: "host" } }));
-                }
+                router.push("/media-owners");
               }}
               className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
             >
-              For Hosts
+              For Media Owners
             </button>
 
             {user ? (

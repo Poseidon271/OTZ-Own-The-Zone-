@@ -302,7 +302,7 @@ export default function LeadPopup() {
         {step !== 5 && step !== 13 && (
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 text-[var(--text-secondary)] hover:text-[var(--text-primary)] p-2 rounded-lg hover:bg-slate-100 transition-colors z-20 cursor-pointer"
+            className="absolute top-4 right-4 text-[#101828] hover:text-black p-2 rounded-lg hover:bg-slate-100 transition-colors z-20 cursor-pointer"
             aria-label="Close modal"
           >
             <MdiIcon name="close" className="text-xl" />
@@ -320,7 +320,7 @@ export default function LeadPopup() {
                 else setStep(step - 1);
               }
             }}
-            className="absolute top-4 left-4 text-[var(--text-secondary)] hover:text-[var(--text-primary)] p-2 rounded-lg hover:bg-slate-100 transition-colors z-20 cursor-pointer flex items-center gap-1 text-xs font-bold"
+            className="absolute top-4 left-4 text-[#101828] hover:text-black p-2 rounded-lg hover:bg-slate-100 transition-colors z-20 cursor-pointer flex items-center gap-1 text-xs font-bold"
           >
             <MdiIcon name="arrow-left" /> Back
           </button>
@@ -408,28 +408,32 @@ export default function LeadPopup() {
             {/* BRAND FLOW */}
             {/* Step 1: Brand Niche Selection (Section 3.3) */}
             {step === 1 && (
-              <div className="space-y-4">
+              <div className="space-y-4 text-left">
                 <div>
-                  <h3 className="text-h3 text-[var(--text-primary)]">1. Select Brand Niche</h3>
-                  <p className="text-xs text-[var(--text-secondary)] mt-0.5">Which industry niche describes your brand?</p>
+                  <h3 className="text-xl font-bold text-[#101828] font-display">1. Select Brand Niche</h3>
+                  <p className="text-base font-semibold text-[#101828] mt-1">Which industry niche describes your brand?</p>
                 </div>
-                <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1">
-                  {niches.map((n) => (
-                    <button
-                      key={n}
-                      onClick={() => {
-                        setNiche(n);
-                        setStep(2);
-                      }}
-                      className={`p-3 rounded-lg border text-xs font-semibold text-left transition-colors cursor-pointer ${
-                        niche === n
-                          ? "border-[var(--action-primary)] bg-[var(--action-primary)]/5 text-[var(--action-primary)]"
-                          : "border-[var(--border-default)] bg-white text-[var(--text-secondary)] hover:bg-slate-50"
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
+                <div className="grid grid-cols-2 gap-2.5 max-h-64 overflow-y-auto pr-1">
+                  {niches.map((n) => {
+                    const isSelected = niche === n;
+                    return (
+                      <button
+                        type="button"
+                        key={n}
+                        onClick={() => {
+                          setNiche(n);
+                          setStep(2);
+                        }}
+                        className={`p-3.5 rounded-lg text-sm md:text-base font-medium text-left transition-all cursor-pointer ${
+                          isSelected
+                            ? "border-2 border-[#101828] bg-slate-100 text-[#101828] font-bold shadow-sm"
+                            : "border border-[#E4E7EC] bg-white text-[#101828] hover:border-[#101828] hover:bg-slate-50"
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -568,87 +572,91 @@ export default function LeadPopup() {
             {/* HOST FLOW */}
             {/* Step 11: Host Media Type Selection (Section 3.5) */}
             {step === 11 && (
-              <div className="space-y-4">
+              <div className="space-y-4 text-left">
                 <div>
-                  <h3 className="text-h3 text-[var(--text-primary)]">1. Select Inventory Media Type</h3>
-                  <p className="text-xs text-[var(--text-secondary)] mt-0.5">Which primary media type describes your supply?</p>
+                  <h3 className="text-xl font-bold text-[#101828] font-display">1. Select Inventory Media Type</h3>
+                  <p className="text-base font-semibold text-[#101828] mt-1">Which primary media type describes your supply?</p>
                 </div>
-                <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1">
-                  {mediaTypes.map((opt) => (
-                    <button
-                      key={opt.value}
-                      onClick={() => {
-                        setMediaType(opt.value);
-                        setStep(12);
-                      }}
-                      className={`p-3 rounded-lg border text-xs font-semibold text-left transition-colors cursor-pointer ${
-                        mediaType === opt.value
-                          ? "border-[var(--action-primary)] bg-[var(--action-primary)]/5 text-[var(--action-primary)]"
-                          : "border-[var(--border-default)] bg-white text-[var(--text-secondary)] hover:bg-slate-50"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
+                <div className="grid grid-cols-2 gap-2.5 max-h-64 overflow-y-auto pr-1">
+                  {mediaTypes.map((opt) => {
+                    const isSelected = mediaType === opt.value;
+                    return (
+                      <button
+                        type="button"
+                        key={opt.value}
+                        onClick={() => {
+                          setMediaType(opt.value);
+                          setStep(12);
+                        }}
+                        className={`p-3.5 rounded-lg text-sm md:text-base font-medium text-left transition-all cursor-pointer ${
+                          isSelected
+                            ? "border-2 border-[#101828] bg-slate-100 text-[#101828] font-bold shadow-sm"
+                            : "border border-[#E4E7EC] bg-white text-[#101828] hover:border-[#101828] hover:bg-slate-50"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
 
             {/* REGISTRATION FORM (Steps 4 & 12 - Section 2.2) */}
             {(step === 4 || step === 12) && (
-              <div className="space-y-4">
+              <div className="space-y-4 text-left">
                 <div>
-                  <h3 className="text-h3 text-[var(--text-primary)]">Register {role === "brand" ? "Brand" : "Host"} Workspace</h3>
-                  <p className="text-xs text-[var(--text-secondary)] mt-0.5">Specify credentials to initialize passwordless verification.</p>
+                  <h3 className="text-xl font-bold text-[#101828] font-display">Register {role === "brand" ? "Brand" : "Host"} Workspace</h3>
+                  <p className="text-xs font-semibold text-[#55606E] mt-0.5">Specify credentials to initialize passwordless verification.</p>
                 </div>
 
                 <form onSubmit={handleRegisterSubmit} className="space-y-3.5">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase mb-1">Full Name</label>
+                      <label className="block text-xs font-bold text-[#101828] uppercase mb-1">Full Name</label>
                       <input
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="Sanskar"
-                        className={`input-field focus-ring ${errors.name ? "error" : ""}`}
+                        className={`input-field focus-ring text-[#101828] border-[#E4E7EC] ${errors.name ? "error" : ""}`}
                       />
                       {errors.name && <p className="text-[10px] text-[var(--status-error)] font-bold mt-0.5">{errors.name}</p>}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase mb-1">Company / Organization</label>
+                      <label className="block text-xs font-bold text-[#101828] uppercase mb-1">Company / Organization</label>
                       <input
                         type="text"
                         value={formData.company}
                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                         placeholder="Ad Company"
-                        className={`input-field focus-ring ${errors.company ? "error" : ""}`}
+                        className={`input-field focus-ring text-[#101828] border-[#E4E7EC] ${errors.company ? "error" : ""}`}
                       />
                       {errors.company && <p className="text-[10px] text-[var(--status-error)] font-bold mt-0.5">{errors.company}</p>}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase mb-1">Work Email</label>
+                    <label className="block text-xs font-bold text-[#101828] uppercase mb-1">Work Email</label>
                     <input
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="test@otz.com"
-                      className={`input-field focus-ring ${errors.email ? "error" : ""}`}
+                      className={`input-field focus-ring text-[#101828] border-[#E4E7EC] ${errors.email ? "error" : ""}`}
                     />
                     {errors.email && <p className="text-[10px] text-[var(--status-error)] font-bold mt-0.5">{errors.email}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase mb-1">Phone Number (OTP Verification)</label>
+                    <label className="block text-xs font-bold text-[#101828] uppercase mb-1">Phone Number (OTP Verification)</label>
                     <input
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="9999999999"
-                      className={`input-field focus-ring ${errors.phone ? "error" : ""}`}
+                      className={`input-field focus-ring text-[#101828] border-[#E4E7EC] ${errors.phone ? "error" : ""}`}
                     />
                     {errors.phone && <p className="text-[10px] text-[var(--status-error)] font-bold mt-0.5">{errors.phone}</p>}
                   </div>
