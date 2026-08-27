@@ -363,7 +363,7 @@ function MarketplaceContent() {
         />
       )}
 
-      <main className="flex-grow pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative z-10">
+      <main className="flex-grow pt-24 md:pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative z-10">
         {buyingStep === 1 ? (
           /* Step 1: Intake Wizard Form */
           <div className="space-y-8 animate-fade-in max-w-4xl mx-auto py-6">
@@ -487,17 +487,17 @@ function MarketplaceContent() {
           </div>
         ) : (
           /* Step 2: Catalog Results view */
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Catalog Page Header & CTA Bar */}
-            <div className="flex items-center justify-between flex-wrap gap-4 border-b border-[var(--border-default)] pb-6 w-full">
+            <div className="flex items-center justify-between flex-wrap gap-4 border-b border-[var(--border-default)] pb-3 w-full">
               <button
                 onClick={() => router.push("/")}
-                className="frost-glass inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-[var(--text-primary)] hover:border-[var(--action-primary)] hover:text-[var(--action-primary)] transition-all cursor-pointer border border-[var(--border-default)] bg-[var(--surface-raised)]/20 shadow-sm"
+                className="frost-glass inline-flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-semibold text-[var(--text-primary)] hover:border-[var(--action-primary)] hover:text-[var(--action-primary)] transition-all cursor-pointer border border-[var(--border-default)] bg-[var(--surface-raised)]/20 shadow-sm"
               >
-                <MdiIcon name="arrow-left" className="text-base" /> Return to Homepage
+                <MdiIcon name="arrow-left" className="text-sm" /> Return to Homepage
               </button>
 
-              <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-3 flex-wrap">
                 <button
                   onClick={() => {
                     if (user) {
@@ -506,16 +506,16 @@ function MarketplaceContent() {
                       window.dispatchEvent(new CustomEvent("open-lead-popup", { detail: { intent: "host" } }));
                     }
                   }}
-                  className="frost-glass inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white hover:border-[var(--action-primary)] hover:text-[var(--action-primary)] transition-all cursor-pointer border border-[var(--border-default)] bg-[var(--surface-raised)]/20 shadow-sm"
+                  className="frost-glass inline-flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-semibold text-white hover:border-[var(--action-primary)] hover:text-[var(--action-primary)] transition-all cursor-pointer border border-[var(--border-default)] bg-[var(--surface-raised)]/20 shadow-sm"
                 >
-                  <MdiIcon name="plus-circle-outline" className="text-base text-[var(--action-primary)]" />
+                  <MdiIcon name="plus-circle-outline" className="text-sm text-[var(--action-primary)]" />
                   <span>List Your Media</span>
                 </button>
 
                 {hasActiveIntake && (
                   <button
                     onClick={() => setBuyingStep(1)}
-                    className="frost-glass inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold text-[var(--action-primary)] hover:bg-[#132a4f]/20 border border-[var(--action-primary)]/30 transition-all cursor-pointer"
+                    className="frost-glass inline-flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-semibold text-[var(--action-primary)] hover:bg-[#132a4f]/20 border border-[var(--action-primary)]/30 transition-all cursor-pointer"
                   >
                     <MdiIcon name="pencil" /> Modify Intake
                   </button>
@@ -524,50 +524,50 @@ function MarketplaceContent() {
             </div>
 
             {/* Marketplace Hero Section */}
-            <div className="text-center py-10 space-y-4 max-w-3xl mx-auto">
-              <h1 className="text-4xl md:text-5xl font-black text-white font-display tracking-tight leading-[1.15]">
+            <div className="text-center py-2 md:py-3 space-y-1 max-w-3xl mx-auto">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white font-display tracking-tight leading-[1.15]">
                 Find the right media for your <span className="text-[var(--action-primary)]">campaign</span>.
               </h1>
-              <p className="text-sm text-[var(--text-secondary)] leading-relaxed max-w-xl mx-auto font-medium">
+              <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed max-w-xl mx-auto font-medium">
                 Explore premium placements, analyze target audiences, compare rates, and book spaces instantly.
               </p>
             </div>
 
             {/* Prominent Hero Search Bar */}
-            <div className="max-w-2xl mx-auto mb-12 relative w-full px-2">
+            <div className="max-w-2xl mx-auto mb-4 md:mb-6 relative w-full px-2">
               <span className="absolute inset-y-0 left-6 flex items-center text-[var(--text-secondary)]">
-                <MdiIcon name="magnify" className="text-2xl" />
+                <MdiIcon name="magnify" className="text-xl" />
               </span>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search media, audiences, locations..."
-                className="w-full h-14 pl-14 pr-6 rounded-2xl border border-[var(--border-default)] bg-[var(--surface-raised)]/40 text-white placeholder-slate-400 focus:outline-none focus:border-[var(--action-primary)] text-sm shadow-xl font-sans"
+                className="w-full h-11 md:h-12 pl-12 pr-6 rounded-xl border border-[var(--border-default)] bg-[var(--surface-raised)]/40 text-white placeholder-slate-400 focus:outline-none focus:border-[var(--action-primary)] text-xs md:text-sm shadow-lg font-sans"
               />
             </div>
 
             {/* Active Intake Banner */}
             {hasActiveIntake && (
-              <div className="p-4 bg-[var(--surface-raised)]/60 border border-[var(--border-default)] rounded-2xl flex flex-wrap items-center gap-4 text-xs">
+              <div className="p-3 bg-[var(--surface-raised)]/60 border border-[var(--border-default)] rounded-xl flex flex-wrap items-center gap-3 text-xs mb-2">
                 <span className="font-bold text-[var(--action-primary)] uppercase tracking-wider text-[10px]">INTAKE CAMPAIGN:</span>
                 {intakeObjective && (
-                  <span className="bg-[#0B1E3B] px-3 py-1 rounded-full border border-[var(--border-default)] text-white font-bold shadow-sm">
+                  <span className="bg-[#0B1E3B] px-2.5 py-0.5 rounded-full border border-[var(--border-default)] text-white font-bold shadow-sm text-[11px]">
                     Objective: {intakeObjective}
                   </span>
                 )}
                 {selectedGeo && (
-                  <span className="bg-[#0B1E3B] px-3 py-1 rounded-full border border-[var(--border-default)] text-white font-bold shadow-sm">
+                  <span className="bg-[#0B1E3B] px-2.5 py-0.5 rounded-full border border-[var(--border-default)] text-white font-bold shadow-sm text-[11px]">
                     Geo: {selectedGeo}
                   </span>
                 )}
                 {selectedMediaType && (
-                  <span className="bg-[#0B1E3B] px-3 py-1 rounded-full border border-[var(--border-default)] text-white font-bold shadow-sm">
+                  <span className="bg-[#0B1E3B] px-2.5 py-0.5 rounded-full border border-[var(--border-default)] text-white font-bold shadow-sm text-[11px]">
                     Media: {selectedMediaType}
                   </span>
                 )}
                 {selectedPriceBand && (
-                  <span className="bg-[#0B1E3B] px-3 py-1 rounded-full border border-[var(--border-default)] text-white font-bold shadow-sm">
+                  <span className="bg-[#0B1E3B] px-2.5 py-0.5 rounded-full border border-[var(--border-default)] text-white font-bold shadow-sm text-[11px]">
                     Budget: {selectedPriceBand}
                   </span>
                 )}
@@ -575,28 +575,28 @@ function MarketplaceContent() {
             )}
 
             {/* Main Marketplace catalog layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Left sidebar filters */}
-              <aside className="lg:col-span-3 space-y-6 text-left">
+            <div className="max-w-7xl mx-auto px-0 flex flex-col lg:flex-row gap-6 items-start mt-4 w-full">
+              {/* Left sticky sidebar filters */}
+              <aside className="w-full lg:w-64 xl:w-72 shrink-0 lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto pr-2 custom-scrollbar text-left">
                 <VercelCard bordered={true} className="p-1 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl">
-                  <div className="p-4 space-y-5 w-full">
-                    <div className="flex items-center justify-between border-b border-[var(--border-default)] pb-4 w-full">
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">Faceted Filters</h3>
+                  <div className="p-3.5 space-y-3 w-full">
+                    <div className="flex items-center justify-between border-b border-[var(--border-default)] pb-2.5 w-full">
+                      <h3 className="text-xs font-bold text-white uppercase tracking-wider">Faceted Filters</h3>
                       <button
                         onClick={handleResetFilters}
-                        className="text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--action-primary)] flex items-center gap-1 cursor-pointer transition-colors"
+                        className="text-[11px] font-bold text-[var(--text-secondary)] hover:text-[var(--action-primary)] flex items-center gap-1 cursor-pointer transition-colors"
                       >
                         <MdiIcon name="close-circle-outline" /> Clear
                       </button>
                     </div>
 
                     {/* Media Type */}
-                    <div className="space-y-2 w-full">
+                    <div className="space-y-1 w-full">
                       <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Media Type</label>
                       <select
                         value={selectedMediaType}
                         onChange={(e) => setSelectedMediaType(e.target.value)}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        className="w-full h-[38px] px-2.5 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-xs cursor-pointer"
                       >
                         <option value="">All Media Types</option>
                         {mediaTypes.map((type) => (
@@ -606,12 +606,12 @@ function MarketplaceContent() {
                     </div>
 
                     {/* Industry */}
-                    <div className="space-y-2 w-full">
+                    <div className="space-y-1 w-full">
                       <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Industry</label>
                       <select
                         value={selectedNiche}
                         onChange={(e) => setSelectedNiche(e.target.value)}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        className="w-full h-[38px] px-2.5 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-xs cursor-pointer"
                       >
                         <option value="">All Industries</option>
                         {niches.map((n) => (
@@ -621,12 +621,12 @@ function MarketplaceContent() {
                     </div>
 
                     {/* City / Location */}
-                    <div className="space-y-2 w-full">
+                    <div className="space-y-1 w-full">
                       <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">City / Location</label>
                       <select
                         value={selectedGeo}
                         onChange={(e) => setSelectedGeo(e.target.value)}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        className="w-full h-[38px] px-2.5 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-xs cursor-pointer"
                       >
                         <option value="">All Cities / Locations</option>
                         {geographies.map((g) => (
@@ -636,12 +636,12 @@ function MarketplaceContent() {
                     </div>
 
                     {/* Language */}
-                    <div className="space-y-2 w-full">
+                    <div className="space-y-1 w-full">
                       <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Language</label>
                       <select
                         value={selectedLanguage}
                         onChange={(e) => setSelectedLanguage(e.target.value)}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        className="w-full h-[38px] px-2.5 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-xs cursor-pointer"
                       >
                         <option value="">All Languages</option>
                         {languages.map((l) => (
@@ -651,12 +651,12 @@ function MarketplaceContent() {
                     </div>
 
                     {/* Price Range */}
-                    <div className="space-y-2 w-full">
+                    <div className="space-y-1 w-full">
                       <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Price / Price Range</label>
                       <select
                         value={selectedPriceBand}
                         onChange={(e) => setSelectedPriceBand(e.target.value)}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        className="w-full h-[38px] px-2.5 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-xs cursor-pointer"
                       >
                         <option value="">All Prices</option>
                         {priceBands.map((pb) => (
@@ -666,12 +666,12 @@ function MarketplaceContent() {
                     </div>
 
                     {/* Audience Size */}
-                    <div className="space-y-2 w-full">
+                    <div className="space-y-1 w-full">
                       <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">Audience Size</label>
                       <select
                         value={selectedVisibility}
                         onChange={(e) => setSelectedVisibility(e.target.value)}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
+                        className="w-full h-[38px] px-2.5 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-xs cursor-pointer"
                       >
                         <option value="">All Sizes</option>
                         {reachBands.map((rb) => (
@@ -687,7 +687,7 @@ function MarketplaceContent() {
                         type="checkbox"
                         checked={onlyVerified}
                         onChange={(e) => setOnlyVerified(e.target.checked)}
-                        className="h-4.5 w-4.5 rounded border-[var(--border-default)] bg-[var(--surface-canvas)] accent-[var(--action-primary)] cursor-pointer"
+                        className="h-4 w-4 rounded border-[var(--border-default)] bg-[var(--surface-canvas)] accent-[var(--action-primary)] cursor-pointer"
                       />
                       <label htmlFor="filter-verified" className="text-xs font-bold text-[var(--text-secondary)] cursor-pointer select-none">
                         Verified Placements Only
@@ -698,9 +698,9 @@ function MarketplaceContent() {
               </aside>
 
               {/* Right column items list */}
-              <section className="lg:col-span-9 space-y-6 text-left">
+              <section className="flex-1 w-full space-y-4 text-left">
                 {/* Results List Toolbar */}
-                <div className="flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-white/5 pb-4 w-full">
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-white/5 pb-3 w-full">
                   {/* Counter match count */}
                   <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider pl-1">
                     <span>{filteredAndSortedListings.length} Media Opportunit{filteredAndSortedListings.length !== 1 ? "ies" : "y"} found</span>
@@ -712,7 +712,7 @@ function MarketplaceContent() {
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      className="h-10 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-xs font-semibold cursor-pointer"
+                      className="h-9 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-xs font-semibold cursor-pointer"
                     >
                       <option value="relevance">Relevance (Verified First)</option>
                       <option value="price-low">Price: Low to High</option>
@@ -724,13 +724,13 @@ function MarketplaceContent() {
                 </div>
 
                 {loading ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     {[...Array(6)].map((_, i) => (
                       <div key={i} className="h-80 bg-[var(--surface-raised)] rounded-xl border border-[var(--border-default)] animate-pulse" />
                     ))}
                   </div>
                 ) : filteredAndSortedListings.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 w-full">
                     {filteredAndSortedListings.map((item) => {
                       const isAdded = isInBag(item.id);
                       const isStrategyMatch = hasActiveIntake && (
