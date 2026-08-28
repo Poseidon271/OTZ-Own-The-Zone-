@@ -15,9 +15,9 @@ import { Announcement } from "@/components/scrollx/announcement";
 import LogoCloud from "@/components/scrollx/sections/logo-cloud";
 import Features from "@/components/scrollx/sections/features";
 import HowItWorks from "@/components/scrollx/sections/how-it-works";
-import Pricing from "@/components/scrollx/sections/pricing";
 import FAQ from "@/components/scrollx/sections/faq";
 import Testimonials from "@/components/scrollx/sections/testimonials";
+import Vendors from "@/components/scrollx/sections/vendors";
 import CTA from "@/components/scrollx/sections/cta";
 
 // Hero Dashboard Widget Data
@@ -355,14 +355,14 @@ export default function Home() {
         {/* How it works connection workflow */}
         <HowItWorks />
 
-        {/* Campaign pricing tiers */}
-        <Pricing />
-
         {/* Questions Accordion faq */}
         <FAQ />
 
         {/* Testimonials kinetic quote carousels */}
         <Testimonials />
+
+        {/* For Vendors / Media Owners conversion section */}
+        <Vendors />
 
         {/* CTA final callout section */}
         <CTA />
