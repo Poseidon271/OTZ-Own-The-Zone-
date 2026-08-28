@@ -341,7 +341,7 @@ function MarketplaceContent() {
   };
 
   return (
-    <div className="theme-dark min-h-screen flex flex-col bg-[var(--surface-canvas)] text-[var(--text-primary)] relative overflow-hidden font-sans">
+    <div className="theme-dark min-h-screen flex flex-col bg-[var(--surface-canvas)] text-[var(--text-primary)] relative font-sans">
       {/* Background ScrollX Grid Lines */}
       <ColumnLines
         columnWidth={80}
@@ -577,7 +577,7 @@ function MarketplaceContent() {
             {/* Main Marketplace catalog layout */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Left sidebar filters */}
-              <aside className="lg:col-span-3 space-y-6 text-left">
+              <aside className="lg:col-span-3 space-y-6 text-left lg:sticky lg:top-28 lg:self-start">
                 <VercelCard bordered={true} className="p-1 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl">
                   <div className="p-4 space-y-5 w-full">
                     <div className="flex items-center justify-between border-b border-[var(--border-default)] pb-4 w-full">

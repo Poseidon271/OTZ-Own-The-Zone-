@@ -42,5 +42,22 @@
     },
     "timestamp": "2026-08-18T18:10:01.911Z",
     "created_at": "2026-08-18T18:10:01.911Z"
+  },
+  {
+    "id": "aud-kzwk9zft0",
+    "actor_id": "use-vykfwzde1",
+    "action": "register_account",
+    "entity": "accounts",
+    "before": null,
+    "after": {
+      "id": "acc-pn87w62t6",
+      "name": "PERCYDON GAMING",
+      "company": "Apex",
+      "role": "host",
+      "state": "unverified",
+      "created_at": "2026-08-28T15:06:00.353Z"
+    },
+    "timestamp": "2026-08-28T15:06:00.355Z",
+    "created_at": "2026-08-28T15:06:00.355Z"
   }
 ]
