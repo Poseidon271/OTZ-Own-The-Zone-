@@ -21,25 +21,36 @@ export function BagProvider({ children }) {
   const [isBagOpen, setIsBagOpen] = useState(false);
 
   // Sync bag to localStorage whenever it changes
-  const saveBag = (newBag) => {
-    setBag(newBag);
-    localStorage.setItem("otz_bag", JSON.stringify(newBag));
+  const saveBag = (updater) => {
+    setBag((prevBag) => {
+      const newBag = typeof updater === "function" ? updater(prevBag) : updater;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("otz_bag", JSON.stringify(newBag));
+      }
+      return newBag;
+    });
   };
 
   const addToBag = (item) => {
-    if (!bag.some((bagItem) => bagItem.id === item.id)) {
-      // Default duration is 1 month
-      saveBag([...bag, { ...item, duration: 1 }]);
-    }
+    saveBag((prevBag) => {
+      if (!prevBag.some((bagItem) => bagItem.id === item.id)) {
+        // Default duration is 1 month
+        return [...prevBag, { ...item, duration: item.duration || 1 }];
+      }
+      return prevBag;
+    });
   };
 
   const addItemsToBag = (items) => {
-    const newItems = items.filter(
-      (item) => !bag.some((bagItem) => bagItem.id === item.id)
-    ).map((item) => ({ ...item, duration: 1 }));
-    if (newItems.length > 0) {
-      saveBag([...bag, ...newItems]);
-    }
+    saveBag((prevBag) => {
+      const newItems = items
+        .filter((item) => !prevBag.some((bagItem) => bagItem.id === item.id))
+        .map((item) => ({ ...item, duration: item.duration || 1 }));
+      if (newItems.length > 0) {
+        return [...prevBag, ...newItems];
+      }
+      return prevBag;
+    });
   };
 
   const removeFromBag = (itemId) => {
