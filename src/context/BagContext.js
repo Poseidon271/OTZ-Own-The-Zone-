@@ -21,6 +21,7 @@ export function BagProvider({ children }) {
   const [isBagOpen, setIsBagOpen] = useState(false);
 
   // Sync bag to localStorage whenever it changes
+<<<<<<< Updated upstream
   const saveBag = (updater) => {
     setBag((prevBag) => {
       const newBag = typeof updater === "function" ? updater(prevBag) : updater;
@@ -50,6 +51,68 @@ export function BagProvider({ children }) {
         return [...prevBag, ...newItems];
       }
       return prevBag;
+=======
+  const saveBag = (newBag) => {
+    setBag(newBag);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("otz_bag", JSON.stringify(newBag));
+    }
+  };
+
+  const addToBag = (item, targetDuration) => {
+    setBag((prevBag) => {
+      if (prevBag.some((bagItem) => bagItem.id === item.id)) {
+        return prevBag;
+      }
+      const newItem = {
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        dailyRate: item.dailyRate || item.price,
+        duration: targetDuration || item.duration || 1,
+        reach: item.reach || "Verified Reach",
+        location: item.location || "National",
+        image: item.image || "",
+        channelDomain: item.channelDomain || item.subCategory || item.category || "Mass Media",
+        category: item.category || "Mass Media",
+        subCategory: item.subCategory || "OOH",
+        specs: item.specs || "Standard placement",
+      };
+      const updatedBag = [...prevBag, newItem];
+      if (typeof window !== "undefined") {
+        localStorage.setItem("otz_bag", JSON.stringify(updatedBag));
+      }
+      return updatedBag;
+    });
+  };
+
+  const addItemsToBag = (items, targetDuration) => {
+    setBag((prevBag) => {
+      const existingIds = new Set(prevBag.map((b) => b.id));
+      const newItems = items
+        .filter((item) => !existingIds.has(item.id))
+        .map((item) => ({
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          dailyRate: item.dailyRate || item.price,
+          duration: item.duration || targetDuration || 1,
+          reach: item.reach || "Verified Reach",
+          location: item.location || "National",
+          image: item.image || "",
+          channelDomain: item.channelDomain || item.subCategory || item.category || "Mass Media",
+          category: item.category || "Mass Media",
+          subCategory: item.subCategory || "OOH",
+          specs: item.specs || "Standard placement",
+        }));
+
+      if (newItems.length === 0) return prevBag;
+      const updatedBag = [...prevBag, ...newItems];
+      if (typeof window !== "undefined") {
+        localStorage.setItem("otz_bag", JSON.stringify(updatedBag));
+      }
+      return updatedBag;
+>>>>>>> Stashed changes
     });
   };
 

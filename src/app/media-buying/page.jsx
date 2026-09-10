@@ -12,6 +12,7 @@ import { useBag } from "@/context/BagContext";
 import { ColumnLines } from "@/components/scrollx/column-lines";
 import { ShinyButton } from "@/components/scrollx/shiny-button";
 import { VercelCard } from "@/components/scrollx/vercel-card";
+import MediaBuying from "@/components/MediaBuying";
 
 function MarketplaceContent() {
   const router = useRouter();
@@ -363,7 +364,10 @@ function MarketplaceContent() {
         />
       )}
 
-      <main className="flex-grow pt-24 md:pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative z-10">
+      <main className="flex-grow pt-24 md:pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative z-10 space-y-12">
+        {/* Primary MVP Lead Generation Funnel Surface */}
+        <MediaBuying initialChannel={searchParams.get("channel") || ""} />
+
         {buyingStep === 1 ? (
           /* Step 1: Intake Wizard Form */
           <div className="space-y-8 animate-fade-in max-w-4xl mx-auto py-6">
