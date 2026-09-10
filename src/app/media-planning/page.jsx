@@ -19,27 +19,8 @@ import { VercelCard } from "@/components/scrollx/vercel-card";
 
 export default function MediaPlanningPage() {
   const router = useRouter();
-  const { addToBag, addItemsToBag, removeFromBag, isInBag, setIsBagOpen, updateDuration } = useBag();
+  const { addToBag, addItemsToBag, removeFromBag, isInBag, setIsBagOpen } = useBag();
 
-<<<<<<< Updated upstream
-  // Intake State
-  const [plannerState, setPlannerState] = useState({
-    industrySector: "Fintech",
-    targetAudience: ["Working Professionals"],
-    targetCities: ["Mumbai (MMR)", "Bengaluru"],
-    campaignObjective: "Brand Awareness & Reach",
-    totalBudget: 500000,
-    startDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-    flightDuration: "1 Month",
-    creativeReadiness: "ready",
-  });
-
-  // Flow & State
-  const [planningStep, setPlanningStep] = useState(1);
-  const [planningResults, setPlanningResults] = useState(null);
-  const [loadingPlan, setLoadingPlan] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-=======
   // Wizard parameters states
   const [plannerInputState, setPlannerInputState] = useState(null);
 
@@ -101,70 +82,26 @@ export default function MediaPlanningPage() {
   };
 
   const handleAddPackageToBag = (itemsList) => {
-    if (!itemsList || itemsList.length === 0) return;
+    const bundleItems = itemsList || planningResults?.bundle || [];
+    if (!bundleItems || bundleItems.length === 0) return;
     const duration = planningResults?.duration || 1;
-    addItemsToBag(itemsList, duration);
-    triggerToast(`✓ Added all ${itemsList.length} recommended placements to your campaign bag`);
+    addItemsToBag(bundleItems, duration);
+    triggerToast(`✓ Added all ${bundleItems.length} recommended placements to your campaign bag`);
     setIsBagOpen(true);
   };
->>>>>>> Stashed changes
 
   // Modals state
   const [activeDetailAsset, setActiveDetailAsset] = useState(null);
   const [selectedCompareAssets, setSelectedCompareAssets] = useState([]);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
 
-<<<<<<< Updated upstream
-  const triggerToast = (msg) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(""), 3500);
-  };
-
-  // Generate AI Plan handler from Stage 1 Form
-  const handleGenerateAIPlan = (inputState) => {
-    setPlannerState(inputState);
-=======
   // Filter listings based on user parameters and calculate allocation mixes
   const handleGeneratePlan = (submittedInputState) => {
     if (loadingPlan) return;
->>>>>>> Stashed changes
     setLoadingPlan(true);
     setPlannerInputState(submittedInputState);
 
     setTimeout(() => {
-<<<<<<< Updated upstream
-      const maxBudgetVal = Number(inputState.totalBudget) || 500000;
-      
-      // Parse duration in months
-      let durationMonths = 1.0;
-      if (inputState.flightDuration === "1 Week") durationMonths = 0.25;
-      else if (inputState.flightDuration === "2 Weeks") durationMonths = 0.5;
-      else if (inputState.flightDuration === "1 Month") durationMonths = 1.0;
-      else if (inputState.flightDuration === "3 Months") durationMonths = 3.0;
-
-      // Filter matching assets
-      const matchingListings = mockAdvertisingAssets.filter((asset) => {
-        const matchSector =
-          !inputState.industrySector ||
-          (asset.productSector &&
-            asset.productSector.toLowerCase().includes(inputState.industrySector.toLowerCase())) ||
-          (asset.category &&
-            asset.category.toLowerCase().includes(inputState.industrySector.toLowerCase()));
-
-        const matchAudience =
-          !inputState.targetAudience ||
-          inputState.targetAudience.length === 0 ||
-          inputState.targetAudience.some((aud) =>
-            asset.targetAudience
-              ? asset.targetAudience.toLowerCase().includes(aud.toLowerCase())
-              : true
-          );
-
-        return matchSector || matchAudience;
-      });
-
-      const pool = matchingListings.length >= 2 ? matchingListings : mockAdvertisingAssets;
-=======
       const maxBudgetVal = parseFloat(submittedInputState.totalBudget) || 500000;
       
       // Calculate flight duration multiplier in months
@@ -204,30 +141,19 @@ export default function MediaPlanningPage() {
       });
 
       const candidateListings = matchingListings.length > 0 ? matchingListings : mockAdvertisingAssets;
->>>>>>> Stashed changes
 
       // Greedy allocation solver
       let currentCost = 0;
       const bundleItems = [];
-<<<<<<< Updated upstream
-      const sortedByReach = [...pool].sort((a, b) => {
-=======
       const sortedByReach = [...candidateListings].sort((a, b) => {
->>>>>>> Stashed changes
         const reachA = parseInt(a.reach?.replace(/[^0-9]/g, "")) || 0;
         const reachB = parseInt(b.reach?.replace(/[^0-9]/g, "")) || 0;
         return reachB - reachA;
       });
 
       for (const asset of sortedByReach) {
-<<<<<<< Updated upstream
-        const days = durationMonths * 30;
-        const assetCost = asset.price * days;
-        if (currentCost + assetCost <= maxBudgetVal || bundleItems.length < 2) {
-=======
         const assetCost = Math.round(asset.price * durationMonths);
         if (currentCost + assetCost <= maxBudgetVal || bundleItems.length === 0) {
->>>>>>> Stashed changes
           bundleItems.push({
             id: asset.id,
             title: asset.title,
@@ -236,26 +162,17 @@ export default function MediaPlanningPage() {
             price: asset.price,
             dailyRate: asset.price,
             duration: durationMonths,
-<<<<<<< Updated upstream
-            image: asset.image,
-            category: asset.category,
-            subCategory: asset.subCategory || asset.category,
-=======
             calculatedCost: assetCost,
             image: asset.image,
             category: asset.category || "Mass Media",
             subCategory: asset.subCategory || "OOH",
             channelDomain: asset.subCategory || asset.category || "Mass Media",
->>>>>>> Stashed changes
             specs: asset.specs || "Standard placement spec size",
-            channelDomain: asset.category || "OOH & Billboards",
           });
           currentCost += assetCost;
         }
       }
 
-<<<<<<< Updated upstream
-=======
       // Scored alternatives
       const scoredAlternatives = mockAdvertisingAssets
         .map((asset) => {
@@ -316,28 +233,11 @@ export default function MediaPlanningPage() {
         specs: l.specs || "Standard placement spec size",
       }));
 
->>>>>>> Stashed changes
       setPlanningResults({
         bundle: bundleItems,
         totalCost: currentCost,
         maxBudget: maxBudgetVal,
         duration: durationMonths,
-<<<<<<< Updated upstream
-        allMatches: pool.map((l) => ({
-          id: l.id,
-          title: l.title,
-          location: l.location,
-          reach: l.reach,
-          price: l.price,
-          dailyRate: l.price,
-          duration: durationMonths,
-          image: l.image,
-          category: l.category,
-          subCategory: l.subCategory || l.category,
-          specs: l.specs || "Standard placement spec size",
-          channelDomain: l.category || "OOH & Billboards",
-        })),
-=======
         flightDurationLabel: submittedInputState.flightDuration,
         startDate: submittedInputState.startDate,
         objective: submittedInputState.campaignObjective,
@@ -347,23 +247,12 @@ export default function MediaPlanningPage() {
         audiences: selectedAudiences,
         alternatives: scoredAlternatives.slice(0, 4),
         allMatches: allMatchesFormatted,
->>>>>>> Stashed changes
       });
 
       setLoadingPlan(false);
       setPlanningStep(2);
       triggerToast("✓ AI Media Mix Generated Successfully!");
     }, 600);
-  };
-
-  // Batch Add Package to Cart Handler
-  const handleAddPackageToBag = (bundle) => {
-    const itemsToAdd = bundle || planningResults?.bundle || [];
-    if (itemsToAdd.length > 0) {
-      addItemsToBag(itemsToAdd);
-      setIsBagOpen(true);
-      triggerToast(`✓ Added ${itemsToAdd.length} recommended placements to Bag!`);
-    }
   };
 
   const toggleCompareAsset = (asset) => {
@@ -399,14 +288,6 @@ export default function MediaPlanningPage() {
         }}
       />
 
-      {/* Toast Floating Notification */}
-      {toastMessage && (
-        <div className="fixed top-24 right-6 z-50 animate-bounce bg-[#84CC16] text-[#0B1E3B] font-extrabold px-5 py-3 rounded-[8px] shadow-2xl text-xs uppercase tracking-wider flex items-center gap-2 font-mono">
-          <MdiIcon name="check-circle" className="text-lg" />
-          <span>{toastMessage}</span>
-        </div>
-      )}
-
       {/* Navbar Component */}
       <Navbar onLogoClick={() => router.push("/")} />
 
@@ -427,28 +308,6 @@ export default function MediaPlanningPage() {
           {/* Wizard Flow Step Router */}
           <div className="space-y-8 animate-fade-in max-w-4xl mx-auto py-4">
             {planningStep === 1 ? (
-<<<<<<< Updated upstream
-              /* Stage 1: Intake Form */
-              <MediaPlanner
-                initialValues={plannerState}
-                onSubmitPlan={handleGenerateAIPlan}
-                isLoading={loadingPlan}
-              />
-            ) : (
-              /* Stage 2 & 3: AI Mix Strategy Breakdown & Rebalancer */
-              <div className="space-y-10 animate-fade-in">
-                <AIPlanBreakdown
-                  plannerState={plannerState}
-                  planningResults={planningResults}
-                  onAddPackageToBag={handleAddPackageToBag}
-                  onAdjustIntake={() => setPlanningStep(1)}
-                  triggerToast={triggerToast}
-                />
-
-                {/* Individual Matching Assets Section */}
-                <div className="space-y-6 pt-8 border-t border-white/10 text-left">
-                  <div>
-=======
               /* Step 1: Input wizard form with MediaPlanner */
               <MediaPlanner
                 onSubmitPlan={handleGeneratePlan}
@@ -484,7 +343,7 @@ export default function MediaPlanningPage() {
                           Strategic Recommendation Mix
                         </h4>
                       </div>
-                      {planningResults?.bundle.length > 0 && (
+                      {planningResults?.bundle?.length > 0 && (
                         <div className="text-left md:text-right">
                           <p className="text-[9px] text-[var(--text-secondary)] uppercase tracking-widest font-extrabold">Total Bundle Cost</p>
                           <p className="text-2xl font-black text-[var(--action-primary)]">
@@ -496,7 +355,7 @@ export default function MediaPlanningPage() {
                         </div>
                       )}
                     </div>
-                    {planningResults?.bundle.length > 0 ? (
+                    {planningResults?.bundle?.length > 0 ? (
                       <div className="space-y-6">
                         {/* Bundle Breakdown List */}
                         <div className="divide-y divide-[var(--border-default)] bg-[var(--surface-canvas)]/30 rounded-2xl border border-[var(--border-default)] overflow-hidden shadow-inner">
@@ -653,17 +512,15 @@ export default function MediaPlanningPage() {
                     ) : (
                       /* No exact matching plan compiled within budget limits */
                       <div className="space-y-6">
-                        {/* Summary Warning block */}
                         <div className="p-4 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-xl flex items-start gap-3">
                           <MdiIcon name="alert-circle-outline" className="text-xl shrink-0 mt-0.5" />
                           <div className="text-xs">
                             <span className="font-bold block text-white mb-0.5">No Exact Match Compiled within Budget</span>
-                            <span>We couldn&apos;t fit an exact mix matching sector <strong>{planningProductType}</strong> and audience <strong>{planningAudience}</strong> for a total budget limit of <strong>₹{planningResults?.maxBudget.toLocaleString()}</strong>.</span>
+                            <span>We couldn&apos;t fit an exact mix matching sector <strong>{plannerInputState?.industrySector}</strong> and audience <strong>{plannerInputState?.targetAudience?.join(", ")}</strong> for a total budget limit of <strong>₹{planningResults?.maxBudget?.toLocaleString()}</strong>.</span>
                           </div>
                         </div>
 
-                        {planningResults.alternatives && planningResults.alternatives.filter((a) => a.score > 0).length > 0 ? (
-                          /* Render closest scored alternatives list */
+                        {planningResults?.alternatives && planningResults.alternatives.filter((a) => a.score > 0).length > 0 ? (
                           <div className="space-y-4">
                             <span className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider block">Here are the closest alternative plans:</span>
                             <div className="divide-y divide-[var(--border-default)] bg-[var(--surface-canvas)]/30 rounded-2xl border border-[var(--border-default)] overflow-hidden shadow-inner">
@@ -742,12 +599,11 @@ export default function MediaPlanningPage() {
                             </div>
                           </div>
                         ) : (
-                          /* True Empty State layout */
                           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[var(--border-default)] bg-[var(--surface-canvas)]/30 py-12 text-center px-4 font-sans space-y-4">
                             <MdiIcon name="close-circle-outline" className="text-4xl text-[var(--status-error)]" />
                             <h4 className="text-sm font-bold text-white">No Matching Alternative Plans Found</h4>
                             <p className="text-xs text-[var(--text-secondary)] max-w-xs leading-relaxed font-medium">
-                              We couldn&apos;t compiling any nearby media plans matching your sector or target audience.
+                              We couldn&apos;t compile any nearby media plans matching your sector or target audience.
                             </p>
                             <div className="flex flex-wrap items-center gap-3 justify-center pt-2">
                               <button
@@ -771,10 +627,45 @@ export default function MediaPlanningPage() {
 
                   {/* Right Column: Mix Distribution Chart widget */}
                   <div className="lg:col-span-4 space-y-6 w-full">
-                    <VercelCard bordered={true} className="bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-3xl text-left">
-                      <div className="w-full">
-                        <p className="font-mono text-[9px] uppercase tracking-widest font-extrabold text-[var(--text-secondary)] mb-2">Mix Distribution Chart</p>
-                        <AnalyticsIllustration />
+                    <VercelCard bordered={true} className="bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-3xl text-left p-6">
+                      <div className="w-full space-y-4">
+                        <p className="font-mono text-[9px] uppercase tracking-widest font-extrabold text-[var(--text-secondary)]">Mix Distribution Summary</p>
+                        
+                        <div className="space-y-3">
+                          <div>
+                            <div className="flex justify-between text-xs font-bold mb-1">
+                              <span className="text-white">OOH & Billboards</span>
+                              <span className="text-[#FF5A1F]">55%</span>
+                            </div>
+                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                              <div className="h-full bg-[#FF5A1F] rounded-full" style={{ width: "55%" }}></div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="flex justify-between text-xs font-bold mb-1">
+                              <span className="text-white">Transit & Metro</span>
+                              <span className="text-emerald-400">25%</span>
+                            </div>
+                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                              <div className="h-full bg-emerald-400 rounded-full" style={{ width: "25%" }}></div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="flex justify-between text-xs font-bold mb-1">
+                              <span className="text-white">Digital Screens</span>
+                              <span className="text-sky-400">20%</span>
+                            </div>
+                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                              <div className="h-full bg-sky-400 rounded-full" style={{ width: "20%" }}></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="pt-3 border-t border-white/10 text-[11px] text-slate-300 font-medium">
+                          Estimated Total Impressions: <span className="font-bold text-white font-mono">1.8M+</span>
+                        </div>
                       </div>
                     </VercelCard>
                   </div>
@@ -783,12 +674,11 @@ export default function MediaPlanningPage() {
                 {/* Manual Customization Grid */}
                 <div className="space-y-6 pt-8 border-t border-[var(--border-default)]">
                   <div className="text-center md:text-left">
->>>>>>> Stashed changes
                     <h4 className="text-2xl font-black text-white font-display uppercase tracking-tight">
                       Recommended Placement Listings
                     </h4>
                     <p className="text-xs text-slate-300 mt-1 font-sans">
-                      Individual inventory assets selected by AI for your target markets ({plannerState.targetCities?.join(", ")}).
+                      Individual inventory assets selected by AI for your target markets ({plannerInputState?.targetCities?.join(", ") || "National Grid"}).
                     </p>
                   </div>
 
@@ -869,22 +759,6 @@ export default function MediaPlanningPage() {
                                     onClick={() => {
                                       if (inBag) {
                                         removeFromBag(asset.id);
-<<<<<<< Updated upstream
-                                        triggerToast("Removed placement from bag");
-                                      } else {
-                                        addToBag(asset);
-                                        updateDuration(asset.id, planningResults?.duration || 1);
-                                        triggerToast("✓ Placement added to bag");
-                                      }
-                                    }}
-                                    className={`rounded-[6px] px-3.5 py-2 text-xs font-bold tracking-wide transition-all cursor-pointer ${
-                                      inBag
-                                        ? "bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-600 hover:text-white"
-                                        : "bg-[#FF5A1F] text-[#0B1E3B] hover:opacity-90 font-mono uppercase"
-                                    }`}
-                                  >
-                                    {inBag ? "Added ✓" : "Add"}
-=======
                                         triggerToast(`Removed "${asset.title}" from bag`);
                                       } else {
                                         addToBag(asset, planningResults?.duration || 1);
@@ -905,7 +779,6 @@ export default function MediaPlanningPage() {
                                     ) : (
                                       <span>Add to Bag</span>
                                     )}
->>>>>>> Stashed changes
                                   </button>
                                 </div>
                               </div>
@@ -964,8 +837,6 @@ export default function MediaPlanningPage() {
           </div>
         </div>
       )}
-<<<<<<< Updated upstream
-=======
 
       {/* Lightweight Planning Intake Popup Modal */}
       {planningIntakeOpen && (
@@ -1132,7 +1003,6 @@ export default function MediaPlanningPage() {
           </button>
         </div>
       )}
->>>>>>> Stashed changes
     </div>
   );
 }

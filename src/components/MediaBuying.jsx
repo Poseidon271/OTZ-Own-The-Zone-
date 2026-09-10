@@ -2,11 +2,27 @@
 
 import React, { useState, useEffect } from "react";
 import MdiIcon from "@/components/MdiIcon";
+import {
+  Maximize2,
+  Bus,
+  Film,
+  Radio,
+  Tv,
+  Newspaper,
+  MonitorPlay,
+  Users,
+  Ticket,
+  Building2,
+  X,
+  CheckCircle,
+  Tag
+} from "lucide-react";
 
 export const MEDIA_CHANNELS = [
   {
     id: "ooh",
     title: "OOH / Billboards",
+    iconComponent: Maximize2,
     icon: "billboard-outline",
     badge: "High Impact",
     desc: "Digital billboards, unipoles, gantries & static hoardings in prime high-traffic corridors.",
@@ -15,6 +31,7 @@ export const MEDIA_CHANNELS = [
   {
     id: "transit",
     title: "Transit & Aviation",
+    iconComponent: Bus,
     icon: "train-car",
     badge: "High Frequency",
     desc: "Metro train wraps, airport terminals, bus shelters, cabs & in-flight media placements.",
@@ -23,6 +40,7 @@ export const MEDIA_CHANNELS = [
   {
     id: "cinema",
     title: "Cinema Screens",
+    iconComponent: Film,
     icon: "clapperboard-outline",
     badge: "Captive Audience",
     desc: "On-screen ads, blockbuster movie slots, multiplex lobby branding & product sampling kiosks.",
@@ -31,6 +49,7 @@ export const MEDIA_CHANNELS = [
   {
     id: "radio",
     title: "Radio & FM",
+    iconComponent: Radio,
     icon: "radio-tower",
     badge: "Audio Reach",
     desc: "Prime FM station spots, RJ mentions, live contest integrations & regional audio jingles.",
@@ -39,6 +58,7 @@ export const MEDIA_CHANNELS = [
   {
     id: "tv",
     title: "Television & OTT",
+    iconComponent: Tv,
     icon: "television-play",
     badge: "Mass Scale",
     desc: "Primetime TV network spots plus precision CTV targeting on Hotstar, JioCinema & OTT.",
@@ -47,6 +67,7 @@ export const MEDIA_CHANNELS = [
   {
     id: "print",
     title: "Print Media",
+    iconComponent: Newspaper,
     icon: "newspaper-variant-outline",
     badge: "High Credibility",
     desc: "Front-page jackets, full-page displays & advertorials in leading national & regional press.",
@@ -55,6 +76,7 @@ export const MEDIA_CHANNELS = [
   {
     id: "digital",
     title: "Digital & CTV",
+    iconComponent: MonitorPlay,
     icon: "monitor-cellphone",
     badge: "Programmatic",
     desc: "Programmatic display networks, Connected TV (CTV) video ads & performance channels.",
@@ -63,6 +85,7 @@ export const MEDIA_CHANNELS = [
   {
     id: "influencers",
     title: "Influencers",
+    iconComponent: Users,
     icon: "account-group-outline",
     badge: "High Engagement",
     desc: "Top macro/micro creators, Instagram Reels, YouTube integrations & celebrity endorsements.",
@@ -71,6 +94,7 @@ export const MEDIA_CHANNELS = [
   {
     id: "events",
     title: "Events & Sponsorships",
+    iconComponent: Ticket,
     icon: "ticket-confirmation-outline",
     badge: "Experiential",
     desc: "Live music concerts, tech summits, college fests, marathons & sports tournament sponsorships.",
@@ -79,6 +103,7 @@ export const MEDIA_CHANNELS = [
   {
     id: "captive",
     title: "Captive & Venue Media",
+    iconComponent: Building2,
     icon: "office-building-marker-outline",
     badge: "Targeted HNI",
     desc: "Tech park digital screens, corporate cafeterias, gym networks & luxury elevator displays.",
@@ -248,42 +273,49 @@ export default function MediaBuying({ initialChannel = "" }) {
 
       {/* Primary Media Channel Selection Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-5 w-full">
-        {MEDIA_CHANNELS.map((channel) => (
-          <div
-            key={channel.id}
-            onClick={() => handleOpenModal(channel.title)}
-            className="group relative bg-[#0B1E3B]/80 hover:bg-[#0B1E3B] border border-white/10 hover:border-[#FF5A1F] rounded-[12px] p-5 text-left cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-lg hover:shadow-[0_8px_30px_rgba(255,90,31,0.25)] hover:-translate-y-1"
-          >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-lg bg-[#101828] border border-white/10 flex items-center justify-center text-[#FF5A1F] group-hover:scale-110 transition-transform">
-                  <MdiIcon name={channel.icon} className="text-xl" />
+        {MEDIA_CHANNELS.map((channel) => {
+          const IconComponent = channel.iconComponent;
+          return (
+            <div
+              key={channel.id}
+              onClick={() => handleOpenModal(channel.title)}
+              className="group relative bg-[#0B1E3B]/80 hover:bg-[#0B1E3B] border border-white/10 hover:border-[#FF5A1F] rounded-[12px] p-5 text-left cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-lg hover:shadow-[0_8px_30px_rgba(255,90,31,0.25)] hover:-translate-y-1"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 text-[#FF5A1F] bg-[#FF5A1F]/10 p-2 rounded-[6px] border border-[#FF5A1F]/20 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                    {IconComponent ? (
+                      <IconComponent className="w-full h-full stroke-[2]" />
+                    ) : (
+                      <MdiIcon name={channel.icon} className="text-xl" />
+                    )}
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#FF5A1F]/10 text-[#FF5A1F] border border-[#FF5A1F]/20 px-2 py-0.5 rounded-full">
+                    {channel.badge}
+                  </span>
                 </div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#FF5A1F]/10 text-[#FF5A1F] border border-[#FF5A1F]/20 px-2 py-0.5 rounded-full">
-                  {channel.badge}
+
+                <div>
+                  <h3 className="text-base font-bold text-white group-hover:text-[#FF5A1F] transition-colors leading-snug">
+                    {channel.title}
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1.5 line-clamp-3 leading-relaxed">
+                    {channel.desc}
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-xs">
+                <span className="text-[11px] font-mono text-slate-400 font-semibold">
+                  {channel.stat}
+                </span>
+                <span className="text-[#FF5A1F] font-bold text-xs flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  Request →
                 </span>
               </div>
-
-              <div>
-                <h3 className="text-base font-bold text-white group-hover:text-[#FF5A1F] transition-colors leading-snug">
-                  {channel.title}
-                </h3>
-                <p className="text-xs text-slate-300 mt-1.5 line-clamp-3 leading-relaxed">
-                  {channel.desc}
-                </p>
-              </div>
             </div>
-
-            <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-xs">
-              <span className="text-[11px] font-mono text-slate-400 font-semibold">
-                {channel.stat}
-              </span>
-              <span className="text-[#FF5A1F] font-bold text-xs flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                Request →
-              </span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Proposal Request Intake Modal */}
@@ -297,14 +329,14 @@ export default function MediaBuying({ initialChannel = "" }) {
               className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors bg-[#101828] p-1.5 rounded-full border border-white/10 cursor-pointer"
               aria-label="Close Modal"
             >
-              <MdiIcon name="close" className="text-lg" />
+              <X className="w-5 h-5" />
             </button>
 
             {submitted ? (
               /* Success State */
               <div className="py-6 space-y-6 text-center animate-fade-in">
                 <div className="w-16 h-16 bg-[#FF5A1F]/15 text-[#FF5A1F] border border-[#FF5A1F]/30 rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg">
-                  <MdiIcon name="check-circle-outline" />
+                  <CheckCircle className="w-8 h-8" />
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold text-white font-display">
@@ -348,7 +380,7 @@ export default function MediaBuying({ initialChannel = "" }) {
                 {/* Header Tagged with chosen channel */}
                 <div className="border-b border-white/10 pb-4">
                   <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-[#FF5A1F] bg-[#FF5A1F]/10 px-2.5 py-1 rounded-md mb-2 border border-[#FF5A1F]/20">
-                    <MdiIcon name="tag-outline" className="text-xs" />
+                    <Tag className="w-3.5 h-3.5" />
                     Request Proposal for: {selectedChannel}
                   </div>
                   <h2 className="text-xl md:text-2xl font-black text-white font-display tracking-tight">
