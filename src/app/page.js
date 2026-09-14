@@ -14,6 +14,7 @@ import LogoCloud from "@/components/scrollx/sections/logo-cloud";
 import HowItWorks from "@/components/scrollx/sections/how-it-works";
 import FAQ from "@/components/scrollx/sections/faq";
 import Testimonials from "@/components/scrollx/sections/testimonials";
+import Vendors from "@/components/scrollx/sections/vendors";
 import CTA from "@/components/scrollx/sections/cta";
 
 export default function Home() {
@@ -245,6 +246,9 @@ export default function Home() {
 
         {/* Testimonials kinetic quote carousels */}
         <Testimonials />
+
+        {/* For Vendors / Media Owners conversion section */}
+        <Vendors />
 
         {/* CTA final callout section */}
         <CTA />
