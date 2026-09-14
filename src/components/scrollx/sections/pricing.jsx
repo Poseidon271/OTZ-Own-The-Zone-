@@ -14,7 +14,7 @@ const defaultPlans = [
     description: "Perfect for local startups checking zone-level footprints.",
     features: ["Up to 2 active zones", "Influencer & OOH placements", "Standard outcome reports", "Basic media bag storage", "Email ops support"],
     cta: "Configure Campaign",
-    href: "/media-planning",
+    href: "/for-brands",
   },
   {
     name: "Growth Zone Plan",
@@ -24,7 +24,7 @@ const defaultPlans = [
     highlight: true,
     features: ["Up to 5 active zones", "All 8 media channels access", "Audited placement reports", "Multi-zone campaign bags", "Priority ops desk access", "100% SLA audit verification"],
     cta: "Configure Campaign",
-    href: "/media-planning",
+    href: "/for-brands",
   },
   {
     name: "Enterprise Campaign",

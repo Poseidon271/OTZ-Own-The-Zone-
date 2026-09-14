@@ -55,10 +55,10 @@ const OWNER_SPOTLIGHTS = [
 
 // Portal UI Preview Tabs data for Block 9
 const PORTAL_TABS = [
-  { id: "calendar", label: "Availability Calendar", icon: "calendar-month" },
-  { id: "inbox", label: "Booking Request Inbox", icon: "inbox-arrow-down" },
-  { id: "proof", label: "Proof of Execution", icon: "camera-account" },
-  { id: "payouts", label: "Payout Ledger", icon: "cash-fast" },
+  { id: "calendar", label: "Availability Calendar", icon: "calendar-month", badge: null },
+  { id: "inbox", label: "Booking Request Inbox", icon: "inbox-arrow-down", badge: "SOON" },
+  { id: "proof", label: "Proof of Execution", icon: "camera-account", badge: "SOON" },
+  { id: "payouts", label: "Payout Ledger", icon: "cash-fast", badge: "SOON" },
 ];
 
 // FAQ Accordion data for Block 10
@@ -200,30 +200,6 @@ export default function MediaOwnersLandingPage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* BLOCK 2: LIVE PROOF STRIP */}
-        {/* ========================================================================= */}
-        <section className="bg-[#101828]/80 backdrop-blur border border-white/10 rounded-[10px] p-6 md:p-8 shadow-xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-white/10">
-            <div className="pt-2 sm:pt-0">
-              <div className="tabular-nums font-mono font-bold text-3xl md:text-4xl text-white">850+</div>
-              <div className="text-xs font-sans text-slate-400 mt-1 uppercase font-semibold">Verified Media Owners</div>
-            </div>
-            <div className="pt-4 sm:pt-0">
-              <div className="tabular-nums font-mono font-bold text-3xl md:text-4xl text-white">28</div>
-              <div className="text-xs font-sans text-slate-400 mt-1 uppercase font-semibold">Cities Active</div>
-            </div>
-            <div className="pt-4 sm:pt-0">
-              <div className="tabular-nums font-mono font-bold text-3xl md:text-4xl text-[#FF5A1F]">₹14.2 Cr</div>
-              <div className="text-xs font-sans text-slate-400 mt-1 uppercase font-semibold">Payouts Disbursed</div>
-            </div>
-            <div className="pt-4 sm:pt-0">
-              <div className="tabular-nums font-mono font-bold text-3xl md:text-4xl text-emerald-400">T+7</div>
-              <div className="text-xs font-sans text-slate-400 mt-1 uppercase font-semibold">Avg. Settlement Window</div>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
         {/* BLOCK 3: HOW IT WORKS (4-STEP SEQUENTIAL FLOW) */}
         {/* ========================================================================= */}
         <section className="space-y-12">
@@ -243,13 +219,13 @@ export default function MediaOwnersLandingPage() {
             {[
               {
                 step: "01",
-                title: "List (5 Mins)",
+                title: "List",
                 desc: "Channel-branched, photo-first form. Upload site specs, pricing, and high-res photos.",
                 icon: "clipboard-plus-outline"
               },
               {
                 step: "02",
-                title: "Get Verified (24h SLA)",
+                title: "Get Verified",
                 desc: "Fast entity & display licence verification by our dedicated ops verification team.",
                 icon: "shield-check-outline"
               },
@@ -315,61 +291,6 @@ export default function MediaOwnersLandingPage() {
                 <p className="font-mono text-[10px] text-slate-400">{ch.count}</p>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* BLOCK 5: COMMISSION & PAYOUT TRANSPARENCY CARD */}
-        {/* ========================================================================= */}
-        <section className="bg-[#101828]/90 border border-white/10 rounded-[10px] p-8 md:p-10 shadow-2xl text-left space-y-8">
-          <div className="border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <span className="text-[#FF5A1F] font-mono text-xs font-bold uppercase tracking-widest">
-                TRANSPARENT PRICING MODEL
-              </span>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-white mt-1">
-                Zero Listing Fee • 15% Platform Commission
-              </h2>
-            </div>
-            <span className="px-3 py-1.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-semibold uppercase tracking-wider self-start md:self-auto">
-              ✓ Guaranteed Payout Formula
-            </span>
-          </div>
-
-          {/* Worked calculation example */}
-          <div className="bg-[#0B1E3B] border border-white/10 rounded-lg p-6 space-y-4">
-            <div className="text-xs font-mono text-slate-400 uppercase font-semibold">
-              WORKED PAYOUT EXAMPLE (CAMPAIGN BOOKING OF ₹1,00,000)
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-              <div className="bg-white/5 p-4 rounded-lg border border-white/5">
-                <span className="text-xs font-sans text-slate-400 block mb-1">Buyer Pays</span>
-                <span className="tabular-nums font-mono font-bold text-xl text-white">₹1,00,000</span>
-              </div>
-              <div className="bg-white/5 p-4 rounded-lg border border-white/5">
-                <span className="text-xs font-sans text-slate-400 block mb-1">OTZ Fee (15%)</span>
-                <span className="tabular-nums font-mono font-bold text-xl text-[#FF5A1F]">₹15,000</span>
-              </div>
-              <div className="bg-emerald-500/10 p-4 rounded-lg border border-emerald-500/20">
-                <span className="text-xs font-sans text-emerald-400 block mb-1">Net to Media Owner</span>
-                <span className="tabular-nums font-mono font-bold text-2xl text-emerald-400">₹85,000 + GST</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 text-xs font-sans text-slate-300">
-            <div className="flex items-center gap-2">
-              <MdiIcon name="check-circle" className="text-emerald-400 text-lg" />
-              <span>Zero Listing or Registration Charges</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MdiIcon name="check-circle" className="text-emerald-400 text-lg" />
-              <span>No Exclusivity or Lock-in Contracts</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MdiIcon name="check-circle" className="text-emerald-400 text-lg" />
-              <span>Strict T+7 Settlement After Campaign Go-Live</span>
-            </div>
           </div>
         </section>
 
@@ -503,8 +424,8 @@ export default function MediaOwnersLandingPage() {
         {/* ========================================================================= */}
         <section className="space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="text-[#FF5A1F] font-mono text-xs font-bold uppercase tracking-widest">
-              OWNER CONSOLE PREVIEW
+            <span className="text-xs font-mono uppercase tracking-widest text-[#FF5A1F] bg-[#FF5A1F]/10 border border-[#FF5A1F]/30 px-3 py-1 rounded-[4px] inline-block mb-3">
+              OWNER CONSOLE — COMING SOON
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
               Inside the OTZ Media Owner Portal
@@ -531,6 +452,11 @@ export default function MediaOwnersLandingPage() {
                 >
                   <MdiIcon name={tab.icon} className="text-base" />
                   <span>{tab.label}</span>
+                  {tab.badge && (
+                    <span className="ml-1.5 text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/10 text-slate-300 font-semibold">
+                      {tab.badge}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -539,9 +465,9 @@ export default function MediaOwnersLandingPage() {
             <div className="bg-[#0B1E3B] border border-white/10 rounded-lg p-6 min-h-[220px]">
               {activeTab === "calendar" && (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between text-xs font-mono text-slate-300">
+                  <div className="flex items-center justify-between text-xs font-mono text-slate-300 flex-wrap gap-2">
                     <span className="font-bold text-white uppercase">August 2026 Availability Grid</span>
-                    <span className="text-emerald-400">● Green = Booked (OTZ Escrow) | ○ Grey = Open Slot</span>
+                    <span className="text-xs font-mono text-[#FF5A1F] bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 px-2.5 py-1 rounded-[4px]">PORTAL LAUNCHING SOON</span>
                   </div>
                   <div className="grid grid-cols-7 gap-2 text-center text-xs font-mono">
                     {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (

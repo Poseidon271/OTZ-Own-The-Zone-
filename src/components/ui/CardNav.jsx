@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import MdiIcon from "@/components/MdiIcon";
 import { ShinyButton } from "@/components/ui/shiny-button";
 
 export default function CardNav({ onLogoClick }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, setIsAuthModalOpen, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -61,32 +62,32 @@ export default function CardNav({ onLogoClick }) {
           {/* Desktop Navigation links */}
           <div className="hidden md:flex items-center space-x-6 text-[var(--text-primary)]">
             <button
-              onClick={() => router.push("/media-buying")}
-              className="text-xs uppercase font-bold tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+              onClick={() => router.push("/")}
+              className={`text-xs uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+                pathname === "/"
+                  ? "text-white font-extrabold"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
             >
-              Marketplace
+              Home
             </button>
             <button
-              onClick={() => router.push("/media-planning")}
-              className="text-xs uppercase font-bold tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+              onClick={() => router.push("/for-brands")}
+              className={`text-xs uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+                pathname === "/for-brands"
+                  ? "text-white font-extrabold"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
             >
-              Media Planning
-            </button>
-            <button
-              onClick={() => router.push("/media-buying")}
-              className="text-xs uppercase font-bold tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
-            >
-              Media Buying
-            </button>
-            <button
-              onClick={() => router.push("/media-production")}
-              className="text-xs uppercase font-bold tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
-            >
-              Media Production
+              For Brands
             </button>
             <button
               onClick={() => router.push("/media-owners")}
-              className="text-xs uppercase font-bold tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+              className={`text-xs uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+                pathname === "/media-owners"
+                  ? "text-white font-extrabold"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
             >
               For Media Owners
             </button>
@@ -191,38 +192,20 @@ export default function CardNav({ onLogoClick }) {
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                router.push("/media-buying");
+                router.push("/");
               }}
               className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
             >
-              Marketplace
+              Home
             </button>
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                router.push("/media-planning");
+                router.push("/for-brands");
               }}
               className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
             >
-              Media Planning
-            </button>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                router.push("/media-buying");
-              }}
-              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
-            >
-              Media Buying
-            </button>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                router.push("/media-production");
-              }}
-              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
-            >
-              Media Production
+              For Brands
             </button>
             <button
               onClick={() => {

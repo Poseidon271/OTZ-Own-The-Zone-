@@ -472,7 +472,7 @@ export default function CampaignResults({
       {/* Navigation CTA to Media Buying */}
       <div className="flex justify-center pt-6">
         <button
-          onClick={() => router.push("/media-buying")}
+          onClick={() => router.push("/for-brands")}
           className="rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-650 to-blue-600 hover:scale-[1.02] text-white px-8 py-4 text-sm font-bold shadow-lg transition-all duration-300 cursor-pointer flex items-center gap-2"
           style={{ boxShadow: "0 0 25px rgba(139, 92, 246, 0.25)" }}
         >

@@ -64,7 +64,7 @@ export default function GoalPage() {
   const goal = goalData[id] || goalData.awareness;
 
   const navigateToMarketplace = () => {
-    router.push(`/media-buying?goal=${encodeURIComponent(goal.deepLinkGoal)}`);
+    router.push(`/for-brands?goal=${encodeURIComponent(goal.deepLinkGoal)}`);
   };
 
   return (

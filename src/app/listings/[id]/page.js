@@ -37,7 +37,7 @@ export default async function ListingPage({ params }) {
       <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] flex flex-col items-center justify-center p-6 text-center">
         <h1 className="text-h1 text-[var(--status-error)] mb-2">Listing Not Found</h1>
         <p className="text-small text-[var(--text-secondary)]">The requested advertisement zone does not exist or has been removed.</p>
-        <a href="/media-buying" className="btn-primary mt-6">Return to Marketplace</a>
+        <a href="/for-brands" className="btn-primary mt-6">Return to For Brands</a>
       </div>
     );
   }

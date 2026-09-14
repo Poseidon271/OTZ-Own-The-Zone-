@@ -9,36 +9,16 @@ import { motion } from "framer-motion";
 // Import ScrollX primitives & Sections
 import { ColumnLines } from "@/components/scrollx/column-lines";
 import { VercelCard } from "@/components/scrollx/vercel-card";
-import { ShinyButton } from "@/components/scrollx/shiny-button";
 import { AnimatedCounter } from "@/components/scrollx/statscount";
-import { Announcement } from "@/components/scrollx/announcement";
 import LogoCloud from "@/components/scrollx/sections/logo-cloud";
-import Features from "@/components/scrollx/sections/features";
 import HowItWorks from "@/components/scrollx/sections/how-it-works";
 import FAQ from "@/components/scrollx/sections/faq";
 import Testimonials from "@/components/scrollx/sections/testimonials";
 import Vendors from "@/components/scrollx/sections/vendors";
 import CTA from "@/components/scrollx/sections/cta";
 
-// Hero Dashboard Widget Data
-const chartBars = [38, 60, 44, 78, 56, 88, 72, 95, 68, 100, 82, 86];
-
-const events = [
-  { label: "Campaign activated", time: "2m ago", color: "bg-emerald-500" },
-  { label: "Ad creative produced", time: "14m ago", color: "bg-blue-400" },
-  { label: "Zone booked: OOH Andheri", time: "1h ago", color: "bg-yellow-400" },
-  { label: "Goal reached: Cinema Juhu", time: "3h ago", color: "bg-violet-400" },
-];
-
-const metrics = [
-  { label: "Active campaigns", val: "12", trend: "+3 today" },
-  { label: "SLA Match accuracy", val: "99.4%", trend: "↑ 2.1%" },
-];
-
 export default function Home() {
   const router = useRouter();
-
-
 
   return (
     <div
@@ -76,16 +56,6 @@ export default function Home() {
           
           {/* Column Left: Value Copy */}
           <div className="lg:col-span-7 space-y-8 text-left">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <Announcement badge="GA" href="/media-planning">
-                AI Strategy Planner, now live in Mumbai
-              </Announcement>
-            </motion.div>
-
             <motion.h1
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -118,30 +88,22 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 z-20 w-full max-w-xl"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 z-20 w-full max-w-xl"
             >
               <button
-                onClick={() => router.push("/media-buying?skipIntake=true")}
-                className="rounded-xl border border-[var(--border-default)] hover:border-[var(--action-primary)]/50 hover:bg-[#132a4f]/20 bg-[var(--surface-raised)]/40 px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 focus-ring cursor-pointer flex items-center justify-center gap-2 group shadow-md"
+                onClick={() => router.push("/for-brands")}
+                className="rounded-xl border border-[#FF5A1F] hover:bg-[#FF5A1F]/90 bg-[#FF5A1F] px-6 py-3.5 text-sm font-bold text-[#0B1E3B] transition-all duration-300 focus-ring cursor-pointer flex items-center justify-center gap-2 group shadow-md"
               >
-                <MdiIcon name="magnify" className="text-base text-[var(--action-primary)] group-hover:scale-110 transition-transform" />
-                <span>Find Media</span>
+                <MdiIcon name="bullhorn-outline" className="text-base text-[#0B1E3B]" />
+                <span>For Brands</span>
               </button>
               
               <button
-                onClick={() => router.push("/media-planning")}
-                className="rounded-xl border border-[var(--border-default)] hover:border-[var(--action-primary)]/50 hover:bg-[#132a4f]/20 bg-[var(--surface-raised)]/40 px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 focus-ring cursor-pointer flex items-center justify-center gap-2 group shadow-md"
+                onClick={() => router.push("/media-owners")}
+                className="rounded-xl border border-[var(--border-default)] hover:border-[var(--action-primary)]/50 hover:bg-[#132a4f]/20 bg-[var(--surface-raised)]/40 px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 focus-ring cursor-pointer flex items-center justify-center gap-2 group shadow-md"
               >
-                <MdiIcon name="auto-fix" className="text-base text-[var(--action-primary)] group-hover:scale-110 transition-transform" />
-                <span>Plan Media</span>
-              </button>
-
-              <button
-                onClick={() => router.push("/media-buying")}
-                className="rounded-xl border border-[var(--border-default)] hover:border-[var(--action-primary)]/50 hover:bg-[#132a4f]/20 bg-[var(--surface-raised)]/40 px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 focus-ring cursor-pointer flex items-center justify-center gap-2 group shadow-md"
-              >
-                <MdiIcon name="shopping-outline" className="text-base text-[var(--action-primary)] group-hover:scale-110 transition-transform" />
-                <span>Buy Media</span>
+                <MdiIcon name="office-building-marker-outline" className="text-base text-[var(--action-primary)] group-hover:scale-110 transition-transform" />
+                <span>For Media Owners</span>
               </button>
             </motion.div>
 
@@ -149,17 +111,19 @@ export default function Home() {
             <div className="grid grid-cols-3 gap-6 pt-6 max-w-lg items-end">
               <div className="border-l border-[var(--border-default)] pl-4 space-y-1">
                 <AnimatedCounter
-                  value={8}
+                  value={10}
                   className="text-left items-start"
                 />
                 <span className="text-[10px] uppercase font-bold text-[#677E9E] leading-tight block mt-2">
-                  media channels,<br />one plan
+                  media zones,<br />one plan
                 </span>
               </div>
 
               <div className="border-l border-[var(--border-default)] pl-4 space-y-1">
-                <span className="text-2xl sm:text-3xl md:text-4xl font-display font-black text-[#FF5A1F] block leading-none">₹1L–₹1Cr</span>
-                <span className="text-[10px] uppercase font-bold text-[#677E9E] leading-tight block mt-3">
+                <span className="text-2xl sm:text-3xl font-display font-black text-[#FF5A1F] block leading-tight">
+                  ₹10K–<br />₹1Cr
+                </span>
+                <span className="text-[10px] uppercase font-bold text-[#677E9E] leading-tight block mt-2">
                   budgets,<br />goal-led
                 </span>
               </div>
@@ -271,86 +235,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ScrollX Animated SaaS Dashboard Mockup adapted to Campaign Metrics */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="w-full relative z-10"
-        >
-          <div className="overflow-hidden rounded-2xl border border-[var(--border-default)] bg-[var(--surface-raised)]/40 shadow-2xl backdrop-blur-md">
-            <div className="flex items-center gap-2 border-b border-[var(--border-default)] bg-[var(--surface-raised)]/60 px-4 py-3">
-              <div className="flex gap-1.5">
-                <div className="size-2.5 rounded-full bg-red-400/70" />
-                <div className="size-2.5 rounded-full bg-yellow-400/70" />
-                <div className="size-2.5 rounded-full bg-emerald-400/70" />
-              </div>
-              <div className="mx-auto rounded border border-[var(--border-default)] bg-[var(--surface-canvas)] px-3 py-0.5 font-mono text-[9px] text-[var(--text-secondary)]">
-                app.ownthezone.com/dashboard/analytics
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 text-left">
-              <div className="md:col-span-2 flex flex-col gap-4">
-                <div className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-canvas)]/60 p-4">
-                  <p className="mb-3 font-mono text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-extrabold">
-                    ACTIVE ZONE PLACEMENTS REACH &bull; LAST 30 DAYS
-                  </p>
-                  <div className="flex h-24 items-end gap-1">
-                    {chartBars.map((h, i) => (
-                      <div key={i} className="relative flex-1 overflow-hidden rounded-sm bg-white/10" style={{ height: `${h}%` }}>
-                        <div className="absolute inset-x-0 bottom-0 rounded-sm bg-[var(--action-primary)]/70" style={{ height: `${h * 0.65}%` }} />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-3 flex items-center justify-between">
-                    <span className="text-xs text-[var(--text-secondary)]">184,291 estimated impressions</span>
-                    <span className="text-xs font-bold text-emerald-500">↑ 23% week-over-week</span>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {metrics.map((m) => (
-                    <div key={m.label} className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-canvas)]/60 p-4">
-                      <p className="mb-1 font-mono text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-extrabold">{m.label}</p>
-                      <p className="text-xl font-bold text-white leading-tight">{m.val}</p>
-                      <p className="mt-0.5 text-[10px] font-bold text-emerald-500">{m.trend}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                <div className="flex flex-1 flex-col rounded-xl border border-[var(--border-default)] bg-[var(--surface-canvas)]/60 p-4">
-                  <p className="mb-3 font-mono text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-extrabold">Recent Live Events</p>
-                  <div className="flex flex-col gap-3">
-                    {events.map((e, i) => (
-                      <div key={i} className="flex items-center gap-2.5">
-                        <div className={`size-1.5 shrink-0 rounded-full ${e.color}`} />
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-xs font-semibold text-white leading-tight">{e.label}</p>
-                          <p className="text-[10px] text-[var(--text-secondary)]">{e.time}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-canvas)]/60 p-4">
-                  <p className="mb-1 font-mono text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-extrabold">CAMPAIGN SLA STATUS</p>
-                  <p className="text-xl font-bold text-white leading-tight">99.9% verified</p>
-                  <div className="mt-3 flex gap-0.5">
-                    {Array.from({ length: 24 }).map((_, i) => (
-                      <div key={i} className={`h-4 flex-1 rounded-sm ${i === 11 ? "bg-yellow-400/50" : "bg-emerald-500/60"}`} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
         {/* Logo Cloud connected network marquee */}
         <LogoCloud />
-
-        {/* Bento features grid for planning, buying, production */}
-        <Features />
 
         {/* How it works connection workflow */}
         <HowItWorks />
