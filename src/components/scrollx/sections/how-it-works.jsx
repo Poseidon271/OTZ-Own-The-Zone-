@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { FadeIn } from "../fade-in";
 import { ArrowRight, Sparkles, Search, Rocket, BarChart2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import StatsCount from "../statscount";
 
 const defaultSteps = [
   {
@@ -46,12 +45,6 @@ const defaultSteps = [
   },
 ];
 
-const defaultStats = [
-  { label: "Connected Channels", value: 8, suffix: "" },
-  { label: "Live Placements", value: 12000, suffix: "+" },
-  { label: "Audit Verification SLA", value: 100, suffix: "%" },
-];
-
 function StepConnector() {
   return (
     <div className="hidden items-center justify-center lg:flex">
@@ -65,16 +58,15 @@ function StepConnector() {
 
 export default function HowItWorks({
   heading = "Your campaign, configured",
-  headingAccent = "and launched in minutes.",
+  headingAccent = "and launched in a few clicks.",
   description = "From strategy mix planning to final placement auditing — designed to take the friction out of media buying.",
   steps = defaultSteps,
-  stats = defaultStats,
   className,
 }) {
   const [activeStep, setActiveStep] = useState(null);
 
   return (
-    <section id="how-it-works" className={cn("border-t border-[var(--border-default)] pt-24 px-5 text-left relative z-10 bg-transparent", className)}>
+    <section id="how-it-works" className={cn("border-t border-[var(--border-default)] py-24 px-5 text-left relative z-10 bg-transparent", className)}>
       <div className="mx-auto w-full max-w-7xl">
         <FadeIn>
           <h2 className="mb-4 text-3xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-4xl md:text-5xl">
@@ -128,11 +120,8 @@ export default function HowItWorks({
             );
           })}
         </div>
-
-        <FadeIn delay={0.4}>
-          <StatsCount stats={stats} title="SECURED PLACEMENT METRICS" />
-        </FadeIn>
       </div>
     </section>
   );
 }
+

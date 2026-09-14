@@ -106,7 +106,7 @@ export default function ListingClientPage({ listing }) {
         {/* Back and Breadcrumbs */}
         <div className="flex items-center justify-between">
           <button
-            onClick={() => router.push("/media-buying")}
+            onClick={() => router.push("/for-brands")}
             className="flex items-center gap-1.5 text-xs uppercase font-bold text-[var(--text-secondary)] hover:text-[var(--action-primary)] transition-colors cursor-pointer"
           >
             <MdiIcon name="arrow-left" /> Back to Marketplace

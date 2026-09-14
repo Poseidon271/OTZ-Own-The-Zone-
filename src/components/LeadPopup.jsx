@@ -235,7 +235,7 @@ export default function LeadPopup() {
           setIsOpen(false);
           if (role === "brand") {
             // land on marketplace pre-filtered by niche & primary goal (Section 3.4)
-            router.push(`/media-buying?goal=${encodeURIComponent(primaryGoal)}&channel=`);
+            router.push(`/for-brands?goal=${encodeURIComponent(primaryGoal)}&channel=`);
           } else {
             // land on host dashboard listing submission (Section 3.5)
             router.push("/dashboard?tab=submit");

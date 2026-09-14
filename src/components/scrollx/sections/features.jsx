@@ -25,7 +25,7 @@ const defaultFeatures = [
     iconColor: "text-yellow-500",
     badge: "AI Strategy",
     span: "lg:col-span-2",
-    href: "/media-planning"
+    href: "/for-brands"
   },
   {
     title: "Audience SLA Verification",
@@ -68,7 +68,7 @@ const defaultFeatures = [
     icon: Zap,
     iconColor: "text-emerald-500",
     badge: "12,000+ Spots",
-    href: "/media-buying"
+    href: "/for-brands"
   },
 ];
 

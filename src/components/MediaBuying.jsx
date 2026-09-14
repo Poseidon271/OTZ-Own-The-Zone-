@@ -29,22 +29,22 @@ export const MEDIA_CHANNELS = [
     stat: "15,000+ Premium Sites"
   },
   {
-    id: "transit",
-    title: "Transit & Aviation",
-    iconComponent: Bus,
-    icon: "train-car",
-    badge: "High Frequency",
-    desc: "Metro train wraps, airport terminals, bus shelters, cabs & in-flight media placements.",
-    stat: "50M+ Daily Commuters"
+    id: "print",
+    title: "Print Media",
+    iconComponent: Newspaper,
+    icon: "newspaper-variant-outline",
+    badge: "High Credibility",
+    desc: "Front-page jackets, full-page displays & advertorials in leading national & regional press.",
+    stat: "450+ Publications"
   },
   {
-    id: "cinema",
-    title: "Cinema Screens",
-    iconComponent: Film,
-    icon: "clapperboard-outline",
-    badge: "Captive Audience",
-    desc: "On-screen ads, blockbuster movie slots, multiplex lobby branding & product sampling kiosks.",
-    stat: "3,500+ Multiplex Screens"
+    id: "btl",
+    title: "BTL",
+    iconComponent: Building2,
+    icon: "office-building-marker-outline",
+    badge: "Targeted HNI",
+    desc: "Tech park digital screens, corporate cafeterias, gym networks & luxury elevator displays.",
+    stat: "8,000+ Corporate Venues"
   },
   {
     id: "radio",
@@ -65,13 +65,13 @@ export const MEDIA_CHANNELS = [
     stat: "250M+ Connected Homes"
   },
   {
-    id: "print",
-    title: "Print Media",
-    iconComponent: Newspaper,
-    icon: "newspaper-variant-outline",
-    badge: "High Credibility",
-    desc: "Front-page jackets, full-page displays & advertorials in leading national & regional press.",
-    stat: "450+ Publications"
+    id: "transit",
+    title: "Transit & Aviation",
+    iconComponent: Bus,
+    icon: "train-car",
+    badge: "High Frequency",
+    desc: "Metro train wraps, airport terminals, bus shelters, cabs & in-flight media placements.",
+    stat: "50M+ Daily Commuters"
   },
   {
     id: "digital",
@@ -101,13 +101,13 @@ export const MEDIA_CHANNELS = [
     stat: "500+ Annual Events"
   },
   {
-    id: "captive",
-    title: "Captive & Venue Media",
-    iconComponent: Building2,
-    icon: "office-building-marker-outline",
-    badge: "Targeted HNI",
-    desc: "Tech park digital screens, corporate cafeterias, gym networks & luxury elevator displays.",
-    stat: "8,000+ Corporate Venues"
+    id: "cinema",
+    title: "Cinema Screens",
+    iconComponent: Film,
+    icon: "clapperboard-outline",
+    badge: "Captive Audience",
+    desc: "On-screen ads, blockbuster movie slots, multiplex lobby branding & product sampling kiosks.",
+    stat: "3,500+ Multiplex Screens"
   }
 ];
 
@@ -381,10 +381,10 @@ export default function MediaBuying({ initialChannel = "" }) {
                 <div className="border-b border-white/10 pb-4">
                   <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-[#FF5A1F] bg-[#FF5A1F]/10 px-2.5 py-1 rounded-md mb-2 border border-[#FF5A1F]/20">
                     <Tag className="w-3.5 h-3.5" />
-                    Request Proposal for: {selectedChannel}
+                    Demand-Side Proposal Intake
                   </div>
                   <h2 className="text-xl md:text-2xl font-black text-white font-display tracking-tight">
-                    Request Media Buying Proposal
+                    Request Media Proposal: <span className="text-[#FF5A1F]">{selectedChannel}</span>
                   </h2>
                   <p className="text-xs text-slate-300 mt-1">
                     Fill in your campaign parameters to receive custom rate cards and placement availability.
