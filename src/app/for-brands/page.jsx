@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import MdiIcon from "@/components/MdiIcon";
 import BagDrawer from "@/components/BagDrawer";
 import MediaBuying from "@/components/MediaBuying";
+import LogoCloud from "@/components/scrollx/sections/logo-cloud";
 import { ColumnLines } from "@/components/scrollx/column-lines";
 
 function ForBrandsContent() {
@@ -86,7 +87,34 @@ function ForBrandsContent() {
             <span>List Your Media</span>
           </button>
         </div>
+
+        {/* Final Content Section: Trusted Media Channels & Zone Placements Connected */}
+        <LogoCloud className="w-full pt-6" />
       </main>
+
+      {/* Global Footer */}
+      <footer className="relative z-10 border-t border-[var(--border-default)] py-12 px-6 bg-black/40 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            <span className="font-display font-black tracking-wider text-white">OWN THE ZONE</span>
+            <span className="text-caption-default text-[var(--text-tertiary)]">© {new Date().getFullYear()}</span>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-6 text-caption-default text-[#677E9E]">
+            <a href="/about" className="hover:text-white transition-colors">About Us</a>
+            <a href="/about#terms" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="/about#privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a
+              href="https://wa.me/919999999999?text=I%27m%20interested%20in%20Own%20The%20Zone%20campaigns"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-[#2BD67B] hover:text-[#25be6d] font-bold"
+            >
+              <MdiIcon name="whatsapp" className="text-base" /> Chat with Ops
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import MdiIcon from "@/components/MdiIcon";
 import { motion } from "framer-motion";
+import IntroScreen from "@/components/IntroScreen";
 
 // Import ScrollX primitives & Sections
 import { ColumnLines } from "@/components/scrollx/column-lines";
 import { VercelCard } from "@/components/scrollx/vercel-card";
 import { AnimatedCounter } from "@/components/scrollx/statscount";
-import LogoCloud from "@/components/scrollx/sections/logo-cloud";
 import HowItWorks from "@/components/scrollx/sections/how-it-works";
 import FAQ from "@/components/scrollx/sections/faq";
 import Testimonials from "@/components/scrollx/sections/testimonials";
@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <div
-      className="theme-dark min-h-screen relative flex flex-col text-[var(--text-primary)] overflow-hidden font-sans"
+      className="theme-dark min-h-screen relative flex flex-col text-[var(--text-primary)] font-sans"
       style={{
         backgroundColor: "var(--surface-canvas)"
       }}
@@ -48,8 +48,11 @@ export default function Home() {
       {/* Global Navbar */}
       <Navbar onLogoClick={() => router.push("/")} />
 
-      {/* Main Container */}
-      <main className="relative z-10 flex-grow pt-32 pb-20 px-6 max-w-7xl mx-auto w-full flex flex-col justify-center gap-24">
+      {/* SECTION 1: Brand Tagline Intro Section */}
+      <IntroScreen />
+
+      {/* SECTION 2: Existing OTZ Homepage Container */}
+      <main className="relative z-10 flex-grow pt-16 pb-20 px-6 max-w-7xl mx-auto w-full flex flex-col justify-center gap-24">
         
         {/* Split Section: Text Copy vs Interactive Map widget */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -234,9 +237,6 @@ export default function Home() {
             </VercelCard>
           </div>
         </div>
-
-        {/* Logo Cloud connected network marquee */}
-        <LogoCloud />
 
         {/* How it works connection workflow */}
         <HowItWorks />
