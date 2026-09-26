@@ -132,10 +132,11 @@ export async function POST(request) {
     }
 
     // 1. Insert into Supabase if configured
+    let supabaseSaved = false;
     if (isServerSupabaseConfigured()) {
       try {
         const supabase = getSupabaseServer();
-        await supabase.from("vendor_submissions").insert([
+        const { error: sbError } = await supabase.from("vendor_submissions").insert([
           {
             name: finalName,
             business_name: finalCompany,
@@ -145,36 +146,46 @@ export async function POST(request) {
             status: "New"
           }
         ]);
+
+        if (sbError) {
+          console.error("Supabase vendor insert error:", sbError.message || sbError);
+        } else {
+          supabaseSaved = true;
+        }
       } catch (sbErr) {
-        console.warn("Supabase Server write fallback:", sbErr);
+        console.error("Supabase Server write exception:", sbErr.message || sbErr);
       }
     }
 
-    // 2. Insert persistent vendor submission record in database
-    const submission = db.insert("vendor_submissions", {
-      name: finalName,
-      business_name: finalCompany,
-      phone: finalPhone,
-      email: finalEmail,
-      media_type: finalMediaType,
-      status: "New"
-    });
+    // 2. Safe local fallback persistence (tolerant to serverless read-only filesystems)
+    try {
+      const submission = db.insert("vendor_submissions", {
+        name: finalName,
+        business_name: finalCompany,
+        phone: finalPhone,
+        email: finalEmail,
+        media_type: finalMediaType,
+        status: "New"
+      });
 
-    // Write audit log
-    db.insert("audit_logs", {
-      actor_id: "public_vendor",
-      action: "vendor_network_submission",
-      entity: "vendor_submissions",
-      after: { id: submission.id, business_name: finalCompany, media_type: finalMediaType },
-      timestamp: new Date().toISOString()
-    });
+      // Write audit log
+      db.insert("audit_logs", {
+        actor_id: "public_vendor",
+        action: "vendor_network_submission",
+        entity: "vendor_submissions",
+        after: { id: submission?.id || "sub", business_name: finalCompany, media_type: finalMediaType },
+        timestamp: new Date().toISOString()
+      });
+    } catch (localDbErr) {
+      console.warn("Local storage write notice (serverless):", localDbErr.message);
+    }
 
     return NextResponse.json({
       success: true,
       message: "Thanks! Your request has been received. Our team will get in touch with you soon."
     });
   } catch (error) {
-    console.error("POST Vendor Submission Error:", error);
+    console.error("POST Vendor Submission Error:", error.message || error);
     return NextResponse.json({ error: "Unable to submit your request right now. Please try again." }, { status: 500 });
   }
 }

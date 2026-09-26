@@ -72,8 +72,12 @@ class FileDb {
   }
 
   ensureDbDir() {
-    if (!fs.existsSync(DB_DIR)) {
-      fs.mkdirSync(DB_DIR, { recursive: true });
+    try {
+      if (!fs.existsSync(DB_DIR)) {
+        fs.mkdirSync(DB_DIR, { recursive: true });
+      }
+    } catch (_) {
+      // Ignored in read-only serverless environments
     }
   }
 
@@ -84,89 +88,93 @@ class FileDb {
     // Load each table
     Object.keys(this.tables).forEach((table) => {
       const filePath = path.join(DB_DIR, `${table}.json`);
-      if (fs.existsSync(filePath)) {
-        try {
+      try {
+        if (fs.existsSync(filePath)) {
           const content = fs.readFileSync(filePath, "utf-8");
           this.tables[table] = JSON.parse(content);
-        } catch (e) {
-          console.error(`Failed to parse table ${table}, reset to empty`, e);
+        } else {
+          // Seed initial data if tables are empty
+          if (table === "listings") {
+            this.tables[table] = this.generateSeedListings();
+          } else if (table === "users") {
+            // Add default admin/ops user
+            this.tables[table] = [
+              {
+                id: "usr-admin-1",
+                account_id: "acc-admin-1",
+                name: "OTZ Administrator",
+                email: "adminotz@gmail.com",
+                phone: "9999999999",
+                role: "admin",
+                password_hash: hashPassword("otz@2026"),
+                created_at: new Date().toISOString()
+              }
+            ];
+          } else if (table === "accounts") {
+            this.tables[table] = [
+              {
+                id: "acc-admin-1",
+                role: "admin",
+                name: "OTZ Administrator",
+                company: "OTZ Operations",
+                state: "verified",
+                created_at: new Date().toISOString()
+              }
+            ];
+          } else if (table === "vendor_submissions") {
+            this.tables[table] = [];
+          }
+          this.saveTable(table);
         }
-      } else {
-        // Seed initial data if tables are empty
-        if (table === "listings") {
-          this.tables[table] = this.generateSeedListings();
-        } else if (table === "users") {
-          // Add default admin/ops user
-          this.tables[table] = [
-            {
-              id: "usr-admin-1",
-              account_id: "acc-admin-1",
-              name: "OTZ Administrator",
-              email: "adminotz@gmail.com",
-              phone: "9999999999",
-              role: "admin",
-              password_hash: hashPassword("otz@2026"),
-              created_at: new Date().toISOString()
-            }
-          ];
-        } else if (table === "accounts") {
-          this.tables[table] = [
-            {
-              id: "acc-admin-1",
-              role: "admin",
-              name: "OTZ Administrator",
-              company: "OTZ Operations",
-              state: "verified",
-              created_at: new Date().toISOString()
-            }
-          ];
-        } else if (table === "vendor_submissions") {
-          this.tables[table] = [];
-        }
-        this.saveTable(table);
+      } catch (e) {
+        console.error(`Failed to parse/seed table ${table}`, e);
       }
     });
 
     // Ensure administrator account always exists and has password hash
-    const adminUser = this.tables.users.find(u => u.email === "adminotz@gmail.com");
-    if (!adminUser) {
-      const adminAcc = this.tables.accounts.find(a => a.id === "acc-admin-1") || {
-        id: "acc-admin-1",
-        role: "admin",
-        name: "OTZ Administrator",
-        company: "OTZ Operations",
-        state: "verified",
-        created_at: new Date().toISOString()
-      };
-      if (!this.tables.accounts.some(a => a.id === adminAcc.id)) {
-        this.tables.accounts.push(adminAcc);
-        this.saveTable("accounts");
-      }
+    try {
+      const adminUser = this.tables.users.find(u => u.email === "adminotz@gmail.com");
+      if (!adminUser) {
+        const adminAcc = this.tables.accounts.find(a => a.id === "acc-admin-1") || {
+          id: "acc-admin-1",
+          role: "admin",
+          name: "OTZ Administrator",
+          company: "OTZ Operations",
+          state: "verified",
+          created_at: new Date().toISOString()
+        };
+        if (!this.tables.accounts.some(a => a.id === adminAcc.id)) {
+          this.tables.accounts.push(adminAcc);
+          this.saveTable("accounts");
+        }
 
-      this.tables.users.push({
-        id: "usr-admin-1",
-        account_id: adminAcc.id,
-        name: "OTZ Administrator",
-        email: "adminotz@gmail.com",
-        phone: "9999999999",
-        role: "admin",
-        password_hash: hashPassword("otz@2026"),
-        created_at: new Date().toISOString()
-      });
-      this.saveTable("users");
-    } else {
-      let needsSave = false;
-      if (!adminUser.password_hash) {
-        adminUser.password_hash = hashPassword("otz@2026");
-        needsSave = true;
-      }
-      if (adminUser.role !== "admin") {
-        adminUser.role = "admin";
-        needsSave = true;
-      }
-      if (needsSave) {
+        this.tables.users.push({
+          id: "usr-admin-1",
+          account_id: adminAcc.id,
+          name: "OTZ Administrator",
+          email: "adminotz@gmail.com",
+          phone: "9999999999",
+          role: "admin",
+          password_hash: hashPassword("otz@2026"),
+          created_at: new Date().toISOString()
+        });
         this.saveTable("users");
+      } else {
+        let needsSave = false;
+        if (!adminUser.password_hash) {
+          adminUser.password_hash = hashPassword("otz@2026");
+          needsSave = true;
+        }
+        if (adminUser.role !== "admin") {
+          adminUser.role = "admin";
+          needsSave = true;
+        }
+        if (needsSave) {
+          this.saveTable("users");
+        }
       }
+    } catch (_) {
+      // Safe fallback
     }
 
     this.initialized = true;
@@ -175,21 +183,25 @@ class FileDb {
   loadTable(table) {
     this.ensureDbDir();
     const filePath = path.join(DB_DIR, `${table}.json`);
-    if (fs.existsSync(filePath)) {
-      try {
+    try {
+      if (fs.existsSync(filePath)) {
         const content = fs.readFileSync(filePath, "utf-8");
         this.tables[table] = JSON.parse(content);
-      } catch (e) {
-        console.error(`Failed to parse table ${table}`, e);
       }
+    } catch (e) {
+      // Ignored in read-only environments
     }
     return this.tables[table] || [];
   }
 
   saveTable(table) {
-    this.ensureDbDir();
-    const filePath = path.join(DB_DIR, `${table}.json`);
-    fs.writeFileSync(filePath, JSON.stringify(this.tables[table], null, 2), "utf-8");
+    try {
+      this.ensureDbDir();
+      const filePath = path.join(DB_DIR, `${table}.json`);
+      fs.writeFileSync(filePath, JSON.stringify(this.tables[table], null, 2), "utf-8");
+    } catch (e) {
+      // Gracefully handle read-only environments (e.g. Vercel serverless lambdas)
+    }
   }
 
   // Relational operations
