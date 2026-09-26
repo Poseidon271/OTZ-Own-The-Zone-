@@ -13,6 +13,7 @@ import { VercelCard } from "@/components/scrollx/vercel-card";
 import { AnimatedCounter } from "@/components/scrollx/statscount";
 import { OtzTerminal } from "@/components/scrollx/otz-terminal";
 import { cn } from "@/lib/utils";
+import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -64,7 +65,7 @@ export default function AdminPage() {
     return headers;
   };
 
-  // Fetch Vendor Submissions
+  // Fetch Vendor Submissions from centralized database
   const fetchVendorSubmissions = async () => {
     setVendorLoading(true);
     setVendorError(null);
@@ -74,7 +75,20 @@ export default function AdminPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setVendorSubmissions(data.submissions || []);
+        const fetched = data.submissions || [];
+        setVendorSubmissions((prev) => {
+          // Merge deduplicated records from database query and active Realtime events
+          const fetchedMap = new Map(fetched.map((s) => [s.id, s]));
+          const merged = [...fetched];
+          for (const item of prev) {
+            if (!fetchedMap.has(item.id)) {
+              merged.push(item);
+            }
+          }
+          return merged.sort(
+            (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0)
+          );
+        });
       } else {
         setVendorError(data.error || "Unable to load submissions. Please try again.");
       }
@@ -84,6 +98,62 @@ export default function AdminPage() {
       setVendorLoading(false);
     }
   };
+
+  // Supabase Realtime Subscription: Instant live sync across devices
+  useEffect(() => {
+    if (authLoading || !user || !isAdmin) return;
+
+    let channel = null;
+    if (isSupabaseConfigured()) {
+      try {
+        channel = supabase
+          .channel("realtime-vendor-submissions")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "vendor_submissions",
+            },
+            (payload) => {
+              if (payload.eventType === "INSERT" && payload.new) {
+                setVendorSubmissions((prev) => {
+                  if (prev.some((item) => item.id === payload.new.id)) {
+                    return prev;
+                  }
+                  return [payload.new, ...prev];
+                });
+              } else if (payload.eventType === "UPDATE" && payload.new) {
+                setVendorSubmissions((prev) =>
+                  prev.map((item) =>
+                    item.id === payload.new.id ? { ...item, ...payload.new } : item
+                  )
+                );
+                setSelectedVendor((prev) =>
+                  prev && prev.id === payload.new.id ? { ...prev, ...payload.new } : prev
+                );
+              } else if (payload.eventType === "DELETE" && payload.old) {
+                setVendorSubmissions((prev) =>
+                  prev.filter((item) => item.id !== payload.old.id)
+                );
+                setSelectedVendor((prev) =>
+                  prev && prev.id === payload.old.id ? null : prev
+                );
+              }
+            }
+          )
+          .subscribe();
+      } catch (e) {
+        console.warn("Supabase Realtime subscription notice:", e);
+      }
+    }
+
+    return () => {
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
+    };
+  }, [authLoading, user, isAdmin]);
 
   // Protect Admin Route: Only redirect if authentication check is COMPLETE and user is not admin
   useEffect(() => {

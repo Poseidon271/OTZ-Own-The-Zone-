@@ -79,3 +79,24 @@ WITH CHECK (
   OR (auth.jwt() -> 'user_metadata' ->> 'role') IN ('admin', 'ops')
   OR (auth.jwt() -> 'app_metadata' ->> 'role') IN ('admin', 'ops')
 );
+
+-- ==============================================================================
+-- 5. REALTIME SUBSCRIPTIONS
+-- ==============================================================================
+
+-- Enable full row replication identity for comprehensive Realtime payloads
+ALTER TABLE public.vendor_submissions REPLICA IDENTITY FULL;
+
+-- Add vendor_submissions to Supabase Realtime publication
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' 
+    AND schemaname = 'public' 
+    AND tablename = 'vendor_submissions'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.vendor_submissions;
+  END IF;
+END $$;
+
