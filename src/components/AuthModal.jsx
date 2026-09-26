@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import MdiIcon from "@/components/MdiIcon";
 import { useAuth } from "@/context/AuthContext";
 
 export default function AuthModal() {
+  const router = useRouter();
   const { isAuthModalOpen, setIsAuthModalOpen, loginWithPassword } = useAuth();
   const [activeTab, setActiveTab] = useState("email"); // "email" | "phone"
   const [role, setRole] = useState("brand"); // "brand" | "host"
@@ -107,13 +109,13 @@ export default function AuthModal() {
             const redirect = localStorage.getItem("post_login_redirect");
             if (redirect) {
               localStorage.removeItem("post_login_redirect");
-              window.location.href = redirect;
+              router.push(redirect);
             } else if (result.user?.role === "admin" || result.user?.role === "ops") {
-              window.location.href = "/admin";
+              router.push("/admin");
             } else {
-              window.location.reload();
+              router.refresh();
             }
-          }, 1000);
+          }, 800);
         } else {
           setErrors({ email: result.error || "Authentication failed. Please check your credentials." });
         }
@@ -178,6 +180,9 @@ export default function AuthModal() {
 
       if (res.ok && data.success) {
         setSuccess(true);
+        if (data.token) {
+          localStorage.setItem("otz_token", data.token);
+        }
         localStorage.setItem("otz_user", JSON.stringify(data.user));
         
         // Dispatch event for navbar sync
@@ -185,17 +190,17 @@ export default function AuthModal() {
 
         setTimeout(() => {
           setIsAuthModalOpen(false);
-          // Redirect to target or reload path
+          // Redirect to target or admin
           const redirect = localStorage.getItem("post_login_redirect");
           if (redirect) {
             localStorage.removeItem("post_login_redirect");
-            window.location.href = redirect;
+            router.push(redirect);
           } else if (data.user?.role === "admin" || data.user?.role === "ops") {
-            window.location.href = "/admin";
+            router.push("/admin");
           } else {
-            window.location.reload();
+            router.refresh();
           }
-        }, 1200);
+        }, 800);
       } else {
         setErrors({ verify: data.error || "Verification failed." });
       }

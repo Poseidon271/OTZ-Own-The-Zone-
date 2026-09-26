@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import MdiIcon from "@/components/MdiIcon";
 import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 
@@ -9,53 +9,64 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [toast, setToast] = useState(null);
 
-  // Sync state changes across tabs/windows
-  const syncSession = async () => {
+  // Sync state changes across tabs/windows and verify session
+  const syncSession = useCallback(async () => {
     try {
+      const storedToken = typeof window !== "undefined" ? localStorage.getItem("otz_token") : null;
+      const headers = { "Content-Type": "application/json" };
+      if (storedToken) {
+        headers["Authorization"] = `Bearer ${storedToken}`;
+      }
+
       const res = await fetch("/api/auth", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ action: "get-session" }),
       });
       const data = await res.json();
-      if (data.user) {
+      if (res.ok && data.user) {
         setUser(data.user);
-        localStorage.setItem("otz_user", JSON.stringify(data.user));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("otz_user", JSON.stringify(data.user));
+        }
       } else {
         setUser(null);
-        localStorage.removeItem("otz_user");
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("otz_user");
+          localStorage.removeItem("otz_token");
+        }
       }
     } catch (e) {
       console.error("Failed to sync session context", e);
+    } finally {
+      setLoading(false);
+      setMounted(true);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    // 1. Initial fetch to sync session state from server cookie
-    fetch("/api/auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "get-session" }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.user) {
-          setUser(data.user);
-        } else {
-          setUser(null);
+    // 1. Eager restore from localStorage for instant snappy UI without flicker
+    if (typeof window !== "undefined") {
+      try {
+        const savedUserStr = localStorage.getItem("otz_user");
+        if (savedUserStr) {
+          const savedUser = JSON.parse(savedUserStr);
+          if (savedUser && savedUser.id) {
+            setUser(savedUser);
+          }
         }
-        setMounted(true);
-      })
-      .catch((e) => {
-        console.error("Session sync failed on mount", e);
-        setMounted(true);
-      });
+      } catch (_) {}
+    }
 
-    // 2. Supabase Auth state listener if configured
+    // 2. Validate authoritative session with server
+    syncSession();
+
+    // 3. Supabase Auth state listener if configured
     let authSubscription = null;
     if (isSupabaseConfigured()) {
       supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
@@ -71,26 +82,31 @@ export function AuthProvider({ children }) {
             syncSession();
           } else if (event === "SIGNED_OUT") {
             setUser(null);
-            localStorage.removeItem("otz_user");
+            if (typeof window !== "undefined") {
+              localStorage.removeItem("otz_user");
+              localStorage.removeItem("otz_token");
+            }
           }
         }
       );
       authSubscription = subscription;
     }
 
-    // 3. Custom events
+    // 4. Custom cross-tab / window events
     const handleAuthChange = () => {
       syncSession();
     };
+    const handleOpenModal = () => setIsAuthModalOpen(true);
+
     window.addEventListener("auth-state-change", handleAuthChange);
-    window.addEventListener("open-auth-modal", () => setIsAuthModalOpen(true));
+    window.addEventListener("open-auth-modal", handleOpenModal);
 
     return () => {
       if (authSubscription) authSubscription.unsubscribe();
       window.removeEventListener("auth-state-change", handleAuthChange);
-      window.removeEventListener("open-auth-modal", () => setIsAuthModalOpen(true));
+      window.removeEventListener("open-auth-modal", handleOpenModal);
     };
-  }, []);
+  }, [syncSession]);
 
   // Auto-dismiss toast
   useEffect(() => {
@@ -112,7 +128,7 @@ export function AuthProvider({ children }) {
       // 1. Attempt Supabase Auth login if Supabase is configured
       if (isSupabaseConfigured()) {
         try {
-          const { data: sbData, error: sbError } = await supabase.auth.signInWithPassword({
+          const { data: sbData } = await supabase.auth.signInWithPassword({
             email,
             password,
           });
@@ -124,7 +140,7 @@ export function AuthProvider({ children }) {
         }
       }
 
-      // 2. Sync with server session cookie
+      // 2. Sync with server session
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -133,11 +149,17 @@ export function AuthProvider({ children }) {
       const data = await res.json();
       if (res.ok && data.success && data.user) {
         setUser(data.user);
-        localStorage.setItem("otz_user", JSON.stringify(data.user));
+        setLoading(false);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("otz_user", JSON.stringify(data.user));
+          if (data.token) {
+            localStorage.setItem("otz_token", data.token);
+          }
+        }
         setIsAuthModalOpen(false);
         showToast(`Welcome, ${data.user.name}!`);
         window.dispatchEvent(new Event("auth-state-change"));
-        return { success: true, user: data.user };
+        return { success: true, user: data.user, token: data.token };
       }
       return data;
     } catch (err) {
@@ -168,9 +190,16 @@ export function AuthProvider({ children }) {
       const data = await res.json();
       if (res.ok && data.user) {
         setUser(data.user);
-        localStorage.setItem("otz_user", JSON.stringify(data.user));
+        setLoading(false);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("otz_user", JSON.stringify(data.user));
+          if (data.token) {
+            localStorage.setItem("otz_token", data.token);
+          }
+        }
         setIsAuthModalOpen(false);
         showToast(`Welcome back, ${data.user.name}!`);
+        window.dispatchEvent(new Event("auth-state-change"));
         return { success: true };
       }
       return data;
@@ -189,14 +218,24 @@ export function AuthProvider({ children }) {
         }
       }
 
+      const storedToken = typeof window !== "undefined" ? localStorage.getItem("otz_token") : null;
+      const headers = { "Content-Type": "application/json" };
+      if (storedToken) {
+        headers["Authorization"] = `Bearer ${storedToken}`;
+      }
+
       await fetch("/api/auth", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ action: "logout" }),
       });
       setUser(null);
       setSession(null);
-      localStorage.removeItem("otz_user");
+      setLoading(false);
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("otz_user");
+        localStorage.removeItem("otz_token");
+      }
       showToast("Logged out successfully.", "info");
 
       // Redirect to home page
@@ -213,6 +252,8 @@ export function AuthProvider({ children }) {
       value={{
         user,
         session,
+        loading,
+        mounted,
         isAdmin,
         isAuthModalOpen,
         setIsAuthModalOpen,
@@ -220,6 +261,7 @@ export function AuthProvider({ children }) {
         loginWithPassword,
         verifyOtp,
         logout,
+        syncSession,
         toast,
         showToast,
       }}

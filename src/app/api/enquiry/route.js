@@ -1,28 +1,10 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { db } from "@/lib/db";
-
-// Helper to verify session server-side
-const getSessionUser = async () => {
-  const cookieStore = await cookies();
-  const sessionCookie = cookieStore.get("otz_session");
-  if (!sessionCookie) return null;
-
-  const session = db.find("sessions", "token", sessionCookie.value);
-  if (!session || session.revoked_at || new Date() > new Date(session.expires_at)) {
-    return null;
-  }
-
-  const user = db.find("users", "id", session.user_id);
-  if (!user) return null;
-
-  const account = db.find("accounts", "id", user.account_id);
-  return { ...user, account };
-};
+import { getSessionUser } from "@/lib/serverAuth";
 
 export async function GET(request) {
   try {
-    const user = await getSessionUser();
+    const user = await getSessionUser(request);
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -105,7 +87,7 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const user = await getSessionUser();
+    const user = await getSessionUser(request);
     if (!user) {
       return NextResponse.json({ error: "Authentication required to submit enquiries" }, { status: 401 });
     }
@@ -218,7 +200,7 @@ export async function POST(request) {
 
 export async function PUT(request) {
   try {
-    const user = await getSessionUser();
+    const user = await getSessionUser(request);
     if (!user || (user.role !== "ops" && user.role !== "admin")) {
       return NextResponse.json({ error: "Unauthorized access to workflow pipeline" }, { status: 401 });
     }

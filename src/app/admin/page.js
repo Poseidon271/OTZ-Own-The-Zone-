@@ -16,11 +16,8 @@ import { cn } from "@/lib/utils";
 
 export default function AdminPage() {
   const router = useRouter();
-  const { logout } = useAuth();
+  const { user, isAdmin, loading: authLoading, logout } = useAuth();
 
-  // Auth coordinates
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("vendors"); // vendors | enquiries | moderation | seeder | accounts | analytics | audit
 
   // Vendor Submissions State
@@ -55,12 +52,26 @@ export default function AdminPage() {
 
   const [refreshKey, setRefreshKey] = useState(0);
 
+  // Auth Header helper for API calls
+  const getAuthHeaders = () => {
+    const headers = { "Content-Type": "application/json" };
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("otz_token");
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+    }
+    return headers;
+  };
+
   // Fetch Vendor Submissions
   const fetchVendorSubmissions = async () => {
     setVendorLoading(true);
     setVendorError(null);
     try {
-      const res = await fetch("/api/vendor-submissions");
+      const res = await fetch("/api/vendor-submissions", {
+        headers: getAuthHeaders()
+      });
       const data = await res.json();
       if (res.ok && data.success) {
         setVendorSubmissions(data.submissions || []);
@@ -74,29 +85,26 @@ export default function AdminPage() {
     }
   };
 
+  // Protect Admin Route: Only redirect if authentication check is COMPLETE and user is not admin
   useEffect(() => {
+    if (!authLoading) {
+      if (!user || !isAdmin) {
+        router.replace("/");
+      }
+    }
+  }, [authLoading, user, isAdmin, router]);
+
+  // Load Dashboard Data once user is authorized
+  useEffect(() => {
+    if (authLoading || !user || !isAdmin) return;
+
     let active = true;
     const fetchAdminData = async () => {
       try {
-        const res = await fetch("/api/auth", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "get-session" })
-        });
-        const data = await res.json();
-        if (!active) return;
-        
-        if (!data.user || (data.user.role !== "ops" && data.user.role !== "admin")) {
-          router.push("/");
-          return;
-        }
-        setUser(data.user);
-
-        // Fetch vendor submissions
         fetchVendorSubmissions();
 
         // Fetch enquiries
-        const enqRes = await fetch("/api/enquiry");
+        const enqRes = await fetch("/api/enquiry", { headers: getAuthHeaders() });
         const enqData = await enqRes.json();
         if (active && enqData.enquiries) setEnquiries(enqData.enquiries);
 
@@ -117,15 +125,13 @@ export default function AdminPage() {
           { actor_id: "usr-ops-1", action: "publish_listing", entity: "listings", timestamp: new Date(Date.now() - 7200000).toISOString() }
         ]);
       } catch (e) {
-        console.error("Failed to load admin coordinates", e);
-      } finally {
-        if (active) setLoading(false);
+        console.error("Failed to load admin dashboard coordinates", e);
       }
     };
 
     fetchAdminData();
     return () => { active = false; };
-  }, [refreshKey, router]);
+  }, [authLoading, user, isAdmin, refreshKey]);
 
   // Update Vendor Submission Status
   const handleUpdateVendorStatus = async (id, newStatus) => {
@@ -133,7 +139,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/vendor-submissions", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ id, status: newStatus })
       });
       const data = await res.json();
@@ -157,7 +163,8 @@ export default function AdminPage() {
     if (!confirm("Are you sure you want to remove this vendor submission?")) return;
     try {
       const res = await fetch(`/api/vendor-submissions?id=${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: getAuthHeaders()
       });
       if (res.ok) {
         setVendorSubmissions(prev => prev.filter(item => item.id !== id));
@@ -178,7 +185,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/enquiry", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           id: selectedEnquiry.id,
           stage: pipelineForm.stage,
@@ -203,7 +210,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/admin", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ action: "publish-listing", id: listingId })
       });
       if (res.ok) {
@@ -222,7 +229,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/admin", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           action: "reject-listing",
           id: rejectingListingId,
@@ -244,7 +251,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/admin", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ action: "toggle-suspension", accountId })
       });
       if (res.ok) {
@@ -266,7 +273,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/admin", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ action: "import-csv", csvText: csvData })
       });
       const data = await res.json();
@@ -304,7 +311,7 @@ export default function AdminPage() {
     return matchesSearch && matchesMediaType && matchesStatus;
   });
 
-  if (loading) {
+  if (authLoading) {
     return (
       <div className="theme-dark min-h-screen bg-[#0B1E3B] flex items-center justify-center">
         <div className="text-white text-sm animate-pulse flex items-center gap-2">
@@ -313,6 +320,10 @@ export default function AdminPage() {
         </div>
       </div>
     );
+  }
+
+  if (!user || !isAdmin) {
+    return null;
   }
 
   // Helper for status badge style
