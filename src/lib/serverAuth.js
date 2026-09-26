@@ -1,6 +1,6 @@
 import crypto from "crypto";
-import { getSupabaseServer, isServerSupabaseConfigured } from "@/lib/supabaseServer";
-import { db } from "@/lib/db";
+import { getSupabaseServer, isServerSupabaseConfigured } from "./supabaseServer.js";
+import { db } from "./db.js";
 import { cookies } from "next/headers";
 
 const AUTH_SECRET =
@@ -36,7 +36,7 @@ export function generateAdminToken(email = "adminotz@gmail.com") {
  * 3. In-memory session record fallback
  */
 export async function verifySessionToken(token) {
-  if (!token || typeof token !== "string") return null;
+  if (!token || typeof token !== "string" || token === "null" || token === "undefined") return null;
 
   // 1. Signed admin session token (otz_adm.<payload>.<signature>)
   if (token.startsWith("otz_adm.")) {
@@ -122,39 +122,45 @@ export async function verifySessionToken(token) {
  */
 export async function getSessionUser(request) {
   try {
-    let token = null;
-
     // 1. Check Authorization Bearer header
     if (request && typeof request.headers?.get === "function") {
       const authHeader = request.headers.get("authorization") || request.headers.get("Authorization");
+      let headerToken = null;
       if (authHeader && authHeader.startsWith("Bearer ")) {
-        token = authHeader.split(" ")[1]?.trim();
+        headerToken = authHeader.split(" ")[1]?.trim();
+      } else if (authHeader) {
+        headerToken = authHeader.trim();
+      }
+      if (headerToken && headerToken !== "null" && headerToken !== "undefined") {
+        const user = await verifySessionToken(headerToken);
+        if (user) return user;
       }
     }
 
     // 2. Check Next.js cookies() store
-    if (!token) {
-      try {
-        const cookieStore = await cookies();
-        const sessionCookie = cookieStore.get("otz_session") || cookieStore.get("otz_token");
-        if (sessionCookie?.value) {
-          token = sessionCookie.value;
-        }
-      } catch (_) {}
-    }
+    try {
+      const cookieStore = await cookies();
+      const sessionCookie = cookieStore.get("otz_session") || cookieStore.get("otz_token");
+      if (sessionCookie?.value && sessionCookie.value !== "null" && sessionCookie.value !== "undefined") {
+        const user = await verifySessionToken(sessionCookie.value);
+        if (user) return user;
+      }
+    } catch (_) {}
 
     // 3. Check raw cookie header if available
-    if (!token && request && typeof request.headers?.get === "function") {
+    if (request && typeof request.headers?.get === "function") {
       const cookieHeader = request.headers.get("cookie") || "";
       const match = cookieHeader.match(/(?:otz_session|otz_token)=([^;]+)/);
       if (match && match[1]) {
-        token = decodeURIComponent(match[1]);
+        const rawToken = decodeURIComponent(match[1]);
+        if (rawToken && rawToken !== "null" && rawToken !== "undefined") {
+          const user = await verifySessionToken(rawToken);
+          if (user) return user;
+        }
       }
     }
 
-    if (!token) return null;
-
-    return await verifySessionToken(token);
+    return null;
   } catch (err) {
     console.error("getSessionUser error:", err);
     return null;

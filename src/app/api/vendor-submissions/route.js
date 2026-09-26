@@ -1,60 +1,7 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { db } from "@/lib/db";
 import { getSupabaseServer, isServerSupabaseConfigured } from "@/lib/supabaseServer";
-
-// Helper to verify session server-side
-const getSessionUser = async (request) => {
-  const cookieStore = await cookies();
-  const sessionCookie = cookieStore.get("otz_session");
-
-  // Check Bearer header or cookie
-  let token = sessionCookie ? sessionCookie.value : null;
-  if (!token && request) {
-    const authHeader = request.headers.get("authorization") || request.headers.get("Authorization");
-    if (authHeader && authHeader.startsWith("Bearer ")) {
-      token = authHeader.split(" ")[1];
-    }
-  }
-
-  if (!token) return null;
-
-  // 1. Check local session
-  const session = db.find("sessions", "token", token);
-  if (session && !session.revoked_at && new Date() <= new Date(session.expires_at)) {
-    const user = db.find("users", "id", session.user_id);
-    if (user) {
-      const account = db.find("accounts", "id", user.account_id);
-      return { ...user, account };
-    }
-  }
-
-  // 2. Check Supabase token if configured
-  if (isServerSupabaseConfigured()) {
-    try {
-      const supabase = getSupabaseServer();
-      const { data: { user: sbUser }, error } = await supabase.auth.getUser(token);
-      if (!error && sbUser) {
-        const isAdmin =
-          sbUser.email === (process.env.ADMIN_EMAIL || "adminotz@gmail.com") ||
-          sbUser.user_metadata?.role === "admin" ||
-          sbUser.app_metadata?.role === "admin";
-        if (isAdmin) {
-          return {
-            id: sbUser.id,
-            email: sbUser.email,
-            name: sbUser.user_metadata?.name || "OTZ Administrator",
-            role: "admin"
-          };
-        }
-      }
-    } catch (e) {
-      console.warn("Supabase token verification error:", e);
-    }
-  }
-
-  return null;
-};
+import { getSessionUser } from "@/lib/serverAuth";
 
 // GET: Authenticated Administrator access only (RLS & role enforcement)
 export async function GET(request) {
@@ -82,13 +29,16 @@ export async function GET(request) {
             submissions: sbSubmissions
           });
         }
+        if (sbError) {
+          console.warn("Supabase Server read notice:", sbError.message || sbError);
+        }
       } catch (sbErr) {
         console.warn("Supabase Server read fallback:", sbErr);
       }
     }
 
     // 2. Retrieve vendor submissions from database
-    const submissions = db.get("vendor_submissions");
+    const submissions = db.get("vendor_submissions") || [];
 
     // Sort by created_at DESC (newest first)
     const sorted = [...submissions].sort(
@@ -131,26 +81,30 @@ export async function POST(request) {
       return NextResponse.json({ error: "A valid work email is required" }, { status: 400 });
     }
 
+    let createdId = null;
+
     // 1. Insert into Supabase if configured
-    let supabaseSaved = false;
     if (isServerSupabaseConfigured()) {
       try {
         const supabase = getSupabaseServer();
-        const { error: sbError } = await supabase.from("vendor_submissions").insert([
-          {
-            name: finalName,
-            business_name: finalCompany,
-            phone: finalPhone,
-            email: finalEmail,
-            media_type: finalMediaType,
-            status: "New"
-          }
-        ]);
+        const { data: sbData, error: sbError } = await supabase
+          .from("vendor_submissions")
+          .insert([
+            {
+              name: finalName,
+              business_name: finalCompany,
+              phone: finalPhone,
+              email: finalEmail,
+              media_type: finalMediaType,
+              status: "New"
+            }
+          ])
+          .select();
 
         if (sbError) {
           console.error("Supabase vendor insert error:", sbError.message || sbError);
-        } else {
-          supabaseSaved = true;
+        } else if (sbData && sbData.length > 0) {
+          createdId = sbData[0].id;
         }
       } catch (sbErr) {
         console.error("Supabase Server write exception:", sbErr.message || sbErr);
@@ -160,6 +114,7 @@ export async function POST(request) {
     // 2. Safe local fallback persistence (tolerant to serverless read-only filesystems)
     try {
       const submission = db.insert("vendor_submissions", {
+        ...(createdId ? { id: createdId } : {}),
         name: finalName,
         business_name: finalCompany,
         phone: finalPhone,
@@ -173,7 +128,7 @@ export async function POST(request) {
         actor_id: "public_vendor",
         action: "vendor_network_submission",
         entity: "vendor_submissions",
-        after: { id: submission?.id || "sub", business_name: finalCompany, media_type: finalMediaType },
+        after: { id: submission?.id || createdId || "sub", business_name: finalCompany, media_type: finalMediaType },
         timestamp: new Date().toISOString()
       });
     } catch (localDbErr) {
@@ -208,38 +163,53 @@ export async function PUT(request) {
       return NextResponse.json({ error: "Submission ID is required" }, { status: 400 });
     }
 
-    const existing = db.find("vendor_submissions", "id", id);
-    if (!existing) {
-      return NextResponse.json({ error: "Submission not found" }, { status: 404 });
-    }
-
     const updates = {};
     if (status) updates.status = status;
     if (notes !== undefined) updates.notes = notes;
+
+    let updatedRecord = null;
 
     // Update Supabase if configured
     if (isServerSupabaseConfigured()) {
       try {
         const supabase = getSupabaseServer();
-        await supabase.from("vendor_submissions").update(updates).eq("id", id);
+        const { data: sbUpdated, error: sbErr } = await supabase
+          .from("vendor_submissions")
+          .update(updates)
+          .eq("id", id)
+          .select();
+        if (!sbErr && sbUpdated && sbUpdated.length > 0) {
+          updatedRecord = sbUpdated[0];
+        }
       } catch (sbErr) {
         console.warn("Supabase update fallback:", sbErr);
       }
     }
 
-    const updated = db.update("vendor_submissions", "id", id, updates);
+    const existing = db.find("vendor_submissions", "id", id);
+    if (existing) {
+      const localUpdated = db.update("vendor_submissions", "id", id, updates);
+      if (!updatedRecord) updatedRecord = localUpdated;
+    }
+
+    if (!updatedRecord && !existing && !isServerSupabaseConfigured()) {
+      return NextResponse.json({ error: "Submission not found" }, { status: 404 });
+    }
 
     // Write audit log
     db.insert("audit_logs", {
       actor_id: user.id,
       action: "update_vendor_submission",
       entity: "vendor_submissions",
-      before: { status: existing.status },
-      after: { status: updated.status },
+      before: { id, status: existing?.status },
+      after: { id, status: updates.status || existing?.status },
       timestamp: new Date().toISOString()
     });
 
-    return NextResponse.json({ success: true, submission: updated });
+    return NextResponse.json({
+      success: true,
+      submission: updatedRecord || { id, ...updates }
+    });
   } catch (error) {
     console.error("PUT Vendor Submission Error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -264,11 +234,6 @@ export async function DELETE(request) {
       return NextResponse.json({ error: "Submission ID is required" }, { status: 400 });
     }
 
-    const existing = db.find("vendor_submissions", "id", id);
-    if (!existing) {
-      return NextResponse.json({ error: "Submission not found" }, { status: 404 });
-    }
-
     // Delete in Supabase if configured
     if (isServerSupabaseConfigured()) {
       try {
@@ -285,7 +250,7 @@ export async function DELETE(request) {
       actor_id: user.id,
       action: "delete_vendor_submission",
       entity: "vendor_submissions",
-      before: { id: existing.id, business_name: existing.business_name },
+      before: { id },
       timestamp: new Date().toISOString()
     });
 

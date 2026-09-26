@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 
 export default function AdminPage() {
   const router = useRouter();
-  const { user, isAdmin, loading: authLoading, logout } = useAuth();
+  const { user, isAdmin, loading: authLoading, session, logout } = useAuth();
 
   const [activeTab, setActiveTab] = useState("vendors"); // vendors | enquiries | moderation | seeder | accounts | analytics | audit
 
@@ -56,7 +56,7 @@ export default function AdminPage() {
   const getAuthHeaders = () => {
     const headers = { "Content-Type": "application/json" };
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("otz_token");
+      const token = localStorage.getItem("otz_token") || session?.access_token;
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
       }
