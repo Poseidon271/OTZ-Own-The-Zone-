@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { db } from "@/lib/db";
+import { db, verifyPassword, hashPassword } from "@/lib/db";
+import { getSupabaseServer, isServerSupabaseConfigured } from "@/lib/supabaseServer";
 
 // Helper to write to audit log
 const writeAuditLog = (userId, action, entity, before = null, after = null) => {
@@ -19,6 +20,184 @@ export async function POST(request) {
     const body = await request.json();
     const { action } = body;
     const cookieStore = await cookies();
+
+    // 0. EMAIL + PASSWORD LOGIN Flow (Admin / Ops / User)
+    if (action === "login-password" || action === "login") {
+      const { email, password } = body;
+      if (!email || !password) {
+        return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
+      }
+
+      const cleanEmail = email.trim().toLowerCase();
+      const adminEmail = (process.env.ADMIN_EMAIL || "adminotz@gmail.com").trim().toLowerCase();
+      const adminPassword = process.env.ADMIN_PASSWORD || "otz@2026";
+      const isAdminEmail = cleanEmail === adminEmail;
+
+      let authenticatedViaSupabase = false;
+      let supabaseSession = null;
+
+      // 1. If Supabase is configured, attempt Supabase Auth
+      if (isServerSupabaseConfigured()) {
+        try {
+          const supabase = getSupabaseServer();
+          
+          // Try sign in
+          const { data: sbSignIn, error: sbSignInErr } = await supabase.auth.signInWithPassword({
+            email: cleanEmail,
+            password: password
+          });
+
+          if (!sbSignInErr && sbSignIn?.user) {
+            authenticatedViaSupabase = true;
+            supabaseSession = sbSignIn.session;
+          } else if (isAdminEmail && password === adminPassword) {
+            // If admin user does not yet exist in Supabase Auth, provision it
+            try {
+              if (supabase.auth.admin && typeof supabase.auth.admin.createUser === "function") {
+                const { data: newUser, error: createErr } = await supabase.auth.admin.createUser({
+                  email: adminEmail,
+                  password: adminPassword,
+                  email_confirm: true,
+                  user_metadata: { role: "admin", name: "OTZ Administrator" }
+                });
+                if (!createErr && newUser?.user) {
+                  const { data: reSignIn } = await supabase.auth.signInWithPassword({
+                    email: adminEmail,
+                    password: adminPassword
+                  });
+                  if (reSignIn?.session) {
+                    supabaseSession = reSignIn.session;
+                    authenticatedViaSupabase = true;
+                  }
+                }
+              }
+            } catch (provErr) {
+              console.warn("Supabase admin provision notice:", provErr);
+            }
+          }
+        } catch (sbErr) {
+          console.warn("Supabase Auth server error:", sbErr);
+        }
+      }
+
+      // 2. Verify local user record
+      let user = db.find("users", "email", cleanEmail);
+
+      // If this is the admin account, verify either via Supabase Auth, PBKDF2 hash, or server credentials
+      let isValid = false;
+      if (isAdminEmail) {
+        if (authenticatedViaSupabase) {
+          isValid = true;
+        } else if (password === adminPassword) {
+          isValid = true;
+        } else if (user && user.password_hash && verifyPassword(password, user.password_hash)) {
+          isValid = true;
+        }
+      } else if (user && user.password_hash) {
+        isValid = verifyPassword(password, user.password_hash);
+      } else if (authenticatedViaSupabase) {
+        isValid = true;
+      }
+
+      if (!isValid) {
+        if (user) {
+          db.insert("auth_events", {
+            user_id: user.id,
+            type: "password_failed",
+            outcome: "failure",
+            ip: "127.0.0.1",
+            timestamp: new Date().toISOString()
+          });
+        }
+        return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
+      }
+
+      // If admin user doesn't exist in local database, ensure it is created
+      if (!user && isAdminEmail) {
+        let account = db.find("accounts", "id", "acc-admin-1");
+        if (!account) {
+          account = db.insert("accounts", {
+            id: "acc-admin-1",
+            name: "OTZ Administrator",
+            company: "OTZ Admin",
+            role: "admin",
+            state: "verified"
+          });
+        }
+
+        user = db.insert("users", {
+          id: "usr-admin-1",
+          account_id: account.id,
+          name: "OTZ Administrator",
+          email: adminEmail,
+          phone: "9999999999",
+          role: "admin",
+          password_hash: hashPassword(adminPassword),
+          created_at: new Date().toISOString(),
+          last_login_at: new Date().toISOString()
+        });
+      }
+
+      if (!user) {
+        return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
+      }
+
+      const account = db.find("accounts", "id", user.account_id);
+      if (account && account.state === "suspended") {
+        return NextResponse.json({ error: "Account is suspended. Please contact support." }, { status: 403 });
+      }
+
+      // Log last login
+      db.update("users", "id", user.id, { last_login_at: new Date().toISOString() });
+
+      // Create Session
+      const sessionToken = `session-${Math.random().toString(36).substr(2, 12)}-${Math.random().toString(36).substr(2, 12)}`;
+      const sessionExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
+      db.insert("sessions", {
+        user_id: user.id,
+        token: sessionToken,
+        expires_at: sessionExpiry,
+        revoked_at: null,
+        user_agent: request.headers.get("user-agent") || "unknown",
+        ip: "127.0.0.1"
+      });
+
+      // Write to auth events
+      db.insert("auth_events", {
+        user_id: user.id,
+        type: "login_success",
+        outcome: "success",
+        ip: "127.0.0.1",
+        timestamp: new Date().toISOString()
+      });
+
+      cookieStore.set("otz_session", sessionToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        expires: new Date(sessionExpiry),
+        path: "/"
+      });
+
+      const profile = user.role === "brand" ? db.find("brand_profiles", "account_id", user.account_id) : null;
+
+      return NextResponse.json({
+        success: true,
+        session: supabaseSession || { access_token: sessionToken, expires_at: sessionExpiry },
+        user: {
+          id: user.id,
+          account_id: user.account_id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          role: user.role,
+          company: account?.company || "OTZ",
+          state: account?.state || "verified",
+          profile
+        }
+      });
+    }
 
     // 1. REGISTRATION Flow
     if (action === "register") {

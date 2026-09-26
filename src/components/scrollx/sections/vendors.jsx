@@ -31,19 +31,17 @@ export default function Vendors({ className }) {
     setErrorMessage("");
 
     try {
-      const res = await fetch("/api/auth", {
+      const res = await fetch("/api/vendor-submissions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          action: "register",
           name: formData.name,
           company: formData.company,
           phone: formData.phone,
           email: formData.email,
-          role: "host",
-          consent: true,
+          media_type: formData.mediaType,
         }),
       });
 
@@ -52,11 +50,11 @@ export default function Vendors({ className }) {
         setStatus("success");
       } else {
         setStatus("error");
-        setErrorMessage(data.error || "Failed to submit lead request.");
+        setErrorMessage(data.error || "Unable to submit your request right now. Please try again.");
       }
     } catch (err) {
       setStatus("error");
-      setErrorMessage("Server connection error. Please try again.");
+      setErrorMessage("Unable to submit your request right now. Please try again.");
     }
   };
 

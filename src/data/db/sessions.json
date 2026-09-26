@@ -29,5 +29,131 @@
     "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
     "ip": "127.0.0.1",
     "created_at": "2026-08-18T18:10:10.770Z"
+  },
+  {
+    "id": "ses-fl7ke1f1l",
+    "user_id": "usr-admin-1",
+    "token": "session-4k07w33ouix-1ieyqkju7j1",
+    "expires_at": "2026-10-23T15:19:59.831Z",
+    "revoked_at": "2026-09-23T15:19:59.975Z",
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-23T15:19:59.831Z",
+    "updated_at": "2026-09-23T15:19:59.975Z"
+  },
+  {
+    "id": "ses-ubopg1ech",
+    "user_id": "use-chaaofbyi",
+    "token": "session-umzvvmsnl-glbjolofol",
+    "expires_at": "2026-10-23T15:19:59.915Z",
+    "revoked_at": null,
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-23T15:19:59.915Z"
+  },
+  {
+    "id": "ses-r0suvj08h",
+    "user_id": "usr-admin-1",
+    "token": "session-t1r1an2efxc-jmnp6apo1ca",
+    "expires_at": "2026-10-23T15:20:09.315Z",
+    "revoked_at": null,
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-23T15:20:09.315Z"
+  },
+  {
+    "id": "ses-1ejaigtyb",
+    "user_id": "usr-admin-1",
+    "token": "session-bqowq918lln-fg5wk10sfh8",
+    "expires_at": "2026-10-23T15:20:47.299Z",
+    "revoked_at": null,
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-23T15:20:47.299Z"
+  },
+  {
+    "id": "ses-3rmo2zgdi",
+    "user_id": "usr-admin-1",
+    "token": "session-7kpygbi3y1h-1gdhvqhjqe7",
+    "expires_at": "2026-10-23T15:21:32.230Z",
+    "revoked_at": "2026-09-23T15:21:32.382Z",
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-23T15:21:32.231Z",
+    "updated_at": "2026-09-23T15:21:32.383Z"
+  },
+  {
+    "id": "ses-bj9hs9h9u",
+    "user_id": "use-9v2ube5ju",
+    "token": "session-sh5wznbtnj-g0dv0zb5lnk",
+    "expires_at": "2026-10-23T15:21:32.318Z",
+    "revoked_at": null,
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-23T15:21:32.318Z"
+  },
+  {
+    "id": "ses-33hqszli9",
+    "user_id": "usr-admin-1",
+    "token": "session-oz8bsezh3bo-jxhftcblpkl",
+    "expires_at": "2026-10-23T15:27:55.924Z",
+    "revoked_at": "2026-09-23T15:27:56.086Z",
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-23T15:27:55.924Z",
+    "updated_at": "2026-09-23T15:27:56.088Z"
+  },
+  {
+    "id": "ses-7r8bihzfb",
+    "user_id": "use-pk8muuqd9",
+    "token": "session-niq0u4mddzq-bvty5g0w2yt",
+    "expires_at": "2026-10-23T15:27:56.034Z",
+    "revoked_at": null,
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-23T15:27:56.035Z"
+  },
+  {
+    "id": "ses-buo0mh09c",
+    "user_id": "usr-admin-1",
+    "token": "session-wrfwpwlud8g-hw3czr12heu",
+    "expires_at": "2026-10-23T16:09:29.613Z",
+    "revoked_at": "2026-09-23T16:10:11.291Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-23T16:09:29.614Z",
+    "updated_at": "2026-09-23T16:10:11.293Z"
+  },
+  {
+    "id": "ses-g6dvdmlrq",
+    "user_id": "usr-admin-1",
+    "token": "session-ciltiithzlj-cfgjvyci8l",
+    "expires_at": "2026-10-26T10:33:11.513Z",
+    "revoked_at": "2026-09-26T10:33:11.665Z",
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-26T10:33:11.514Z",
+    "updated_at": "2026-09-26T10:33:11.666Z"
+  },
+  {
+    "id": "ses-0uvfu4azw",
+    "user_id": "use-q8r5r47mo",
+    "token": "session-utbiadwmrzo-cba25evkg86",
+    "expires_at": "2026-10-26T10:33:11.609Z",
+    "revoked_at": null,
+    "user_agent": "node",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-26T10:33:11.609Z"
+  },
+  {
+    "id": "ses-0n0qjht30",
+    "user_id": "usr-admin-1",
+    "token": "session-jgsdknykfs-zctai1f1js",
+    "expires_at": "2026-10-26T11:14:22.866Z",
+    "revoked_at": "2026-09-26T11:15:06.724Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+    "ip": "127.0.0.1",
+    "created_at": "2026-09-26T11:14:22.867Z",
+    "updated_at": "2026-09-26T11:15:06.725Z"
   }
 ]

@@ -1,5 +1,19 @@
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
+
+// Password hashing helpers (Server-side only)
+export function hashPassword(password, salt = crypto.randomBytes(16).toString("hex")) {
+  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
+  return `${salt}:${hash}`;
+}
+
+export function verifyPassword(password, storedHash) {
+  if (!storedHash || !storedHash.includes(":")) return false;
+  const [salt, originalHash] = storedHash.split(":");
+  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
+  return hash === originalHash;
+}
 
 // DB directory setup
 const DB_DIR = path.join(process.cwd(), "src", "data", "db");
@@ -16,6 +30,7 @@ class FileDb {
       auth_events: [],
       listings: [],
       enquiries: [],
+      vendor_submissions: [],
       audit_logs: [],
       brand_profiles: [],
       taxonomy: {
@@ -84,32 +99,91 @@ class FileDb {
           // Add default admin/ops user
           this.tables[table] = [
             {
-              id: "usr-ops-1",
-              account_id: "acc-ops-1",
-              name: "Operations Manager",
-              email: "ops@otz.com",
+              id: "usr-admin-1",
+              account_id: "acc-admin-1",
+              name: "OTZ Administrator",
+              email: "adminotz@gmail.com",
               phone: "9999999999",
-              role: "ops",
+              role: "admin",
+              password_hash: hashPassword("otz@2026"),
               created_at: new Date().toISOString()
             }
           ];
         } else if (table === "accounts") {
           this.tables[table] = [
             {
-              id: "acc-ops-1",
-              role: "ops",
-              name: "Own The Zone Team",
-              company: "OTZ Ops",
+              id: "acc-admin-1",
+              role: "admin",
+              name: "OTZ Administrator",
+              company: "OTZ Operations",
               state: "verified",
               created_at: new Date().toISOString()
             }
           ];
+        } else if (table === "vendor_submissions") {
+          this.tables[table] = [];
         }
         this.saveTable(table);
       }
     });
 
+    // Ensure administrator account always exists and has password hash
+    const adminUser = this.tables.users.find(u => u.email === "adminotz@gmail.com");
+    if (!adminUser) {
+      const adminAcc = this.tables.accounts.find(a => a.id === "acc-admin-1") || {
+        id: "acc-admin-1",
+        role: "admin",
+        name: "OTZ Administrator",
+        company: "OTZ Operations",
+        state: "verified",
+        created_at: new Date().toISOString()
+      };
+      if (!this.tables.accounts.some(a => a.id === adminAcc.id)) {
+        this.tables.accounts.push(adminAcc);
+        this.saveTable("accounts");
+      }
+
+      this.tables.users.push({
+        id: "usr-admin-1",
+        account_id: adminAcc.id,
+        name: "OTZ Administrator",
+        email: "adminotz@gmail.com",
+        phone: "9999999999",
+        role: "admin",
+        password_hash: hashPassword("otz@2026"),
+        created_at: new Date().toISOString()
+      });
+      this.saveTable("users");
+    } else {
+      let needsSave = false;
+      if (!adminUser.password_hash) {
+        adminUser.password_hash = hashPassword("otz@2026");
+        needsSave = true;
+      }
+      if (adminUser.role !== "admin") {
+        adminUser.role = "admin";
+        needsSave = true;
+      }
+      if (needsSave) {
+        this.saveTable("users");
+      }
+    }
+
     this.initialized = true;
+  }
+
+  loadTable(table) {
+    this.ensureDbDir();
+    const filePath = path.join(DB_DIR, `${table}.json`);
+    if (fs.existsSync(filePath)) {
+      try {
+        const content = fs.readFileSync(filePath, "utf-8");
+        this.tables[table] = JSON.parse(content);
+      } catch (e) {
+        console.error(`Failed to parse table ${table}`, e);
+      }
+    }
+    return this.tables[table] || [];
   }
 
   saveTable(table) {
@@ -121,18 +195,21 @@ class FileDb {
   // Relational operations
   get(table, filterFn = () => true) {
     this.init();
-    return this.tables[table].filter(filterFn);
+    const records = this.loadTable(table);
+    return records.filter(filterFn);
   }
 
   find(table, key, val) {
     this.init();
-    return this.tables[table].find((item) => item[key] === val);
+    const records = this.loadTable(table);
+    return records.find((item) => item[key] === val);
   }
 
   insert(table, record) {
     this.init();
+    this.loadTable(table);
     const id = record.id || `${table.substring(0, 3)}-${Math.random().toString(36).substr(2, 9)}`;
-    const newRecord = { id, ...record, created_at: new Date().toISOString() };
+    const newRecord = { id, ...record, created_at: record.created_at || new Date().toISOString() };
     this.tables[table].push(newRecord);
     this.saveTable(table);
     return newRecord;
@@ -140,6 +217,7 @@ class FileDb {
 
   update(table, key, val, updates) {
     this.init();
+    this.loadTable(table);
     let updatedRecord = null;
     this.tables[table] = this.tables[table].map((item) => {
       if (item[key] === val) {
@@ -156,6 +234,7 @@ class FileDb {
 
   delete(table, key, val) {
     this.init();
+    this.loadTable(table);
     const initialLength = this.tables[table].length;
     this.tables[table] = this.tables[table].filter((item) => item[key] !== val);
     if (this.tables[table].length !== initialLength) {

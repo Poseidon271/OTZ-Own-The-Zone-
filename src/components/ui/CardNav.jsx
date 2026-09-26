@@ -13,6 +13,11 @@ export default function CardNav({ onLogoClick }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const handleOpenLogin = () => {
+    setIsAuthModalOpen(true);
+    window.dispatchEvent(new CustomEvent("open-auth-modal"));
+  };
+
   const handleDashboardRedirect = () => {
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
@@ -99,10 +104,10 @@ export default function CardNav({ onLogoClick }) {
                   className="flex items-center space-x-2 rounded-full border border-[var(--border-default)] bg-[var(--surface-canvas)] px-3.5 py-1.5 text-xs font-bold transition-all hover:border-[var(--border-strong)] cursor-pointer text-[var(--text-primary)]"
                 >
                   <div className="h-6 w-6 rounded-full bg-[#0B1E3B] text-white flex items-center justify-center font-black text-[10px] shadow-sm">
-                    {user.name.charAt(0).toUpperCase()}
+                    {user.role === "admin" ? "A" : user.name ? user.name.charAt(0).toUpperCase() : "U"}
                   </div>
-                  <span className="max-w-[110px] truncate">
-                    @{user.phone}
+                  <span className="max-w-[120px] truncate">
+                    {user.role === "admin" ? "ADMIN" : user.phone ? `@${user.phone}` : user.name || "User"}
                   </span>
                   <MdiIcon
                     name="chevron-down"
@@ -126,7 +131,7 @@ export default function CardNav({ onLogoClick }) {
                           Workspace Session
                         </p>
                         <p className="text-xs font-bold text-[var(--text-primary)] truncate">
-                          {user.name}
+                          {user.email || user.name}
                         </p>
                       </div>
                       <button
@@ -137,7 +142,7 @@ export default function CardNav({ onLogoClick }) {
                           name="view-dashboard-outline"
                           className="mr-2 text-base text-[var(--action-primary)]"
                         />{" "}
-                        {user.role === "ops" || user.role === "admin" ? "Ops Console" : "My Dashboard"}
+                        {user.role === "ops" || user.role === "admin" ? "Admin Console" : "My Dashboard"}
                       </button>
                       <button
                         onClick={() => {
@@ -156,7 +161,8 @@ export default function CardNav({ onLogoClick }) {
             ) : (
               <>
                 <button
-                  onClick={() => setIsAuthModalOpen(true)}
+                  type="button"
+                  onClick={handleOpenLogin}
                   className="text-xs uppercase font-bold text-[var(--text-secondary)] hover:text-white transition-colors cursor-pointer"
                 >
                   Log in
@@ -243,7 +249,7 @@ export default function CardNav({ onLogoClick }) {
               <ShinyButton
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  setIsAuthModalOpen(true);
+                  handleOpenLogin();
                 }}
                 className="w-full text-center font-bold"
               >

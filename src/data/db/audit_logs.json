@@ -59,5 +59,207 @@
     },
     "timestamp": "2026-08-28T15:06:00.355Z",
     "created_at": "2026-08-28T15:06:00.355Z"
+  },
+  {
+    "id": "aud-lp1wgju3v",
+    "actor_id": "use-egbgtoj1v",
+    "action": "register_account",
+    "entity": "accounts",
+    "before": null,
+    "after": {
+      "id": "acc-4pvnbsj6u",
+      "name": "Aditya Sisodia",
+      "company": "apex",
+      "role": "host",
+      "state": "unverified",
+      "created_at": "2026-09-23T15:10:57.588Z"
+    },
+    "timestamp": "2026-09-23T15:10:57.589Z",
+    "created_at": "2026-09-23T15:10:57.589Z"
+  },
+  {
+    "id": "aud-8c6uubu2q",
+    "actor_id": "public_vendor",
+    "action": "vendor_network_submission",
+    "entity": "vendor_submissions",
+    "after": {
+      "id": "ven-kdudmdv2p",
+      "business_name": "ABC Media Outdoor",
+      "media_type": "OOH"
+    },
+    "timestamp": "2026-09-23T15:19:59.714Z",
+    "created_at": "2026-09-23T15:19:59.714Z"
+  },
+  {
+    "id": "aud-u6b4g90yy",
+    "actor_id": "public_vendor",
+    "action": "vendor_network_submission",
+    "entity": "vendor_submissions",
+    "after": {
+      "id": "ven-8nxnvqnwv",
+      "business_name": "XYZ Networks",
+      "media_type": "Television"
+    },
+    "timestamp": "2026-09-23T15:19:59.728Z",
+    "created_at": "2026-09-23T15:19:59.728Z"
+  },
+  {
+    "id": "aud-kovtewxpj",
+    "actor_id": "use-chaaofbyi",
+    "action": "register_account",
+    "entity": "accounts",
+    "before": null,
+    "after": {
+      "id": "acc-2wawrve4r",
+      "name": "Normal Tester",
+      "company": "Tester Inc",
+      "role": "brand",
+      "state": "unverified",
+      "created_at": "2026-09-23T15:19:59.882Z"
+    },
+    "timestamp": "2026-09-23T15:19:59.884Z",
+    "created_at": "2026-09-23T15:19:59.884Z"
+  },
+  {
+    "id": "aud-kqcflba7k",
+    "actor_id": "public_vendor",
+    "action": "vendor_network_submission",
+    "entity": "vendor_submissions",
+    "after": {
+      "id": "ven-eugak3bff",
+      "business_name": "ABC Media Outdoor",
+      "media_type": "OOH"
+    },
+    "timestamp": "2026-09-23T15:21:32.115Z",
+    "created_at": "2026-09-23T15:21:32.116Z"
+  },
+  {
+    "id": "aud-mr5k7qmpo",
+    "actor_id": "public_vendor",
+    "action": "vendor_network_submission",
+    "entity": "vendor_submissions",
+    "after": {
+      "id": "ven-mgv4b0swv",
+      "business_name": "XYZ Networks",
+      "media_type": "Television"
+    },
+    "timestamp": "2026-09-23T15:21:32.143Z",
+    "created_at": "2026-09-23T15:21:32.144Z"
+  },
+  {
+    "id": "aud-dbc7whmq4",
+    "actor_id": "use-9v2ube5ju",
+    "action": "register_account",
+    "entity": "accounts",
+    "before": null,
+    "after": {
+      "id": "acc-bz5d9gmod",
+      "name": "Normal Tester",
+      "company": "Tester Inc",
+      "role": "brand",
+      "state": "unverified",
+      "created_at": "2026-09-23T15:21:32.275Z"
+    },
+    "timestamp": "2026-09-23T15:21:32.279Z",
+    "created_at": "2026-09-23T15:21:32.280Z"
+  },
+  {
+    "id": "aud-atwqpng7k",
+    "actor_id": "public_vendor",
+    "action": "vendor_network_submission",
+    "entity": "vendor_submissions",
+    "after": {
+      "id": "ven-rdg0jr4uw",
+      "business_name": "ABC Media Outdoor",
+      "media_type": "OOH"
+    },
+    "timestamp": "2026-09-23T15:27:55.837Z",
+    "created_at": "2026-09-23T15:27:55.837Z"
+  },
+  {
+    "id": "aud-059249kyj",
+    "actor_id": "public_vendor",
+    "action": "vendor_network_submission",
+    "entity": "vendor_submissions",
+    "after": {
+      "id": "ven-h4xwsl8rs",
+      "business_name": "XYZ Networks",
+      "media_type": "Television"
+    },
+    "timestamp": "2026-09-23T15:27:55.868Z",
+    "created_at": "2026-09-23T15:27:55.869Z"
+  },
+  {
+    "id": "aud-xcddqu5n6",
+    "actor_id": "use-pk8muuqd9",
+    "action": "register_account",
+    "entity": "accounts",
+    "before": null,
+    "after": {
+      "id": "acc-myd3rglvv",
+      "name": "Normal Tester",
+      "company": "Tester Inc",
+      "role": "brand",
+      "state": "unverified",
+      "created_at": "2026-09-23T15:27:55.994Z"
+    },
+    "timestamp": "2026-09-23T15:27:55.997Z",
+    "created_at": "2026-09-23T15:27:55.998Z"
+  },
+  {
+    "id": "aud-gfkje7cgb",
+    "actor_id": "public_vendor",
+    "action": "vendor_network_submission",
+    "entity": "vendor_submissions",
+    "after": {
+      "id": "ven-73dc6dcjl",
+      "business_name": "ABC Media Outdoor",
+      "media_type": "OOH"
+    },
+    "timestamp": "2026-09-26T10:33:11.423Z",
+    "created_at": "2026-09-26T10:33:11.423Z"
+  },
+  {
+    "id": "aud-3yxjt9m56",
+    "actor_id": "public_vendor",
+    "action": "vendor_network_submission",
+    "entity": "vendor_submissions",
+    "after": {
+      "id": "ven-0t8k6urfg",
+      "business_name": "XYZ Networks",
+      "media_type": "Television"
+    },
+    "timestamp": "2026-09-26T10:33:11.450Z",
+    "created_at": "2026-09-26T10:33:11.450Z"
+  },
+  {
+    "id": "aud-fll3yn37p",
+    "actor_id": "use-q8r5r47mo",
+    "action": "register_account",
+    "entity": "accounts",
+    "before": null,
+    "after": {
+      "id": "acc-1y3nayoxm",
+      "name": "Normal Tester",
+      "company": "Tester Inc",
+      "role": "brand",
+      "state": "unverified",
+      "created_at": "2026-09-26T10:33:11.574Z"
+    },
+    "timestamp": "2026-09-26T10:33:11.577Z",
+    "created_at": "2026-09-26T10:33:11.578Z"
+  },
+  {
+    "id": "aud-4tux3qv6a",
+    "actor_id": "public_vendor",
+    "action": "vendor_network_submission",
+    "entity": "vendor_submissions",
+    "after": {
+      "id": "ven-ojw1gyb2e",
+      "business_name": "apex",
+      "media_type": "OOH"
+    },
+    "timestamp": "2026-09-26T11:14:46.177Z",
+    "created_at": "2026-09-26T11:14:46.177Z"
   }
 ]

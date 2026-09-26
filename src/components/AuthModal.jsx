@@ -2,15 +2,19 @@
 
 import React, { useState, useEffect } from "react";
 import MdiIcon from "@/components/MdiIcon";
+import { useAuth } from "@/context/AuthContext";
 
 export default function AuthModal() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("phone"); // "phone" | "email"
+  const { isAuthModalOpen, setIsAuthModalOpen, loginWithPassword } = useAuth();
+  const [activeTab, setActiveTab] = useState("email"); // "email" | "phone"
   const [role, setRole] = useState("brand"); // "brand" | "host"
 
   // Input states
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [emailAuthMode, setEmailAuthMode] = useState("password"); // "password" | "magic"
   
   // Verification states
   const [step, setStep] = useState("request"); // "request" | "verify"
@@ -25,24 +29,30 @@ export default function AuthModal() {
 
   // Listen to open events
   useEffect(() => {
-    const handleOpen = () => {
-      setIsOpen(true);
+    const handleOpen = (e) => {
+      if (e?.detail?.tab) {
+        setActiveTab(e.detail.tab);
+      } else {
+        setActiveTab("email");
+      }
       setStep("request");
       setPhone("");
       setEmail("");
+      setPassword("");
       setOtpCode("");
       setDebugOtp("");
       setDebugToken("");
       setErrors({});
       setSuccess(false);
+      setIsAuthModalOpen(true);
     };
 
     window.addEventListener("open-auth-modal", handleOpen);
     return () => window.removeEventListener("open-auth-modal", handleOpen);
-  }, []);
+  }, [setIsAuthModalOpen]);
 
   const handleClose = () => {
-    setIsOpen(false);
+    setIsAuthModalOpen(false);
   };
 
   const handleRequestOtp = async (e) => {
@@ -73,6 +83,42 @@ export default function AuthModal() {
         }
       } catch (err) {
         setErrors({ phone: "Server error. Please try again." });
+      } finally {
+        setLoading(false);
+      }
+    } else if (emailAuthMode === "password") {
+      // Email Password Login
+      if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setErrors({ email: "Please enter a valid work email address" });
+        return;
+      }
+      if (!password) {
+        setErrors({ password: "Password is required" });
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const result = await loginWithPassword(email.trim(), password);
+        if (result.success) {
+          setSuccess(true);
+          setTimeout(() => {
+            setIsAuthModalOpen(false);
+            const redirect = localStorage.getItem("post_login_redirect");
+            if (redirect) {
+              localStorage.removeItem("post_login_redirect");
+              window.location.href = redirect;
+            } else if (result.user?.role === "admin" || result.user?.role === "ops") {
+              window.location.href = "/admin";
+            } else {
+              window.location.reload();
+            }
+          }, 1000);
+        } else {
+          setErrors({ email: result.error || "Authentication failed. Please check your credentials." });
+        }
+      } catch (err) {
+        setErrors({ email: "Server error. Please try again." });
       } finally {
         setLoading(false);
       }
@@ -138,12 +184,14 @@ export default function AuthModal() {
         window.dispatchEvent(new Event("auth-state-change"));
 
         setTimeout(() => {
-          setIsOpen(false);
+          setIsAuthModalOpen(false);
           // Redirect to target or reload path
           const redirect = localStorage.getItem("post_login_redirect");
           if (redirect) {
             localStorage.removeItem("post_login_redirect");
             window.location.href = redirect;
+          } else if (data.user?.role === "admin" || data.user?.role === "ops") {
+            window.location.href = "/admin";
           } else {
             window.location.reload();
           }
@@ -158,7 +206,7 @@ export default function AuthModal() {
     }
   };
 
-  if (!isOpen) return null;
+  if (!isAuthModalOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto animate-fade-in no-print">
@@ -168,7 +216,7 @@ export default function AuthModal() {
         onClick={handleClose}
       ></div>
 
-      {/* Split layout modal container (Section 8.5) */}
+      {/* Split layout modal container */}
       <div
         className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl z-10 overflow-hidden grid grid-cols-1 md:grid-cols-12 animate-scale-up border border-[var(--border-default)]"
         style={{ borderRadius: "14px" }}
@@ -226,15 +274,15 @@ export default function AuthModal() {
               
               {/* Header Title */}
               <div>
-                <h3 className="text-h2 font-display text-[var(--text-primary)]">Passwordless Sign In</h3>
+                <h3 className="text-h2 font-display text-[var(--text-primary)]">Secure Sign In</h3>
                 <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                  Enter your credentials to generate a secure session key.
+                  Enter your credentials to access your workspace.
                 </p>
               </div>
 
               {step === "request" ? (
                 <form onSubmit={handleRequestOtp} className="space-y-4">
-                  {/* Role Selection Toggle (Section 8.5) */}
+                  {/* Role Selection Toggle */}
                   <div className="space-y-1.5">
                     <label className="block text-[10px] uppercase font-bold text-[var(--text-tertiary)]">Workspace Role</label>
                     <div className="flex p-1 bg-slate-100 rounded-xl border border-[var(--border-default)] w-fit">
@@ -263,7 +311,7 @@ export default function AuthModal() {
                     </div>
                   </div>
 
-                  {/* Auth Method Tab (Phone vs Email Fallback) */}
+                  {/* Auth Method Tab (Phone vs Email) */}
                   <div className="flex gap-4 border-b border-[var(--border-default)] pb-1">
                     <button
                       type="button"
@@ -285,7 +333,7 @@ export default function AuthModal() {
                           : "border-transparent text-[var(--text-secondary)]"
                       }`}
                     >
-                      Email Magic Link Fallback
+                      Email & Password
                     </button>
                   </div>
 
@@ -303,32 +351,83 @@ export default function AuthModal() {
                       {errors.phone && <p className="text-[10px] text-[var(--status-error)] font-bold">{errors.phone}</p>}
                     </div>
                   ) : (
-                    // Email input
-                    <div className="space-y-1.5">
-                      <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Work Email</label>
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="test@otz.com"
-                        className={`input-field focus-ring ${errors.email ? "error" : ""}`}
-                      />
-                      {errors.email && <p className="text-[10px] text-[var(--status-error)] font-bold">{errors.email}</p>}
+                    // Email & Password inputs
+                    <div className="space-y-3">
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Work Email</label>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="adminotz@gmail.com"
+                          className={`input-field focus-ring ${errors.email ? "error" : ""}`}
+                        />
+                        {errors.email && <p className="text-[10px] text-[var(--status-error)] font-bold">{errors.email}</p>}
+                      </div>
+
+                      {emailAuthMode === "password" ? (
+                        <div className="space-y-1.5">
+                          <div className="flex justify-between items-center">
+                            <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Password</label>
+                            <button
+                              type="button"
+                              onClick={() => setEmailAuthMode("magic")}
+                              className="text-[10px] text-[var(--action-primary)] hover:underline font-bold"
+                            >
+                              Or use Magic Link
+                            </button>
+                          </div>
+                          <div className="relative">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              placeholder="••••••••"
+                              className={`input-field focus-ring pr-10 ${errors.password ? "error" : ""}`}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                              tabIndex={-1}
+                            >
+                              <MdiIcon name={showPassword ? "eye-off-outline" : "eye-outline"} className="text-base" />
+                            </button>
+                          </div>
+                          {errors.password && <p className="text-[10px] text-[var(--status-error)] font-bold">{errors.password}</p>}
+                        </div>
+                      ) : (
+                        <div className="text-right">
+                          <button
+                            type="button"
+                            onClick={() => setEmailAuthMode("password")}
+                            className="text-[10px] text-[var(--action-primary)] hover:underline font-bold"
+                          >
+                            Use Password Sign In
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="btn-primary w-full shadow-lg focus-ring"
+                    className="btn-primary w-full shadow-lg focus-ring cursor-pointer"
                     style={{ color: "#0B1E3B" }}
                   >
                     {loading ? (
-                      <span>Generating credentials...</span>
+                      <span>Authenticating...</span>
                     ) : (
                       <>
-                        <MdiIcon name="send" />
-                        <span>Send Authentication Key</span>
+                        <MdiIcon name="lock-check-outline" />
+                        <span>
+                          {activeTab === "phone"
+                            ? "Send Authentication Key"
+                            : emailAuthMode === "password"
+                            ? "Sign In to Workspace"
+                            : "Send Magic Link"}
+                        </span>
                       </>
                     )}
                   </button>
@@ -368,7 +467,7 @@ export default function AuthModal() {
                       <button
                         type="submit"
                         disabled={loading}
-                        className="btn-primary w-full shadow-lg focus-ring mt-2"
+                        className="btn-primary w-full shadow-lg focus-ring mt-2 cursor-pointer"
                         style={{ color: "#0B1E3B" }}
                       >
                         {loading ? "Verifying..." : "Verify & Sign In"}
@@ -391,7 +490,7 @@ export default function AuthModal() {
                       <button
                         type="submit"
                         disabled={loading}
-                        className="btn-primary w-full shadow-lg focus-ring mt-2"
+                        className="btn-primary w-full shadow-lg focus-ring mt-2 cursor-pointer"
                         style={{ color: "#0B1E3B" }}
                       >
                         {loading ? "Simulating link click..." : "Click to Verify Magic Link"}
@@ -403,7 +502,7 @@ export default function AuthModal() {
                     <button
                       type="button"
                       onClick={() => setStep("request")}
-                      className="text-xs text-[var(--action-primary)] hover:underline font-bold"
+                      className="text-xs text-[var(--action-primary)] hover:underline font-bold cursor-pointer"
                     >
                       Use another phone or email
                     </button>
