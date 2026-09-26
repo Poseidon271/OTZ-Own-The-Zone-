@@ -1,10 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder-otz.supabase.co";
-const supabaseAnonKey =
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const rawAnonKey =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-  "placeholder-anon-key";
+  "";
+
+const supabaseUrl = rawUrl.trim().replace(/\/+$/, "") || "https://placeholder-otz.supabase.co";
+const supabaseAnonKey = rawAnonKey.trim() || "placeholder-anon-key";
 
 // Client-side Supabase instance (uses only public/anon key)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -14,14 +17,28 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: true,
     storage: typeof window !== "undefined" ? window.localStorage : undefined,
   },
+  realtime: {
+    params: {
+      eventsPerSecond: 10,
+    },
+  },
 });
 
 export const isSupabaseConfigured = () => {
+  const url = (process.env.NEXT_PUBLIC_SUPABASE_URL || "").trim();
+  const key = (
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    ""
+  ).trim();
+
   return (
-    !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    (!!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || !!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) &&
-    process.env.NEXT_PUBLIC_SUPABASE_URL !== "https://placeholder-otz.supabase.co"
+    !!url &&
+    url !== "https://placeholder-otz.supabase.co" &&
+    !!key &&
+    key !== "placeholder-anon-key"
   );
 };
 
 export default supabase;
+

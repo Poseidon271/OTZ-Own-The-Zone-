@@ -70,16 +70,28 @@ export default function AdminPage() {
     setVendorLoading(true);
     setVendorError(null);
     try {
-      const res = await fetch("/api/vendor-submissions", {
-        headers: getAuthHeaders()
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        const fetched = data.submissions || [];
+      let directSupabaseSubmissions = null;
+
+      // 1. Direct Supabase Query if client-side is configured
+      if (isSupabaseConfigured()) {
+        try {
+          const { data: sbData, error: sbErr } = await supabase
+            .from("vendor_submissions")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+          if (!sbErr && Array.isArray(sbData)) {
+            directSupabaseSubmissions = sbData;
+          }
+        } catch (e) {
+          console.warn("Direct Supabase query fallback:", e);
+        }
+      }
+
+      if (directSupabaseSubmissions) {
         setVendorSubmissions((prev) => {
-          // Merge deduplicated records from database query and active Realtime events
-          const fetchedMap = new Map(fetched.map((s) => [s.id, s]));
-          const merged = [...fetched];
+          const fetchedMap = new Map(directSupabaseSubmissions.map((s) => [s.id, s]));
+          const merged = [...directSupabaseSubmissions];
           for (const item of prev) {
             if (!fetchedMap.has(item.id)) {
               merged.push(item);
@@ -90,7 +102,28 @@ export default function AdminPage() {
           );
         });
       } else {
-        setVendorError(data.error || "Unable to load submissions. Please try again.");
+        // 2. Server API Route Fetch
+        const res = await fetch("/api/vendor-submissions", {
+          headers: getAuthHeaders()
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          const fetched = data.submissions || [];
+          setVendorSubmissions((prev) => {
+            const fetchedMap = new Map(fetched.map((s) => [s.id, s]));
+            const merged = [...fetched];
+            for (const item of prev) {
+              if (!fetchedMap.has(item.id)) {
+                merged.push(item);
+              }
+            }
+            return merged.sort(
+              (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0)
+            );
+          });
+        } else {
+          setVendorError(data.error || "Unable to load submissions. Please try again.");
+        }
       }
     } catch (err) {
       setVendorError("Unable to load submissions. Please try again.");

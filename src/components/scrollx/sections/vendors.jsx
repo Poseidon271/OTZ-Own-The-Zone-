@@ -6,6 +6,7 @@ import { ShinyButton } from "../shiny-button";
 import { VercelCard } from "../vercel-card";
 import { cn } from "@/lib/utils";
 import MdiIcon from "@/components/MdiIcon";
+import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 
 export default function Vendors({ className }) {
   const [formData, setFormData] = useState({
@@ -30,29 +31,80 @@ export default function Vendors({ className }) {
     setStatus("submitting");
     setErrorMessage("");
 
+    const payload = {
+      name: (formData.name || "").trim(),
+      company: (formData.company || "").trim(),
+      business_name: (formData.company || "").trim(),
+      phone: (formData.phone || "").trim(),
+      email: (formData.email || "").trim().toLowerCase(),
+      media_type: formData.mediaType || "OOH",
+    };
+
+    let savedToCloud = false;
+
+    // 1. Direct Supabase Cloud Insertion (Public Anon RLS Policy)
+    if (isSupabaseConfigured()) {
+      try {
+        const { data: sbData, error: sbError } = await supabase
+          .from("vendor_submissions")
+          .insert([
+            {
+              name: payload.name,
+              business_name: payload.company,
+              phone: payload.phone,
+              email: payload.email,
+              media_type: payload.media_type,
+              status: "New",
+            },
+          ])
+          .select();
+
+        if (!sbError && sbData && sbData.length > 0) {
+          savedToCloud = true;
+        } else if (sbError) {
+          console.warn("Direct Supabase insert notice:", sbError.message || sbError);
+        }
+      } catch (sbEx) {
+        console.warn("Direct Supabase client exception:", sbEx);
+      }
+    }
+
+    // 2. Server API Route Insertion (Serverless Supabase Client)
     try {
       const res = await fetch("/api/vendor-submissions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name,
-          company: formData.company,
-          phone: formData.phone,
-          email: formData.email,
-          media_type: formData.mediaType,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
       if (res.ok && data.success) {
-        setStatus("success");
-      } else {
+        savedToCloud = true;
+      } else if (!savedToCloud) {
         setStatus("error");
         setErrorMessage(data.error || "Unable to submit your request right now. Please try again.");
+        return;
       }
     } catch (err) {
+      if (!savedToCloud) {
+        setStatus("error");
+        setErrorMessage("Unable to submit your request right now. Please try again.");
+        return;
+      }
+    }
+
+    if (savedToCloud) {
+      setStatus("success");
+      setFormData({
+        name: "",
+        company: "",
+        phone: "",
+        email: "",
+        mediaType: "OOH",
+      });
+    } else {
       setStatus("error");
       setErrorMessage("Unable to submit your request right now. Please try again.");
     }
