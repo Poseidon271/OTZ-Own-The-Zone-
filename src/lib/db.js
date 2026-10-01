@@ -31,6 +31,7 @@ class FileDb {
       listings: [],
       enquiries: [],
       vendor_submissions: [],
+      brand_requests: [],
       audit_logs: [],
       brand_profiles: [],
       taxonomy: {
@@ -121,7 +122,7 @@ class FileDb {
                 created_at: new Date().toISOString()
               }
             ];
-          } else if (table === "vendor_submissions") {
+          } else if (table === "vendor_submissions" || table === "brand_requests") {
             this.tables[table] = [];
           }
           this.saveTable(table);

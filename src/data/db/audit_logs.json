@@ -287,5 +287,18 @@
     },
     "timestamp": "2026-09-26T12:45:46.165Z",
     "created_at": "2026-09-26T12:45:46.165Z"
+  },
+  {
+    "id": "aud-69a8f6rob",
+    "actor_id": "public_brand",
+    "action": "brand_media_request_submission",
+    "entity": "brand_requests",
+    "after": {
+      "id": "2d4b998c-eb11-4307-bc00-2efc7d92d6d9",
+      "company_name": "acme",
+      "media_channel": "Print Media"
+    },
+    "timestamp": "2026-10-01T14:08:35.390Z",
+    "created_at": "2026-10-01T14:08:35.391Z"
   }
 ]

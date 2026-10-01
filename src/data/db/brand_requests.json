@@ -1,0 +1,24 @@
+[
+  {
+    "id": "2d4b998c-eb11-4307-bc00-2efc7d92d6d9",
+    "name": "Aditya Sisodia",
+    "company_name": "acme",
+    "phone": "9876543210",
+    "email": "adityasisodia142@gmail.com",
+    "media_channel": "Print Media",
+    "request_details": {
+      "industry": "Gaming",
+      "target_audiences": [
+        "Working Professionals",
+        "Affluent Urban HNI"
+      ],
+      "targetAudiences": [
+        "Working Professionals",
+        "Affluent Urban HNI"
+      ]
+    },
+    "status": "New",
+    "admin_notes": null,
+    "created_at": "2026-10-01T14:08:35.389Z"
+  }
+]

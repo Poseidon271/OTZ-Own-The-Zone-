@@ -17,6 +17,7 @@ import {
   CheckCircle,
   Tag
 } from "lucide-react";
+import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 
 export const MEDIA_CHANNELS = [
   {
@@ -133,8 +134,25 @@ export const AUDIENCE_OPTIONS = [
 ];
 
 export default function MediaBuying({ initialChannel = "" }) {
-  const [selectedChannel, setSelectedChannel] = useState(initialChannel);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const resolveChannel = (ch) => {
+    if (!ch) return "";
+    const found = MEDIA_CHANNELS.find(
+      (c) => c.title.toLowerCase() === ch.toLowerCase() || c.id === ch.toLowerCase()
+    );
+    return found ? found.title : ch;
+  };
+
+  const [prevInitialChannel, setPrevInitialChannel] = useState(initialChannel);
+  const [selectedChannel, setSelectedChannel] = useState(() => resolveChannel(initialChannel));
+  const [isModalOpen, setIsModalOpen] = useState(() => Boolean(initialChannel));
+
+  if (initialChannel !== prevInitialChannel) {
+    setPrevInitialChannel(initialChannel);
+    if (initialChannel) {
+      setSelectedChannel(resolveChannel(initialChannel));
+      setIsModalOpen(true);
+    }
+  }
 
   // Form State
   const [formData, setFormData] = useState({
@@ -149,21 +167,6 @@ export default function MediaBuying({ initialChannel = "" }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState("");
-
-  useEffect(() => {
-    if (initialChannel) {
-      const found = MEDIA_CHANNELS.find(
-        (c) => c.title.toLowerCase() === initialChannel.toLowerCase() || c.id === initialChannel.toLowerCase()
-      );
-      if (found) {
-        setSelectedChannel(found.title);
-        setIsModalOpen(true);
-      } else {
-        setSelectedChannel(initialChannel);
-        setIsModalOpen(true);
-      }
-    }
-  }, [initialChannel]);
 
   const handleOpenModal = (channelTitle) => {
     setSelectedChannel(channelTitle);
@@ -225,34 +228,79 @@ export default function MediaBuying({ initialChannel = "" }) {
     setIsSubmitting(true);
     setFormError("");
 
-    const payload = {
-      name: formData.name,
-      phone: formData.phone,
-      email: formData.email,
-      company: formData.company,
-      selectedMedia: selectedChannel,
-      industry: formData.industry,
-      targetAudiences: formData.targetAudiences
+    const insertPayload = {
+      name: formData.name.trim(),
+      company_name: formData.company.trim(),
+      email: formData.email.trim().toLowerCase(),
+      phone: formData.phone.trim(),
+      media_channel: selectedChannel,
+      request_details: {
+        industry: formData.industry,
+        target_audiences: formData.targetAudiences,
+        targetAudiences: formData.targetAudiences
+      },
+      status: "New"
     };
 
-    console.log("Media Buying Lead Payload:", payload);
+    let savedToCloud = false;
 
+    // 1. Direct Supabase Cloud Insertion (Public Anon RLS Policy)
+    if (isSupabaseConfigured()) {
+      try {
+        const { data: sbData, error: sbError } = await supabase
+          .from("brand_requests")
+          .insert([
+            {
+              name: insertPayload.name,
+              company_name: insertPayload.company_name,
+              phone: insertPayload.phone,
+              email: insertPayload.email,
+              media_channel: insertPayload.media_channel,
+              request_details: insertPayload.request_details,
+              status: "New"
+            }
+          ])
+          .select();
+
+        if (!sbError && sbData && sbData.length > 0) {
+          savedToCloud = true;
+        } else if (sbError) {
+          console.warn("Direct Supabase brand_requests insert notice:", sbError.message || sbError);
+        }
+      } catch (sbEx) {
+        console.warn("Direct Supabase client exception:", sbEx);
+      }
+    }
+
+    // 2. Server API Route Insertion (Serverless Supabase Client)
     try {
-      await fetch("/api/enquiry", {
+      const res = await fetch("/api/brand-requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          type: "media-buying-lead",
-          source: "media-buying-funnel",
-          message: `[MEDIA BUYING PROPOSAL REQUEST]\nSelected Channel: ${selectedChannel}\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nCompany: ${formData.company}\nIndustry: ${formData.industry}\nTarget Audience: ${formData.targetAudiences.join(", ")}`,
-          payload
-        })
+        body: JSON.stringify(insertPayload)
       });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        savedToCloud = true;
+      } else if (!savedToCloud) {
+        setFormError(data.error || "Unable to submit your proposal request right now. Please try again.");
+        setIsSubmitting(false);
+        return;
+      }
     } catch (err) {
-      console.warn("API logging fallback:", err);
-    } finally {
-      setIsSubmitting(false);
+      if (!savedToCloud) {
+        setFormError("Unable to submit your proposal request right now. Please try again.");
+        setIsSubmitting(false);
+        return;
+      }
+    }
+
+    setIsSubmitting(false);
+    if (savedToCloud) {
       setSubmitted(true);
+    } else {
+      setFormError("Unable to submit your proposal request right now. Please try again.");
     }
   };
 

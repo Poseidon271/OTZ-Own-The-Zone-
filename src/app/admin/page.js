@@ -31,6 +31,17 @@ export default function AdminPage() {
   const [vendorStatusFilter, setVendorStatusFilter] = useState("all");
   const [updatingStatus, setUpdatingStatus] = useState(false);
 
+  // Brand Requests State (brand_requests)
+  const [brandRequests, setBrandRequests] = useState([]);
+  const [brandLoading, setBrandLoading] = useState(true);
+  const [brandError, setBrandError] = useState(null);
+  const [selectedBrandRequest, setSelectedBrandRequest] = useState(null);
+  const [brandSearch, setBrandSearch] = useState("");
+  const [brandChannelFilter, setBrandChannelFilter] = useState("all");
+  const [brandStatusFilter, setBrandStatusFilter] = useState("all");
+  const [updatingBrandStatus, setUpdatingBrandStatus] = useState(false);
+  const [brandAdminNoteInput, setBrandAdminNoteInput] = useState("");
+
   // Database State Lists
   const [enquiries, setEnquiries] = useState([]);
   const [listings, setListings] = useState([]);
@@ -132,14 +143,83 @@ export default function AdminPage() {
     }
   };
 
+  // Fetch Brand Requests from centralized database
+  const fetchBrandRequests = async () => {
+    setBrandLoading(true);
+    setBrandError(null);
+    try {
+      let directSupabaseRequests = null;
+
+      // 1. Direct Supabase Query if client-side is configured
+      if (isSupabaseConfigured()) {
+        try {
+          const { data: sbData, error: sbErr } = await supabase
+            .from("brand_requests")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+          if (!sbErr && Array.isArray(sbData)) {
+            directSupabaseRequests = sbData;
+          }
+        } catch (e) {
+          console.warn("Direct Supabase query fallback for brand_requests:", e);
+        }
+      }
+
+      if (directSupabaseRequests) {
+        setBrandRequests((prev) => {
+          const fetchedMap = new Map(directSupabaseRequests.map((s) => [s.id, s]));
+          const merged = [...directSupabaseRequests];
+          for (const item of prev) {
+            if (!fetchedMap.has(item.id)) {
+              merged.push(item);
+            }
+          }
+          return merged.sort(
+            (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0)
+          );
+        });
+      } else {
+        // 2. Server API Route Fetch
+        const res = await fetch("/api/brand-requests", {
+          headers: getAuthHeaders()
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          const fetched = data.brand_requests || data.requests || [];
+          setBrandRequests((prev) => {
+            const fetchedMap = new Map(fetched.map((s) => [s.id, s]));
+            const merged = [...fetched];
+            for (const item of prev) {
+              if (!fetchedMap.has(item.id)) {
+                merged.push(item);
+              }
+            }
+            return merged.sort(
+              (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0)
+            );
+          });
+        } else {
+          setBrandError(data.error || "Unable to load brand requests. Please try again.");
+        }
+      }
+    } catch (err) {
+      setBrandError("Unable to load brand requests. Please try again.");
+    } finally {
+      setBrandLoading(false);
+    }
+  };
+
   // Supabase Realtime Subscription: Instant live sync across devices
   useEffect(() => {
     if (authLoading || !user || !isAdmin) return;
 
-    let channel = null;
+    let vendorChannel = null;
+    let brandChannel = null;
+
     if (isSupabaseConfigured()) {
       try {
-        channel = supabase
+        vendorChannel = supabase
           .channel("realtime-vendor-submissions")
           .on(
             "postgres_changes",
@@ -176,14 +256,55 @@ export default function AdminPage() {
             }
           )
           .subscribe();
+
+        brandChannel = supabase
+          .channel("realtime-brand-requests")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "brand_requests",
+            },
+            (payload) => {
+              if (payload.eventType === "INSERT" && payload.new) {
+                setBrandRequests((prev) => {
+                  if (prev.some((item) => item.id === payload.new.id)) {
+                    return prev;
+                  }
+                  return [payload.new, ...prev];
+                });
+              } else if (payload.eventType === "UPDATE" && payload.new) {
+                setBrandRequests((prev) =>
+                  prev.map((item) =>
+                    item.id === payload.new.id ? { ...item, ...payload.new } : item
+                  )
+                );
+                setSelectedBrandRequest((prev) =>
+                  prev && prev.id === payload.new.id ? { ...prev, ...payload.new } : prev
+                );
+              } else if (payload.eventType === "DELETE" && payload.old) {
+                setBrandRequests((prev) =>
+                  prev.filter((item) => item.id !== payload.old.id)
+                );
+                setSelectedBrandRequest((prev) =>
+                  prev && prev.id === payload.old.id ? null : prev
+                );
+              }
+            }
+          )
+          .subscribe();
       } catch (e) {
         console.warn("Supabase Realtime subscription notice:", e);
       }
     }
 
     return () => {
-      if (channel) {
-        supabase.removeChannel(channel);
+      if (vendorChannel) {
+        supabase.removeChannel(vendorChannel);
+      }
+      if (brandChannel) {
+        supabase.removeChannel(brandChannel);
       }
     };
   }, [authLoading, user, isAdmin]);
@@ -205,6 +326,7 @@ export default function AdminPage() {
     const fetchAdminData = async () => {
       try {
         fetchVendorSubmissions();
+        fetchBrandRequests();
 
         // Fetch enquiries
         const enqRes = await fetch("/api/enquiry", { headers: getAuthHeaders() });
@@ -234,6 +356,7 @@ export default function AdminPage() {
 
     fetchAdminData();
     return () => { active = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authLoading, user, isAdmin, refreshKey]);
 
   // Update Vendor Submission Status
@@ -277,6 +400,66 @@ export default function AdminPage() {
       }
     } catch (err) {
       console.error("Delete error:", err);
+    }
+  };
+
+  // Update Brand Request Status / Admin Notes
+  const handleUpdateBrandStatus = async (id, newStatus, adminNotes) => {
+    setUpdatingBrandStatus(true);
+    try {
+      const body = { id };
+      if (newStatus) body.status = newStatus;
+      if (adminNotes !== undefined) body.admin_notes = adminNotes;
+
+      const res = await fetch("/api/brand-requests", {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setBrandRequests(prev =>
+          prev.map(item =>
+            item.id === id
+              ? {
+                  ...item,
+                  ...(newStatus ? { status: newStatus } : {}),
+                  ...(adminNotes !== undefined ? { admin_notes: adminNotes } : {})
+                }
+              : item
+          )
+        );
+        if (selectedBrandRequest && selectedBrandRequest.id === id) {
+          setSelectedBrandRequest(prev => ({
+            ...prev,
+            ...(newStatus ? { status: newStatus } : {}),
+            ...(adminNotes !== undefined ? { admin_notes: adminNotes } : {})
+          }));
+        }
+      }
+    } catch (err) {
+      console.error("Brand status update error:", err);
+    } finally {
+      setUpdatingBrandStatus(false);
+    }
+  };
+
+  // Delete Brand Request
+  const handleDeleteBrandRequest = async (id) => {
+    if (!confirm("Are you sure you want to remove this brand request?")) return;
+    try {
+      const res = await fetch(`/api/brand-requests?id=${id}`, {
+        method: "DELETE",
+        headers: getAuthHeaders()
+      });
+      if (res.ok) {
+        setBrandRequests(prev => prev.filter(item => item.id !== id));
+        if (selectedBrandRequest && selectedBrandRequest.id === id) {
+          setSelectedBrandRequest(null);
+        }
+      }
+    } catch (err) {
+      console.error("Brand request delete error:", err);
     }
   };
 
@@ -414,6 +597,27 @@ export default function AdminPage() {
     return matchesSearch && matchesMediaType && matchesStatus;
   });
 
+  // Filtered brand requests
+  const filteredBrandRequests = brandRequests.filter((item) => {
+    const matchesSearch =
+      !brandSearch.trim() ||
+      (item.name && item.name.toLowerCase().includes(brandSearch.toLowerCase())) ||
+      (item.company_name && item.company_name.toLowerCase().includes(brandSearch.toLowerCase())) ||
+      (item.phone && item.phone.includes(brandSearch)) ||
+      (item.email && item.email.toLowerCase().includes(brandSearch.toLowerCase())) ||
+      (item.media_channel && item.media_channel.toLowerCase().includes(brandSearch.toLowerCase()));
+
+    const matchesChannel =
+      brandChannelFilter === "all" ||
+      (item.media_channel && item.media_channel.toLowerCase() === brandChannelFilter.toLowerCase());
+
+    const matchesStatus =
+      brandStatusFilter === "all" ||
+      (item.status && item.status.toLowerCase() === brandStatusFilter.toLowerCase());
+
+    return matchesSearch && matchesChannel && matchesStatus;
+  });
+
   if (authLoading) {
     return (
       <div className="theme-dark min-h-screen bg-[#0B1E3B] flex items-center justify-center">
@@ -458,15 +662,16 @@ export default function AdminPage() {
 
   // Dynamic stats
   const statsList = [
+    { label: "Brand Requests", value: brandRequests.length, suffix: "" },
     { label: "Vendor Leads", value: vendorSubmissions.length, suffix: "" },
     { label: "Enquiries Submitted", value: enquiries.length, suffix: "" },
-    { label: "Accounts Verified", value: accounts.length + 15, suffix: "" },
     { label: "Quotes Shared", value: enquiries.filter(e => e.stage === "Quote shared").length, suffix: "" }
   ];
 
   const adminTerminalCommands = [
     { text: "> initializing admin audit trail listener...", color: "text-[var(--text-secondary)]" },
     { text: `✓ session.verify(): ${user?.name || "adminotz@gmail.com"} session authorized (role: ${user?.role || "admin"})`, color: "text-emerald-500" },
+    { text: `✓ database.brand_requests: ${brandRequests.length} brand media inquiries online`, color: "text-[#FF5A1F]" },
     { text: `✓ database.vendor_submissions: ${vendorSubmissions.length} active leads loaded`, color: "text-[#FF5A1F]" },
     { text: `✓ database.listings: ${listings.length} inventory items online`, color: "text-emerald-500" },
     { text: "✓ admin.security: RLS enforcement verified", color: "text-[var(--text-secondary)]" }
@@ -513,6 +718,7 @@ export default function AdminPage() {
         {/* Navigation Tab selectors */}
         <div className="flex flex-wrap gap-1 p-1 bg-[var(--surface-raised)]/80 rounded-xl border border-[var(--border-default)] w-fit">
           {[
+            { id: "brand_requests", label: "Brand Requests", count: brandRequests.length },
             { id: "vendors", label: "Vendor Submissions", count: vendorSubmissions.length },
             { id: "enquiries", label: "Campaign Pipeline", count: enquiries.length },
             { id: "moderation", label: "Supply Moderation", count: listings.length },
@@ -541,6 +747,419 @@ export default function AdminPage() {
             </button>
           ))}
         </div>
+
+        {/* ========================================================================= */}
+        {/* 0. BRAND REQUESTS TAB (brand_requests) */}
+        {/* ========================================================================= */}
+        {activeTab === "brand_requests" && (
+          <div className="space-y-6 w-full">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-white font-display flex items-center gap-2">
+                  <MdiIcon name="bullhorn-outline" className="text-[var(--action-primary)]" />
+                  <span>BRAND MEDIA PROPOSAL REQUESTS</span>
+                </h2>
+                <p className="text-xs text-[var(--text-secondary)] mt-0.5">
+                  Inquiries submitted by brands across all demand media channels (<code className="text-[#FF5A1F] font-mono">brand_requests</code>).
+                </p>
+              </div>
+
+              <ShinyButton
+                onClick={fetchBrandRequests}
+                className="px-4 py-1.5 text-xs font-bold"
+              >
+                <MdiIcon name="refresh" className="mr-1.5" />
+                Refresh
+              </ShinyButton>
+            </div>
+
+            {/* Filter and Search Bar */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 p-3 bg-[var(--surface-raised)]/60 rounded-xl border border-[var(--border-default)]">
+              {/* Search Bar */}
+              <div className="md:col-span-6 relative">
+                <MdiIcon name="magnify" className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-base" />
+                <input
+                  type="text"
+                  value={brandSearch}
+                  onChange={(e) => setBrandSearch(e.target.value)}
+                  placeholder="Search by name, company, phone, email, channel..."
+                  className="w-full h-9 pl-9 pr-3 rounded-lg border border-[var(--border-default)] bg-[#0B1E3B]/80 text-white placeholder-slate-500 text-xs font-semibold focus:outline-none focus:border-[var(--action-primary)]"
+                />
+              </div>
+
+              {/* Media Channel Filter */}
+              <div className="md:col-span-3">
+                <select
+                  value={brandChannelFilter}
+                  onChange={(e) => setBrandChannelFilter(e.target.value)}
+                  className="w-full h-9 px-3 rounded-lg border border-[var(--border-default)] bg-[#0B1E3B]/80 text-white text-xs font-semibold focus:outline-none focus:border-[var(--action-primary)] cursor-pointer"
+                >
+                  <option value="all">All Media Channels</option>
+                  <option value="OOH / Billboards">OOH / Billboards</option>
+                  <option value="Print Media">Print Media</option>
+                  <option value="BTL">BTL</option>
+                  <option value="Radio & FM">Radio & FM</option>
+                  <option value="Television & OTT">Television & OTT</option>
+                  <option value="Transit & Aviation">Transit & Aviation</option>
+                  <option value="Digital & CTV">Digital & CTV</option>
+                  <option value="Influencers">Influencers</option>
+                  <option value="Events & Sponsorships">Events & Sponsorships</option>
+                  <option value="Cinema Screens">Cinema Screens</option>
+                </select>
+              </div>
+
+              {/* Status Filter */}
+              <div className="md:col-span-3">
+                <select
+                  value={brandStatusFilter}
+                  onChange={(e) => setBrandStatusFilter(e.target.value)}
+                  className="w-full h-9 px-3 rounded-lg border border-[var(--border-default)] bg-[#0B1E3B]/80 text-white text-xs font-semibold focus:outline-none focus:border-[var(--action-primary)] cursor-pointer"
+                >
+                  <option value="all">All Statuses</option>
+                  <option value="New">New</option>
+                  <option value="Contacted">Contacted</option>
+                  <option value="In Review">In Review</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Archived">Archived</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Table / Content States */}
+            {brandLoading ? (
+              <div className="p-12 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-400">
+                <MdiIcon name="loading" className="text-3xl block mx-auto mb-2 text-[var(--action-primary)] animate-spin" />
+                <p className="text-xs font-semibold">Loading brand requests…</p>
+              </div>
+            ) : brandError ? (
+              <div className="p-8 rounded-xl bg-red-500/10 border border-red-500/20 text-center text-red-400">
+                <MdiIcon name="alert-circle-outline" className="text-3xl block mx-auto mb-2" />
+                <p className="text-xs font-bold mb-3">{brandError}</p>
+                <button
+                  onClick={fetchBrandRequests}
+                  className="px-4 py-1.5 bg-red-500 text-white rounded-lg text-xs font-bold cursor-pointer"
+                >
+                  Retry
+                </button>
+              </div>
+            ) : filteredBrandRequests.length === 0 ? (
+              <div className="p-12 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-400 space-y-2">
+                <MdiIcon name="inbox-outline" className="text-4xl block mx-auto text-slate-500" />
+                <p className="text-sm font-bold text-white">No brand requests found.</p>
+                <p className="text-xs text-[var(--text-secondary)] max-w-sm mx-auto">
+                  {brandRequests.length > 0
+                    ? "No brand requests matched your search filter criteria."
+                    : "When brands submit proposal intake requests from any media channel, submissions will appear here in real-time."}
+                </p>
+              </div>
+            ) : (
+              <div className="bg-[var(--surface-raised)]/40 border border-[var(--border-default)] rounded-xl overflow-hidden backdrop-blur-md shadow-xl">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs text-left">
+                    <thead className="bg-[#0B1E3B]/90 text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider border-b border-[var(--border-default)]">
+                      <tr>
+                        <th className="px-5 py-3.5">Name</th>
+                        <th className="px-5 py-3.5">Company</th>
+                        <th className="px-5 py-3.5">Phone</th>
+                        <th className="px-5 py-3.5">Email</th>
+                        <th className="px-5 py-3.5">Media Channel</th>
+                        <th className="px-5 py-3.5">Request Details</th>
+                        <th className="px-5 py-3.5">Submitted Date</th>
+                        <th className="px-5 py-3.5">Status</th>
+                        <th className="px-5 py-3.5 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--border-default)] font-medium text-[var(--text-secondary)]">
+                      {filteredBrandRequests.map((req) => {
+                        const details = req.request_details || {};
+                        const industry = details.industry || "";
+                        const audiences = Array.isArray(details.target_audiences)
+                          ? details.target_audiences
+                          : Array.isArray(details.targetAudiences)
+                          ? details.targetAudiences
+                          : [];
+
+                        return (
+                          <tr
+                            key={req.id}
+                            className="hover:bg-white/[0.04] transition-colors cursor-pointer group"
+                            onClick={() => {
+                              setSelectedBrandRequest(req);
+                              setBrandAdminNoteInput(req.admin_notes || "");
+                            }}
+                          >
+                            <td className="px-5 py-4 font-bold text-white whitespace-nowrap">
+                              <div className="flex items-center gap-2">
+                                <div className="w-7 h-7 rounded-full bg-[#0B1E3B] border border-[#FF5A1F]/30 text-[#FF5A1F] flex items-center justify-center font-bold text-[11px] shrink-0">
+                                  {req.name ? req.name.charAt(0).toUpperCase() : "B"}
+                                </div>
+                                <span>{req.name}</span>
+                              </div>
+                            </td>
+                            <td className="px-5 py-4 font-semibold text-slate-200 whitespace-nowrap">
+                              {req.company_name || req.company || "—"}
+                            </td>
+                            <td className="px-5 py-4 font-mono text-xs whitespace-nowrap text-slate-300">
+                              {req.phone || "—"}
+                            </td>
+                            <td className="px-5 py-4 font-mono text-xs whitespace-nowrap text-slate-300">
+                              {req.email || "—"}
+                            </td>
+                            <td className="px-5 py-4 whitespace-nowrap">
+                              <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-[#FF5A1F]/10 border border-[#FF5A1F]/30 text-[#FF5A1F]">
+                                {req.media_channel}
+                              </span>
+                            </td>
+                            <td className="px-5 py-4 text-xs text-slate-300 max-w-xs">
+                              <div className="truncate">
+                                {industry && (
+                                  <span className="font-semibold text-white mr-1.5">
+                                    [{industry}]
+                                  </span>
+                                )}
+                                {audiences.length > 0 ? (
+                                  <span className="text-slate-400">{audiences.join(", ")}</span>
+                                ) : (
+                                  <span className="text-slate-500">—</span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="px-5 py-4 font-mono text-[11px] whitespace-nowrap text-slate-400">
+                              {req.created_at
+                                ? new Date(req.created_at).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                  })
+                                : "—"}
+                            </td>
+                            <td className="px-5 py-4 whitespace-nowrap">
+                              <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${getVendorStatusBadge(req.status)}`}>
+                                {req.status || "New"}
+                              </span>
+                            </td>
+                            <td className="px-5 py-4 text-right whitespace-nowrap">
+                              <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                                <button
+                                  onClick={() => {
+                                    setSelectedBrandRequest(req);
+                                    setBrandAdminNoteInput(req.admin_notes || "");
+                                  }}
+                                  className="p-1.5 rounded hover:bg-white/10 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                                  title="Inspect Brand Request"
+                                >
+                                  <MdiIcon name="eye-outline" className="text-base" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteBrandRequest(req.id)}
+                                  className="p-1.5 rounded hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
+                                  title="Remove Request"
+                                >
+                                  <MdiIcon name="trash-can-outline" className="text-base" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Brand Request Detail Modal */}
+            {selectedBrandRequest && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0B1E3B]/80 backdrop-blur-md animate-fade-in no-print">
+                <div
+                  className="fixed inset-0"
+                  onClick={() => setSelectedBrandRequest(null)}
+                ></div>
+
+                <div className="relative w-full max-w-xl bg-[#0F2445] rounded-2xl border border-[var(--border-default)] shadow-2xl p-6 md:p-8 space-y-6 z-10 animate-scale-up text-left max-h-[90vh] overflow-y-auto">
+                  {/* Modal Header */}
+                  <div className="flex justify-between items-start border-b border-[var(--border-default)] pb-4">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF5A1F]">
+                          BRAND REQUEST ID: {selectedBrandRequest.id}
+                        </span>
+                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${getVendorStatusBadge(selectedBrandRequest.status)}`}>
+                          {selectedBrandRequest.status || "New"}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold text-white font-display mt-1">
+                        {selectedBrandRequest.name}
+                      </h3>
+                    </div>
+
+                    <button
+                      onClick={() => setSelectedBrandRequest(null)}
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                    >
+                      <MdiIcon name="close" className="text-xl" />
+                    </button>
+                  </div>
+
+                  {/* Modal Details Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div className="p-3.5 rounded-xl bg-[#0B1E3B]/80 border border-[var(--border-default)] space-y-1">
+                      <span className="text-[10px] font-bold uppercase text-[var(--text-secondary)] block">
+                        Company / Organisation
+                      </span>
+                      <p className="text-sm font-bold text-white">
+                        {selectedBrandRequest.company_name || selectedBrandRequest.company || "—"}
+                      </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#0B1E3B]/80 border border-[var(--border-default)] space-y-1">
+                      <span className="text-[10px] font-bold uppercase text-[var(--text-secondary)] block">
+                        Media Channel
+                      </span>
+                      <p className="text-sm font-bold text-[#FF5A1F]">
+                        {selectedBrandRequest.media_channel || "—"}
+                      </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#0B1E3B]/80 border border-[var(--border-default)] space-y-1">
+                      <span className="text-[10px] font-bold uppercase text-[var(--text-secondary)] block">
+                        Phone Number
+                      </span>
+                      <a
+                        href={`tel:${selectedBrandRequest.phone}`}
+                        className="text-sm font-mono font-bold text-white hover:text-[var(--action-primary)] transition-colors flex items-center gap-1.5"
+                      >
+                        <MdiIcon name="phone-outline" />
+                        <span>{selectedBrandRequest.phone || "—"}</span>
+                      </a>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#0B1E3B]/80 border border-[var(--border-default)] space-y-1">
+                      <span className="text-[10px] font-bold uppercase text-[var(--text-secondary)] block">
+                        Work / Personal Email
+                      </span>
+                      <a
+                        href={`mailto:${selectedBrandRequest.email}`}
+                        className="text-sm font-mono font-bold text-white hover:text-[var(--action-primary)] transition-colors flex items-center gap-1.5 truncate"
+                      >
+                        <MdiIcon name="email-outline" />
+                        <span className="truncate">{selectedBrandRequest.email || "—"}</span>
+                      </a>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#0B1E3B]/80 border border-[var(--border-default)] space-y-1 md:col-span-2">
+                      <span className="text-[10px] font-bold uppercase text-[var(--text-secondary)] block">
+                        Submission Timestamp
+                      </span>
+                      <p className="font-mono text-xs text-slate-300">
+                        {selectedBrandRequest.created_at
+                          ? new Date(selectedBrandRequest.created_at).toLocaleString("en-US", {
+                              dateStyle: "full",
+                              timeStyle: "medium"
+                            })
+                          : "—"}
+                      </p>
+                    </div>
+
+                    {/* JSONB request_details breakdown */}
+                    <div className="p-3.5 rounded-xl bg-[#0B1E3B]/80 border border-[var(--border-default)] space-y-2 md:col-span-2">
+                      <span className="text-[10px] font-bold uppercase text-[var(--text-secondary)] block">
+                        Request Details (JSONB)
+                      </span>
+                      <div className="space-y-2 text-xs">
+                        {selectedBrandRequest.request_details?.industry && (
+                          <div className="flex justify-between border-b border-white/5 pb-1">
+                            <span className="text-slate-400">Industry / Sector:</span>
+                            <span className="font-bold text-white">{selectedBrandRequest.request_details.industry}</span>
+                          </div>
+                        )}
+                        {(selectedBrandRequest.request_details?.target_audiences || selectedBrandRequest.request_details?.targetAudiences) && (
+                          <div className="flex flex-col gap-1 border-b border-white/5 pb-1">
+                            <span className="text-slate-400">Target Audiences:</span>
+                            <div className="flex flex-wrap gap-1.5">
+                              {(selectedBrandRequest.request_details?.target_audiences || selectedBrandRequest.request_details?.targetAudiences || []).map((aud) => (
+                                <span key={aud} className="bg-white/10 text-white text-[11px] px-2 py-0.5 rounded-full font-semibold">
+                                  {aud}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        <pre className="mt-2 p-2 bg-black/40 rounded-lg text-[10px] font-mono text-slate-400 overflow-x-auto">
+                          {JSON.stringify(selectedBrandRequest.request_details || {}, null, 2)}
+                        </pre>
+                      </div>
+                    </div>
+
+                    {/* Admin Notes */}
+                    <div className="p-3.5 rounded-xl bg-[#0B1E3B]/80 border border-[var(--border-default)] space-y-2 md:col-span-2">
+                      <span className="text-[10px] font-bold uppercase text-[var(--text-secondary)] block">
+                        Admin Notes
+                      </span>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={brandAdminNoteInput}
+                          onChange={(e) => setBrandAdminNoteInput(e.target.value)}
+                          placeholder="Add internal ops / admin notes..."
+                          className="flex-1 bg-[#101828] border border-white/20 text-white rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-[#FF5A1F]"
+                        />
+                        <button
+                          onClick={() => handleUpdateBrandStatus(selectedBrandRequest.id, null, brandAdminNoteInput)}
+                          className="px-3 py-1.5 bg-[#FF5A1F] text-[#0B1E3B] font-bold text-xs rounded-lg hover:opacity-90 transition-opacity cursor-pointer shrink-0"
+                        >
+                          Save Note
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Status update controls */}
+                  <div className="pt-4 border-t border-[var(--border-default)] space-y-2">
+                    <label className="block text-[10px] uppercase font-bold text-[var(--text-secondary)]">
+                      Update Request Status
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {["New", "Contacted", "In Review", "Approved", "Archived"].map((st) => (
+                        <button
+                          key={st}
+                          disabled={updatingBrandStatus}
+                          onClick={() => handleUpdateBrandStatus(selectedBrandRequest.id, st)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                            selectedBrandRequest.status === st
+                              ? "bg-[#FF5A1F] text-[#0B1E3B] shadow-sm font-black"
+                              : "border border-[var(--border-default)] bg-[#0B1E3B] text-slate-300 hover:text-white hover:border-slate-500"
+                          }`}
+                        >
+                          {st}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Actions Footer */}
+                  <div className="flex justify-between items-center pt-2">
+                    <button
+                      onClick={() => handleDeleteBrandRequest(selectedBrandRequest.id)}
+                      className="text-xs text-red-400 hover:text-red-300 hover:underline font-bold flex items-center gap-1 cursor-pointer"
+                    >
+                      <MdiIcon name="trash-can-outline" /> Remove Request
+                    </button>
+
+                    <button
+                      onClick={() => setSelectedBrandRequest(null)}
+                      className="px-5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors cursor-pointer"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* ========================================================================= */}
         {/* 1. VENDOR NETWORK SUBMISSIONS TAB (PRIMARY REQUIREMENT) */}
