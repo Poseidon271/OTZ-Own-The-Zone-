@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import MdiIcon from "@/components/MdiIcon";
-
-// Import ScrollX primitives
+import { useAuth } from "@/context/AuthContext";
+import { useBag } from "@/context/BagContext";
 import { ColumnLines } from "@/components/scrollx/column-lines";
 import { ShinyButton } from "@/components/scrollx/shiny-button";
-import { EdgeIllustration } from "@/components/scrollx/feature-illustrations";
-import { VercelCard } from "@/components/scrollx/vercel-card";
 import {
   getHostDashboardData,
   getHostListings,
@@ -19,80 +18,33 @@ import {
   getHostRecentActivity
 } from "@/lib/hostDashboardService";
 
-const PerformanceChart = ({ data, range }) => {
-  if (!data || data.length === 0) {
-    return (
-      <div className="h-48 flex items-center justify-center text-slate-500 text-xs">
-        No performance records.
-      </div>
-    );
-  }
-
-  const maxViews = Math.max(...data.map(d => d.views), 1);
-  const maxLeads = Math.max(...data.map(d => d.leads), 1);
-
-  return (
-    <div className="space-y-4 w-full">
-      <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400">
-        <span className="text-slate-300 tracking-wider">Views & Conversion Funnel</span>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-[var(--action-primary)]" /> Views
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-emerald-405" /> Leads
-          </span>
-        </div>
-      </div>
-
-      <div className="relative h-48 border border-white/5 rounded-xl bg-white/2 p-4 flex items-end justify-between gap-1 sm:gap-2 overflow-hidden w-full">
-        {data.map((item, idx) => {
-          const viewsHeight = `${(item.views / maxViews) * 80}%`;
-          const leadsHeight = `${(item.leads / maxLeads) * 40}%`;
-
-          return (
-            <div key={idx} className="flex-1 flex flex-col items-center justify-end h-full group relative">
-              <div className="absolute bottom-full mb-2 bg-slate-950 border border-white/10 p-2.5 rounded-lg text-[10px] hidden group-hover:block z-30 pointer-events-none whitespace-nowrap shadow-2xl">
-                <p className="font-bold text-white text-xs border-b border-white/5 pb-1 mb-1">{item.name}</p>
-                <p className="text-[var(--action-primary)] font-bold">Views: {item.views.toLocaleString()}</p>
-                <p className="text-emerald-400 font-bold">Leads: {item.leads}</p>
-                {item.bookings !== undefined && (
-                  <p className="text-blue-450 font-bold">Bookings: {item.bookings}</p>
-                )}
-              </div>
-
-              <div className="w-full flex items-end gap-0.5 sm:gap-1 justify-center h-[120px]">
-                <div 
-                  style={{ height: viewsHeight }} 
-                  className="w-2.5 sm:w-4 bg-[var(--action-primary)]/80 rounded-t transition-all group-hover:bg-[var(--action-primary)]" 
-                />
-                <div 
-                  style={{ height: leadsHeight }} 
-                  className="w-2.5 sm:w-4 bg-emerald-400/80 rounded-t transition-all group-hover:bg-emerald-400" 
-                />
-              </div>
-
-              <span className="text-[9px] font-bold text-slate-500 mt-2 block truncate w-full text-center">
-                {item.name}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
-export default function DashboardPage() {
+function DashboardContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { user, loading: authLoading, logout, updateProfile, updatePassword, showToast } = useAuth();
+  const { bag, removeFromBag, clearBag } = useBag();
 
-  // Session & UI States
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("overview"); // brand: "overview" | "profile" | "settings"; host: "listings" | "submit" | "enquiries" | "settings"
+  const tabParam = searchParams?.get("tab");
+  const [activeTab, setActiveTab] = useState(tabParam || "overview");
 
-  // Brand Profile editor state
+  useEffect(() => {
+    if (tabParam) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
+
+  // Data states
+  const [enquiries, setEnquiries] = useState([]);
+  const [brandRequests, setBrandRequests] = useState([]);
+  const [savedListings, setSavedListings] = useState([]);
+  const [dataLoading, setDataLoading] = useState(true);
+
+  // Profile Form state
   const [profileForm, setProfileForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
     niche: "",
     goals: [],
     primary_goal: "",
@@ -100,224 +52,156 @@ export default function DashboardPage() {
     geography: "",
     timeline: ""
   });
-  const [profileSuccess, setProfileSuccess] = useState(false);
-  const [profileError, setProfileError] = useState("");
+  const [profileSaving, setProfileSaving] = useState(false);
 
-  // Host Listing submission state
-  const [listingForm, setListingForm] = useState({
-    title: "",
-    media_type: "OOH",
-    parent_network: "",
-    geography: "Mumbai",
-    niche_tags: "FMCG",
-    language: "English",
-    visibility_metric: "",
-    reach_source: "",
-    price_band: "₹10K - ₹50K",
-    raw_price: "",
-    formats: "",
-    rateCardName: "",
-    specs: ""
+  // Password Change state
+  const [passwordForm, setPasswordForm] = useState({
+    newPassword: "",
+    confirmPassword: ""
   });
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [submitError, setSubmitError] = useState("");
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  // Enquiries & Listings data states
-  const [enquiries, setEnquiries] = useState([]);
-  const [hostListings, setHostListings] = useState([]);
-
-  // Host Dashboard data states (fetched from service abstraction)
+  // Host Dashboard states
   const [hostDashboardOverview, setHostDashboardOverview] = useState(null);
   const [hostDashboardListings, setHostDashboardListings] = useState([]);
   const [hostDashboardLeads, setHostDashboardLeads] = useState([]);
   const [hostDashboardBookings, setHostDashboardBookings] = useState([]);
   const [hostDashboardRecentActivity, setHostDashboardRecentActivity] = useState([]);
-  const [hostDashboardAnalytics, setHostDashboardAnalytics] = useState([]);
-  const [analyticsTimeRange, setAnalyticsTimeRange] = useState("30days");
-  const [hostDashboardLoading, setHostDashboardLoading] = useState(false);
 
-  // Fetch session & load dependencies
-  const [refreshKey, setRefreshKey] = useState(0);
-
-  useEffect(() => {
-    let active = true;
-    const fetchDashboardData = async () => {
-      try {
-        const res = await fetch("/api/auth", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "get-session" })
-        });
-        const data = await res.json();
-        if (!active) return;
-        
-        if (data.user) {
-          setUser(data.user);
-          
-          // If brand, populate profile editor
-          if (data.user.role === "brand" && data.user.profile) {
-            const prof = data.user.profile;
-            setProfileForm({
-              niche: prof.niche || "",
-              goals: prof.goals || [],
-              primary_goal: prof.primary_goal || "",
-              budget_band: prof.budget_band || "",
-              geography: prof.geography || "",
-              timeline: prof.timeline || ""
-            });
-          }
-
-          // Fetch Enquiries
-          const enqRes = await fetch("/api/enquiry");
-          const enqData = await enqRes.json();
-          if (active && enqData.enquiries) {
-            setEnquiries(enqData.enquiries);
-          }
-
-          // Fetch Listings (if host)
-          if (data.user.role === "host") {
-            const listRes = await fetch("/api/listings");
-            const listData = await listRes.json();
-            if (active && listData.listings) {
-              // Filter host-owned listings
-              const owned = listData.listings.filter(l => l.owner_account_id === data.user.account_id);
-              setHostListings(owned);
-            }
-
-            // Load Host Portal Dashboard details from service abstraction
-            try {
-              const overviewData = await getHostDashboardData(data.user.account_id);
-              const listingsData = await getHostListings(data.user.account_id);
-              const leadsData = await getHostLeads(data.user.account_id);
-              const bookingsData = await getHostBookings(data.user.account_id);
-              const activityData = await getHostRecentActivity(data.user.account_id);
-              const analyticsData = await getHostAnalytics(data.user.account_id, analyticsTimeRange);
-
-              if (active) {
-                setHostDashboardOverview(overviewData);
-                setHostDashboardListings(listingsData);
-                setHostDashboardLeads(leadsData);
-                setHostDashboardBookings(bookingsData);
-                setHostDashboardRecentActivity(activityData);
-                setHostDashboardAnalytics(analyticsData);
-              }
-            } catch (err) {
-              console.error("Failed to load host dashboard details", err);
-            }
-          }
-        }
-      } catch (e) {
-        console.error("Failed to load dashboard coordinates", e);
-      } finally {
-        if (active) setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
-    return () => { active = false; };
-  }, [refreshKey]);
-
-  // Handle refetching analytics when timeRange changes
-  useEffect(() => {
-    let active = true;
-    if (user && user.role === "host") {
-      getHostAnalytics(user.account_id, analyticsTimeRange).then((data) => {
-        if (active) setHostDashboardAnalytics(data);
-      });
-    }
-    return () => { active = false; };
-  }, [analyticsTimeRange, user]);
-
-  // Update profile handler (Brand)
-  const handleProfileUpdate = async (e) => {
-    e.preventDefault();
-    setProfileSuccess(false);
-    setProfileError("");
+  // Fetch all user activity and requests
+  const loadUserActivity = useCallback(async () => {
+    if (!user) return;
+    setDataLoading(true);
 
     try {
-      const res = await fetch("/api/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "update-profile",
-          ...profileForm
-        })
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setProfileSuccess(true);
-        // Refresh session profile cache
-        const updatedUser = { ...user, profile: data.profile };
-        setUser(updatedUser);
-        localStorage.setItem("otz_user", JSON.stringify(updatedUser));
-      } else {
-        setProfileError(data.error || "Profile update failed.");
+      // 1. Load Enquiries
+      const enqRes = await fetch("/api/enquiry");
+      const enqData = await enqRes.json();
+      if (enqData.enquiries) {
+        setEnquiries(enqData.enquiries);
+      }
+
+      // 2. Load Brand Media Requests
+      const brRes = await fetch("/api/brand-requests");
+      const brData = await brRes.json();
+      if (brData.brand_requests) {
+        setBrandRequests(brData.brand_requests);
+      }
+
+      // 3. Load Saved Listings from Supabase if available
+      try {
+        const savedRes = await fetch("/api/saved-listings");
+        const savedData = await savedRes.json();
+        if (savedData.saved_listings && savedData.saved_listings.length > 0) {
+          setSavedListings(savedData.saved_listings.map((s) => s.listing_data || s));
+        } else {
+          setSavedListings(bag || []);
+        }
+      } catch (_) {
+        setSavedListings(bag || []);
+      }
+
+      // 4. Host portal data if host
+      if (user.role === "host") {
+        try {
+          const overviewData = await getHostDashboardData(user.account_id || user.id);
+          const listingsData = await getHostListings(user.account_id || user.id);
+          const leadsData = await getHostLeads(user.account_id || user.id);
+          const bookingsData = await getHostBookings(user.account_id || user.id);
+          const activityData = await getHostRecentActivity(user.account_id || user.id);
+
+          setHostDashboardOverview(overviewData);
+          setHostDashboardListings(listingsData);
+          setHostDashboardLeads(leadsData);
+          setHostDashboardBookings(bookingsData);
+          setHostDashboardRecentActivity(activityData);
+        } catch (err) {
+          console.warn("Host portal data fetch notice:", err);
+        }
       }
     } catch (err) {
-      setProfileError("Server connection failed.");
+      console.error("Dashboard data load error:", err);
+    } finally {
+      setDataLoading(false);
+    }
+  }, [user, bag]);
+
+  // Sync profile form when user updates
+  useEffect(() => {
+    if (user) {
+      setProfileForm({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        company: user.company || "",
+        niche: user.profile?.niche || "",
+        goals: user.profile?.goals || [],
+        primary_goal: user.profile?.primary_goal || "",
+        budget_band: user.profile?.budget_band || "",
+        geography: user.profile?.geography || "",
+        timeline: user.profile?.timeline || ""
+      });
+      loadUserActivity();
+    }
+  }, [user, loadUserActivity]);
+
+  // Profile Save handler
+  const handleProfileSave = async (e) => {
+    e.preventDefault();
+    setProfileSaving(true);
+    try {
+      const res = await updateProfile({
+        full_name: profileForm.name,
+        name: profileForm.name,
+        phone: profileForm.phone,
+        company: profileForm.company,
+        niche: profileForm.niche,
+        goals: profileForm.goals,
+        primary_goal: profileForm.primary_goal,
+        budget_band: profileForm.budget_band,
+        geography: profileForm.geography,
+        timeline: profileForm.timeline
+      });
+      if (!res?.error) {
+        showToast("Profile settings updated successfully!");
+      }
+    } catch (err) {
+      showToast("Unable to save profile changes.", "error");
+    } finally {
+      setProfileSaving(false);
     }
   };
 
-  // Submit new Listing handler (Host)
-  const handleListingSubmit = async (e) => {
+  // Password Update handler
+  const handlePasswordUpdate = async (e) => {
     e.preventDefault();
-    setSubmitSuccess(false);
-    setSubmitError("");
-
-    if (!listingForm.title || !listingForm.parent_network || !listingForm.visibility_metric || !listingForm.reach_source || !listingForm.formats) {
-      setSubmitError("Please fill out all mandatory listing fields.");
+    if (!passwordForm.newPassword || passwordForm.newPassword.length < 6) {
+      showToast("Password must be at least 6 characters.", "error");
+      return;
+    }
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      showToast("Passwords do not match.", "error");
       return;
     }
 
+    setPasswordSaving(true);
     try {
-      const res = await fetch("/api/listings/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: listingForm.title,
-          media_type: listingForm.media_type,
-          parent_network: listingForm.parent_network,
-          geography: [listingForm.geography],
-          niche_tags: [listingForm.niche_tags],
-          language: [listingForm.language],
-          visibility_metric: listingForm.visibility_metric,
-          reach_source: listingForm.reach_source,
-          price_band: listingForm.price_band,
-          raw_price: listingForm.raw_price,
-          formats: listingForm.formats.split(",").map(f => f.trim()),
-          specs: listingForm.specs
-        })
-      });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setSubmitSuccess(true);
-        // Reset form
-        setListingForm({
-          title: "",
-          media_type: "OOH",
-          parent_network: "",
-          geography: "Mumbai",
-          niche_tags: "FMCG",
-          language: "English",
-          visibility_metric: "",
-          reach_source: "",
-          price_band: "₹10K - ₹50K",
-          raw_price: "",
-          formats: "",
-          rateCardName: "",
-          specs: ""
-        });
-        setRefreshKey(k => k + 1); // Refresh list
+      const res = await updatePassword(passwordForm.newPassword);
+      if (res.success) {
+        setPasswordForm({ newPassword: "", confirmPassword: "" });
+        showToast("Password updated successfully!");
       } else {
-        setSubmitError(data.error || "Failed to submit listing.");
+        showToast(res.error || "Failed to update password.", "error");
       }
     } catch (err) {
-      setSubmitError("Server connection error.");
+      showToast("Unable to update password.", "error");
+    } finally {
+      setPasswordSaving(false);
     }
   };
 
-  // Download export data (DPDP compliance)
+  // DPDP Data Export handler
   const handleDataExport = async () => {
     try {
       const res = await fetch("/api/profile", {
@@ -326,23 +210,23 @@ export default function DashboardPage() {
         body: JSON.stringify({ action: "export-data" })
       });
       const data = await res.json();
-
       if (data.success) {
         const blob = new Blob([JSON.stringify(data.data, null, 2)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `otz-user-profile-data.json`;
+        a.download = `otz-account-data-${user.id.substring(0, 8)}.json`;
         a.click();
+        showToast("Account data exported successfully.");
       }
     } catch (err) {
-      alert("Failed to export data portfolio.");
+      showToast("Failed to export data.", "error");
     }
   };
 
-  // Delete account handler (DPDP compliance)
+  // DPDP Account Deletion handler
   const handleAccountDelete = async () => {
-    if (!window.confirm("CONFIRM DELETION: Are you sure you want to request complete account deletion? Data is retained for settling enquiries for 30 days before permanent vault purge.")) {
+    if (!window.confirm("CONFIRM ACCOUNT DELETION: Are you sure you want to request complete account deletion? Data is retained for settling enquiries for 30 days before permanent vault purge.")) {
       return;
     }
 
@@ -353,86 +237,77 @@ export default function DashboardPage() {
         body: JSON.stringify({ action: "delete-account" })
       });
       const data = await res.json();
-
       if (data.success) {
-        localStorage.removeItem("otz_user");
-        alert("Account deletion scheduled. Logging out session.");
-        window.location.href = "/";
+        showToast("Account deletion requested. Logging out session.");
+        logout();
       }
     } catch (err) {
-      alert("Failed to register account deletion request.");
+      showToast("Failed to request account deletion.", "error");
     }
   };
 
-  // Trigger login trigger modal
+  // Trigger login modal
   const openLogin = () => {
     window.dispatchEvent(new CustomEvent("open-auth-modal"));
   };
 
-  if (loading) {
-    return (
-      <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] flex items-center justify-center">
-        <div className="text-white text-sm animate-pulse">Loading Workspace Coordinates...</div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-white flex flex-col items-center justify-center p-6 text-center font-sans space-y-4">
-        <MdiIcon name="lock-outline" className="text-5xl text-[var(--action-primary)] animate-pulse" />
-        <h2 className="text-2xl font-black font-display">Secure Workspace</h2>
-        <p className="text-xs text-[var(--text-secondary)] max-w-sm">
-          Please log in with your phone number to access your brand enquiries, listings moderation, or ops details dashboard.
-        </p>
-        <ShinyButton onClick={openLogin} className="px-8 font-bold">
-          Log In Session
-        </ShinyButton>
-      </div>
-    );
-  }
-
-  const isBrand = user.role === "brand";
-  const isHost = user.role === "host";
-
-  // Categories & options lists matching original
-  const niches = ["FMCG", "Technology & SaaS", "Corporate & B2B", "Automobile", "Education", "Real Estate", "Sports & Gaming", "Healthcare", "Fashion & Lifestyle"];
-  const priceBands = ["Under ₹10K", "₹10K - ₹50K", "₹50K - ₹2L", "₹2L - ₹10L", "₹10L+"];
-  const geographies = ["Mumbai", "Delhi NCR", "Bengaluru", "National Grid", "Regional South", "Regional West"];
-  const timelines = ["ASAP (Within 7 days)", "Next 30 days", "Quarterly", "Planning phase"];
-  const goalOptions = [
-    { value: "awareness", label: "Brand Awareness & Reach" },
-    { value: "downloads", label: "App Installs & Signups" },
-    { value: "sales", label: "Direct Conversions & Sales" },
-    { value: "footfalls", label: "Retail Footfalls & Visits" }
-  ];
-  const mediaTypes = [
-    { value: "OOH", label: "Out of Home (Billboards, Metros)" },
-    { value: "TV", label: "Television Channels" },
-    { value: "Radio", label: "FM Radio Networks" },
-    { value: "Cinema", label: "Movie Screens & Multiplexes" },
-    { value: "Digital", label: "Connected TV & OTT Slots" },
-    { value: "Influencer", label: "Influencer Placements" },
-    { value: "Print", label: "Daily Newspapers & Magazines" }
-  ];
-
-  const getStageColorClass = (stage) => {
-    switch (stage) {
-      case "settled":
-        return "bg-emerald-500/10 text-emerald-450 border-emerald-900/30";
-      case "audit-report":
-      case "active":
-        return "bg-blue-500/10 text-blue-400 border-blue-900/30";
-      case "in-negotiation":
-        return "bg-amber-500/10 text-amber-400 border-amber-900/30";
-      default:
-        return "bg-slate-500/10 text-slate-400 border-slate-900/30";
+  // Helper for Status Badge
+  const getStatusBadge = (status) => {
+    const s = (status || "").toLowerCase();
+    if (s === "confirmed" || s === "approved" || s === "completed" || s === "live") {
+      return "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
     }
+    if (s === "proposal shared" || s === "in review" || s === "quote shared" || s === "contacted") {
+      return "bg-blue-500/10 text-blue-400 border border-blue-500/30";
+    }
+    return "bg-[var(--action-primary)]/10 text-[var(--action-primary)] border border-[var(--action-primary)]/30";
   };
 
+  if (authLoading) {
+    return (
+      <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] flex items-center justify-center">
+        <div className="text-white text-xs font-bold animate-pulse flex items-center gap-2">
+          <MdiIcon name="loading" className="text-lg animate-spin text-[var(--action-primary)]" />
+          <span>Loading Account Coordinates...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Unauthenticated Protected State
+  if (!user) {
+    return (
+      <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-white flex flex-col items-center justify-center p-6 text-center font-sans space-y-5">
+        <div className="w-16 h-16 rounded-2xl bg-[#0B1E3B] border border-[var(--border-default)] flex items-center justify-center text-3xl text-[var(--action-primary)] shadow-xl">
+          <MdiIcon name="lock-outline" className="animate-pulse" />
+        </div>
+        <h2 className="text-2xl font-black font-display">Personal OTZ Account</h2>
+        <p className="text-xs text-[var(--text-secondary)] max-w-sm leading-relaxed">
+          Please sign in to access your media inquiries, campaign rate cards, saved advertising spaces, and profile settings.
+        </p>
+        <div className="flex items-center gap-3 pt-2">
+          <button
+            onClick={() => router.push("/login")}
+            className="btn-primary px-6 font-bold text-xs"
+            style={{ color: "#0B1E3B" }}
+          >
+            Sign In with Email / Google
+          </button>
+          <button
+            onClick={() => router.push("/signup")}
+            className="btn-secondary px-6 font-bold text-xs"
+          >
+            Create Account
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const isHost = user.role === "host";
+
   return (
-    <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] pb-16 relative overflow-hidden font-sans">
-      {/* Background ScrollX Grid Lines */}
+    <div className="theme-dark min-h-screen bg-[var(--surface-canvas)] text-[var(--text-primary)] pb-20 relative overflow-hidden font-sans">
       <ColumnLines
         columnWidth={80}
         columnCount={16}
@@ -444,944 +319,718 @@ export default function DashboardPage() {
 
       <Navbar onLogoClick={() => router.push("/")} />
 
-      <main className="max-w-7xl mx-auto px-6 pt-24 space-y-8 relative z-10 text-left">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-28 space-y-8 relative z-10 text-left">
         
-        {/* Workspace Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[var(--border-default)] pb-6 w-full">
-          <div>
-            <div className="flex items-center gap-1.5 text-[10px] text-[var(--text-secondary)] font-bold uppercase tracking-wider">
-              <span className="h-1.5 w-1.5 bg-[var(--action-primary)] rounded-full animate-pulse" />
-              <span>SECURE WORKSPACE &bull; ID: @{user.phone}</span>
+        {/* Account Header Banner */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[var(--border-default)] pb-6">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-[10px] text-[var(--text-secondary)] font-bold uppercase tracking-wider">
+              <span className="h-2 w-2 bg-emerald-400 rounded-full animate-pulse" />
+              <span>AUTHENTICATED ACCOUNT &bull; {user.role === "admin" ? "ADMINISTRATOR" : user.role === "host" ? "MEDIA OWNER" : "BRAND ACCOUNT"}</span>
             </div>
-            <h1 className="text-2xl font-black text-white font-display mt-1.5">
-              {isBrand ? `${user.company} Brand Desk` : `${user.company} Host Portal`}
+            <h1 className="text-2xl sm:text-3xl font-black text-white font-display">
+              {user.name ? `${user.name}` : "My Account"}
+              {user.company && user.company !== "Personal Account" && (
+                <span className="text-xs font-semibold text-slate-400 ml-2 font-sans">
+                  ({user.company})
+                </span>
+              )}
             </h1>
+            <p className="text-xs text-[var(--text-secondary)]">
+              {user.email} {user.phone ? `• +91 ${user.phone}` : ""}
+            </p>
           </div>
 
-          {/* Tab Navigation selectors */}
-          <div className="flex p-1 bg-[var(--surface-raised)]/60 rounded-xl border border-[var(--border-default)]">
-            {isBrand ? (
-              <>
-                <button
-                  onClick={() => setActiveTab("overview")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    activeTab === "overview" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
-                  }`}
-                >
-                  My Enquiries
-                </button>
-                <button
-                  onClick={() => setActiveTab("profile")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    activeTab === "profile" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
-                  }`}
-                >
-                  Edit Profile
-                </button>
-                <button
-                  onClick={() => setActiveTab("settings")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    activeTab === "settings" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
-                  }`}
-                >
-                  Settings
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => setActiveTab("overview")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    activeTab === "overview" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
-                  }`}
-                >
-                  Dashboard
-                </button>
-                <button
-                  onClick={() => setActiveTab("listings")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    activeTab === "listings" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
-                  }`}
-                >
-                  My Listings
-                </button>
-                <button
-                  onClick={() => setActiveTab("submit")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    activeTab === "submit" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
-                  }`}
-                >
-                  Submit Listing
-                </button>
-                <button
-                  onClick={() => setActiveTab("enquiries")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    activeTab === "enquiries" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
-                  }`}
-                >
-                  Incoming Enquiries
-                </button>
-                <button
-                  onClick={() => setActiveTab("settings")}
-                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    activeTab === "settings" ? "bg-[var(--action-primary)] text-[#0B1E3B]" : "text-[var(--text-secondary)] hover:text-white"
-                  }`}
-                >
-                  Settings
-                </button>
-              </>
-            )}
+          {/* Navigation Tabs */}
+          <div className="flex flex-wrap p-1 bg-[#132A4F] rounded-xl border border-[var(--border-default)]">
+            <button
+              onClick={() => setActiveTab("overview")}
+              className={`px-3.5 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                activeTab === "overview" ? "bg-[var(--action-primary)] text-[#0B1E3B] shadow-md" : "text-[var(--text-secondary)] hover:text-white"
+              }`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab("requests")}
+              className={`px-3.5 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                activeTab === "requests" ? "bg-[var(--action-primary)] text-[#0B1E3B] shadow-md" : "text-[var(--text-secondary)] hover:text-white"
+              }`}
+            >
+              My Requests ({brandRequests.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("enquiries")}
+              className={`px-3.5 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                activeTab === "enquiries" ? "bg-[var(--action-primary)] text-[#0B1E3B] shadow-md" : "text-[var(--text-secondary)] hover:text-white"
+              }`}
+            >
+              My Enquiries ({enquiries.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("saved")}
+              className={`px-3.5 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                activeTab === "saved" ? "bg-[var(--action-primary)] text-[#0B1E3B] shadow-md" : "text-[var(--text-secondary)] hover:text-white"
+              }`}
+            >
+              Saved ({savedListings.length || bag.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("settings")}
+              className={`px-3.5 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                activeTab === "settings" ? "bg-[var(--action-primary)] text-[#0B1E3B] shadow-md" : "text-[var(--text-secondary)] hover:text-white"
+              }`}
+            >
+              Settings
+            </button>
+            <button
+              onClick={logout}
+              className="px-3 py-2 text-xs font-bold text-red-400 hover:text-red-300 transition-colors cursor-pointer ml-1"
+            >
+              <MdiIcon name="logout" className="text-sm mr-1" />
+              Log Out
+            </button>
           </div>
         </div>
 
-        {/* BRAND WORKSPACE PANELS */}
-        {isBrand && (
-          <div className="space-y-6 animate-fade-in w-full">
-            {/* Overview / My Enquiries tab */}
-            {activeTab === "overview" && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
-                
-                {/* Left Side: Enquiries List */}
-                <div className="lg:col-span-8 space-y-4">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-white">My Campaign Enquiries</h3>
-                  
-                  {enquiries.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-4">
-                      {enquiries.map((enq) => (
-                        <VercelCard
-                          key={enq.id}
-                          bordered={true}
-                          glowEffect={true}
-                          animateOnHover={false}
-                          className="p-1 bg-[var(--surface-raised)]/40 rounded-xl text-left w-full h-full"
-                        >
-                          <div className="p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 w-full">
-                            <div className="space-y-1 max-w-xl text-left">
-                              <div className="flex items-center gap-2">
-                                <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">
-                                  Enquiry ID: {enq.id}
-                                </span>
-                                <span className="text-[9px] text-[var(--text-secondary)] font-mono">&bull; {new Date(enq.created_at).toLocaleDateString()}</span>
-                              </div>
-                              <h4 className="text-sm font-bold text-white">
-                                {enq.listingTitle}
-                              </h4>
-                              <p className="text-xs text-[var(--text-secondary)] leading-relaxed italic line-clamp-2">
-                                &ldquo;{enq.message}&rdquo;
-                              </p>
-                            </div>
-
-                            {/* Pipeline Stage display (Section 6.5) */}
-                            <div className="flex items-center gap-4 shrink-0">
-                              <div className="text-left">
-                                <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] block">Assignee</span>
-                                <span className="text-xs font-bold text-white">{enq.assignee === "ops-unassigned" ? "Awaiting Assignment" : enq.assignee}</span>
-                              </div>
-
-                              <div className={`px-4 py-2 rounded-full border text-xs font-bold text-center ${getStageColorClass(enq.stage)}`}>
-                                {enq.stage}
-                              </div>
-                            </div>
-                          </div>
-                        </VercelCard>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-8 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-400">
-                      <MdiIcon name="file-document-outline" className="text-4xl block mx-auto mb-2 text-slate-500" />
-                      <p className="text-xs">No enquiries submitted yet. Visit the catalog to make an enquiry.</p>
-                    </div>
-                  )}
+        {/* TAB 1: OVERVIEW */}
+        {activeTab === "overview" && (
+          <div className="space-y-8 animate-fade-in">
+            {/* Metric Summary Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-[#132A4F] border border-[var(--border-default)] p-5 rounded-2xl space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <span>Campaign Enquiries</span>
+                  <MdiIcon name="message-text-outline" className="text-base text-[var(--action-primary)]" />
                 </div>
-
-                {/* Right Side: Active Placement Zone Map */}
-                <div className="lg:col-span-4 space-y-6 w-full">
-                  <VercelCard bordered={true} className="bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl text-left">
-                    <div className="w-full">
-                      <p className="font-mono text-[9px] uppercase tracking-widest font-extrabold text-[var(--text-secondary)] mb-2">Campaign Placements map</p>
-                      <EdgeIllustration />
-                    </div>
-                  </VercelCard>
+                <div className="text-3xl font-black font-display text-white">
+                  {enquiries.length}
                 </div>
+                <p className="text-[10px] text-[var(--text-secondary)]">Direct marketplace queries</p>
               </div>
-            )}
 
-            {/* Edit Profile tab (Section 2.8) */}
-            {activeTab === "profile" && (
-              <VercelCard bordered={true} className="p-2 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl w-full text-left font-sans">
-                <div className="p-6 space-y-6 w-full">
-                  <div>
-                    <h3 className="text-lg font-bold text-white uppercase tracking-wider">Edit Brand Profile</h3>
-                    <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                      Modifying these metrics will instantly update your default marketplace pre-filters.
-                    </p>
-                  </div>
-
-                  <form onSubmit={handleProfileUpdate} className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Brand Niche</label>
-                        <select
-                          value={profileForm.niche}
-                          onChange={(e) => setProfileForm({ ...profileForm, niche: e.target.value })}
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
-                        >
-                          <option value="">Select Niche...</option>
-                          {niches.map(n => (
-                            <option key={n} value={n}>{n}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Budget Band</label>
-                        <select
-                          value={profileForm.budget_band}
-                          onChange={(e) => setProfileForm({ ...profileForm, budget_band: e.target.value })}
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
-                        >
-                          <option value="">Select budget range...</option>
-                          {priceBands.map(b => (
-                            <option key={b} value={b}>{b}</option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Target Location</label>
-                        <select
-                          value={profileForm.geography}
-                          onChange={(e) => setProfileForm({ ...profileForm, geography: e.target.value })}
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
-                        >
-                          <option value="">Select target city...</option>
-                          {geographies.map(g => (
-                            <option key={g} value={g}>{g}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Campaign Timeline</label>
-                        <select
-                          value={profileForm.timeline}
-                          onChange={(e) => setProfileForm({ ...profileForm, timeline: e.target.value })}
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
-                        >
-                          <option value="">Select timeline...</option>
-                          {timelines.map(t => (
-                            <option key={t} value={t}>{t}</option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* Primary Goal Selector */}
-                    <div className="space-y-1 pt-2">
-                      <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Primary Campaign Goal</label>
-                      <select
-                        value={profileForm.primary_goal}
-                        onChange={(e) => setProfileForm({ ...profileForm, primary_goal: e.target.value })}
-                        className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm font-semibold cursor-pointer"
-                      >
-                        <option value="">Select goal...</option>
-                        {goalOptions.map(g => (
-                          <option key={g.value} value={g.value}>{g.label}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {profileSuccess && (
-                      <p className="text-xs text-[var(--status-success-text)] font-bold flex items-center gap-1 animate-fade-in bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20">
-                        <MdiIcon name="check-circle-outline" /> Profile details synchronized. Live filters pre-applied.
-                      </p>
-                    )}
-
-                    {profileError && (
-                      <p className="text-xs text-[var(--status-error)] font-bold flex items-center gap-1 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
-                        <MdiIcon name="alert-circle-outline" /> {profileError}
-                      </p>
-                    )}
-
-                    <ShinyButton
-                      type="submit"
-                      className="px-8 shadow mt-2"
-                    >
-                      Save Changes & Sync
-                    </ShinyButton>
-                  </form>
+              <div className="bg-[#132A4F] border border-[var(--border-default)] p-5 rounded-2xl space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <span>Media Requests</span>
+                  <MdiIcon name="bullhorn-outline" className="text-base text-blue-400" />
                 </div>
-              </VercelCard>
-            )}
-          </div>
-        )}
-
-        {/* HOST WORKSPACE PANELS */}
-        {isHost && (
-          <div className="space-y-6 animate-fade-in w-full">
-            
-            {activeTab === "overview" && (
-              <div className="space-y-8 animate-fade-in">
-                {/* Welcome Message */}
-                <div className="bg-gradient-to-r from-[rgba(255,90,31,0.08)] to-transparent border border-white/5 rounded-2xl p-6 relative overflow-hidden">
-                  <div className="relative z-10 space-y-1">
-                    <h2 className="text-xl md:text-2xl font-black text-white font-display">
-                      Welcome back, {user.name.split(" ")[0]} 👋
-                    </h2>
-                    <p className="text-xs text-[var(--text-secondary)] font-medium">
-                      Here's how your media inventory is performing on Sharma Media Networks.
-                    </p>
-                  </div>
-                  <div className="absolute top-1/2 -translate-y-1/2 right-6 h-12 w-12 rounded-full bg-[var(--action-primary)]/10 text-[var(--action-primary)] flex items-center justify-center text-xl border border-[var(--action-primary)]/20 animate-pulse">
-                    <MdiIcon name="hand-wave" />
-                  </div>
+                <div className="text-3xl font-black font-display text-white">
+                  {brandRequests.length}
                 </div>
-
-                {/* KPI Cards Grid */}
-                <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-                  {/* Total Listings */}
-                  <VercelCard bordered={true} className="p-4 bg-[var(--surface-raised)]/40 hover:border-white/20 transition-all rounded-xl">
-                    <div className="space-y-1 text-left">
-                      <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider block">Total Listings</span>
-                      <h4 className="text-2xl font-black text-white font-display">
-                        {hostDashboardOverview?.totalListings || 0}
-                      </h4>
-                      <span className="text-[9px] text-emerald-400 font-bold block">100% cataloged</span>
-                    </div>
-                  </VercelCard>
-
-                  {/* Active Listings */}
-                  <VercelCard bordered={true} className="p-4 bg-[var(--surface-raised)]/40 hover:border-white/20 transition-all rounded-xl">
-                    <div className="space-y-1 text-left">
-                      <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider block">Active Listings</span>
-                      <h4 className="text-2xl font-black text-emerald-400 font-display">
-                        {hostDashboardOverview?.activeListings || 0}
-                      </h4>
-                      <span className="text-[9px] text-[var(--text-secondary)] font-bold block">
-                        {hostDashboardOverview?.totalListings ? Math.round((hostDashboardOverview.activeListings / hostDashboardOverview.totalListings) * 100) : 0}% live
-                      </span>
-                    </div>
-                  </VercelCard>
-
-                  {/* Total Leads */}
-                  <VercelCard bordered={true} className="p-4 bg-[var(--surface-raised)]/40 hover:border-white/20 transition-all rounded-xl">
-                    <div className="space-y-1 text-left">
-                      <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider block">Total Leads</span>
-                      <h4 className="text-2xl font-black text-white font-display">
-                        {hostDashboardOverview?.totalLeads || 0}
-                      </h4>
-                      <span className="text-[9px] text-[var(--action-primary)] font-bold block">+18% this month</span>
-                    </div>
-                  </VercelCard>
-
-                  {/* Active Bookings */}
-                  <VercelCard bordered={true} className="p-4 bg-[var(--surface-raised)]/40 hover:border-white/20 transition-all rounded-xl">
-                    <div className="space-y-1 text-left">
-                      <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider block">Active Bookings</span>
-                      <h4 className="text-2xl font-black text-white font-display">
-                        {hostDashboardOverview?.activeBookings || 0}
-                      </h4>
-                      <span className="text-[9px] text-blue-400 font-bold block">4 campaigns running</span>
-                    </div>
-                  </VercelCard>
-
-                  {/* Estimated Revenue */}
-                  <VercelCard bordered={true} className="p-4 bg-[var(--surface-raised)]/40 hover:border-white/20 transition-all rounded-xl col-span-2 sm:col-span-1">
-                    <div className="space-y-1 text-left">
-                      <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider block">Est. Revenue</span>
-                      <h4 className="text-2xl font-black text-[var(--action-primary)] font-display">
-                        ₹{(hostDashboardOverview?.estimatedRevenue ? (hostDashboardOverview.estimatedRevenue / 100000).toFixed(2) : 0)}L
-                      </h4>
-                      <span className="text-[9px] text-emerald-400 font-bold block">Settle pending: ₹45K</span>
-                    </div>
-                  </VercelCard>
-
-                  {/* Average Views */}
-                  <VercelCard bordered={true} className="p-4 bg-[var(--surface-raised)]/40 hover:border-white/20 transition-all rounded-xl">
-                    <div className="space-y-1 text-left">
-                      <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider block">Average Views</span>
-                      <h4 className="text-2xl font-black text-white font-display">
-                        {(hostDashboardOverview?.averageViews ? hostDashboardOverview.averageViews.toLocaleString() : 0)}
-                      </h4>
-                      <span className="text-[9px] text-slate-500 font-bold block">per active slot</span>
-                    </div>
-                  </VercelCard>
-                </div>
-
-                {/* Main Content Layout Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                  
-                  {/* Left Column: Performance Chart & Top listings */}
-                  <div className="lg:col-span-8 space-y-8">
-                    
-                    {/* Performance Analytics Card */}
-                    <VercelCard bordered={true} className="p-6 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl">
-                      <div className="space-y-6">
-                        <div className="flex justify-between items-center flex-wrap gap-4 border-b border-white/5 pb-4">
-                          <div>
-                            <h3 className="text-sm font-bold uppercase tracking-wider text-white">Performance Analytics</h3>
-                            <p className="text-[10px] text-[var(--text-secondary)]">Exposing real-time views and conversion performance metrics.</p>
-                          </div>
-
-                          {/* Time Range Toggle */}
-                          <div className="flex bg-slate-900 border border-white/5 p-1 rounded-lg">
-                            {["7days", "30days", "90days"].map((range) => (
-                              <button
-                                key={range}
-                                onClick={() => setAnalyticsTimeRange(range)}
-                                className={`px-3 py-1 rounded text-[10px] font-bold uppercase transition-all cursor-pointer ${
-                                  analyticsTimeRange === range
-                                    ? "bg-[var(--action-primary)] text-[#0B1E3B]"
-                                    : "text-slate-400 hover:text-white"
-                                }`}
-                              >
-                                {range === "7days" ? "7D" : range === "30days" ? "30D" : "90D"}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Rendering our Custom Lightweight Responsive SVG Chart component */}
-                        <PerformanceChart data={hostDashboardAnalytics} range={analyticsTimeRange} />
-                      </div>
-                    </VercelCard>
-
-                    {/* Top Performing Listings */}
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <h3 className="text-sm font-bold uppercase tracking-wider text-white">Top Performing Inventory</h3>
-                        <button
-                          onClick={() => setActiveTab("listings")}
-                          className="text-xs font-bold text-[var(--action-primary)] hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none"
-                        >
-                          View All Listings <MdiIcon name="arrow-right" />
-                        </button>
-                      </div>
-
-                      <div className="grid grid-cols-1 gap-4">
-                        {hostDashboardListings.slice(0, 4).map((item) => (
-                          <VercelCard
-                            key={item.id}
-                            bordered={true}
-                            glowEffect={true}
-                            className="bg-[var(--surface-raised)]/40 hover:shadow-lg transition-all rounded-xl overflow-hidden animate-fade-in"
-                          >
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 gap-4 w-full text-left">
-                              <div className="flex items-center gap-3">
-                                <div className="h-12 w-20 rounded-lg overflow-hidden border border-white/5 bg-slate-900 flex-shrink-0">
-                                  <img src={item.image_url} alt={item.title} className="h-full w-full object-cover" />
-                                </div>
-                                <div className="space-y-1">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="text-[9px] uppercase font-bold text-slate-500 tracking-wider">
-                                      {item.id}
-                                    </span>
-                                    <span className="h-1 w-1 bg-slate-600 rounded-full" />
-                                    <span className="text-[9px] uppercase font-bold text-[var(--action-primary)]">
-                                      {item.media_type}
-                                    </span>
-                                  </div>
-                                  <h4 className="text-xs font-bold text-white leading-snug line-clamp-1">{item.title}</h4>
-                                </div>
-                              </div>
-
-                              <div className="flex items-center gap-6 justify-between sm:justify-end w-full sm:w-auto text-xs">
-                                <div className="text-right">
-                                  <span className="text-[9px] text-slate-500 uppercase block font-bold">Views</span>
-                                  <span className="font-bold text-white">{item.views.toLocaleString()}</span>
-                                </div>
-                                <div className="text-right">
-                                  <span className="text-[9px] text-slate-500 uppercase block font-bold">Leads</span>
-                                  <span className="font-bold text-white">{item.leads}</span>
-                                </div>
-                                <div className="text-right">
-                                  <span className="text-[9px] text-slate-500 uppercase block font-bold">Status</span>
-                                  <span className="font-bold text-emerald-450 uppercase text-[9px] tracking-wider bg-emerald-500/10 border border-emerald-900/30 px-2 py-0.5 rounded-full">{item.status}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </VercelCard>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Column: Quick Actions, Recent Leads, Activity Stream */}
-                  <div className="lg:col-span-4 space-y-6">
-                    
-                    {/* Quick Actions Panel */}
-                    <VercelCard bordered={true} className="p-5 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl">
-                      <div className="space-y-4">
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-white border-b border-white/5 pb-2">Quick Actions</h3>
-                        
-                        <div className="flex flex-col gap-2">
-                          <ShinyButton
-                            onClick={() => setActiveTab("submit")}
-                            className="w-full py-2.5 rounded-xl text-xs font-bold shadow-md cursor-pointer flex items-center justify-center gap-2"
-                          >
-                            <MdiIcon name="plus" className="text-sm" /> Add New Listing
-                          </ShinyButton>
-
-                          <button
-                            onClick={() => setActiveTab("listings")}
-                            className="w-full text-center text-xs font-bold text-slate-300 hover:text-white transition-all py-2.5 rounded-xl border border-white/10 hover:border-white/30 bg-white/5 cursor-pointer flex items-center justify-center gap-2 animate-fade-in"
-                          >
-                            <MdiIcon name="office-building" className="text-sm text-[var(--action-primary)]" />
-                            Manage Listings
-                          </button>
-
-                          <button
-                            onClick={() => setActiveTab("enquiries")}
-                            className="w-full text-center text-xs font-bold text-slate-300 hover:text-white transition-all py-2.5 rounded-xl border border-white/10 hover:border-white/30 bg-white/5 cursor-pointer flex items-center justify-center gap-2 animate-fade-in"
-                          >
-                            <MdiIcon name="email-outline" className="text-sm text-emerald-400" />
-                            Incoming Enquiries
-                          </button>
-                        </div>
-
-                        {/* Listing Health Overview */}
-                        <div className="pt-4 border-t border-white/5 space-y-3">
-                          <div className="flex justify-between text-[10px] text-slate-500 font-bold uppercase">
-                            <span>Listing Health</span>
-                            <span>{hostDashboardOverview?.activeListings || 0} / {hostDashboardOverview?.totalListings || 0} Active</span>
-                          </div>
-                          <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden flex">
-                            <div style={{ width: `${((hostDashboardOverview?.activeListings || 0) / (hostDashboardOverview?.totalListings || 1)) * 100}%` }} className="bg-emerald-500" />
-                            <div style={{ width: `${(2 / (hostDashboardOverview?.totalListings || 1)) * 100}%` }} className="bg-amber-500 animate-pulse" />
-                            <div style={{ width: `${(1 / (hostDashboardOverview?.totalListings || 1)) * 100}%` }} className="bg-slate-500" />
-                          </div>
-                          <p className="text-[9px] text-slate-400 italic">2 pending review, 1 draft.</p>
-                        </div>
-                      </div>
-                    </VercelCard>
-
-                    {/* Recent Incoming Leads */}
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-white">Recent Leads</h3>
-                        <button
-                          onClick={() => setActiveTab("enquiries")}
-                          className="text-[10px] font-bold text-[var(--action-primary)] hover:underline cursor-pointer bg-transparent border-none"
-                        >
-                          View All
-                        </button>
-                      </div>
-
-                      <div className="space-y-3">
-                        {hostDashboardLeads.slice(0, 3).map((lead) => (
-                          <VercelCard
-                            key={lead.id}
-                            bordered={true}
-                            className="p-4 bg-[var(--surface-raised)]/40 hover:border-white/10 transition-all rounded-xl"
-                          >
-                            <div className="space-y-2 text-left text-xs">
-                              <div className="flex justify-between items-center">
-                                <span className="font-bold text-white">{lead.brandName}</span>
-                                <span className={`text-[8px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded ${
-                                  lead.status === "New"
-                                    ? "bg-blue-500/10 text-blue-400 border border-blue-900/30"
-                                    : lead.status === "Negotiating"
-                                    ? "bg-amber-500/10 text-amber-400 border border-amber-900/30"
-                                    : "bg-emerald-500/10 text-emerald-450 border border-emerald-900/30"
-                                }`}>
-                                  {lead.status}
-                                </span>
-                              </div>
-                              <p className="text-[10px] text-slate-400 font-semibold line-clamp-1">{lead.campaignName}</p>
-                              <div className="flex justify-between items-center text-[10px] border-t border-white/5 pt-1.5 text-slate-500">
-                                <span>Budget: <span className="text-white font-bold">₹{lead.budget.toLocaleString()}</span></span>
-                                <span>{lead.date}</span>
-                              </div>
-                            </div>
-                          </VercelCard>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Bookings & Enquiries Activity Feed */}
-                    <div className="space-y-4">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-white">Recent Activity</h3>
-                      
-                      <VercelCard bordered={true} className="p-4 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl">
-                        <div className="space-y-3">
-                          {hostDashboardRecentActivity.slice(0, 4).map((act) => (
-                            <div key={act.id} className="flex gap-3 text-xs items-start border-b border-white/5 pb-2.5 last:border-none last:pb-0">
-                              <div className={`h-6 w-6 rounded-full flex items-center justify-center shrink-0 text-xs border ${
-                                act.status === "new" ? "bg-blue-500/10 text-blue-450 border-blue-900/20" :
-                                act.status === "pending" ? "bg-amber-500/10 text-amber-400 border-amber-900/20" :
-                                act.status === "approved" ? "bg-emerald-500/10 text-emerald-400 border-emerald-900/20" :
-                                "bg-slate-500/10 text-slate-400 border-slate-900/20"
-                              }`}>
-                                <MdiIcon name={
-                                  act.status === "new" ? "email-outline" :
-                                  act.status === "pending" ? "clock-outline" :
-                                  act.status === "approved" ? "check-circle-outline" :
-                                  "bell-outline"
-                                } className="text-xs" />
-                              </div>
-                              <div className="space-y-0.5 text-left flex-grow">
-                                <p className="font-bold text-white leading-snug">{act.event}</p>
-                                <p className="text-[10px] text-slate-400 line-clamp-1">
-                                  {act.listingTitle} &bull; <span className="text-slate-500 font-semibold">{act.userCompany}</span>
-                                </p>
-                                <span className="text-[9px] text-slate-500 font-mono block">{act.date}</span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </VercelCard>
-                    </div>
-
-                  </div>
-                </div>
+                <p className="text-[10px] text-[var(--text-secondary)]">Rate cards & channel proposals</p>
               </div>
-            )}
 
-            {/* My Listings tab (Section 2.9) */}
-            {activeTab === "listings" && (
-              <div className="space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-white">My Registered Properties</h3>
-
-                {hostListings.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-4">
-                    {hostListings.map((item) => (
-                      <VercelCard
-                        key={item.id}
-                        bordered={true}
-                        glowEffect={true}
-                        animateOnHover={false}
-                        className="p-1 bg-[var(--surface-raised)]/40 rounded-xl text-left w-full h-full"
-                      >
-                        <div className="p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
-                          <div className="space-y-1 text-left">
-                            <div className="flex items-center gap-2">
-                              <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">
-                                Listing ID: {item.id}
-                              </span>
-                              <span className="text-[9px] text-[var(--text-secondary)] font-mono">&bull; {item.media_type}</span>
-                            </div>
-                            <h4 className="text-sm font-bold text-white">
-                              {item.title}
-                            </h4>
-                            <div className="text-xs text-[var(--text-secondary)] font-semibold flex gap-3">
-                              <span>Reach: {item.visibility_metric}</span>
-                              <span>Rate: {item.price_band}</span>
-                            </div>
-                          </div>
-
-                          {/* State review indicators */}
-                          <div className="shrink-0 flex items-center gap-3">
-                            {item.state === "rejected" && item.rejection_reason && (
-                              <span className="text-xs text-[var(--status-error)] font-semibold bg-red-500/10 p-2 rounded-lg border border-red-500/20">
-                                Reason: {item.rejection_reason}
-                              </span>
-                            )}
-
-                            <span className={`px-4 py-2 rounded-full border text-xs font-bold text-center uppercase tracking-wider ${
-                              item.state === "published"
-                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-900/30"
-                                : item.state === "rejected"
-                                ? "bg-red-500/10 text-[var(--status-error)] border-red-900/30"
-                                : "bg-amber-500/10 text-[var(--status-warning)] border-amber-900/30"
-                            }`}>
-                              {item.state === "submitted" ? "Under Review" : item.state}
-                            </span>
-                          </div>
-                        </div>
-                      </VercelCard>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-8 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-400">
-                    <MdiIcon name="office-building" className="text-4xl block mx-auto mb-2 text-slate-500" />
-                    <p className="text-xs">No listings registered yet. Submit your first listing to begin.</p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Submit Listing tab (Section 7.1) */}
-            {activeTab === "submit" && (
-              <VercelCard bordered={true} className="p-2 bg-[var(--surface-raised)]/40 backdrop-blur-md rounded-2xl w-full text-left font-sans">
-                <div className="p-6 space-y-6 w-full">
-                  <div>
-                    <h3 className="text-lg font-bold text-white uppercase tracking-wider">Register Supply Placement</h3>
-                    <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                      Submissions are moderated by the OTZ operations team before going live on the marketplace.
-                    </p>
-                  </div>
-
-                  <form onSubmit={handleListingSubmit} className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Listing Title</label>
-                        <input
-                          type="text"
-                          value={listingForm.title}
-                          onChange={(e) => setListingForm({ ...listingForm, title: e.target.value })}
-                          placeholder="Bandra LED Screen Block A"
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
-                        />
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Parent Network / Owner</label>
-                        <input
-                          type="text"
-                          value={listingForm.parent_network}
-                          onChange={(e) => setListingForm({ ...listingForm, parent_network: e.target.value })}
-                          placeholder="Times OOH Media"
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Media Type</label>
-                        <select
-                          value={listingForm.media_type}
-                          onChange={(e) => setListingForm({ ...listingForm, media_type: e.target.value })}
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
-                        >
-                          {mediaTypes.map(m => (
-                            <option key={m.value} value={m.value}>{m.label}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Geography</label>
-                        <select
-                          value={listingForm.geography}
-                          onChange={(e) => setListingForm({ ...listingForm, geography: e.target.value })}
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
-                        >
-                          {geographies.map(g => (
-                            <option key={g} value={g}>{g}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Audience Niche</label>
-                        <select
-                          value={listingForm.niche_tags}
-                          onChange={(e) => setListingForm({ ...listingForm, niche_tags: e.target.value })}
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
-                        >
-                          {niches.map(n => (
-                            <option key={n} value={n}>{n}</option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Audited Reach Metric</label>
-                        <input
-                          type="text"
-                          value={listingForm.visibility_metric}
-                          onChange={(e) => setListingForm({ ...listingForm, visibility_metric: e.target.value })}
-                          placeholder="1.2M weekly views"
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
-                        />
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Reach Data Source</label>
-                        <input
-                          type="text"
-                          value={listingForm.reach_source}
-                          onChange={(e) => setListingForm({ ...listingForm, reach_source: e.target.value })}
-                          placeholder="BARC Outdoor June 2026"
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="space-y-1">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Cost Band</label>
-                        <select
-                          value={listingForm.price_band}
-                          onChange={(e) => setListingForm({ ...listingForm, price_band: e.target.value })}
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm cursor-pointer"
-                        >
-                          {priceBands.map(b => (
-                            <option key={b} value={b}>{b}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="space-y-1 col-span-2">
-                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Placement Formats (Comma Separated)</label>
-                        <input
-                          type="text"
-                          value={listingForm.formats}
-                          onChange={(e) => setListingForm({ ...listingForm, formats: e.target.value })}
-                          placeholder="15s loop slot, 30s loop slot, Static gantry"
-                          className="w-full h-11 px-3 border border-[var(--border-default)] bg-[var(--surface-canvas)] text-white rounded-lg focus:outline-none focus:border-[var(--action-primary)] text-sm"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Rate card mock file upload (Section 7.1) */}
-                    <div className="space-y-1.5">
-                      <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase">Upload Rate Card / Spec Deck (Mock scan)</label>
-                      <div className="border-2 border-dashed border-[var(--border-default)] p-4 rounded-xl text-center hover:bg-[var(--surface-hover)] transition-colors relative cursor-pointer">
-                        <input
-                          type="file"
-                          onChange={(e) => setListingForm({ ...listingForm, rateCardName: e.target.files[0]?.name || "" })}
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        />
-                        <MdiIcon name="cloud-upload-outline" className="text-3xl text-slate-550 block mx-auto mb-1" />
-                        <span className="text-xs font-bold text-white block">
-                          {listingForm.rateCardName ? `Uploaded: ${listingForm.rateCardName} (Verified Safe)` : "Drag & drop or click to upload proposal sheet"}
-                        </span>
-                        <span className="text-[9px] text-[var(--text-secondary)] block">PDF, PPTX or JPG (Size Limit 10MB)</span>
-                      </div>
-                    </div>
-
-                    {submitSuccess && (
-                      <p className="text-xs text-[var(--status-success-text)] font-bold flex items-center gap-1 animate-fade-in bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20">
-                        <MdiIcon name="check-circle-outline" /> Listing successfully queued. Operations has been notified.
-                      </p>
-                    )}
-
-                    {submitError && (
-                      <p className="text-xs text-[var(--status-error)] font-bold flex items-center gap-1 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
-                        <MdiIcon name="alert-circle-outline" /> {submitError}
-                      </p>
-                    )}
-
-                    <ShinyButton
-                      type="submit"
-                      className="px-8 shadow mt-2"
-                    >
-                      Submit for Operations Review
-                    </ShinyButton>
-                  </form>
+              <div className="bg-[#132A4F] border border-[var(--border-default)] p-5 rounded-2xl space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <span>Saved Listings</span>
+                  <MdiIcon name="bookmark-outline" className="text-base text-emerald-400" />
                 </div>
-              </VercelCard>
-            )}
-
-            {/* Host Enquiries received tab (Section 7.3) */}
-            {activeTab === "enquiries" && (
-              <div className="space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-white">Enquiries Received on my Properties</h3>
-
-                {enquiries.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-4">
-                    {enquiries.map((enq) => (
-                      <VercelCard
-                        key={enq.id}
-                        bordered={true}
-                        glowEffect={true}
-                        animateOnHover={false}
-                        className="p-1 bg-[var(--surface-raised)]/40 rounded-xl text-left w-full h-full font-sans"
-                      >
-                        <div className="p-6 space-y-4 w-full">
-                          <div className="flex justify-between items-start gap-4 w-full">
-                            <div className="text-left">
-                              <span className="text-[9px] uppercase font-bold text-[var(--text-secondary)] tracking-wider">
-                                Placement: {enq.listingTitle}
-                              </span>
-                              <h4 className="text-sm font-bold text-white mt-1">
-                                Campaign Intent Proposal
-                              </h4>
-                            </div>
-
-                            <div className={`px-3 py-1 rounded-full border text-xs font-bold ${getStageColorClass(enq.stage)}`}>
-                              {enq.stage}
-                            </div>
-                          </div>
-
-                          <p className="text-xs text-[var(--text-secondary)] leading-relaxed italic p-3 bg-[var(--surface-canvas)] rounded-lg">
-                            &ldquo;{enq.message}&rdquo;
-                          </p>
-
-                          {/* Brand contact details revealed on sent enquiry */}
-                          <div className="p-4 bg-[var(--surface-canvas)] border border-[var(--border-default)] rounded-lg text-xs grid grid-cols-1 sm:grid-cols-3 gap-2">
-                            <div>
-                              <span className="text-[9px] font-bold text-[var(--text-secondary)] uppercase block">Brand Name</span>
-                              <span className="font-bold text-white">{enq.brandName}</span>
-                            </div>
-                            <div>
-                              <span className="text-[9px] font-bold text-[var(--text-secondary)] uppercase block">Company</span>
-                              <span className="font-bold text-white">{enq.brandCompany}</span>
-                            </div>
-                            <div>
-                              <span className="text-[9px] font-bold text-[var(--text-secondary)] uppercase block">Contact Coordinates</span>
-                              <span className="font-bold text-white">{enq.brandPhone} | {enq.brandEmail}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </VercelCard>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-8 rounded-xl bg-[var(--surface-raised)]/30 border border-[var(--border-default)] text-center text-slate-400">
-                    <MdiIcon name="email-open-outline" className="text-4xl block mx-auto mb-2 text-slate-500" />
-                    <p className="text-xs">No demand inquiries received on your listings yet.</p>
-                  </div>
-                )}
+                <div className="text-3xl font-black font-display text-white">
+                  {savedListings.length || bag.length}
+                </div>
+                <p className="text-[10px] text-[var(--text-secondary)]">Bookmarked media spaces</p>
               </div>
-            )}
 
-          </div>
-        )}
-
-        {/* GENERAL SETTINGS PANEL (Section 2.10) */}
-        {activeTab === "settings" && (
-          <div className="max-w-2xl bg-[var(--surface-raised)]/40 p-8 rounded-2xl border border-[var(--border-default)] shadow-sm space-y-6 animate-fade-in w-full text-left">
-            <div>
-              <h3 className="text-lg font-bold text-white uppercase tracking-wider">Account Settings</h3>
-              <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                Manage your credentials, data export portfolios, and vault schedules.
-              </p>
+              <div className="bg-[#132A4F] border border-[var(--border-default)] p-5 rounded-2xl space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <span>Account Status</span>
+                  <MdiIcon name="shield-check" className="text-base text-emerald-400" />
+                </div>
+                <div className="text-xl font-black font-display text-emerald-400 pt-1">
+                  Active & Verified
+                </div>
+                <p className="text-[10px] text-[var(--text-secondary)]">Full OTZ access granted</p>
+              </div>
             </div>
 
-            <div className="space-y-4">
-              {/* Data Portability */}
-              <div className="p-5 border border-[var(--border-default)] rounded-xl flex items-center justify-between gap-4 bg-[var(--surface-canvas)]">
-                <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-white uppercase">Download Data Portfolio</h4>
-                  <p className="text-xs text-[var(--text-secondary)] max-w-sm leading-relaxed">
-                    In compliance with DPDP laws, download a full portable JSON export of your credentials, profiles and timeline.
+            {/* Quick Actions & Media Discovery */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-[#0B1E3B] border border-[var(--border-default)] p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--action-primary)]/10 text-[var(--action-primary)] text-[10px] font-bold uppercase">
+                    <MdiIcon name="compass-outline" /> Media Discovery
+                  </div>
+                  <h3 className="text-lg font-bold text-white font-display">Explore Available Inventory</h3>
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                    Search over verified billboards, transit networks, and digital screen clusters across top metros.
                   </p>
                 </div>
-                <button
-                  onClick={handleDataExport}
-                  className="rounded-xl border border-[var(--border-default)] bg-[var(--surface-raised)] text-white hover:bg-[var(--surface-hover)] h-10 px-4 text-xs font-bold flex items-center gap-1.5 shrink-0 cursor-pointer"
+                <Link
+                  href="/for-brands"
+                  className="btn-primary w-fit text-xs font-bold px-4"
+                  style={{ color: "#0B1E3B" }}
                 >
-                  <MdiIcon name="download-outline" /> Export Data
-                </button>
+                  Browse Media Spaces
+                </Link>
               </div>
 
-              {/* Account Deletion */}
-              <div className="p-5 border border-red-950 rounded-xl flex items-center justify-between gap-4 bg-red-950/10">
-                <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-[var(--status-error)] uppercase">Request Account Deletion</h4>
-                  <p className="text-xs text-[var(--text-secondary)] max-w-sm leading-relaxed">
-                    Initiate permanent account removal. A mandatory 30-day vault retention window applies to finalize active transactions.
+              <div className="bg-[#0B1E3B] border border-[var(--border-default)] p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase">
+                    <MdiIcon name="calculator-variant-outline" /> Planning Desk
+                  </div>
+                  <h3 className="text-lg font-bold text-white font-display">Media Planning Calculator</h3>
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                    Estimate impressions, CPM targets, and optimal channel budget allocations.
                   </p>
                 </div>
-                <button
-                  onClick={handleAccountDelete}
-                  className="rounded-xl border border-red-900/40 text-[var(--status-error)] hover:bg-red-500/10 h-10 px-4 text-xs font-bold flex items-center gap-1.5 shrink-0 cursor-pointer"
+                <Link
+                  href="/media-planning"
+                  className="btn-secondary w-fit text-xs font-bold px-4"
                 >
-                  <MdiIcon name="delete-outline" /> Delete Account
-                </button>
+                  Launch Media Planner
+                </Link>
               </div>
+
+              <div className="bg-[#0B1E3B] border border-[var(--border-default)] p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase">
+                    <MdiIcon name="bullhorn" /> Direct Buying
+                  </div>
+                  <h3 className="text-lg font-bold text-white font-display">Channel Rate Cards</h3>
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                    Request official rate cards for OOH, Cinema, Transit, Radio, and TV verticals.
+                  </p>
+                </div>
+                <Link
+                  href="/media-buying"
+                  className="btn-secondary w-fit text-xs font-bold px-4"
+                >
+                  Request Rate Cards
+                </Link>
+              </div>
+            </div>
+
+            {/* Recent Activity Timeline */}
+            <div className="bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-6 space-y-4">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-white">Recent Account Activity</h3>
+              
+              {enquiries.length === 0 && brandRequests.length === 0 ? (
+                <div className="text-center py-10 space-y-3">
+                  <div className="w-12 h-12 rounded-full bg-[#0B1E3B] text-[var(--action-primary)] flex items-center justify-center mx-auto text-xl">
+                    <MdiIcon name="tray-alert" />
+                  </div>
+                  <p className="text-xs font-bold text-white">No Activity Records Found</p>
+                  <p className="text-xs text-[var(--text-secondary)] max-w-sm mx-auto">
+                    You haven&apos;t submitted any campaign enquiries or media requests yet. Explore our media channels to get started.
+                  </p>
+                  <div className="pt-2">
+                    <Link
+                      href="/for-brands"
+                      className="btn-primary text-xs font-bold px-5"
+                      style={{ color: "#0B1E3B" }}
+                    >
+                      Explore Marketplace
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <div className="divide-y divide-white/5">
+                  {brandRequests.slice(0, 3).map((br, idx) => (
+                    <div key={`br-${idx}`} className="py-3 flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center text-base shrink-0">
+                          <MdiIcon name="bullhorn-outline" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-white">
+                            Media Request: <span className="text-[var(--action-primary)]">{br.media_channel}</span>
+                          </p>
+                          <p className="text-[10px] text-slate-400">
+                            Submitted on {new Date(br.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                      <span className={`px-2.5 py-1 rounded text-[10px] font-bold ${getStatusBadge(br.status)}`}>
+                        {br.status || "New"}
+                      </span>
+                    </div>
+                  ))}
+
+                  {enquiries.slice(0, 3).map((enq, idx) => (
+                    <div key={`enq-${idx}`} className="py-3 flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[var(--action-primary)]/10 text-[var(--action-primary)] flex items-center justify-center text-base shrink-0">
+                          <MdiIcon name="message-text-outline" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-white truncate max-w-sm">
+                            {enq.listing_title || "Marketplace Listing Enquiry"}
+                          </p>
+                          <p className="text-[10px] text-slate-400">
+                            {new Date(enq.created_at || Date.now()).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                      <span className={`px-2.5 py-1 rounded text-[10px] font-bold ${getStatusBadge(enq.stage)}`}>
+                        {enq.stage || "Received"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 2: MY REQUESTS (Brand Media Requests) */}
+        {activeTab === "requests" && (
+          <div className="space-y-6 animate-fade-in">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-bold font-display text-white">Media Proposals & Rate Card Requests</h2>
+                <p className="text-xs text-[var(--text-secondary)]">Channel inquiries submitted through the media buying vertical.</p>
+              </div>
+              <Link
+                href="/media-buying"
+                className="btn-primary text-xs font-bold px-4"
+                style={{ color: "#0B1E3B" }}
+              >
+                + New Media Request
+              </Link>
+            </div>
+
+            {brandRequests.length === 0 ? (
+              <div className="bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-12 text-center space-y-3">
+                <div className="w-12 h-12 rounded-full bg-[#0B1E3B] text-[var(--action-primary)] flex items-center justify-center mx-auto text-2xl">
+                  <MdiIcon name="bullhorn-outline" />
+                </div>
+                <h3 className="text-sm font-bold text-white">No Media Requests Yet</h3>
+                <p className="text-xs text-[var(--text-secondary)] max-w-sm mx-auto">
+                  Submit a media vertical request to receive verified rate cards, audience heatmaps, and custom placement proposals.
+                </p>
+                <div className="pt-2">
+                  <Link
+                    href="/media-buying"
+                    className="btn-primary text-xs font-bold px-5"
+                    style={{ color: "#0B1E3B" }}
+                  >
+                    Explore Media Channels
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {brandRequests.map((req) => (
+                  <div key={req.id} className="bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-5 space-y-4">
+                    <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                          CHANNEL VERTICAL
+                        </span>
+                        <h4 className="text-base font-bold text-white">{req.media_channel}</h4>
+                      </div>
+                      <span className={`px-2.5 py-1 rounded text-[10px] font-bold ${getStatusBadge(req.status)}`}>
+                        {req.status || "New"}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <span className="text-[10px] text-slate-400 block font-semibold">COMPANY</span>
+                        <span className="text-white font-bold">{req.company_name}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-slate-400 block font-semibold">CONTACT</span>
+                        <span className="text-slate-200">{req.phone}</span>
+                      </div>
+                    </div>
+
+                    {req.request_details && typeof req.request_details === "object" && (
+                      <div className="p-3 bg-[#0B1E3B] rounded-xl text-xs space-y-1">
+                        {req.request_details.industry && (
+                          <p className="text-slate-300">
+                            <span className="font-bold text-slate-400">Industry:</span> {req.request_details.industry}
+                          </p>
+                        )}
+                        {req.request_details.target_audiences && (
+                          <p className="text-slate-300">
+                            <span className="font-bold text-slate-400">Target Audiences:</span> {Array.isArray(req.request_details.target_audiences) ? req.request_details.target_audiences.join(", ") : req.request_details.target_audiences}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    <div className="flex justify-between items-center text-[10px] text-slate-500 font-semibold pt-1">
+                      <span>ID: {req.id.substring(0, 8)}</span>
+                      <span>{new Date(req.created_at).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 3: MY ENQUIRIES */}
+        {activeTab === "enquiries" && (
+          <div className="space-y-6 animate-fade-in">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-bold font-display text-white">Direct Marketplace Enquiries</h2>
+                <p className="text-xs text-[var(--text-secondary)]">Inquiries submitted for specific billboard, transit, or event listings.</p>
+              </div>
+              <Link
+                href="/for-brands"
+                className="btn-primary text-xs font-bold px-4"
+                style={{ color: "#0B1E3B" }}
+              >
+                Browse Inventory
+              </Link>
+            </div>
+
+            {enquiries.length === 0 ? (
+              <div className="bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-12 text-center space-y-3">
+                <div className="w-12 h-12 rounded-full bg-[#0B1E3B] text-[var(--action-primary)] flex items-center justify-center mx-auto text-2xl">
+                  <MdiIcon name="message-text-outline" />
+                </div>
+                <h3 className="text-sm font-bold text-white">No Marketplace Enquiries Yet</h3>
+                <p className="text-xs text-[var(--text-secondary)] max-w-sm mx-auto">
+                  Browse our high-recall advertising spaces and connect directly with media inventory managers.
+                </p>
+                <div className="pt-2">
+                  <Link
+                    href="/for-brands"
+                    className="btn-primary text-xs font-bold px-5"
+                    style={{ color: "#0B1E3B" }}
+                  >
+                    View All Spaces
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-4">
+                {enquiries.map((enq) => (
+                  <div key={enq.id} className="bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-5 space-y-4">
+                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-white/5 pb-3">
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                          LISTING / SERVICE
+                        </span>
+                        <h4 className="text-base font-bold text-white">{enq.listing_title || "Marketplace Space Inquiry"}</h4>
+                      </div>
+                      <span className={`px-2.5 py-1 rounded text-[10px] font-bold self-start sm:self-center ${getStatusBadge(enq.stage)}`}>
+                        {enq.stage || "Enquiry received"}
+                      </span>
+                    </div>
+
+                    <div className="text-xs text-slate-300 leading-relaxed bg-[#0B1E3B] p-3.5 rounded-xl border border-white/5">
+                      <p className="font-semibold text-slate-400 mb-1 text-[10px] uppercase">Message Details:</p>
+                      <p className="whitespace-pre-line">{enq.message}</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                      {enq.budget_band && (
+                        <div>
+                          <span className="text-[10px] text-slate-400 block font-semibold">BUDGET</span>
+                          <span className="text-white font-bold">{enq.budget_band}</span>
+                        </div>
+                      )}
+                      {enq.timeline && (
+                        <div>
+                          <span className="text-[10px] text-slate-400 block font-semibold">TIMELINE</span>
+                          <span className="text-white font-bold">{enq.timeline}</span>
+                        </div>
+                      )}
+                      <div>
+                        <span className="text-[10px] text-slate-400 block font-semibold">SUBMITTED ON</span>
+                        <span className="text-slate-300">{new Date(enq.created_at || Date.now()).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 4: SAVED LISTINGS */}
+        {activeTab === "saved" && (
+          <div className="space-y-6 animate-fade-in">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-bold font-display text-white">Saved Media Spaces</h2>
+                <p className="text-xs text-[var(--text-secondary)]">Items added to your campaign bag for evaluation and bulk proposal requests.</p>
+              </div>
+              {bag.length > 0 && (
+                <button
+                  onClick={clearBag}
+                  className="text-xs text-red-400 hover:text-red-300 font-semibold cursor-pointer"
+                >
+                  Clear All
+                </button>
+              )}
+            </div>
+
+            {bag.length === 0 && savedListings.length === 0 ? (
+              <div className="bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-12 text-center space-y-3">
+                <div className="w-12 h-12 rounded-full bg-[#0B1E3B] text-[var(--action-primary)] flex items-center justify-center mx-auto text-2xl">
+                  <MdiIcon name="bookmark-outline" />
+                </div>
+                <h3 className="text-sm font-bold text-white">No Saved Media Spaces</h3>
+                <p className="text-xs text-[var(--text-secondary)] max-w-sm mx-auto">
+                  Click the bookmark icon or &ldquo;Add to Campaign&rdquo; on any media listing to save it here.
+                </p>
+                <div className="pt-2">
+                  <Link
+                    href="/for-brands"
+                    className="btn-primary text-xs font-bold px-5"
+                    style={{ color: "#0B1E3B" }}
+                  >
+                    Browse Spaces
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {(bag.length > 0 ? bag : savedListings).map((item) => (
+                  <div key={item.id} className="bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="px-2 py-0.5 rounded bg-[var(--action-primary)]/10 text-[var(--action-primary)] text-[10px] font-bold">
+                          {item.subCategory || item.category || "Mass Media"}
+                        </span>
+                        <button
+                          onClick={() => removeFromBag(item.id)}
+                          className="text-slate-400 hover:text-red-400 p-1 cursor-pointer transition-colors"
+                          title="Remove from saved"
+                        >
+                          <MdiIcon name="close" className="text-base" />
+                        </button>
+                      </div>
+                      <h4 className="text-base font-bold text-white line-clamp-2">{item.title}</h4>
+                      <p className="text-xs text-slate-400 flex items-center gap-1">
+                        <MdiIcon name="map-marker-outline" className="text-xs text-[var(--action-primary)]" />
+                        <span>{item.location || "National"}</span>
+                      </p>
+                    </div>
+
+                    <div className="border-t border-white/5 pt-3 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] text-slate-400 block font-semibold">DAILY RATE</span>
+                        <span className="text-sm font-bold text-white">₹{(item.dailyRate || item.price || 0).toLocaleString()}</span>
+                      </div>
+                      <Link
+                        href={`/listings/${item.id}`}
+                        className="btn-primary text-xs font-bold px-3 py-1.5 h-8"
+                        style={{ color: "#0B1E3B" }}
+                      >
+                        View Details
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 5: SETTINGS & PERSONAL INFO */}
+        {activeTab === "settings" && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-fade-in">
+            
+            {/* Left Column: Personal Information Form */}
+            <div className="lg:col-span-7 bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-6 sm:p-8 space-y-6">
+              <div>
+                <h3 className="text-lg font-bold font-display text-white">Personal Information</h3>
+                <p className="text-xs text-[var(--text-secondary)]">Update your profile information and campaign preferences.</p>
+              </div>
+
+              <form onSubmit={handleProfileSave} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Full Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={profileForm.name}
+                      onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                      className="input-field focus-ring"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Company / Brand</label>
+                    <input
+                      type="text"
+                      value={profileForm.company}
+                      onChange={(e) => setProfileForm({ ...profileForm, company: e.target.value })}
+                      className="input-field focus-ring"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Email (Verified)</label>
+                    <input
+                      type="email"
+                      disabled
+                      value={profileForm.email}
+                      className="input-field focus-ring opacity-60 cursor-not-allowed"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase">Phone Number</label>
+                    <input
+                      type="tel"
+                      value={profileForm.phone}
+                      onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value.replace(/\D/g, "") })}
+                      placeholder="9999999999"
+                      className="input-field focus-ring"
+                    />
+                  </div>
+                </div>
+
+                <div className="border-t border-white/5 pt-4 space-y-3">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300">Campaign & Brand Focus</h4>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="block text-xs text-slate-400 font-semibold">Primary Industry Niche</label>
+                      <input
+                        type="text"
+                        value={profileForm.niche}
+                        onChange={(e) => setProfileForm({ ...profileForm, niche: e.target.value })}
+                        placeholder="e.g. FMCG, Tech, Automotive"
+                        className="input-field focus-ring"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="block text-xs text-slate-400 font-semibold">Preferred Budget Band</label>
+                      <input
+                        type="text"
+                        value={profileForm.budget_band}
+                        onChange={(e) => setProfileForm({ ...profileForm, budget_band: e.target.value })}
+                        placeholder="e.g. ₹50K - ₹2L, ₹2L - ₹10L"
+                        className="input-field focus-ring"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={profileSaving}
+                  className="btn-primary font-bold text-xs px-6 shadow-md"
+                  style={{ color: "#0B1E3B" }}
+                >
+                  {profileSaving ? "Saving..." : "Save Profile Changes"}
+                </button>
+              </form>
+            </div>
+
+            {/* Right Column: Security, Change Password & DPDP Tools */}
+            <div className="lg:col-span-5 space-y-6">
+              
+              {/* Change Password Card */}
+              <div className="bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-6 space-y-4">
+                <div className="flex items-center gap-2">
+                  <MdiIcon name="lock-reset" className="text-lg text-[var(--action-primary)]" />
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-white">Change Password</h3>
+                </div>
+
+                <form onSubmit={handlePasswordUpdate} className="space-y-3">
+                  <div className="space-y-1">
+                    <label className="block text-xs text-slate-400 font-semibold">New Password</label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        required
+                        value={passwordForm.newPassword}
+                        onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                        placeholder="••••••••"
+                        className="input-field focus-ring pr-10 text-xs"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
+                        tabIndex={-1}
+                      >
+                        <MdiIcon name={showPassword ? "eye-off-outline" : "eye-outline"} className="text-sm" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="block text-xs text-slate-400 font-semibold">Confirm Password</label>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={passwordForm.confirmPassword}
+                      onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                      placeholder="••••••••"
+                      className="input-field focus-ring text-xs"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={passwordSaving}
+                    className="btn-secondary w-full text-xs font-bold"
+                  >
+                    {passwordSaving ? "Updating..." : "Update Password"}
+                  </button>
+                </form>
+              </div>
+
+              {/* Data Export & Account Deletion (DPDP) */}
+              <div className="bg-[#132A4F] border border-[var(--border-default)] rounded-2xl p-6 space-y-4">
+                <div className="flex items-center gap-2">
+                  <MdiIcon name="shield-account-outline" className="text-lg text-emerald-400" />
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-white">Data Privacy & Portability</h3>
+                </div>
+
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Under DPDP compliance, you can export your complete activity portfolio or schedule account deletion.
+                </p>
+
+                <div className="space-y-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={handleDataExport}
+                    className="flex w-full items-center justify-center gap-2 py-2 px-4 rounded-lg bg-[#0B1E3B] border border-[var(--border-default)] hover:border-slate-400 text-xs font-bold text-white transition-all cursor-pointer"
+                  >
+                    <MdiIcon name="download" className="text-sm text-[var(--action-primary)]" />
+                    <span>Export My Account Data (JSON)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleAccountDelete}
+                    className="flex w-full items-center justify-center gap-2 py-2 px-4 rounded-lg bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-xs font-bold text-red-400 transition-all cursor-pointer"
+                  >
+                    <MdiIcon name="delete-forever-outline" className="text-sm" />
+                    <span>Request Account Deletion</span>
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         )}
 
       </main>
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0B1E3B] flex items-center justify-center text-white">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-2 border-[var(--action-primary)] border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-xs text-[#A5B5CD]">Loading dashboard...</p>
+          </div>
+        </div>
+      }
+    >
+      <DashboardContent />
+    </Suspense>
   );
 }

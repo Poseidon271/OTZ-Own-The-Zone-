@@ -319,10 +319,10 @@ export default function MediaOwnersLandingPage() {
                 icon: "currency-inr"
               },
               {
-                title: "Your Calendar",
-                subtitle: "Availability & Holds",
-                desc: "Block dates for your own sales team, hold slots for direct clients, or mark unsold slots active for OTZ demand.",
-                icon: "calendar-clock"
+                title: "Your Slots",
+                subtitle: "Slot Availability & Booking Holds",
+                desc: "Manage available and occupied advertising slots, reserve inventory for direct clients, and mark unsold slots available for OTZ demand.",
+                icon: "view-grid-outline"
               },
               {
                 title: "Your Exclusions",
@@ -615,7 +615,7 @@ export default function MediaOwnersLandingPage() {
         <section className="bg-gradient-to-r from-[#101828] via-[#0B1E3B] to-[#101828] border border-[#FF5A1F]/30 rounded-[10px] p-8 md:p-12 text-center space-y-8 shadow-2xl">
           <div className="max-w-2xl mx-auto space-y-3">
             <h2 className="font-display text-3xl md:text-5xl font-bold text-white">
-              Ready to Fill Your Unsold Inventory?
+              Ready to Fill Your Inventory?
             </h2>
             <p className="font-sans text-slate-300 text-sm md:text-base">
               Join 850+ verified media owners getting direct corporate demand. Zero listing fees.

@@ -82,6 +82,8 @@ export async function POST(request) {
     }
 
     let createdId = null;
+    const sessionUser = await getSessionUser(request);
+    const userId = sessionUser?.id || null;
 
     // 1. Insert into Supabase if configured
     if (isServerSupabaseConfigured()) {
@@ -91,6 +93,7 @@ export async function POST(request) {
           .from("vendor_submissions")
           .insert([
             {
+              user_id: userId,
               name: finalName,
               business_name: finalCompany,
               phone: finalPhone,
@@ -115,6 +118,7 @@ export async function POST(request) {
     try {
       const submission = db.insert("vendor_submissions", {
         ...(createdId ? { id: createdId } : {}),
+        user_id: userId,
         name: finalName,
         business_name: finalCompany,
         phone: finalPhone,
@@ -125,7 +129,7 @@ export async function POST(request) {
 
       // Write audit log
       db.insert("audit_logs", {
-        actor_id: "public_vendor",
+        actor_id: userId || "public_vendor",
         action: "vendor_network_submission",
         entity: "vendor_submissions",
         after: { id: submission?.id || createdId || "sub", business_name: finalCompany, media_type: finalMediaType },

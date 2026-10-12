@@ -87,14 +87,58 @@ export async function verifySessionToken(token) {
           sbUser.user_metadata?.role === "admin" ||
           sbUser.app_metadata?.role === "admin";
 
+        // Query profiles table in Supabase
+        let profile = null;
+        try {
+          const { data: profData } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", sbUser.id)
+            .maybeSingle();
+          if (profData) {
+            profile = profData;
+          }
+        } catch (_) {}
+
+        const userName =
+          profile?.full_name ||
+          profile?.name ||
+          sbUser.user_metadata?.full_name ||
+          sbUser.user_metadata?.name ||
+          (isAdmin ? "OTZ Administrator" : sbUser.email ? sbUser.email.split("@")[0] : "User");
+
+        const userPhone =
+          profile?.phone ||
+          sbUser.user_metadata?.phone ||
+          sbUser.phone ||
+          "";
+
+        const userCompany =
+          profile?.company ||
+          sbUser.user_metadata?.company ||
+          sbUser.user_metadata?.company_name ||
+          (isAdmin ? "OTZ Operations" : "Personal Account");
+
+        const userRole = isAdmin ? "admin" : (profile?.role || sbUser.user_metadata?.role || "brand");
+
         return {
           id: sbUser.id,
-          account_id: "acc-admin-1",
+          account_id: sbUser.id,
           email: sbUser.email,
-          name: sbUser.user_metadata?.name || (isAdmin ? "OTZ Administrator" : sbUser.email),
-          role: isAdmin ? "admin" : sbUser.user_metadata?.role || "user",
-          company: "OTZ Operations",
-          state: "verified"
+          name: userName,
+          phone: userPhone,
+          company: userCompany,
+          role: userRole,
+          state: "verified",
+          avatar_url: profile?.avatar_url || sbUser.user_metadata?.avatar_url || sbUser.user_metadata?.picture || "",
+          profile: profile || {
+            niche: "",
+            goals: [],
+            primary_goal: "",
+            budget_band: "",
+            geography: "",
+            timeline: ""
+          }
         };
       }
     } catch (sbErr) {

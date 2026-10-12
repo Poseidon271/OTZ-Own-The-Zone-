@@ -42,6 +42,9 @@ export default function RevenueCalculator() {
   const [selectedTier, setSelectedTier] = useState(LOCATION_TIERS[0].id);
   const [dailyImpressions, setDailyImpressions] = useState(50000);
 
+  const isRadio = selectedMediaType === "radio";
+  const audienceUnit = isRadio ? "listeners" : "views";
+
   // Recompute earnings estimates smoothly based on controls
   const earningsEstimate = useMemo(() => {
     const media = MEDIA_TYPES.find((m) => m.id === selectedMediaType) || MEDIA_TYPES[0];
@@ -148,10 +151,10 @@ export default function RevenueCalculator() {
         <div className="space-y-3 pt-2">
           <div className="flex justify-between items-center">
             <label className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-300">
-              3. Daily Footfall / Impressions
+              {isRadio ? "3. Daily Listeners" : "3. Daily Footfall / Impressions"}
             </label>
             <span className="tabular-nums font-mono font-bold text-sm text-[#FF5A1F] bg-[#FF5A1F]/10 px-2.5 py-0.5 rounded border border-[#FF5A1F]/20">
-              {formatNumber(dailyImpressions)} views / day
+              {formatNumber(dailyImpressions)} {audienceUnit} / day
             </span>
           </div>
 
@@ -166,9 +169,9 @@ export default function RevenueCalculator() {
           />
 
           <div className="flex justify-between text-[11px] font-mono text-slate-400 tabular-nums">
-            <span>10,000 views</span>
-            <span>500,000 views</span>
-            <span>1,000,000+ views</span>
+            <span>10,000 {audienceUnit}</span>
+            <span>500,000 {audienceUnit}</span>
+            <span>1,000,000+ {audienceUnit}</span>
           </div>
         </div>
 

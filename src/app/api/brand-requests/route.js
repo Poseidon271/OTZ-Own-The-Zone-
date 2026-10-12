@@ -3,25 +3,30 @@ import { db } from "@/lib/db";
 import { getSupabaseServer, isServerSupabaseConfigured } from "@/lib/supabaseServer";
 import { getSessionUser } from "@/lib/serverAuth";
 
-// GET: Authenticated Administrator & Ops access only (RLS & role enforcement)
+// GET: Authenticated Administrator & Ops access (all) or User access (own requests)
 export async function GET(request) {
   try {
     const user = await getSessionUser(request);
-    if (!user || (user.role !== "admin" && user.role !== "ops")) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Access Denied. Administrator authorization required." },
-        { status: 403 }
+        { error: "Authentication required." },
+        { status: 401 }
       );
     }
+
+    const isAdmin = user.role === "admin" || user.role === "ops";
 
     // 1. If Supabase Server is configured, retrieve from Supabase brand_requests table
     if (isServerSupabaseConfigured()) {
       try {
         const supabase = getSupabaseServer();
-        const { data: sbRequests, error: sbError } = await supabase
-          .from("brand_requests")
-          .select("*")
-          .order("created_at", { ascending: false });
+        let query = supabase.from("brand_requests").select("*").order("created_at", { ascending: false });
+
+        if (!isAdmin) {
+          query = query.or(`user_id.eq.${user.id},email.eq.${user.email}`);
+        }
+
+        const { data: sbRequests, error: sbError } = await query;
 
         if (!sbError && Array.isArray(sbRequests)) {
           return NextResponse.json({
@@ -39,9 +44,11 @@ export async function GET(request) {
     }
 
     // 2. Retrieve brand requests from local database fallback
-    const requests = db.get("brand_requests") || [];
+    let requests = db.get("brand_requests") || [];
+    if (!isAdmin) {
+      requests = requests.filter((r) => r.user_id === user.id || r.email === user.email);
+    }
 
-    // Sort by created_at DESC (newest first)
     const sorted = [...requests].sort(
       (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0)
     );
@@ -60,6 +67,7 @@ export async function GET(request) {
 // POST: Public submission of Brand Media Request forms
 export async function POST(request) {
   try {
+    const sessionUser = await getSessionUser(request);
     const body = await request.json();
     const {
       name,
@@ -71,13 +79,15 @@ export async function POST(request) {
       selectedMedia,
       request_details,
       status,
-      admin_notes
+      admin_notes,
+      user_id
     } = body;
 
-    const finalName = (name || "").trim();
-    const finalCompany = (company_name || company || "").trim();
-    const finalPhone = (phone || "").trim();
-    const finalEmail = (email || "").trim().toLowerCase();
+    const finalUserId = user_id || sessionUser?.id || null;
+    const finalName = (name || sessionUser?.name || "").trim();
+    const finalCompany = (company_name || company || sessionUser?.company || "").trim();
+    const finalPhone = (phone || sessionUser?.phone || "").trim();
+    const finalEmail = (email || sessionUser?.email || "").trim().toLowerCase();
     const finalMediaChannel = (media_channel || selectedMedia || "").trim();
     const finalRequestDetails =
       request_details && typeof request_details === "object"
@@ -110,6 +120,7 @@ export async function POST(request) {
       try {
         const supabase = getSupabaseServer();
         const insertPayload = {
+          user_id: finalUserId,
           name: finalName,
           company_name: finalCompany,
           phone: finalPhone,

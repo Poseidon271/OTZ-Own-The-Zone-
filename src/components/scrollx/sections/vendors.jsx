@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FadeIn } from "../fade-in";
 import { ShinyButton } from "../shiny-button";
 import { VercelCard } from "../vercel-card";
 import { cn } from "@/lib/utils";
 import MdiIcon from "@/components/MdiIcon";
 import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Vendors({ className }) {
+  const { user, token } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -18,6 +20,18 @@ export default function Vendors({ className }) {
   });
   const [status, setStatus] = useState("idle"); // "idle" | "submitting" | "success" | "error"
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || user.name || "",
+        email: prev.email || user.email || "",
+        phone: prev.phone || user.phone || "",
+        company: prev.company || user.company || user.brand_name || "",
+      }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     setFormData({
@@ -49,6 +63,7 @@ export default function Vendors({ className }) {
           .from("vendor_submissions")
           .insert([
             {
+              user_id: user?.id || null,
               name: payload.name,
               business_name: payload.company,
               phone: payload.phone,
@@ -71,12 +86,12 @@ export default function Vendors({ className }) {
 
     // 2. Server API Route Insertion (Serverless Supabase Client)
     try {
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
       const res = await fetch("/api/vendor-submissions", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        headers,
+        body: JSON.stringify({ ...payload, user_id: user?.id || null }),
       });
 
       const data = await res.json();

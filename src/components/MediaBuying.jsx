@@ -18,6 +18,7 @@ import {
   Tag
 } from "lucide-react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { useAuth } from "@/context/AuthContext";
 
 export const MEDIA_CHANNELS = [
   {
@@ -134,6 +135,8 @@ export const AUDIENCE_OPTIONS = [
 ];
 
 export default function MediaBuying({ initialChannel = "" }) {
+  const { user } = useAuth();
+
   const resolveChannel = (ch) => {
     if (!ch) return "";
     const found = MEDIA_CHANNELS.find(
@@ -156,13 +159,25 @@ export default function MediaBuying({ initialChannel = "" }) {
 
   // Form State
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    company: "",
+    name: user?.name || "",
+    phone: user?.phone || "",
+    email: user?.email || "",
+    company: user?.company || "",
     industry: "",
     targetAudiences: []
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || user.name || "",
+        phone: prev.phone || user.phone || "",
+        email: prev.email || user.email || "",
+        company: prev.company || user.company || ""
+      }));
+    }
+  }, [user]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -172,6 +187,15 @@ export default function MediaBuying({ initialChannel = "" }) {
     setSelectedChannel(channelTitle);
     setSubmitted(false);
     setFormError("");
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.name || prev.name,
+        phone: user.phone || prev.phone,
+        email: user.email || prev.email,
+        company: user.company || prev.company
+      }));
+    }
     setIsModalOpen(true);
   };
 
@@ -229,6 +253,7 @@ export default function MediaBuying({ initialChannel = "" }) {
     setFormError("");
 
     const insertPayload = {
+      user_id: user?.id || null,
       name: formData.name.trim(),
       company_name: formData.company.trim(),
       email: formData.email.trim().toLowerCase(),
@@ -251,6 +276,7 @@ export default function MediaBuying({ initialChannel = "" }) {
           .from("brand_requests")
           .insert([
             {
+              user_id: user?.id || null,
               name: insertPayload.name,
               company_name: insertPayload.company_name,
               phone: insertPayload.phone,
@@ -274,9 +300,13 @@ export default function MediaBuying({ initialChannel = "" }) {
 
     // 2. Server API Route Insertion (Serverless Supabase Client)
     try {
+      const storedToken = typeof window !== "undefined" ? localStorage.getItem("otz_token") : null;
+      const headers = { "Content-Type": "application/json" };
+      if (storedToken) headers["Authorization"] = `Bearer ${storedToken}`;
+
       const res = await fetch("/api/brand-requests", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify(insertPayload)
       });
 

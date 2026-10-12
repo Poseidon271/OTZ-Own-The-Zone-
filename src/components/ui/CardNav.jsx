@@ -103,11 +103,11 @@ export default function CardNav({ onLogoClick }) {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center space-x-2 rounded-full border border-[var(--border-default)] bg-[var(--surface-canvas)] px-3.5 py-1.5 text-xs font-bold transition-all hover:border-[var(--border-strong)] cursor-pointer text-[var(--text-primary)]"
                 >
-                  <div className="h-6 w-6 rounded-full bg-[#0B1E3B] text-white flex items-center justify-center font-black text-[10px] shadow-sm">
+                  <div className="h-6 w-6 rounded-full bg-[#0B1E3B] text-[var(--action-primary)] border border-[var(--border-default)] flex items-center justify-center font-black text-[11px] shadow-sm">
                     {user.role === "admin" ? "A" : user.name ? user.name.charAt(0).toUpperCase() : "U"}
                   </div>
-                  <span className="max-w-[120px] truncate">
-                    {user.role === "admin" ? "ADMIN" : user.phone ? `@${user.phone}` : user.name || "User"}
+                  <span className="max-w-[130px] truncate text-white">
+                    {user.role === "admin" ? "Admin Console" : user.name || (user.email ? user.email.split("@")[0] : "My Account")}
                   </span>
                   <MdiIcon
                     name="chevron-down"
@@ -124,34 +124,53 @@ export default function CardNav({ onLogoClick }) {
                       onClick={() => setIsDropdownOpen(false)}
                     ></div>
                     <div
-                      className="absolute right-0 mt-3 w-52 rounded-xl p-2 shadow-2xl z-40 bg-white border border-[var(--border-default)]"
+                      className="absolute right-0 mt-3 w-56 rounded-xl p-2 shadow-2xl z-40 bg-[#132A4F] border border-[var(--border-default)] animate-scale-up"
                     >
                       <div className="px-3 py-2 border-b border-[var(--border-default)] text-left">
                         <p className="text-[9px] font-extrabold text-[var(--text-tertiary)] uppercase tracking-wider">
-                          Workspace Session
+                          Signed in as
                         </p>
-                        <p className="text-xs font-bold text-[var(--text-primary)] truncate">
-                          {user.email || user.name}
+                        <p className="text-xs font-bold text-white truncate">
+                          {user.name || "OTZ Member"}
+                        </p>
+                        <p className="text-[10px] text-[var(--text-secondary)] truncate">
+                          {user.email || user.phone}
                         </p>
                       </div>
                       <button
                         onClick={handleDashboardRedirect}
-                        className="flex w-full items-center px-3 py-2.5 mt-1 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50 hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+                        className="flex w-full items-center px-3 py-2.5 mt-1 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white transition-colors cursor-pointer text-left"
                       >
                         <MdiIcon
                           name="view-dashboard-outline"
-                          className="mr-2 text-base text-[var(--action-primary)]"
+                          className="mr-2.5 text-base text-[var(--action-primary)]"
                         />{" "}
                         {user.role === "ops" || user.role === "admin" ? "Admin Console" : "My Dashboard"}
                       </button>
+                      {user.role !== "admin" && user.role !== "ops" && (
+                        <button
+                          onClick={() => {
+                            setIsDropdownOpen(false);
+                            router.push("/dashboard?tab=settings");
+                          }}
+                          className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white transition-colors cursor-pointer text-left"
+                        >
+                          <MdiIcon
+                            name="cog-outline"
+                            className="mr-2.5 text-base text-slate-400"
+                          />{" "}
+                          Account Settings
+                        </button>
+                      )}
+                      <div className="h-[1px] bg-[var(--border-default)] my-1" />
                       <button
                         onClick={() => {
                           setIsDropdownOpen(false);
                           logout();
                         }}
-                        className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                        className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer text-left"
                       >
-                        <MdiIcon name="logout" className="mr-2 text-base" />{" "}
+                        <MdiIcon name="logout" className="mr-2.5 text-base" />{" "}
                         Log Out
                       </button>
                     </div>
@@ -168,10 +187,10 @@ export default function CardNav({ onLogoClick }) {
                   Log in
                 </button>
                  <ShinyButton
-                  onClick={() => window.open("https://wa.me/919999999999?text=I%27m%20interested%20in%20Own%20The%20Zone%20campaigns", "_blank")}
+                  onClick={() => router.push("/signup")}
                   className="px-5 py-1.5 text-xs font-bold shadow-md rounded-full ml-3"
                 >
-                  Talk to us
+                  Get Started
                 </ShinyButton>
               </>
             )}
@@ -226,14 +245,24 @@ export default function CardNav({ onLogoClick }) {
             {user ? (
               <div className="pt-2 border-t border-[var(--border-default)] space-y-1">
                 <div className="px-3 py-1 text-[10px] font-bold text-[var(--text-tertiary)]">
-                  SIGNED IN: @{user.phone}
+                  SIGNED IN: {user.name || user.email}
                 </div>
                 <button
                   onClick={handleDashboardRedirect}
                   className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
                 >
                   <MdiIcon name="view-dashboard-outline" className="mr-2 text-base text-[var(--action-primary)]" />
-                  {user.role === "ops" || user.role === "admin" ? "Ops Console" : "My Dashboard"}
+                  {user.role === "ops" || user.role === "admin" ? "Admin Console" : "My Dashboard"}
+                </button>
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    router.push("/dashboard?tab=settings");
+                  }}
+                  className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
+                >
+                  <MdiIcon name="cog-outline" className="mr-2 text-base text-slate-400" />
+                  Account Settings
                 </button>
                 <button
                   onClick={() => {
@@ -246,15 +275,26 @@ export default function CardNav({ onLogoClick }) {
                 </button>
               </div>
             ) : (
-              <ShinyButton
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  handleOpenLogin();
-                }}
-                className="w-full text-center font-bold"
-              >
-                Sign In
-              </ShinyButton>
+              <div className="pt-2 flex flex-col gap-2">
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    handleOpenLogin();
+                  }}
+                  className="w-full text-center py-2 text-xs font-bold border border-[var(--border-default)] rounded-lg text-white"
+                >
+                  Log In
+                </button>
+                <ShinyButton
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    router.push("/signup");
+                  }}
+                  className="w-full text-center font-bold"
+                >
+                  Create Account
+                </ShinyButton>
+              </div>
             )}
           </div>
         )}

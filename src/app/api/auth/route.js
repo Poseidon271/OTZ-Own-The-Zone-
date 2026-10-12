@@ -24,18 +24,7 @@ export async function GET(request) {
     if (!user) {
       return NextResponse.json({ user: null });
     }
-    return NextResponse.json({
-      user: {
-        id: user.id || "usr-admin-1",
-        account_id: user.account_id || "acc-admin-1",
-        name: user.name || "OTZ Administrator",
-        email: user.email,
-        phone: user.phone || "9999999999",
-        role: user.role || "admin",
-        company: user.company || "OTZ Operations",
-        state: user.state || "verified"
-      }
-    });
+    return NextResponse.json({ user });
   } catch (error) {
     console.error("Auth GET error:", error);
     return NextResponse.json({ user: null });
@@ -48,7 +37,9 @@ export async function POST(request) {
     const { action } = body || {};
     const cookieStore = await cookies();
 
-    // 0. EMAIL + PASSWORD LOGIN Flow (Admin / Ops / User)
+    // =========================================================================
+    // 0. EMAIL + PASSWORD LOGIN Flow (Supabase Auth with Admin Fallback)
+    // =========================================================================
     if (action === "login-password" || action === "login") {
       const { email, password } = body;
       if (!email || !password) {
@@ -62,13 +53,13 @@ export async function POST(request) {
 
       let authenticatedViaSupabase = false;
       let supabaseSession = null;
+      let sbUser = null;
 
-      // 1. If Supabase is configured, attempt Supabase Auth
+      // 1. If Supabase is configured, attempt Supabase Auth sign in
       if (isServerSupabaseConfigured()) {
         try {
           const supabase = getSupabaseServer();
           
-          // Try sign in
           const { data: sbSignIn, error: sbSignInErr } = await supabase.auth.signInWithPassword({
             email: cleanEmail,
             password: password
@@ -77,8 +68,9 @@ export async function POST(request) {
           if (!sbSignInErr && sbSignIn?.user) {
             authenticatedViaSupabase = true;
             supabaseSession = sbSignIn.session;
+            sbUser = sbSignIn.user;
           } else if (isAdminEmail && password === adminPassword) {
-            // If admin user does not yet exist in Supabase Auth, provision it
+            // Provision admin user in Supabase Auth if needed
             try {
               if (supabase.auth.admin && typeof supabase.auth.admin.createUser === "function") {
                 const { data: newUser, error: createErr } = await supabase.auth.admin.createUser({
@@ -94,6 +86,7 @@ export async function POST(request) {
                   });
                   if (reSignIn?.session) {
                     supabaseSession = reSignIn.session;
+                    sbUser = reSignIn.user;
                     authenticatedViaSupabase = true;
                   }
                 }
@@ -107,37 +100,97 @@ export async function POST(request) {
         }
       }
 
-      // 2. Verify local user record
-      let user = db.find("users", "email", cleanEmail);
+      // 2. Handle Supabase Authenticated User
+      if (authenticatedViaSupabase && sbUser) {
+        const supabase = getSupabaseServer();
+        let userProfile = null;
 
-      // If this is the admin account, verify either via Supabase Auth, PBKDF2 hash, or server credentials
+        try {
+          const { data: profData } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", sbUser.id)
+            .maybeSingle();
+
+          if (profData) {
+            userProfile = profData;
+          } else {
+            // Create profile if missing
+            const newProfile = {
+              id: sbUser.id,
+              email: cleanEmail,
+              full_name: sbUser.user_metadata?.full_name || sbUser.user_metadata?.name || cleanEmail.split("@")[0],
+              phone: sbUser.user_metadata?.phone || "",
+              company: sbUser.user_metadata?.company || (isAdminEmail ? "OTZ Operations" : "Personal Account"),
+              role: isAdminEmail ? "admin" : (sbUser.user_metadata?.role || "brand")
+            };
+            const { data: insertedProf } = await supabase
+              .from("profiles")
+              .insert([newProfile])
+              .select()
+              .maybeSingle();
+            userProfile = insertedProf || newProfile;
+          }
+        } catch (_) {}
+
+        const token = supabaseSession?.access_token || generateAdminToken(cleanEmail);
+        const expiresAt = supabaseSession?.expires_at 
+          ? new Date(supabaseSession.expires_at * 1000).toISOString()
+          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
+        // Set cookies
+        cookieStore.set("otz_session", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          expires: new Date(expiresAt),
+          path: "/"
+        });
+
+        cookieStore.set("otz_token", token, {
+          httpOnly: false,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          expires: new Date(expiresAt),
+          path: "/"
+        });
+
+        const returnedUser = {
+          id: sbUser.id,
+          account_id: sbUser.id,
+          name: userProfile?.full_name || sbUser.user_metadata?.full_name || sbUser.user_metadata?.name || (isAdminEmail ? "OTZ Administrator" : cleanEmail.split("@")[0]),
+          email: cleanEmail,
+          phone: userProfile?.phone || sbUser.user_metadata?.phone || "",
+          role: isAdminEmail ? "admin" : (userProfile?.role || sbUser.user_metadata?.role || "brand"),
+          company: userProfile?.company || (isAdminEmail ? "OTZ Operations" : "Personal Account"),
+          state: "verified",
+          avatar_url: userProfile?.avatar_url || sbUser.user_metadata?.avatar_url || "",
+          profile: userProfile
+        };
+
+        return NextResponse.json({
+          success: true,
+          token,
+          session: supabaseSession,
+          user: returnedUser
+        });
+      }
+
+      // 3. Fallback to Local Database Admin / In-Memory verification
+      let user = db.find("users", "email", cleanEmail);
       let isValid = false;
+
       if (isAdminEmail) {
-        if (authenticatedViaSupabase) {
-          isValid = true;
-        } else if (password === adminPassword) {
+        if (password === adminPassword) {
           isValid = true;
         } else if (user && user.password_hash && verifyPassword(password, user.password_hash)) {
           isValid = true;
         }
       } else if (user && user.password_hash) {
         isValid = verifyPassword(password, user.password_hash);
-      } else if (authenticatedViaSupabase) {
-        isValid = true;
       }
 
       if (!isValid) {
-        if (user) {
-          try {
-            db.insert("auth_events", {
-              user_id: user.id,
-              type: "password_failed",
-              outcome: "failure",
-              ip: "127.0.0.1",
-              timestamp: new Date().toISOString()
-            });
-          } catch (_) {}
-        }
         return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
       }
 
@@ -171,35 +224,9 @@ export async function POST(request) {
         return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
       }
 
-      const account = db.find("accounts", "id", user.account_id);
-      if (account && account.state === "suspended") {
-        return NextResponse.json({ error: "Account is suspended. Please contact support." }, { status: 403 });
-      }
-
-      // Create stateless cryptographically signed admin session token
       const sessionToken = generateAdminToken(user.email);
       const sessionExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
-      try {
-        db.update("users", "id", user.id, { last_login_at: new Date().toISOString() });
-        db.insert("sessions", {
-          user_id: user.id,
-          token: sessionToken,
-          expires_at: sessionExpiry,
-          revoked_at: null,
-          user_agent: request.headers.get("user-agent") || "unknown",
-          ip: "127.0.0.1"
-        });
-        db.insert("auth_events", {
-          user_id: user.id,
-          type: "login_success",
-          outcome: "success",
-          ip: "127.0.0.1",
-          timestamp: new Date().toISOString()
-        });
-      } catch (_) {}
-
-      // Set secure cookie
       cookieStore.set("otz_session", sessionToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -216,12 +243,10 @@ export async function POST(request) {
         path: "/"
       });
 
-      const profile = user.role === "brand" ? db.find("brand_profiles", "account_id", user.account_id) : null;
-
       return NextResponse.json({
         success: true,
         token: sessionToken,
-        session: supabaseSession || { access_token: sessionToken, expires_at: sessionExpiry },
+        session: { access_token: sessionToken, expires_at: sessionExpiry },
         user: {
           id: user.id,
           account_id: user.account_id,
@@ -229,73 +254,185 @@ export async function POST(request) {
           email: user.email,
           phone: user.phone,
           role: user.role,
-          company: account?.company || "OTZ Operations",
-          state: account?.state || "verified",
-          profile
+          company: "OTZ Operations",
+          state: "verified"
         }
       });
     }
 
-    // 1. REGISTRATION Flow
-    if (action === "register") {
-      const { name, email, phone, company, role, consent, profileData } = body;
+    // =========================================================================
+    // 1. REGISTRATION / SIGNUP Flow (Supabase Auth + Database Profile)
+    // =========================================================================
+    if (action === "signup" || action === "register") {
+      const { name, full_name, email, password, phone, company, company_name, role = "brand", consent, profileData } = body;
+      const finalName = (name || full_name || "").trim();
+      const finalEmail = (email || "").trim().toLowerCase();
+      const finalPhone = (phone || "").trim();
+      const finalCompany = (company || company_name || "").trim() || "Personal Account";
+      const finalRole = (role || "brand").trim();
 
-      if (!name || !email || !phone || !company || !role) {
+      if (!finalEmail) {
+        return NextResponse.json({ error: "Email address is required" }, { status: 400 });
+      }
+
+      // If password provided: Supabase Auth Signup
+      if (password) {
+        if (password.length < 6) {
+          return NextResponse.json({ error: "Password must be at least 6 characters" }, { status: 400 });
+        }
+
+        if (isServerSupabaseConfigured()) {
+          try {
+            const supabase = getSupabaseServer();
+
+            // 1. Sign up user in Supabase Auth
+            const { data: authData, error: authError } = await supabase.auth.signUp({
+              email: finalEmail,
+              password: password,
+              options: {
+                data: {
+                  full_name: finalName,
+                  name: finalName,
+                  phone: finalPhone,
+                  company: finalCompany,
+                  role: finalRole
+                }
+              }
+            });
+
+            if (authError) {
+              return NextResponse.json({ error: authError.message }, { status: 400 });
+            }
+
+            const createdUser = authData.user;
+            if (!createdUser) {
+              return NextResponse.json({ error: "Unable to create account" }, { status: 400 });
+            }
+
+            // 2. Ensure Profile record is in public.profiles
+            try {
+              await supabase
+                .from("profiles")
+                .upsert([
+                  {
+                    id: createdUser.id,
+                    email: finalEmail,
+                    full_name: finalName,
+                    phone: finalPhone,
+                    company: finalCompany,
+                    role: finalRole,
+                    niche: profileData?.niche || "",
+                    goals: profileData?.goals || [],
+                    primary_goal: profileData?.primary_goal || "",
+                    budget_band: profileData?.budget_band || "",
+                    geography: profileData?.geography || "",
+                    timeline: profileData?.timeline || ""
+                  }
+                ], { onConflict: "id" });
+            } catch (profErr) {
+              console.warn("Profile creation notice:", profErr);
+            }
+
+            // 3. Set Session Cookies if session returned immediately
+            let token = authData.session?.access_token || null;
+            if (token) {
+              const expiresAt = authData.session?.expires_at
+                ? new Date(authData.session.expires_at * 1000).toISOString()
+                : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
+              cookieStore.set("otz_session", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "lax",
+                expires: new Date(expiresAt),
+                path: "/"
+              });
+
+              cookieStore.set("otz_token", token, {
+                httpOnly: false,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "lax",
+                expires: new Date(expiresAt),
+                path: "/"
+              });
+            }
+
+            // Also mirror in local DB
+            try {
+              const localAccount = db.insert("accounts", {
+                id: `acc-${createdUser.id}`,
+                name: finalName,
+                company: finalCompany,
+                role: finalRole,
+                state: "verified"
+              });
+              db.insert("users", {
+                id: createdUser.id,
+                account_id: localAccount.id,
+                name: finalName,
+                email: finalEmail,
+                phone: finalPhone,
+                role: finalRole,
+                password_hash: hashPassword(password),
+                last_login_at: new Date().toISOString()
+              });
+            } catch (_) {}
+
+            return NextResponse.json({
+              success: true,
+              user: {
+                id: createdUser.id,
+                account_id: createdUser.id,
+                name: finalName,
+                email: finalEmail,
+                phone: finalPhone,
+                company: finalCompany,
+                role: finalRole,
+                state: "verified"
+              },
+              session: authData.session,
+              token,
+              message: authData.session ? "Account created successfully!" : "Account created. Please check your email for confirmation."
+            });
+          } catch (sbErr) {
+            console.error("Supabase signup error:", sbErr);
+            return NextResponse.json({ error: "Failed to create account with Supabase" }, { status: 500 });
+          }
+        }
+      }
+
+      // Legacy OTP registration fallback if no password
+      if (!finalName || !finalEmail || !finalPhone || !finalCompany) {
         return NextResponse.json({ error: "Missing mandatory fields" }, { status: 400 });
       }
 
-      if (!consent) {
-        return NextResponse.json({ error: "Explicit consent is required" }, { status: 400 });
-      }
-
-      // Check if email or phone already exists
-      const existingUser = db.find("users", "email", email) || db.find("users", "phone", phone);
+      const existingUser = db.find("users", "email", finalEmail) || db.find("users", "phone", finalPhone);
       if (existingUser) {
         return NextResponse.json({ error: "Account with this email/phone already exists" }, { status: 400 });
       }
 
-      // Insert Account
       const account = db.insert("accounts", {
-        name,
-        company,
-        role, // "brand" | "host"
-        state: "unverified" // verified | unverified | suspended
+        name: finalName,
+        company: finalCompany,
+        role: finalRole,
+        state: "unverified"
       });
 
-      // Insert User
       const user = db.insert("users", {
         account_id: account.id,
-        name,
-        email,
-        phone,
-        role,
+        name: finalName,
+        email: finalEmail,
+        phone: finalPhone,
+        role: finalRole,
         last_login_at: null
       });
 
-      // Insert Profile
-      if (role === "brand") {
-        db.insert("brand_profiles", {
-          account_id: account.id,
-          niche: profileData?.niche || "",
-          goals: profileData?.goals || [],
-          primary_goal: profileData?.primary_goal || "",
-          budget_band: profileData?.budget_band || "",
-          geography: profileData?.geography || "",
-          timeline: profileData?.timeline || "",
-          consent_date: new Date().toISOString()
-        });
-      }
-
-      // Write audit log
-      writeAuditLog(user.id, "register_account", "accounts", null, account);
-
-      // Create an OTP challenge automatically
-      const otpCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digits
-      const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString(); // 5 min expiry
+      const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
       
-      const challenge = db.insert("otp_challenges", {
+      db.insert("otp_challenges", {
         user_id: user.id,
-        phone,
+        phone: finalPhone,
         code: otpCode,
         purpose: "registration",
         attempts: 0,
@@ -307,31 +444,30 @@ export async function POST(request) {
         success: true,
         userId: user.id,
         accountId: account.id,
-        debugOtp: otpCode, // Exposed for easy testing in console/UI
+        debugOtp: otpCode,
         message: "Registration completed. OTP sent to phone."
       });
     }
 
-    // 2. REQUEST OTP Flow (Login or Re-verify)
+    // =========================================================================
+    // 2. REQUEST OTP Flow (Phone SMS OTP Fallback)
+    // =========================================================================
     if (action === "request-otp") {
       const { phone } = body;
       if (!phone) {
         return NextResponse.json({ error: "Phone number is required" }, { status: 400 });
       }
 
-      // Find user
       const user = db.find("users", "phone", phone);
       if (!user) {
         return NextResponse.json({ error: "Phone number not registered. Please register first." }, { status: 404 });
       }
 
-      // Hardening: check for rate limit or lockout (e.g. check failures in last 5 min)
       const account = db.find("accounts", "id", user.account_id);
       if (account && account.state === "suspended") {
         return NextResponse.json({ error: "Account is suspended. Please contact support." }, { status: 403 });
       }
 
-      // Generate 6-digit OTP
       const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
       const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
 
@@ -345,9 +481,6 @@ export async function POST(request) {
         consumed_at: null
       });
 
-      // Write audit log
-      writeAuditLog(user.id, "request_otp", "otp_challenges");
-
       return NextResponse.json({
         success: true,
         userId: user.id,
@@ -356,91 +489,54 @@ export async function POST(request) {
       });
     }
 
+    // =========================================================================
     // 3. VERIFY OTP Flow
+    // =========================================================================
     if (action === "verify-otp") {
       const { userId, code } = body;
       if (!userId || !code) {
         return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
       }
 
-      // Find user
       const user = db.find("users", "id", userId);
       if (!user) {
         return NextResponse.json({ error: "User not found" }, { status: 404 });
       }
 
-      // Find active OTP challenges for this user
       const challenges = db.get("otp_challenges", (c) => c.user_id === user.id && !c.consumed_at);
       if (challenges.length === 0) {
         return NextResponse.json({ error: "No active OTP request found. Please request a new OTP." }, { status: 400 });
       }
 
-      // Sort by newest
       challenges.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       const latestChallenge = challenges[0];
 
-      // Check expiry
       if (new Date() > new Date(latestChallenge.expires_at)) {
         return NextResponse.json({ error: "OTP expired. Please request a new OTP." }, { status: 400 });
       }
 
-      // Check attempts (Lockout at 5 attempts)
       if (latestChallenge.attempts >= 5) {
-        // Suspend account
         db.update("accounts", "id", user.account_id, { state: "suspended" });
-        writeAuditLog(user.id, "account_suspended_lockout", "accounts");
         return NextResponse.json({ error: "Too many failed attempts. Account locked. Contact support." }, { status: 403 });
       }
 
-      // Verify code
       if (latestChallenge.code !== code) {
-        // Increment attempts
         db.update("otp_challenges", "id", latestChallenge.id, { attempts: latestChallenge.attempts + 1 });
-        db.insert("auth_events", {
-          user_id: user.id,
-          type: "otp_failed",
-          outcome: "failure",
-          ip: "127.0.0.1",
-          timestamp: new Date().toISOString()
-        });
         return NextResponse.json({ error: `Invalid verification code. Attempts left: ${5 - (latestChallenge.attempts + 1)}` }, { status: 400 });
       }
 
-      // Code matched! Mark challenge as consumed
       db.update("otp_challenges", "id", latestChallenge.id, { consumed_at: new Date().toISOString() });
       
-      // Update account status to verified
       const account = db.find("accounts", "id", user.account_id);
-      if (account.state === "unverified") {
+      if (account && account.state === "unverified") {
         db.update("accounts", "id", user.account_id, { state: "verified" });
       }
 
-      // Log last login
       db.update("users", "id", user.id, { last_login_at: new Date().toISOString() });
 
-      // Create Session
       const sessionToken = `session-${Math.random().toString(36).substr(2, 12)}-${Math.random().toString(36).substr(2, 12)}`;
-      const sessionExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // 30-day roll
+      const sessionExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
-      db.insert("sessions", {
-        user_id: user.id,
-        token: sessionToken,
-        expires_at: sessionExpiry,
-        revoked_at: null,
-        user_agent: request.headers.get("user-agent") || "unknown",
-        ip: "127.0.0.1"
-      });
-
-      // Write to auth events
-      db.insert("auth_events", {
-        user_id: user.id,
-        type: "login_success",
-        outcome: "success",
-        ip: "127.0.0.1",
-        timestamp: new Date().toISOString()
-      });
-
-      // Set cookie (secure httpOnly sameSite)
       cookieStore.set("otz_session", sessionToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -449,10 +545,9 @@ export async function POST(request) {
         path: "/"
       });
 
-      const profile = user.role === "brand" ? db.find("brand_profiles", "account_id", user.account_id) : null;
-
       return NextResponse.json({
         success: true,
+        token: sessionToken,
         user: {
           id: user.id,
           account_id: user.account_id,
@@ -460,82 +555,80 @@ export async function POST(request) {
           email: user.email,
           phone: user.phone,
           role: user.role,
-          company: account.company,
-          state: account.state,
-          profile
+          company: account?.company,
+          state: account?.state || "verified"
         }
       });
     }
 
-    // 4. MOCK EMAIL MAGIC LINK Flow
-    if (action === "magic-link") {
-      const { email } = body;
-      if (!email) {
-        return NextResponse.json({ error: "Email is required" }, { status: 400 });
-      }
-
-      const user = db.find("users", "email", email);
-      if (!user) {
-        return NextResponse.json({ error: "Email address not registered. Please register first." }, { status: 404 });
-      }
-
-      // Generate a mock token
-      const magicToken = `magic-${Math.random().toString(36).substr(2, 9)}`;
-      
-      // Simulate sending magic link (expires in 15 minutes)
-      const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
-      db.insert("otp_challenges", {
-        user_id: user.id,
-        phone: user.phone,
-        code: magicToken,
-        purpose: "magic_link",
-        attempts: 0,
-        expires_at: expiresAt,
-        consumed_at: null
-      });
-
-      return NextResponse.json({
-        success: true,
-        userId: user.id,
-        debugToken: magicToken,
-        message: "Magic link generated. Check console/API response for link."
-      });
-    }
-
-    // 5. SESSION VERIFICATION (GET/POST validation)
+    // =========================================================================
+    // 4. SESSION RETRIEVAL (get-session)
+    // =========================================================================
     if (action === "get-session") {
       const user = await getSessionUser(request);
       if (!user) {
         return NextResponse.json({ user: null });
       }
 
-      const profile = user.role === "brand" ? db.find("brand_profiles", "account_id", user.account_id) : null;
-
       return NextResponse.json({
+        success: true,
         user: {
-          id: user.id || "usr-admin-1",
-          account_id: user.account_id || "acc-admin-1",
-          name: user.name || "OTZ Administrator",
+          id: user.id,
+          account_id: user.account_id || user.id,
+          name: user.name,
           email: user.email,
-          phone: user.phone || "9999999999",
-          role: user.role || "admin",
-          company: user.company || "OTZ Operations",
+          phone: user.phone || "",
+          role: user.role || "brand",
+          company: user.company || "Personal Account",
           state: user.state || "verified",
-          profile
+          avatar_url: user.avatar_url || "",
+          profile: user.profile || null
         }
       });
     }
 
-    // 6. LOGOUT Flow
-    if (action === "logout") {
-      const sessionCookie = cookieStore.get("otz_session");
-      if (sessionCookie) {
-        try {
-          db.update("sessions", "token", sessionCookie.value, { revoked_at: new Date().toISOString() });
-        } catch (_) {}
+    // =========================================================================
+    // 5. SYNC OAUTH / GOOGLE PROFILE Flow
+    // =========================================================================
+    if (action === "sync-profile") {
+      const user = await getSessionUser(request);
+      if (!user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
 
-      // Clear cookies
+      if (isServerSupabaseConfigured()) {
+        try {
+          const supabase = getSupabaseServer();
+          const { data: existingProf } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", user.id)
+            .maybeSingle();
+
+          if (!existingProf) {
+            const newProfile = {
+              id: user.id,
+              email: user.email,
+              full_name: user.name,
+              phone: user.phone || "",
+              company: user.company || "Personal Account",
+              role: user.role || "brand",
+              avatar_url: user.avatar_url || ""
+            };
+            await supabase.from("profiles").insert([newProfile]);
+          }
+        } catch (e) {
+          console.warn("Sync profile notice:", e);
+        }
+      }
+
+      return NextResponse.json({ success: true, user });
+    }
+
+    // =========================================================================
+    // 6. LOGOUT Flow
+    // =========================================================================
+    if (action === "logout") {
       cookieStore.set("otz_session", "", { expires: new Date(0), path: "/" });
       cookieStore.set("otz_token", "", { expires: new Date(0), path: "/" });
 
@@ -548,3 +641,4 @@ export async function POST(request) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+
