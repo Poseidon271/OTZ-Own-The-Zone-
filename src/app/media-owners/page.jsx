@@ -231,14 +231,14 @@ export default function MediaOwnersLandingPage() {
               },
               {
                 step: "03",
-                title: "Receive Bookings",
-                desc: "Accept or decline direct corporate brand requests via portal dashboard & WhatsApp.",
+                title: "Receive Enquiries & Close Bookings",
+                desc: "Receive direct corporate enquiries, respond to advertiser requests, negotiate campaign details, and convert enquiries into confirmed bookings for your available media slots.",
                 icon: "bell-ring-outline"
               },
               {
                 step: "04",
-                title: "Get Paid (T+7)",
-                desc: "Upload geo-tagged mounting proof and receive automated bank settlements within 7 days.",
+                title: "Complete Campaign & Get Paid",
+                desc: "Complete the booked advertising campaign, upload the required proof of execution, and receive payments according to OTZ's applicable settlement terms.",
                 icon: "bank-transfer-in"
               }
             ].map((item, idx) => (
