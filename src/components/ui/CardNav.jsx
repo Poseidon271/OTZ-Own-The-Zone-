@@ -3,13 +3,16 @@
 import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { useBag } from "@/context/BagContext";
 import MdiIcon from "@/components/MdiIcon";
 import { ShinyButton } from "@/components/ui/shiny-button";
+import { ShoppingBag } from "lucide-react";
 
 export default function CardNav({ onLogoClick }) {
   const router = useRouter();
   const pathname = usePathname();
   const { user, setIsAuthModalOpen, logout } = useAuth();
+  const { cartCount } = useBag();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -96,89 +99,122 @@ export default function CardNav({ onLogoClick }) {
             >
               For Media Owners
             </button>
+            <button
+              onClick={() => router.push("/marketplace")}
+              className={`text-xs uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+                pathname === "/marketplace" || pathname?.startsWith("/marketplace")
+                  ? "text-white font-extrabold"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
+            >
+              Marketplace
+            </button>
 
             {user ? (
-              <div className="relative">
+              <div className="flex items-center space-x-3">
+                {/* Navbar Cart Icon */}
                 <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2 rounded-full border border-[var(--border-default)] bg-[var(--surface-canvas)] px-3.5 py-1.5 text-xs font-bold transition-all hover:border-[var(--border-strong)] cursor-pointer text-[var(--text-primary)]"
+                  type="button"
+                  onClick={() => router.push("/cart")}
+                  className={`relative p-2 rounded-full border transition-all cursor-pointer flex items-center justify-center ${
+                    pathname === "/cart"
+                      ? "bg-[#0B1E3B] border-[#FF5A1F] text-[#FF5A1F]"
+                      : "border-[var(--border-default)] bg-[var(--surface-canvas)] text-[var(--text-secondary)] hover:text-white hover:border-[#FF5A1F]"
+                  }`}
+                  aria-label="View Media Cart"
+                  title="View Media Cart"
                 >
-                  <div className="h-6 w-6 rounded-full bg-[#0B1E3B] text-[var(--action-primary)] border border-[var(--border-default)] flex items-center justify-center font-black text-[11px] shadow-sm">
-                    {user.role === "admin" ? "A" : user.name ? user.name.charAt(0).toUpperCase() : "U"}
-                  </div>
-                  <span className="max-w-[130px] truncate text-white">
-                    {user.role === "admin" ? "Admin Console" : user.name || (user.email ? user.email.split("@")[0] : "My Account")}
-                  </span>
-                  <MdiIcon
-                    name="chevron-down"
-                    className={`transition-transform duration-200 text-sm ${
-                      isDropdownOpen ? "rotate-180" : ""
-                    }`}
-                  />
+                  <ShoppingBag className="w-4 h-4" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#FF5A1F] text-white text-[10px] font-bold flex items-center justify-center shadow-xs">
+                      {cartCount}
+                    </span>
+                  )}
                 </button>
 
-                {isDropdownOpen && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-30"
-                      onClick={() => setIsDropdownOpen(false)}
-                    ></div>
-                    <div
-                      className="absolute right-0 mt-3 w-56 rounded-xl p-2 shadow-2xl z-40 bg-[#132A4F] border border-[var(--border-default)] animate-scale-up"
-                    >
-                      <div className="px-3 py-2 border-b border-[var(--border-default)] text-left">
-                        <p className="text-[9px] font-extrabold text-[var(--text-tertiary)] uppercase tracking-wider">
-                          Signed in as
-                        </p>
-                        <p className="text-xs font-bold text-white truncate">
-                          {user.name || "OTZ Member"}
-                        </p>
-                        <p className="text-[10px] text-[var(--text-secondary)] truncate">
-                          {user.email || user.phone}
-                        </p>
-                      </div>
-                      <button
-                        onClick={handleDashboardRedirect}
-                        className="flex w-full items-center px-3 py-2.5 mt-1 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white transition-colors cursor-pointer text-left"
+                {/* User Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="flex items-center space-x-2 rounded-full border border-[var(--border-default)] bg-[var(--surface-canvas)] px-3.5 py-1.5 text-xs font-bold transition-all hover:border-[var(--border-strong)] cursor-pointer text-[var(--text-primary)]"
+                  >
+                    <div className="h-6 w-6 rounded-full bg-[#0B1E3B] text-[var(--action-primary)] border border-[var(--border-default)] flex items-center justify-center font-black text-[11px] shadow-sm">
+                      {user.role === "admin" ? "A" : user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                    </div>
+                    <span className="max-w-[130px] truncate text-white">
+                      {user.role === "admin" ? "Admin Console" : user.name || (user.email ? user.email.split("@")[0] : "My Account")}
+                    </span>
+                    <MdiIcon
+                      name="chevron-down"
+                      className={`transition-transform duration-200 text-sm ${
+                        isDropdownOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {isDropdownOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-30"
+                        onClick={() => setIsDropdownOpen(false)}
+                      ></div>
+                      <div
+                        className="absolute right-0 mt-3 w-56 rounded-xl p-2 shadow-2xl z-40 bg-[#132A4F] border border-[var(--border-default)] animate-scale-up"
                       >
-                        <MdiIcon
-                          name="view-dashboard-outline"
-                          className="mr-2.5 text-base text-[var(--action-primary)]"
-                        />{" "}
-                        {user.role === "ops" || user.role === "admin" ? "Admin Console" : "My Dashboard"}
-                      </button>
-                      {user.role !== "admin" && user.role !== "ops" && (
+                        <div className="px-3 py-2 border-b border-[var(--border-default)] text-left">
+                          <p className="text-[9px] font-extrabold text-[var(--text-tertiary)] uppercase tracking-wider">
+                            Signed in as
+                          </p>
+                          <p className="text-xs font-bold text-white truncate">
+                            {user.name || "OTZ Member"}
+                          </p>
+                          <p className="text-[10px] text-[var(--text-secondary)] truncate">
+                            {user.email || user.phone}
+                          </p>
+                        </div>
+                        <button
+                          onClick={handleDashboardRedirect}
+                          className="flex w-full items-center px-3 py-2.5 mt-1 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white transition-colors cursor-pointer text-left"
+                        >
+                          <MdiIcon
+                            name="view-dashboard-outline"
+                            className="mr-2.5 text-base text-[var(--action-primary)]"
+                          />{" "}
+                          {user.role === "ops" || user.role === "admin" ? "Admin Console" : "My Dashboard"}
+                        </button>
+                        {user.role !== "admin" && user.role !== "ops" && (
+                          <button
+                            onClick={() => {
+                              setIsDropdownOpen(false);
+                              router.push("/dashboard?tab=settings");
+                            }}
+                            className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white transition-colors cursor-pointer text-left"
+                          >
+                            <MdiIcon
+                              name="cog-outline"
+                              className="mr-2.5 text-base text-slate-400"
+                            />{" "}
+                            Account Settings
+                          </button>
+                        )}
+                        <div className="h-[1px] bg-[var(--border-default)] my-1" />
                         <button
                           onClick={() => {
                             setIsDropdownOpen(false);
-                            router.push("/dashboard?tab=settings");
+                            logout();
                           }}
-                          className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white transition-colors cursor-pointer text-left"
+                          className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer text-left"
                         >
-                          <MdiIcon
-                            name="cog-outline"
-                            className="mr-2.5 text-base text-slate-400"
-                          />{" "}
-                          Account Settings
+                          <MdiIcon name="logout" className="mr-2.5 text-base" />{" "}
+                          Log Out
                         </button>
-                      )}
-                      <div className="h-[1px] bg-[var(--border-default)] my-1" />
-                      <button
-                        onClick={() => {
-                          setIsDropdownOpen(false);
-                          logout();
-                        }}
-                        className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer text-left"
-                      >
-                        <MdiIcon name="logout" className="mr-2.5 text-base" />{" "}
-                        Log Out
-                      </button>
-                    </div>
-                  </>
-                )}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             ) : (
-              <>
+              <div className="flex items-center space-x-3">
                 <button
                   type="button"
                   onClick={handleOpenLogin}
@@ -186,21 +222,62 @@ export default function CardNav({ onLogoClick }) {
                 >
                   Log in
                 </button>
-                 <ShinyButton
+
+                {/* Navbar Cart Icon positioned between LOG IN | CART ICON | GET STARTED */}
+                <button
+                  type="button"
+                  onClick={() => router.push("/cart")}
+                  className={`relative p-2 rounded-full border transition-all cursor-pointer flex items-center justify-center ${
+                    pathname === "/cart"
+                      ? "bg-[#0B1E3B] border-[#FF5A1F] text-[#FF5A1F]"
+                      : "border-[var(--border-default)] bg-[var(--surface-canvas)] text-[var(--text-secondary)] hover:text-white hover:border-[#FF5A1F]"
+                  }`}
+                  aria-label="View Media Cart"
+                  title="View Media Cart"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#FF5A1F] text-white text-[10px] font-bold flex items-center justify-center shadow-xs">
+                      {cartCount}
+                    </span>
+                  )}
+                </button>
+
+                <ShinyButton
                   onClick={() => router.push("/signup")}
-                  className="px-5 py-1.5 text-xs font-bold shadow-md rounded-full ml-3"
+                  className="px-5 py-1.5 text-xs font-bold shadow-md rounded-full"
                 >
                   Get Started
                 </ShinyButton>
-              </>
+              </div>
             )}
           </div>
 
           {/* Mobile Right Menu controls */}
-          <div className="flex md:hidden items-center">
+          <div className="flex md:hidden items-center space-x-2">
+            {/* Mobile Cart Icon */}
+            <button
+              type="button"
+              onClick={() => router.push("/cart")}
+              className={`relative p-2 rounded-full border transition-all cursor-pointer flex items-center justify-center ${
+                pathname === "/cart"
+                  ? "bg-[#0B1E3B] border-[#FF5A1F] text-[#FF5A1F]"
+                  : "border-[var(--border-default)] bg-[var(--surface-canvas)] text-[var(--text-secondary)] hover:text-white"
+              }`}
+              aria-label="View Media Cart"
+              title="View Media Cart"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#FF5A1F] text-white text-[10px] font-bold flex items-center justify-center shadow-xs">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--surface-canvas)] text-[var(--text-primary)] hover:bg-slate-100 transition-colors cursor-pointer"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--surface-canvas)] text-[var(--text-primary)] hover:bg-[#0B1E3B] transition-colors cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
               <MdiIcon
@@ -219,7 +296,7 @@ export default function CardNav({ onLogoClick }) {
                 setIsMobileMenuOpen(false);
                 router.push("/");
               }}
-              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
+              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white"
             >
               Home
             </button>
@@ -228,7 +305,7 @@ export default function CardNav({ onLogoClick }) {
                 setIsMobileMenuOpen(false);
                 router.push("/for-brands");
               }}
-              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
+              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white"
             >
               For Brands
             </button>
@@ -237,9 +314,44 @@ export default function CardNav({ onLogoClick }) {
                 setIsMobileMenuOpen(false);
                 router.push("/media-owners");
               }}
-              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
+              className="block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white"
             >
               For Media Owners
+            </button>
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                router.push("/marketplace");
+              }}
+              className={`block w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold ${
+                pathname === "/marketplace" || pathname?.startsWith("/marketplace")
+                  ? "text-white bg-[#0B1E3B]"
+                  : "text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white"
+              }`}
+            >
+              Marketplace
+            </button>
+
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                router.push("/cart");
+              }}
+              className={`flex items-center justify-between w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold ${
+                pathname === "/cart"
+                  ? "text-white bg-[#0B1E3B]"
+                  : "text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white"
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                <ShoppingBag className="w-4 h-4 text-[#FF5A1F]" />
+                <span>Media Cart</span>
+              </span>
+              {cartCount > 0 && (
+                <span className="px-2 py-0.5 rounded-full bg-[#FF5A1F] text-white text-[10px] font-bold">
+                  {cartCount} items
+                </span>
+              )}
             </button>
 
             {user ? (
@@ -249,7 +361,7 @@ export default function CardNav({ onLogoClick }) {
                 </div>
                 <button
                   onClick={handleDashboardRedirect}
-                  className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
+                  className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white"
                 >
                   <MdiIcon name="view-dashboard-outline" className="mr-2 text-base text-[var(--action-primary)]" />
                   {user.role === "ops" || user.role === "admin" ? "Admin Console" : "My Dashboard"}
@@ -259,7 +371,7 @@ export default function CardNav({ onLogoClick }) {
                     setIsMobileMenuOpen(false);
                     router.push("/dashboard?tab=settings");
                   }}
-                  className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-slate-50"
+                  className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-[var(--text-secondary)] hover:bg-[#0B1E3B] hover:text-white"
                 >
                   <MdiIcon name="cog-outline" className="mr-2 text-base text-slate-400" />
                   Account Settings
@@ -269,7 +381,7 @@ export default function CardNav({ onLogoClick }) {
                     setIsMobileMenuOpen(false);
                     logout();
                   }}
-                  className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-red-500 hover:bg-red-50"
+                  className="flex w-full items-center px-3 py-2.5 rounded-lg text-xs font-bold text-red-400 hover:bg-red-500/10"
                 >
                   <MdiIcon name="logout" className="mr-2 text-base" /> Log Out
                 </button>
@@ -281,7 +393,7 @@ export default function CardNav({ onLogoClick }) {
                     setIsMobileMenuOpen(false);
                     handleOpenLogin();
                   }}
-                  className="w-full text-center py-2 text-xs font-bold border border-[var(--border-default)] rounded-lg text-white"
+                  className="w-full text-center py-2 text-xs font-bold border border-[var(--border-default)] rounded-lg text-white hover:bg-[#0B1E3B]"
                 >
                   Log In
                 </button>

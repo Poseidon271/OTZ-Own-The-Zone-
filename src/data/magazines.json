@@ -1,0 +1,2317 @@
+[
+  {
+    "id": "mag-india-today",
+    "name": "India Today",
+    "tagline": "India's Leading News & Current Affairs Weekly",
+    "category": "News",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 550000,
+    "circulation": 1100000,
+    "minimumSpend": 423500,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "Business Owners",
+      "B2C",
+      "B2B"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover",
+      "Inside Front Cover",
+      "Inside Back Cover"
+    ],
+    "popularity": 98,
+    "topSearched": true,
+    "description": "India Today is an Indian English and Hindi language weekly news magazine published by Living Media India Limited. It is the most widely circulated news magazine in India with deep credibility and high-income demographic readership.",
+    "readershipProfile": "Decision makers, corporate executives, politicians, entrepreneurs and urban households seeking in-depth investigative reports, political analysis and market trends.",
+    "minimumBooking": "1 Insertion (Booking deadline 7 days prior to issue release)",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 423500,
+        "specs": "210mm x 280mm (Color, Bleed)",
+        "estimatedReach": "550,000 Verified Readers"
+      },
+      {
+        "option": "Cover Page",
+        "price": 950000,
+        "specs": "Front Gatefold / High-Impact Flap",
+        "estimatedReach": "550,000+ Verified Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 780000,
+        "specs": "420mm x 280mm (Center Spread)",
+        "estimatedReach": "550,000 Verified Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 245000,
+        "specs": "210mm x 140mm (Horizontal / Vertical)",
+        "estimatedReach": "420,000 Readers"
+      },
+      {
+        "option": "Back Cover",
+        "price": 680000,
+        "specs": "Back Outside Cover (Color)",
+        "estimatedReach": "550,000 Verified Readers"
+      },
+      {
+        "option": "Inside Front Cover",
+        "price": 520000,
+        "specs": "Cover 2 (Gloss Finish)",
+        "estimatedReach": "550,000 Verified Readers"
+      },
+      {
+        "option": "Inside Back Cover",
+        "price": 460000,
+        "specs": "Cover 3 (Color)",
+        "estimatedReach": "500,000 Readers"
+      }
+    ],
+    "publication": "India Today",
+    "publicationType": "News Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-forbes-india",
+    "name": "Forbes India",
+    "tagline": "The Voice of Entrepreneurship & Wealth Leadership",
+    "category": "Business",
+    "logo": "https://images.unsplash.com/photo-1618042164219-62c820f10723?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 75000,
+    "circulation": 140000,
+    "minimumSpend": 330000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Fortnightly",
+    "targetGroups": [
+      "Business Owners",
+      "Professionals",
+      "B2B",
+      "Male"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Front Cover",
+      "Inside Back Cover",
+      "Back Cover"
+    ],
+    "popularity": 96,
+    "topSearched": true,
+    "description": "Forbes India is the Indian edition of Forbes, operated by Network18 Media. It delivers authoritative insights on wealth creators, venture capital, technology disruptions, and corporate power lists.",
+    "readershipProfile": "C-suite executives, high-net-worth individuals (HNIs), angel investors, founders, and senior financial strategists.",
+    "minimumBooking": "1 Insertion (Artwork submission 10 days before printing)",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 330000,
+        "specs": "210mm x 275mm (Color Standard)",
+        "estimatedReach": "75,000 Elite C-Suite Reach"
+      },
+      {
+        "option": "Double Spread",
+        "price": 620000,
+        "specs": "420mm x 275mm (Full Bleed Color)",
+        "estimatedReach": "75,000 Elite C-Suite Reach"
+      },
+      {
+        "option": "Inside Front Cover",
+        "price": 490000,
+        "specs": "Cover 2 Gloss Premium Placement",
+        "estimatedReach": "75,000 Readers"
+      },
+      {
+        "option": "Back Cover",
+        "price": 550000,
+        "specs": "Back Cover Full Color (High Gloss)",
+        "estimatedReach": "75,000 Readers"
+      }
+    ],
+    "publication": "Forbes India",
+    "publicationType": "Business Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-vogue-india",
+    "name": "Vogue India",
+    "tagline": "The Ultimate Authority in Luxury, Fashion & Culture",
+    "category": "Lifestyle",
+    "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 73500,
+    "circulation": 120000,
+    "minimumSpend": 173225,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Female",
+      "Young Adults",
+      "B2C",
+      "Professionals"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover",
+      "Inside Front Cover"
+    ],
+    "popularity": 95,
+    "topSearched": true,
+    "description": "Vogue India is the definitive fashion and luxury lifestyle publication published by Condé Nast India. Renowned for curated editorial shoots, haute couture runways, and celebrity profiles.",
+    "readershipProfile": "Affluent fashion-conscious consumers, luxury shoppers, beauty trendsetters, and metropolitan trend drivers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Half Page",
+        "price": 173225,
+        "specs": "210mm x 140mm (Horizontal / Vertical)",
+        "estimatedReach": "73,500 High-Affluence Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 310000,
+        "specs": "215mm x 280mm (Glossy High Quality)",
+        "estimatedReach": "73,500 High-Affluence Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 580000,
+        "specs": "430mm x 280mm (Curated Runway Position)",
+        "estimatedReach": "73,500 High-Affluence Readers"
+      },
+      {
+        "option": "Back Cover",
+        "price": 490000,
+        "specs": "Outside Back Cover Full Bleed",
+        "estimatedReach": "73,500 High-Affluence Readers"
+      }
+    ],
+    "publication": "Vogue",
+    "publicationType": "Lifestyle Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-business-today",
+    "name": "Business Today",
+    "tagline": "India's Most Read Business Magazine",
+    "category": "Business",
+    "logo": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 195000,
+    "circulation": 350000,
+    "minimumSpend": 276000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Fortnightly",
+    "targetGroups": [
+      "Business Owners",
+      "Professionals",
+      "B2B",
+      "General Audience"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Back Cover",
+      "Back Cover"
+    ],
+    "popularity": 92,
+    "topSearched": true,
+    "description": "Business Today provides extensive analysis of corporate developments, market strategies, startup ecosystems, and fiscal policies influencing the Indian economy.",
+    "readershipProfile": "Managers, corporate board directors, investment bankers, enterprise buyers, and financial consultants.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 276000,
+        "specs": "210mm x 275mm (Standard Color)",
+        "estimatedReach": "195,000 Verified Business Leaders"
+      },
+      {
+        "option": "Half Page",
+        "price": 165000,
+        "specs": "210mm x 135mm (Horizontal)",
+        "estimatedReach": "150,000 Business Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 510000,
+        "specs": "420mm x 275mm (Center Spread Color)",
+        "estimatedReach": "195,000 Business Leaders"
+      },
+      {
+        "option": "Back Cover",
+        "price": 450000,
+        "specs": "Back Cover Premium Spot",
+        "estimatedReach": "195,000 Business Leaders"
+      }
+    ],
+    "publication": "Business Today",
+    "publicationType": "Business Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-femina",
+    "name": "Femina",
+    "tagline": "Inspiring Indian Women Since 1959",
+    "category": "Lifestyle",
+    "logo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 178000,
+    "circulation": 320000,
+    "minimumSpend": 240000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Female",
+      "Families",
+      "Young Adults",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Front Cover",
+      "Back Cover"
+    ],
+    "popularity": 94,
+    "topSearched": false,
+    "description": "Femina is India's first and most celebrated women's lifestyle brand published by Worldwide Media (Times Group). It touches upon wellness, fashion, relationships, career, and culture.",
+    "readershipProfile": "Progressive, modern women, aspiring female entrepreneurs, homemakers, and urban young adults.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 240000,
+        "specs": "210mm x 280mm (Color Premium)",
+        "estimatedReach": "178,000 Dedicated Women Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 140000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "130,000 Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 440000,
+        "specs": "420mm x 280mm (Full Bleed Color)",
+        "estimatedReach": "178,000 Readers"
+      },
+      {
+        "option": "Back Cover",
+        "price": 390000,
+        "specs": "Outside Back Cover",
+        "estimatedReach": "178,000 Readers"
+      }
+    ],
+    "publication": "Femina",
+    "publicationType": "Lifestyle Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-elle-india",
+    "name": "Elle India",
+    "tagline": "Style, Substance and Unapologetic Living",
+    "category": "Lifestyle",
+    "logo": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 93485,
+    "circulation": 160000,
+    "minimumSpend": 600000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Female",
+      "Young Adults",
+      "B2C",
+      "Professionals"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Inside Front Cover",
+      "Back Cover"
+    ],
+    "popularity": 91,
+    "topSearched": false,
+    "description": "Elle India is an international fashion, beauty and lifestyle powerhouse, celebrating contemporary style, emerging creative voices, and global luxury aesthetics.",
+    "readershipProfile": "Discerning young professionals, stylists, luxury shoppers, and creative tastemakers across metros.",
+    "minimumBooking": "1 Insertion (Includes digital mention feature)",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 600000,
+        "specs": "215mm x 275mm (High Art Paper)",
+        "estimatedReach": "93,485 Metro Fashion Enthusiasts"
+      },
+      {
+        "option": "Double Spread",
+        "price": 1050000,
+        "specs": "430mm x 275mm (Front Section Spread)",
+        "estimatedReach": "93,485 Metro Fashion Enthusiasts"
+      },
+      {
+        "option": "Back Cover",
+        "price": 850000,
+        "specs": "Outside Back Cover Full Gloss",
+        "estimatedReach": "93,485 Metro Fashion Enthusiasts"
+      }
+    ],
+    "publication": "Elle",
+    "publicationType": "Lifestyle Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-outlook-india",
+    "name": "Outlook India",
+    "tagline": "Bold Investigative Journalism & Political Perspective",
+    "category": "News",
+    "logo": "https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 380000,
+    "circulation": 650000,
+    "minimumSpend": 285000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "frequency": "Fortnightly",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "B2C",
+      "Male"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 89,
+    "topSearched": true,
+    "description": "Outlook is one of India's premier independent news magazines known for fearless reportage, political depth, and social commentary.",
+    "readershipProfile": "Civil servants, legal luminaries, academics, policy analysts, and politically aware citizens.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 285000,
+        "specs": "210mm x 280mm (Color Standard)",
+        "estimatedReach": "380,000 High-Awareness Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 160000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "270,000 Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 520000,
+        "specs": "420mm x 280mm (Center Bleed)",
+        "estimatedReach": "380,000 Readers"
+      }
+    ],
+    "publication": "Outlook",
+    "publicationType": "News Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-the-week",
+    "name": "The Week",
+    "tagline": "Journalism with a Human Heart",
+    "category": "News",
+    "logo": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 310000,
+    "circulation": 520000,
+    "minimumSpend": 210000,
+    "location": {
+      "city": "Kochi",
+      "state": "Kerala",
+      "region": "South"
+    },
+    "languages": [
+      "English",
+      "Malayalam"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover",
+      "Inside Back Cover"
+    ],
+    "popularity": 87,
+    "topSearched": false,
+    "description": "The Week, published by Malayala Manorama Group, delivers balanced news analysis, health insights, lifestyle essays, and cultural commentary across urban India.",
+    "readershipProfile": "Educated family households, senior executives, defense personnel, and civil service aspirants.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 210000,
+        "specs": "210mm x 280mm (Color)",
+        "estimatedReach": "310,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 120000,
+        "specs": "210mm x 140mm (Color Horizontal)",
+        "estimatedReach": "220,000 Readers"
+      },
+      {
+        "option": "Cover Page",
+        "price": 480000,
+        "specs": "Front Inside Cover Premium",
+        "estimatedReach": "310,000 Readers"
+      }
+    ],
+    "publication": "The Week",
+    "publicationType": "News Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-readers-digest",
+    "name": "Reader's Digest India",
+    "tagline": "Inspiration, Knowledge and Everyday Wisdom",
+    "category": "General Interest",
+    "logo": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 410000,
+    "circulation": 700000,
+    "minimumSpend": 195000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Families",
+      "General Audience",
+      "Professionals",
+      "B2C",
+      "Student"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover",
+      "Inside Front Cover"
+    ],
+    "popularity": 90,
+    "topSearched": true,
+    "description": "Reader's Digest is one of the most loved pocket-sized family magazines in India, featuring heartwarming true stories, health breakthroughs, vocabulary enrichment, and humor.",
+    "readershipProfile": "Multi-generational family homes, retirees, school students, and professionals valuing trusted longevity.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 195000,
+        "specs": "135mm x 185mm (Compact Format)",
+        "estimatedReach": "410,000 Engaged Family Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 360000,
+        "specs": "270mm x 185mm (Color Spread)",
+        "estimatedReach": "410,000 Family Readers"
+      },
+      {
+        "option": "Back Cover",
+        "price": 320000,
+        "specs": "Back Outside Cover (Color)",
+        "estimatedReach": "410,000 Family Readers"
+      }
+    ],
+    "publication": "Reader's Digest",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-gq-india",
+    "name": "GQ India",
+    "tagline": "Gentlemen's Guide to Fashion, Tech and Success",
+    "category": "Fashion",
+    "logo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1490578474895-699bc4e2cf59?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 82000,
+    "circulation": 135000,
+    "minimumSpend": 260000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Male",
+      "Young Adults",
+      "Professionals",
+      "Business Owners"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Front Cover",
+      "Back Cover"
+    ],
+    "popularity": 88,
+    "topSearched": false,
+    "description": "GQ India curates masculine fashion, luxury watches, grooming, fitness, automobile excellence, and modern leadership for the stylish Indian male.",
+    "readershipProfile": "Urban men aged 24-45, corporate executives, tech founders, and luxury watch and auto enthusiasts.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 260000,
+        "specs": "210mm x 275mm (Color Gloss)",
+        "estimatedReach": "82,000 Urban Men"
+      },
+      {
+        "option": "Double Spread",
+        "price": 490000,
+        "specs": "420mm x 275mm (Feature Spread)",
+        "estimatedReach": "82,000 Urban Men"
+      },
+      {
+        "option": "Back Cover",
+        "price": 420000,
+        "specs": "Cover 4 (Heavy Weight)",
+        "estimatedReach": "82,000 Urban Men"
+      }
+    ],
+    "publication": "GQ India",
+    "publicationType": "Fashion Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-filmfare",
+    "name": "Filmfare",
+    "tagline": "The Crown Jewel of Indian Cinema & Pop Culture",
+    "category": "Entertainment",
+    "logo": "https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 275000,
+    "circulation": 480000,
+    "minimumSpend": 225000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "frequency": "Fortnightly",
+    "targetGroups": [
+      "General Audience",
+      "Young Adults",
+      "B2C",
+      "Female"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 93,
+    "topSearched": true,
+    "description": "Filmfare is India's most iconic Bollywood and entertainment magazine. It hosts the prestigious Filmfare Awards and features exclusive celebrity interviews and movie spotlights.",
+    "readershipProfile": "Cinema enthusiasts, youth, young couples, and entertainment followers across Tier 1 & Tier 2 cities.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 225000,
+        "specs": "210mm x 280mm (Color Gloss)",
+        "estimatedReach": "275,000 Movie Enthusiasts"
+      },
+      {
+        "option": "Half Page",
+        "price": 135000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "190,000 Readers"
+      },
+      {
+        "option": "Cover Page",
+        "price": 540000,
+        "specs": "Gatefold / Star Feature Placement",
+        "estimatedReach": "275,000 Readers"
+      }
+    ],
+    "publication": "Filmfare",
+    "publicationType": "Entertainment Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-digit",
+    "name": "Digit",
+    "tagline": "Your Technology Navigator",
+    "category": "Technology",
+    "logo": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 145000,
+    "circulation": 260000,
+    "minimumSpend": 180000,
+    "location": {
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "region": "South"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Student",
+      "Young Adults",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Back Cover",
+      "Back Cover"
+    ],
+    "popularity": 86,
+    "topSearched": false,
+    "description": "Digit is India's top consumer technology and computing publication, providing detailed hardware benchmarks, gadget reviews, AI insights, and DIY guides.",
+    "readershipProfile": "Software engineers, tech early adopters, gamers, engineering students, and IT procurement specialists.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 180000,
+        "specs": "210mm x 280mm (High Precision Print)",
+        "estimatedReach": "145,000 Tech Enthusiasts"
+      },
+      {
+        "option": "Double Spread",
+        "price": 340000,
+        "specs": "420mm x 280mm (Center Benchmark Position)",
+        "estimatedReach": "145,000 Tech Enthusiasts"
+      },
+      {
+        "option": "Back Cover",
+        "price": 290000,
+        "specs": "Cover 4 (Heavy Tech Cardstock)",
+        "estimatedReach": "145,000 Readers"
+      }
+    ],
+    "publication": "Digit",
+    "publicationType": "Technology Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-pcquest",
+    "name": "PCQuest",
+    "tagline": "Enterprise Tech & Cloud Architecture Strategies",
+    "category": "Technology",
+    "logo": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 68000,
+    "circulation": 110000,
+    "minimumSpend": 165000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "North"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "B2B",
+      "Professionals",
+      "Business Owners"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Front Cover",
+      "Back Cover"
+    ],
+    "popularity": 82,
+    "topSearched": false,
+    "description": "PCQuest by CyberMedia is dedicated to CIOs, CTOs, IT managers, and enterprise tech architects navigating cloud transitions, cybersecurity, and data center investments.",
+    "readershipProfile": "Chief Information Officers, IT heads, systems architects, and enterprise software buyers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 165000,
+        "specs": "210mm x 275mm (Enterprise Tech Edition)",
+        "estimatedReach": "68,000 Enterprise IT Decision Makers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 310000,
+        "specs": "420mm x 275mm (Enterprise Spotlight)",
+        "estimatedReach": "68,000 IT Decision Makers"
+      }
+    ],
+    "publication": "PCQuest",
+    "publicationType": "Technology Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-ijmr",
+    "name": "Indian Journal of Medical Research",
+    "tagline": "Peer-Reviewed Medical Science & Clinical Studies",
+    "category": "Healthcare and Medical Journals",
+    "logo": "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 45000,
+    "circulation": 80000,
+    "minimumSpend": 140000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Professionals",
+      "B2B"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover",
+      "Inside Front Cover",
+      "Inside Back Cover"
+    ],
+    "popularity": 80,
+    "topSearched": false,
+    "description": "The Indian Journal of Medical Research (IJMR) is published by the Indian Council of Medical Research (ICMR). It is one of the oldest and most cited medical journals in South Asia.",
+    "readershipProfile": "Senior doctors, surgeons, medical researchers, pharmaceutical developers, and hospital directors.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 140000,
+        "specs": "180mm x 240mm (Scientific Journal Format)",
+        "estimatedReach": "45,000 Doctors & Medical Researchers"
+      },
+      {
+        "option": "Half Page",
+        "price": 85000,
+        "specs": "180mm x 120mm (Horizontal)",
+        "estimatedReach": "35,000 Medical Specialists"
+      },
+      {
+        "option": "Back Cover",
+        "price": 220000,
+        "specs": "Outside Back Cover Full Color",
+        "estimatedReach": "45,000 Specialists"
+      }
+    ],
+    "publication": "Indian Journal of Medical Research",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-express-healthcare",
+    "name": "Express Healthcare",
+    "tagline": "Hospital Administration & MedTech Innovations",
+    "category": "Healthcare and Medical Journals",
+    "logo": "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 52000,
+    "circulation": 95000,
+    "minimumSpend": 155000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "B2B",
+      "Professionals",
+      "Business Owners"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Back Cover",
+      "Back Cover"
+    ],
+    "popularity": 79,
+    "topSearched": false,
+    "description": "Express Healthcare by Indian Express Group focuses on hospital management, healthcare technology, diagnostic equipment, and medical infrastructure procurement.",
+    "readershipProfile": "Hospital administrators, medical superintendents, diagnostic lab chains, and medtech device buyers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 155000,
+        "specs": "210mm x 280mm (MedTech Spec Format)",
+        "estimatedReach": "52,000 Hospital Decision Makers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 290000,
+        "specs": "420mm x 280mm (Center Section)",
+        "estimatedReach": "52,000 Hospital Decision Makers"
+      }
+    ],
+    "publication": "Express Healthcare",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-outlook-traveller",
+    "name": "Outlook Traveller",
+    "tagline": "India's Definitive Experiential Travel Companion",
+    "category": "Travel",
+    "logo": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 115000,
+    "circulation": 210000,
+    "minimumSpend": 175000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "North"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Young Adults",
+      "Families",
+      "B2C",
+      "Professionals"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Front Cover",
+      "Back Cover"
+    ],
+    "popularity": 85,
+    "topSearched": false,
+    "description": "Outlook Traveller covers uncharted destinations, heritage getaways, culinary explorations, and luxury stays across India and the globe.",
+    "readershipProfile": "Avid vacationers, luxury resort bookers, high-spending road trippers, and tourism boards.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 175000,
+        "specs": "210mm x 280mm (Glossy Photo Finish)",
+        "estimatedReach": "115,000 Active Travelers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 325000,
+        "specs": "420mm x 280mm (Panorama Bleed)",
+        "estimatedReach": "115,000 Active Travelers"
+      }
+    ],
+    "publication": "Outlook",
+    "publicationType": "Travel Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-autocar-india",
+    "name": "Autocar India",
+    "tagline": "First with the News, Best with the Tests",
+    "category": "Sports",
+    "logo": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 160000,
+    "circulation": 280000,
+    "minimumSpend": 215000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Male",
+      "Young Adults",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Front Cover",
+      "Back Cover"
+    ],
+    "popularity": 87,
+    "topSearched": false,
+    "description": "Autocar India is the nation's leading automotive publication, delivering thorough car and bike road tests, motorsport insights, and EV reviews.",
+    "readershipProfile": "Auto enthusiasts, vehicle buyers, motorsport followers, and high-income gadget and auto accessorizers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 215000,
+        "specs": "210mm x 280mm (Color Premium)",
+        "estimatedReach": "160,000 Automotive Enthusiasts"
+      },
+      {
+        "option": "Double Spread",
+        "price": 410000,
+        "specs": "420mm x 280mm (Center Test Drive Spread)",
+        "estimatedReach": "160,000 Automotive Enthusiasts"
+      }
+    ],
+    "publication": "Autocar India",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-sportstar",
+    "name": "Sportstar",
+    "tagline": "The Pulse of Indian and World Athletics",
+    "category": "Sports",
+    "logo": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1531415074868-036b1c57e329?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 220000,
+    "circulation": 390000,
+    "minimumSpend": 160000,
+    "location": {
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "region": "South"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Fortnightly",
+    "targetGroups": [
+      "Student",
+      "Young Adults",
+      "Male",
+      "General Audience"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 84,
+    "topSearched": false,
+    "description": "Sportstar, from the publishers of The Hindu, has chronicled Indian cricket, Olympics, football, badminton, and grassroots athletics for four decades.",
+    "readershipProfile": "Youth athletes, sports superfans, tournament followers, and fitness enthusiasts.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 160000,
+        "specs": "210mm x 280mm (Color Sport Bleed)",
+        "estimatedReach": "220,000 Sports Enthusiasts"
+      },
+      {
+        "option": "Half Page",
+        "price": 95000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "150,000 Readers"
+      }
+    ],
+    "publication": "Sportstar",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-competition-success-review",
+    "name": "Competition Success Review (CSR)",
+    "tagline": "Empowering Ambitions for Civil Services & Competitive Exams",
+    "category": "Education",
+    "logo": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 620000,
+    "circulation": 950000,
+    "minimumSpend": 290000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "North"
+    },
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Student",
+      "Young Adults",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 94,
+    "topSearched": true,
+    "description": "CSR is India's most read career and competitive exam preparation magazine, trusted by millions of UPSC, banking, MBA, and government service aspirants.",
+    "readershipProfile": "College students, civil service candidates, competitive exam aspirants, and academic coaching faculties.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 290000,
+        "specs": "210mm x 275mm (Color Standard)",
+        "estimatedReach": "620,000 Dedicated Exam Aspirants"
+      },
+      {
+        "option": "Half Page",
+        "price": 170000,
+        "specs": "210mm x 135mm (Horizontal)",
+        "estimatedReach": "450,000 Student Readers"
+      }
+    ],
+    "publication": "Competition Success Review (CSR)",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-education-world",
+    "name": "Education World",
+    "tagline": "The Human Development Magazine",
+    "category": "Education",
+    "logo": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 85000,
+    "circulation": 140000,
+    "minimumSpend": 135000,
+    "location": {
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "region": "South"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Professionals",
+      "Business Owners",
+      "B2B",
+      "Families"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Front Cover",
+      "Back Cover"
+    ],
+    "popularity": 78,
+    "topSearched": false,
+    "description": "Education World focuses on school rankings, pedagogy innovations, higher education reforms, and educational institution leadership.",
+    "readershipProfile": "School principals, trustees, university deans, edtech founders, and parents seeking schooling options.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 135000,
+        "specs": "210mm x 280mm (Color Premium)",
+        "estimatedReach": "85,000 School Deans & Trustees"
+      },
+      {
+        "option": "Double Spread",
+        "price": 250000,
+        "specs": "420mm x 280mm (Rankings Feature Spread)",
+        "estimatedReach": "85,000 Institutional Leaders"
+      }
+    ],
+    "publication": "Education World",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-grihshobha",
+    "name": "Grihshobha",
+    "tagline": "India's Highest Read Women's Magazine in Hindi",
+    "category": "Lifestyle",
+    "logo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 490000,
+    "circulation": 850000,
+    "minimumSpend": 190000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "North"
+    },
+    "languages": [
+      "Hindi"
+    ],
+    "frequency": "Fortnightly",
+    "targetGroups": [
+      "Female",
+      "Families",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 92,
+    "topSearched": true,
+    "description": "Grihshobha, published by Delhi Press, is the undisputed leader in Hindi women's journalism, featuring homemaking, relationship guidance, recipes, and fiction.",
+    "readershipProfile": "Homemakers, regional women entrepreneurs, joint families across Uttar Pradesh, Madhya Pradesh, Bihar, Rajasthan, and Delhi NCR.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 190000,
+        "specs": "210mm x 275mm (Color Standard)",
+        "estimatedReach": "490,000 Hindi Household Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 110000,
+        "specs": "210mm x 135mm (Horizontal)",
+        "estimatedReach": "340,000 Readers"
+      }
+    ],
+    "publication": "Grihshobha",
+    "publicationType": "Lifestyle Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-vanitha",
+    "name": "Vanitha",
+    "tagline": "The Voice of Kerala's Modern Households",
+    "category": "Lifestyle",
+    "logo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 580000,
+    "circulation": 1050000,
+    "minimumSpend": 260000,
+    "location": {
+      "city": "Kochi",
+      "state": "Kerala",
+      "region": "South"
+    },
+    "languages": [
+      "Malayalam"
+    ],
+    "frequency": "Fortnightly",
+    "targetGroups": [
+      "Female",
+      "Families",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 93,
+    "topSearched": true,
+    "description": "Vanitha by Malayala Manorama is the highest-circulated women's magazine in India, read in virtually every literate home and NRI diaspora family across the Gulf.",
+    "readershipProfile": "Kerala women, high-income Malayali families, Gulf NRIs, and consumer household decision makers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 260000,
+        "specs": "210mm x 280mm (Color Standard)",
+        "estimatedReach": "580,000 Verified Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 490000,
+        "specs": "420mm x 280mm (Center Section)",
+        "estimatedReach": "580,000 Verified Readers"
+      }
+    ],
+    "publication": "Vanitha",
+    "publicationType": "Lifestyle Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-ananda-vikatan",
+    "name": "Ananda Vikatan",
+    "tagline": "Tamil Nadu's Iconic Cultural Chronicle",
+    "category": "General Interest",
+    "logo": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 430000,
+    "circulation": 750000,
+    "minimumSpend": 210000,
+    "location": {
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "region": "South"
+    },
+    "languages": [
+      "Tamil"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "B2C",
+      "Young Adults"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 91,
+    "topSearched": true,
+    "description": "Ananda Vikatan is the premier Tamil weekly magazine founded in 1926, covering literature, cinema, politics, and social movements with wit and authority.",
+    "readershipProfile": "Tamil families, students, cinema fans, and politically engaged citizens across Tamil Nadu and global Tamil diaspora.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 210000,
+        "specs": "210mm x 280mm (Full Color)",
+        "estimatedReach": "430,000 Tamil Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 125000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "310,000 Readers"
+      }
+    ],
+    "publication": "Ananda Vikatan",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-swati-telugu",
+    "name": "Swati Sapari Vara Patrika",
+    "tagline": "The Beloved Household Companion of Andhra & Telangana",
+    "category": "General Interest",
+    "logo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 390000,
+    "circulation": 680000,
+    "minimumSpend": 185000,
+    "location": {
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "region": "South"
+    },
+    "languages": [
+      "Telugu"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 88,
+    "topSearched": false,
+    "description": "Swati Sapari Vara Patrika is the largest circulated Telugu weekly magazine, famous for serialized novels, cinema coverage, home management, and short stories.",
+    "readershipProfile": "Telugu-speaking households across Hyderabad, Vijayawada, Visakhapatnam, and rural Telangana & Andhra Pradesh.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 185000,
+        "specs": "210mm x 280mm (Color Bleed)",
+        "estimatedReach": "390,000 Telugu Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 105000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "270,000 Readers"
+      }
+    ],
+    "publication": "Swati Sapari Vara Patrika",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-sananda",
+    "name": "Sananda",
+    "tagline": "The Intelligent Woman's Voice in Bengal",
+    "category": "Lifestyle",
+    "logo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 280000,
+    "circulation": 460000,
+    "minimumSpend": 170000,
+    "location": {
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "region": "East"
+    },
+    "languages": [
+      "Bengali"
+    ],
+    "frequency": "Fortnightly",
+    "targetGroups": [
+      "Female",
+      "Families",
+      "B2C",
+      "Young Adults"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 86,
+    "topSearched": false,
+    "description": "Sananda, published by ABP Group (Anandabazar Patrika), is Eastern India's most influential women's lifestyle and cultural periodical.",
+    "readershipProfile": "Modern Bengali women, working professionals, cultural organizers, and culinary and fashion enthusiasts in Kolkata and West Bengal.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 170000,
+        "specs": "210mm x 275mm (Color Standard)",
+        "estimatedReach": "280,000 Bengali Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 315000,
+        "specs": "420mm x 275mm (Festive Special Section)",
+        "estimatedReach": "280,000 Bengali Readers"
+      }
+    ],
+    "publication": "Sananda",
+    "publicationType": "Lifestyle Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-lokprabha",
+    "name": "Lokprabha",
+    "tagline": "Deep-Dive Marathi Current Affairs & Thought Leadership",
+    "category": "News",
+    "logo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 210000,
+    "circulation": 360000,
+    "minimumSpend": 145000,
+    "location": {
+      "city": "Pune",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "Marathi"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "Business Owners"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 83,
+    "topSearched": false,
+    "description": "Lokprabha is a respected Marathi weekly magazine by Indian Express Group, providing rigorous political debate, economic analysis, and rural Maharashtra grassroots coverage.",
+    "readershipProfile": "Maharashtra policymakers, agricultural business owners, educators, and regional opinion builders.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 145000,
+        "specs": "210mm x 280mm (Color Standard)",
+        "estimatedReach": "210,000 Marathi Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 85000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "150,000 Readers"
+      }
+    ],
+    "publication": "Lokprabha",
+    "publicationType": "News Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-chitralekha",
+    "name": "Chitralekha",
+    "tagline": "The Spirit of Gujarati Enterprise & Culture",
+    "category": "General Interest",
+    "logo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 310000,
+    "circulation": 510000,
+    "minimumSpend": 175000,
+    "location": {
+      "city": "Ahmedabad",
+      "state": "Gujarat",
+      "region": "West"
+    },
+    "languages": [
+      "Gujarati"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "Business Owners",
+      "Families",
+      "General Audience",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 89,
+    "topSearched": false,
+    "description": "Chitralekha has been Gujarat's most celebrated weekly magazine for over seven decades, combining business acumen, community affairs, global Gujarati diaspora news, and cultural entertainment.",
+    "readershipProfile": "Gujarati business communities, traders, families, stock market investors, and NRI Gujarati diaspora.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 175000,
+        "specs": "210mm x 280mm (Color)",
+        "estimatedReach": "310,000 Gujarati Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 330000,
+        "specs": "420mm x 280mm (Business Section)",
+        "estimatedReach": "310,000 Gujarati Readers"
+      }
+    ],
+    "publication": "Chitralekha",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-taranga",
+    "name": "Taranga",
+    "tagline": "Karnataka's Premier Kannada Family Weekly",
+    "category": "General Interest",
+    "logo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 290000,
+    "circulation": 480000,
+    "minimumSpend": 150000,
+    "location": {
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "region": "South"
+    },
+    "languages": [
+      "Kannada"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "Families",
+      "General Audience",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 85,
+    "topSearched": false,
+    "description": "Taranga, published by Manipal Media Network (Udayavani), is Karnataka's foremost Kannada weekly featuring inspiring stories, literature, Sandalwood cinema, and family enrichment.",
+    "readershipProfile": "Kannada-speaking households, teachers, local businesses, and cultural associations across Karnataka.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 150000,
+        "specs": "210mm x 280mm (Color Standard)",
+        "estimatedReach": "290,000 Kannada Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 90000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "200,000 Readers"
+      }
+    ],
+    "publication": "Taranga",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-jag-bani-weekly",
+    "name": "Jag Bani Magazine",
+    "tagline": "The Premier Punjabi Community & Heritage Weekly",
+    "category": "News",
+    "logo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 340000,
+    "circulation": 580000,
+    "minimumSpend": 160000,
+    "location": {
+      "city": "Jalandhar",
+      "state": "Punjab",
+      "region": "North"
+    },
+    "languages": [
+      "Punjabi"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Business Owners",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 87,
+    "topSearched": false,
+    "description": "Jag Bani Magazine by Punjab Kesari Group is the leading Punjabi publication covering Punjab politics, agricultural developments, immigration trends, and diaspora life.",
+    "readershipProfile": "Punjabi families, farmers, NRI sponsors, regional industrialists, and youth exploring global study opportunities.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 160000,
+        "specs": "210mm x 280mm (Color Bleed)",
+        "estimatedReach": "340,000 Punjabi Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 95000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "240,000 Readers"
+      }
+    ],
+    "publication": "Jag Bani Magazine",
+    "publicationType": "News Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-overdrive",
+    "name": "Overdrive",
+    "tagline": "Passion for Motoring",
+    "category": "Sports",
+    "logo": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 110000,
+    "circulation": 190000,
+    "minimumSpend": 185000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Male",
+      "Young Adults",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Back Cover",
+      "Back Cover"
+    ],
+    "popularity": 83,
+    "topSearched": false,
+    "description": "Overdrive by Network18 is one of India's most authoritative magazines for automobile reviews, cross-country road trips, track tests, and automotive tech.",
+    "readershipProfile": "Car and superbike buyers, weekend road trippers, auto accessory seekers, and high-income young males.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 185000,
+        "specs": "210mm x 280mm (High Gloss)",
+        "estimatedReach": "110,000 Motoring Enthusiasts"
+      },
+      {
+        "option": "Double Spread",
+        "price": 350000,
+        "specs": "420mm x 280mm (Track Test Feature Spread)",
+        "estimatedReach": "110,000 Motoring Enthusiasts"
+      }
+    ],
+    "publication": "Overdrive",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-harpers-bazaar",
+    "name": "Harper's Bazaar India",
+    "tagline": "Where Fashion Becomes Art",
+    "category": "Fashion",
+    "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 65000,
+    "circulation": 115000,
+    "minimumSpend": 290000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Female",
+      "Young Adults",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Inside Front Cover",
+      "Back Cover"
+    ],
+    "popularity": 88,
+    "topSearched": false,
+    "description": "Harper's Bazaar India features high-end couture, fine jewelry, art collections, and editorial storytelling by the world's most visionary photographers and writers.",
+    "readershipProfile": "HNIs, luxury bridal shoppers, jewelry collectors, and connoisseurs of art and international design.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 290000,
+        "specs": "215mm x 280mm (Luxury Matt/Gloss Spec)",
+        "estimatedReach": "65,000 Ultra-HNI Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 540000,
+        "specs": "430mm x 280mm (Opening Section Spread)",
+        "estimatedReach": "65,000 Ultra-HNI Readers"
+      }
+    ],
+    "publication": "Harper's Bazaar India",
+    "publicationType": "Fashion Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-travel-plus-leisure",
+    "name": "Travel + Leisure India & South Asia",
+    "tagline": "Inspiring the World's Most Discerning Travelers",
+    "category": "Travel",
+    "logo": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 78000,
+    "circulation": 130000,
+    "minimumSpend": 220000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "North"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Young Adults",
+      "Families",
+      "Professionals",
+      "Business Owners"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Back Cover",
+      "Back Cover"
+    ],
+    "popularity": 86,
+    "topSearched": false,
+    "description": "Travel + Leisure India & South Asia is the global standard in luxury vacations, boutique retreats, culinary tours, and luxury aviation.",
+    "readershipProfile": "Affluent globe-trotters, luxury resort seekers, private aviation users, and international business travelers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 220000,
+        "specs": "210mm x 280mm (Gloss Luxury Color)",
+        "estimatedReach": "78,000 Luxury Travelers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 410000,
+        "specs": "420mm x 280mm (Full Bleed Travel Feature)",
+        "estimatedReach": "78,000 Luxury Travelers"
+      }
+    ],
+    "publication": "Travel + Leisure",
+    "publicationType": "Travel Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-stardust",
+    "name": "Stardust",
+    "tagline": "The Pioneer of Unfiltered Bollywood Glitz",
+    "category": "Entertainment",
+    "logo": "https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 185000,
+    "circulation": 320000,
+    "minimumSpend": 160000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "General Audience",
+      "Young Adults",
+      "B2C",
+      "Female"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Quarter Page",
+      "Back Cover"
+    ],
+    "popularity": 84,
+    "topSearched": false,
+    "description": "Stardust has reigned as a trailblazing entertainment magazine for five decades, delivering candid star confessions, film previews, and red carpet coverage.",
+    "readershipProfile": "Movie lovers, salon visitors, college students, and pop-culture enthusiasts.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 160000,
+        "specs": "210mm x 280mm (Glossy Standard)",
+        "estimatedReach": "185,000 Bollywood Fans"
+      },
+      {
+        "option": "Half Page",
+        "price": 95000,
+        "specs": "210mm x 140mm (Horizontal)",
+        "estimatedReach": "130,000 Readers"
+      }
+    ],
+    "publication": "Stardust",
+    "publicationType": "Entertainment Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-asian-hospital-healthcare",
+    "name": "Asian Hospital & Healthcare Management",
+    "tagline": "Healthcare Infrastructure & Clinical Leadership",
+    "category": "Healthcare and Medical Journals",
+    "logo": "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 38000,
+    "circulation": 65000,
+    "minimumSpend": 130000,
+    "location": {
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "region": "South"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Quarterly",
+    "targetGroups": [
+      "B2B",
+      "Professionals",
+      "Business Owners"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Double Spread",
+      "Half Page",
+      "Back Cover",
+      "Inside Front Cover"
+    ],
+    "popularity": 76,
+    "topSearched": false,
+    "description": "Asian Hospital & Healthcare Management is a quarterly B2B publication offering executive analysis on hospital engineering, healthcare IT, robotics, and facility design.",
+    "readershipProfile": "Hospital CXOs, healthcare investors, biomedical department heads, and government health secretaries.",
+    "minimumBooking": "1 Issue Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 130000,
+        "specs": "210mm x 280mm (B2B Healthcare Issue)",
+        "estimatedReach": "38,000 Hospital CXOs"
+      },
+      {
+        "option": "Double Spread",
+        "price": 240000,
+        "specs": "420mm x 280mm (Equipment Spotlight)",
+        "estimatedReach": "38,000 Hospital CXOs"
+      }
+    ],
+    "publication": "Asian Hospital & Healthcare Management",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-financial-express-annual",
+    "name": "Financial Express India Best Banks Annual",
+    "tagline": "The Definitive Banking & Fintech Yearbook",
+    "category": "Business",
+    "logo": "https://images.unsplash.com/photo-1618042164219-62c820f10723?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 120000,
+    "circulation": 200000,
+    "minimumSpend": 350000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Annual",
+    "targetGroups": [
+      "B2B",
+      "Business Owners",
+      "Professionals"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Inside Front Cover",
+      "Back Cover"
+    ],
+    "popularity": 88,
+    "topSearched": false,
+    "description": "Financial Express India's Best Banks is an annual prestige compendium reviewing capital adequacy, fintech developments, and banking leadership across India.",
+    "readershipProfile": "Bank MDs, NBFC founders, treasury managers, institutional investors, and fintech unicorns.",
+    "minimumBooking": "Annual Edition Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 350000,
+        "specs": "210mm x 285mm (Hardcover Yearbook Color)",
+        "estimatedReach": "120,000 BFSI Leaders"
+      },
+      {
+        "option": "Double Spread",
+        "price": 650000,
+        "specs": "420mm x 285mm (Yearbook Center Spread)",
+        "estimatedReach": "120,000 BFSI Leaders"
+      }
+    ],
+    "publication": "Financial Express",
+    "publicationType": "Business Magazine",
+    "editionType": "Special Supplement"
+  },
+  {
+    "id": "mag-architecture-plus-design",
+    "name": "Architecture+Design (A+D)",
+    "tagline": "India's Premier Journal of Architecture & Spatial Innovation",
+    "category": "Lifestyle",
+    "logo": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 65000,
+    "circulation": 110000,
+    "minimumSpend": 165000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Bi-Monthly",
+    "targetGroups": [
+      "Professionals",
+      "Business Owners",
+      "B2B"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Inside Back Cover",
+      "Back Cover"
+    ],
+    "popularity": 81,
+    "topSearched": false,
+    "description": "Architecture+Design documents landmark architectural projects, interior design breakthroughs, sustainable facades, and urban planning across the subcontinent.",
+    "readershipProfile": "Architects, interior designers, urban planners, real estate developers, and high-end construction material specifiers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 165000,
+        "specs": "220mm x 290mm (High Art Paper)",
+        "estimatedReach": "65,000 Leading Architects"
+      },
+      {
+        "option": "Double Spread",
+        "price": 310000,
+        "specs": "440mm x 290mm (Architectural Spread)",
+        "estimatedReach": "65,000 Leading Architects"
+      }
+    ],
+    "publication": "Architecture+Design (A+D)",
+    "publicationType": "Lifestyle Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-the-hindu-daily-magazine",
+    "name": "The Hindu Sunday Magazine",
+    "tagline": "Reflective Weekend Reading on Culture, Books & Society",
+    "category": "General Interest",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 820000,
+    "circulation": 1400000,
+    "minimumSpend": 380000,
+    "location": {
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "Families",
+      "Student"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Half Page",
+      "Quarter Page",
+      "Double Spread",
+      "Back Cover"
+    ],
+    "popularity": 96,
+    "topSearched": true,
+    "description": "The Hindu Sunday Magazine is a weekly supplement bundled with the daily paper, renowned for literary essays, art reviews, science commentary, and environmental features.",
+    "readershipProfile": "Intellectual households, academics, civil service candidates, and discerning urban families.",
+    "minimumBooking": "1 Weekend Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 380000,
+        "specs": "Full Page Broadsheet Color (330mm x 520mm)",
+        "estimatedReach": "820,000 Verified Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 210000,
+        "specs": "Half Page (330mm x 260mm)",
+        "estimatedReach": "600,000 Readers"
+      },
+      {
+        "option": "Quarter Page",
+        "price": 120000,
+        "specs": "Quarter Page (160mm x 260mm)",
+        "estimatedReach": "450,000 Readers"
+      }
+    ],
+    "publication": "The Hindu",
+    "publicationType": "Special Interest Magazine",
+    "editionType": "Special Supplement"
+  },
+  {
+    "id": "mag-cosmopolitan",
+    "name": "Cosmopolitan India",
+    "tagline": "The World’s Largest Selling Young Women’s Magazine",
+    "category": "Fashion",
+    "logo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 320000,
+    "circulation": 280000,
+    "minimumSpend": 240000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "Women 25-45",
+      "Affluent Consumers",
+      "Luxury Shoppers",
+      "Youth"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page",
+      "Back Cover"
+    ],
+    "popularity": 93,
+    "topSearched": true,
+    "description": "Cosmopolitan India is the definitive style and relationship monthly for spirited, ambitious young Indian women. Published under license by India Today Group.",
+    "readershipProfile": "Fashion-forward young women, urban female executives, beauty enthusiasts, and college graduates.",
+    "minimumBooking": "1 Insertion (Booking deadline 15 days prior)",
+    "advertisingRates": [
+      {
+        "option": "Cover Page",
+        "price": 420000,
+        "specs": "Inside Front Cover (IFC Gatefold)",
+        "estimatedReach": "320,000 High-Impact Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 240000,
+        "specs": "Full Page Color (205mm x 275mm)",
+        "estimatedReach": "320,000 Fashion-Forward Readers"
+      },
+      {
+        "option": "Double Spread",
+        "price": 440000,
+        "specs": "Opening Double Page Spread",
+        "estimatedReach": "320,000 Readers"
+      }
+    ],
+    "publication": "Cosmopolitan",
+    "publicationType": "Fashion Magazine",
+    "editionType": "Main Magazine"
+  },
+  {
+    "id": "mag-fortune-india",
+    "name": "Fortune India",
+    "tagline": "The Global Business Magazine for Strategic Decision Makers",
+    "category": "Business",
+    "logo": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 280000,
+    "circulation": 250000,
+    "minimumSpend": 275000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Monthly",
+    "targetGroups": [
+      "C-Suite",
+      "Corporate Executives",
+      "High Net Worth Individuals",
+      "B2B"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Cover Page",
+      "Double Spread",
+      "Half Page"
+    ],
+    "popularity": 92,
+    "topSearched": true,
+    "description": "Fortune India is the leading monthly for business leaders, known for authoritative rankings like Fortune 500 India and deep corporate investigations.",
+    "readershipProfile": "CEOs, CXOs, venture capitalists, senior management and corporate directors.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 275000,
+        "specs": "Full Page Color (205mm x 275mm)",
+        "estimatedReach": "280,000 Decision Makers"
+      },
+      {
+        "option": "Cover Page",
+        "price": 480000,
+        "specs": "Inside Front Cover Spread",
+        "estimatedReach": "280,000 High-Impact Readers"
+      }
+    ],
+    "publication": "Fortune India",
+    "publicationType": "Business Magazine",
+    "editionType": "Main Magazine"
+  }
+]

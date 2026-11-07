@@ -1,0 +1,1675 @@
+[
+  {
+    "id": "news-times-of-india",
+    "name": "The Times of India",
+    "tagline": "India's Largest Circulated English Daily",
+    "category": "National News",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 2800000,
+    "circulation": 3200000,
+    "minimumSpend": 550000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "Business Owners",
+      "B2C",
+      "B2B"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page",
+      "Back Page",
+      "Ear Panel"
+    ],
+    "popularity": 99,
+    "topSearched": true,
+    "description": "The Times of India is India's most read and highest-circulated English newspaper, published by Bennett, Coleman & Co. Ltd. It commands dominant reach across tier-1 urban markets and corporate decision makers.",
+    "readershipProfile": "Urban professionals, corporate leaders, affluent families, government officials and academic communities.",
+    "minimumBooking": "1 Insertion (Booking deadline 24 hours prior to printing)",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 850000,
+        "specs": "Broadsheet Color (330mm x 520mm)",
+        "estimatedReach": "2,800,000 High-Impact Readers"
+      },
+      {
+        "option": "Jacket / Flap",
+        "price": 1400000,
+        "specs": "4-Page Full Cover Flap Wrap",
+        "estimatedReach": "2,800,000 Prime Morning Reach"
+      },
+      {
+        "option": "Full Page",
+        "price": 550000,
+        "specs": "Full Page Inside Color (330mm x 520mm)",
+        "estimatedReach": "2,800,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 310000,
+        "specs": "Half Page (330mm x 260mm)",
+        "estimatedReach": "2,200,000 Readers"
+      },
+      {
+        "option": "Quarter Page",
+        "price": 175000,
+        "specs": "Quarter Page (160mm x 260mm)",
+        "estimatedReach": "1,800,000 Readers"
+      },
+      {
+        "option": "Back Page",
+        "price": 480000,
+        "specs": "Back Page Full Color",
+        "estimatedReach": "2,800,000 Readers"
+      }
+    ],
+    "publication": "The Times of India",
+    "publicationType": "National Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-the-hindu",
+    "name": "The Hindu",
+    "tagline": "India's National Newspaper Since 1878",
+    "category": "National News",
+    "logo": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1400000,
+    "circulation": 1500000,
+    "minimumSpend": 380000,
+    "location": {
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "Students",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 95,
+    "topSearched": true,
+    "description": "The Hindu is renowned for authoritative, independent journalism, balanced reporting, and high credibility. It is the premier choice for institutional, public sector, and premium corporate campaigns.",
+    "readershipProfile": "Civil service aspirants, legal and educational professionals, policy makers, senior executives, and intellectual households.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 620000,
+        "specs": "Broadsheet Color (330mm x 520mm)",
+        "estimatedReach": "1,400,000 Verified Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 380000,
+        "specs": "Full Page Color",
+        "estimatedReach": "1,400,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 220000,
+        "specs": "Half Page (330mm x 260mm)",
+        "estimatedReach": "1,100,000 Readers"
+      },
+      {
+        "option": "Quarter Page",
+        "price": 125000,
+        "specs": "Quarter Page (160mm x 260mm)",
+        "estimatedReach": "850,000 Readers"
+      }
+    ],
+    "publication": "The Hindu",
+    "publicationType": "National Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-hindustan-times",
+    "name": "Hindustan Times",
+    "tagline": "First Voice, Last Word",
+    "category": "National News",
+    "logo": "https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1900000,
+    "circulation": 2100000,
+    "minimumSpend": 420000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "North"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "Business Owners",
+      "Young Adults"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 94,
+    "topSearched": true,
+    "description": "Hindustan Times is one of India's flagship English broadsheets with an unrivaled readership across Delhi-NCR and Northern India, known for sharp urban reportage and impactful supplements.",
+    "readershipProfile": "Modern urban families, corporate managers, startup founders, and youth seeking contemporary lifestyle and business reporting.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 720000,
+        "specs": "Broadsheet Color (330mm x 520mm)",
+        "estimatedReach": "1,900,000 Metro Readers"
+      },
+      {
+        "option": "Jacket / Flap",
+        "price": 1150000,
+        "specs": "Front Outer Jacket Spread",
+        "estimatedReach": "1,900,000 High-Impact Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 420000,
+        "specs": "Full Page Inside Color",
+        "estimatedReach": "1,900,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 240000,
+        "specs": "Half Page Horizontal",
+        "estimatedReach": "1,400,000 Readers"
+      }
+    ],
+    "publication": "Hindustan Times",
+    "publicationType": "National Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-economic-times",
+    "name": "The Economic Times",
+    "tagline": "The World, Work & Wealth",
+    "category": "Business & Finance",
+    "logo": "https://images.unsplash.com/photo-1618042164219-62c820f10723?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 850000,
+    "circulation": 950000,
+    "minimumSpend": 390000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "Business Owners",
+      "Professionals",
+      "B2B"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page",
+      "Ear Panel"
+    ],
+    "popularity": 96,
+    "topSearched": true,
+    "description": "The Economic Times is India's leading financial daily, providing comprehensive coverage of stock markets, macroeconomic policies, corporate mergers, fintech, and startups.",
+    "readershipProfile": "C-suite executives, institutional investors, financial analysts, tech founders, and senior management.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 680000,
+        "specs": "Front Page Color Pink Broadsheet",
+        "estimatedReach": "850,000 Business Decision Makers"
+      },
+      {
+        "option": "Full Page",
+        "price": 390000,
+        "specs": "Full Page Financial Section",
+        "estimatedReach": "850,000 Leaders"
+      },
+      {
+        "option": "Half Page",
+        "price": 225000,
+        "specs": "Half Page Corporate Section",
+        "estimatedReach": "650,000 Leaders"
+      }
+    ],
+    "publication": "The Economic Times",
+    "publicationType": "Business Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-mint",
+    "name": "Mint",
+    "tagline": "Clarity in Business News",
+    "category": "Business & Finance",
+    "logo": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 420000,
+    "circulation": 480000,
+    "minimumSpend": 240000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "Professionals",
+      "Business Owners",
+      "B2B",
+      "Young Adults"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 90,
+    "topSearched": false,
+    "description": "Mint, in collaboration with The Wall Street Journal, offers insightful business analysis, data-driven journalism, personal finance guidance, and policy breakdowns in Berliner format.",
+    "readershipProfile": "Young finance professionals, tech leaders, venture capitalists, and corporate consultants.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 420000,
+        "specs": "Berliner Format Color Front",
+        "estimatedReach": "420,000 Finance Professionals"
+      },
+      {
+        "option": "Full Page",
+        "price": 240000,
+        "specs": "Full Page Berliner",
+        "estimatedReach": "420,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 140000,
+        "specs": "Half Page",
+        "estimatedReach": "310,000 Readers"
+      }
+    ],
+    "publication": "Mint",
+    "publicationType": "Business Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-business-standard",
+    "name": "Business Standard",
+    "tagline": "When You're Sure",
+    "category": "Business & Finance",
+    "logo": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 380000,
+    "circulation": 420000,
+    "minimumSpend": 210000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "National"
+    },
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "Business Owners",
+      "Professionals",
+      "B2B"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 88,
+    "topSearched": false,
+    "description": "Business Standard is widely acclaimed for its rigorous editorial stance, thorough coverage of corporate governance, public finance, commodities, and industrial strategy.",
+    "readershipProfile": "Senior bankers, industrial promoters, policy makers, economic consultants, and portfolio managers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 360000,
+        "specs": "Front Page Color Broadsheet",
+        "estimatedReach": "380,000 Industry Decision Makers"
+      },
+      {
+        "option": "Full Page",
+        "price": 210000,
+        "specs": "Full Page Inside Color",
+        "estimatedReach": "380,000 Readers"
+      }
+    ],
+    "publication": "Business Standard",
+    "publicationType": "Financial Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-indian-express",
+    "name": "The Indian Express",
+    "tagline": "Journalism of Courage",
+    "category": "National News",
+    "logo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 950000,
+    "circulation": 1050000,
+    "minimumSpend": 275000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "Students"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 92,
+    "topSearched": true,
+    "description": "The Indian Express is celebrated for fearless investigative reporting, in-depth political discourse, legal insights, and deep-dive Explained series.",
+    "readershipProfile": "Civil servants, judiciary, think-tank fellows, researchers, university faculties, and discerning urban citizens.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 490000,
+        "specs": "Front Page Color Broadsheet",
+        "estimatedReach": "950,000 Thought Leaders"
+      },
+      {
+        "option": "Full Page",
+        "price": 275000,
+        "specs": "Full Page Color",
+        "estimatedReach": "950,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 160000,
+        "specs": "Half Page Horizontal",
+        "estimatedReach": "700,000 Readers"
+      }
+    ],
+    "publication": "The Indian Express",
+    "publicationType": "National Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-dainik-jagran",
+    "name": "Dainik Jagran",
+    "tagline": "India's Most Read Hindi Daily",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 3400000,
+    "circulation": 3900000,
+    "minimumSpend": 480000,
+    "location": {
+      "city": "Lucknow",
+      "state": "Uttar Pradesh",
+      "region": "North"
+    },
+    "languages": [
+      "Hindi"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Business Owners",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 97,
+    "topSearched": true,
+    "description": "Dainik Jagran has been India's largest read Hindi newspaper for over two decades according to the Indian Readership Survey, with unmatched penetration across UP, Bihar, Punjab, and Delhi-NCR.",
+    "readershipProfile": "Hindi heartland households, local business traders, government personnel, and agricultural and retail entrepreneurs.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 780000,
+        "specs": "Broadsheet Color (330mm x 520mm)",
+        "estimatedReach": "3,400,000 Household Readers"
+      },
+      {
+        "option": "Jacket / Flap",
+        "price": 1250000,
+        "specs": "Full Jacket Outer Wrap",
+        "estimatedReach": "3,400,000 Mass Heartland Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 480000,
+        "specs": "Full Page Inside Color",
+        "estimatedReach": "3,400,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 270000,
+        "specs": "Half Page",
+        "estimatedReach": "2,400,000 Readers"
+      }
+    ],
+    "publication": "Dainik Jagran",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-dainik-bhaskar",
+    "name": "Dainik Bhaskar",
+    "tagline": "Zid Karo, Duniya Badlo",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 3100000,
+    "circulation": 3600000,
+    "minimumSpend": 460000,
+    "location": {
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "region": "North"
+    },
+    "languages": [
+      "Hindi"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Business Owners",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 96,
+    "topSearched": true,
+    "description": "Dainik Bhaskar is a flagship Hindi daily published by the DB Corp Group, leading the readership charts across Rajasthan, Madhya Pradesh, Gujarat, and Haryana.",
+    "readershipProfile": "Tier 2 and Tier 3 aspirational consumer households, retail business owners, and youth seeking competitive exam information.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 750000,
+        "specs": "Front Page Color Broadsheet",
+        "estimatedReach": "3,100,000 Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 460000,
+        "specs": "Full Page Inside Color",
+        "estimatedReach": "3,100,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 260000,
+        "specs": "Half Page",
+        "estimatedReach": "2,200,000 Readers"
+      }
+    ],
+    "publication": "Dainik Bhaskar",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-amar-ujala",
+    "name": "Amar Ujala",
+    "tagline": "Josh Paida Karne Wala Sach",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 2200000,
+    "circulation": 2600000,
+    "minimumSpend": 310000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "North"
+    },
+    "languages": [
+      "Hindi"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 91,
+    "topSearched": false,
+    "description": "Amar Ujala delivers robust grassroots journalism across Uttar Pradesh, Uttarakhand, Himachal Pradesh, Jammu & Kashmir, and Delhi-NCR.",
+    "readershipProfile": "Middle-class families, rural entrepreneurs, school and college faculties, and regional FMCG consumers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 520000,
+        "specs": "Front Page Color",
+        "estimatedReach": "2,200,000 Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 310000,
+        "specs": "Full Page Color",
+        "estimatedReach": "2,200,000 Readers"
+      }
+    ],
+    "publication": "Amar Ujala",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-malayala-manorama",
+    "name": "Malayala Manorama",
+    "tagline": "Kerala's Morning Habit Since 1888",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 2400000,
+    "circulation": 2700000,
+    "minimumSpend": 350000,
+    "location": {
+      "city": "Kochi",
+      "state": "Kerala",
+      "region": "South"
+    },
+    "languages": [
+      "Malayalam"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 95,
+    "topSearched": true,
+    "description": "Malayala Manorama is the largest circulated Malayalam daily and one of India's most respected regional publications with profound reach among literate Malayali households and Gulf NRI families.",
+    "readershipProfile": "Kerala households, NRI remitter families, doctors, educators, and high-saving consumers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 580000,
+        "specs": "Front Page Broadsheet Color",
+        "estimatedReach": "2,400,000 Literate Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 350000,
+        "specs": "Full Page Color",
+        "estimatedReach": "2,400,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 195000,
+        "specs": "Half Page Horizontal",
+        "estimatedReach": "1,700,000 Readers"
+      }
+    ],
+    "publication": "Malayala Manorama",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-daily-thanthi",
+    "name": "Daily Thanthi (Dina Thanthi)",
+    "tagline": "The Voice of the Tamil People",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 2100000,
+    "circulation": 2400000,
+    "minimumSpend": 320000,
+    "location": {
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "region": "South"
+    },
+    "languages": [
+      "Tamil"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 93,
+    "topSearched": true,
+    "description": "Daily Thanthi is the highest circulated Tamil newspaper, read across urban and rural Tamil Nadu, Puducherry, and international Tamil diaspora.",
+    "readershipProfile": "Tamil families, retail traders, cinema enthusiasts, agricultural communities, and youth.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 540000,
+        "specs": "Front Page Color Broadsheet",
+        "estimatedReach": "2,100,000 Tamil Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 320000,
+        "specs": "Full Page Color",
+        "estimatedReach": "2,100,000 Readers"
+      }
+    ],
+    "publication": "Daily Thanthi",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-eenadu",
+    "name": "Eenadu",
+    "tagline": "Heartbeat of Telugu People",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 2300000,
+    "circulation": 2600000,
+    "minimumSpend": 340000,
+    "location": {
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "region": "South"
+    },
+    "languages": [
+      "Telugu"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Business Owners",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 94,
+    "topSearched": true,
+    "description": "Eenadu, established by Ramoji Rao, is the undisputed leader in Telugu journalism across Andhra Pradesh and Telangana, renowned for district editions and public interest campaigns.",
+    "readershipProfile": "Telugu families, IT workers in Hyderabad, farmers, merchants, and state government employees.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 560000,
+        "specs": "Front Page Color Broadsheet",
+        "estimatedReach": "2,300,000 Telugu Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 340000,
+        "specs": "Full Page Inside Color",
+        "estimatedReach": "2,300,000 Readers"
+      }
+    ],
+    "publication": "Eenadu",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-lokmat",
+    "name": "Lokmat",
+    "tagline": "Number One Daily of Maharashtra & Goa",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 2500000,
+    "circulation": 2800000,
+    "minimumSpend": 330000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "West"
+    },
+    "languages": [
+      "Marathi"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Business Owners",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 93,
+    "topSearched": true,
+    "description": "Lokmat is the premier Marathi daily newspaper in Maharashtra and Goa, commanding unmatched readership across Mumbai, Pune, Nagpur, Aurangabad, and Nashik.",
+    "readershipProfile": "Maharashtra urban and semi-urban households, industrial workforce, local entrepreneurs, and political leadership.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 570000,
+        "specs": "Front Page Broadsheet Color",
+        "estimatedReach": "2,500,000 Marathi Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 330000,
+        "specs": "Full Page Color",
+        "estimatedReach": "2,500,000 Readers"
+      }
+    ],
+    "publication": "Lokmat",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-anandabazar-patrika",
+    "name": "Anandabazar Patrika",
+    "tagline": "The Unquestioned Heart of Bengali Intellectualism",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1900000,
+    "circulation": 2100000,
+    "minimumSpend": 360000,
+    "location": {
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "region": "East"
+    },
+    "languages": [
+      "Bengali"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 94,
+    "topSearched": true,
+    "description": "Anandabazar Patrika (ABP Group) is the definitive Bengali daily newspaper, renowned for literary prose, deep investigative journalism, cultural authority, and commercial influence across Eastern India.",
+    "readershipProfile": "Bengali families, academics, doctors, civil servants, writers, and cultural opinion shapers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 610000,
+        "specs": "Front Page Color Broadsheet",
+        "estimatedReach": "1,900,000 Bengali Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 360000,
+        "specs": "Full Page Color",
+        "estimatedReach": "1,900,000 Readers"
+      }
+    ],
+    "publication": "Anandabazar Patrika",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-gujarat-samachar",
+    "name": "Gujarat Samachar",
+    "tagline": "Voice of Gujarati Enterprise",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1800000,
+    "circulation": 2000000,
+    "minimumSpend": 290000,
+    "location": {
+      "city": "Ahmedabad",
+      "state": "Gujarat",
+      "region": "West"
+    },
+    "languages": [
+      "Gujarati"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Business Owners",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 91,
+    "topSearched": false,
+    "description": "Gujarat Samachar is Gujarat's most circulated Gujarati newspaper, widely read across Ahmedabad, Vadodara, Surat, Rajkot, and Mumbai's Gujarati trading community.",
+    "readershipProfile": "Gujarati business owners, share market traders, diamond merchants, textile industrial houses, and NRI families.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 490000,
+        "specs": "Front Page Color Broadsheet",
+        "estimatedReach": "1,800,000 Gujarati Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 290000,
+        "specs": "Full Page Inside Color",
+        "estimatedReach": "1,800,000 Readers"
+      }
+    ],
+    "publication": "Gujarat Samachar",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-prajavani",
+    "name": "Prajavani",
+    "tagline": "Voice of the People of Karnataka",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1400000,
+    "circulation": 1600000,
+    "minimumSpend": 250000,
+    "location": {
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "region": "South"
+    },
+    "languages": [
+      "Kannada"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 89,
+    "topSearched": false,
+    "description": "Prajavani is one of Karnataka's oldest and most respected Kannada dailies, published by The Printers (Mysore) Private Limited along with Deccan Herald.",
+    "readershipProfile": "Kannada households, educators, civil servants, tech city residents, and regional business traders.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 420000,
+        "specs": "Front Page Broadsheet Color",
+        "estimatedReach": "1,400,000 Kannada Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 250000,
+        "specs": "Full Page Color",
+        "estimatedReach": "1,400,000 Readers"
+      }
+    ],
+    "publication": "Prajavani",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-punjab-kesari",
+    "name": "Punjab Kesari",
+    "tagline": "Pioneering Daily of Punjab, Haryana & Delhi",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1700000,
+    "circulation": 1950000,
+    "minimumSpend": 270000,
+    "location": {
+      "city": "Jalandhar",
+      "state": "Punjab",
+      "region": "North"
+    },
+    "languages": [
+      "Hindi",
+      "Punjabi"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Families",
+      "Business Owners",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Jacket / Flap",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 90,
+    "topSearched": false,
+    "description": "Punjab Kesari is a widely circulated newspaper in Punjab, Haryana, Rajasthan, Himachal Pradesh, and Delhi, catering to urban and rural North Indian markets.",
+    "readershipProfile": "Punjabi and Hindi business families, agrarian entrepreneurs, retailers, and youth exploring global migration and education.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 460000,
+        "specs": "Front Page Color Broadsheet",
+        "estimatedReach": "1,700,000 Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 270000,
+        "specs": "Full Page Inside Color",
+        "estimatedReach": "1,700,000 Readers"
+      }
+    ],
+    "publication": "Punjab Kesari",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-deccan-chronicle",
+    "name": "Deccan Chronicle",
+    "tagline": "The Leading English Daily of the Deccan",
+    "category": "National News",
+    "logo": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 890000,
+    "circulation": 1050000,
+    "minimumSpend": 250000,
+    "location": {
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "region": "South"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "Young Adults"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 87,
+    "topSearched": false,
+    "description": "Deccan Chronicle is the largest circulated English daily in Andhra Pradesh and Telangana, with substantial editions in Chennai, Bengaluru, and Kerala.",
+    "readershipProfile": "Hyderabad IT professionals, college students, healthcare personnel, and urban retail shoppers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 430000,
+        "specs": "Front Page Color",
+        "estimatedReach": "890,000 Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 250000,
+        "specs": "Full Page Color",
+        "estimatedReach": "890,000 Readers"
+      }
+    ],
+    "publication": "Deccan Chronicle",
+    "publicationType": "National Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-the-telegraph",
+    "name": "The Telegraph",
+    "tagline": "Unputdownable",
+    "category": "National News",
+    "logo": "https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 820000,
+    "circulation": 950000,
+    "minimumSpend": 260000,
+    "location": {
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "region": "East"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "Students",
+      "Young Adults"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 89,
+    "topSearched": false,
+    "description": "The Telegraph (ABP Group) is the most widely circulated English daily in Eastern India, known for striking front-page headlines and deep coverage of the Northeast.",
+    "readershipProfile": "Kolkata urban elite, corporate managers, university students, and intellectual households across Eastern India.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 440000,
+        "specs": "Front Page Color Broadsheet",
+        "estimatedReach": "820,000 Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 260000,
+        "specs": "Full Page Color",
+        "estimatedReach": "820,000 Readers"
+      }
+    ],
+    "publication": "The Telegraph",
+    "publicationType": "National Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-delhi-times",
+    "name": "The Times of India - Delhi Times",
+    "tagline": "Capital Lifestyle, Entertainment & City Culture Pullout",
+    "publication": "The Times of India",
+    "publicationType": "Local Daily",
+    "editionType": "Supplement",
+    "category": "Lifestyle & Entertainment",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1450000,
+    "circulation": 1600000,
+    "minimumSpend": 280000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "North"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "Young Adults",
+      "Professionals",
+      "Families",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 96,
+    "topSearched": true,
+    "description": "Delhi Times is the leading entertainment, lifestyle and glamour city supplement of The Times of India, capturing Delhi NCR high-net-worth consumer attention daily.",
+    "readershipProfile": "Youth, affluent shoppers, urban families, lifestyle brand enthusiasts.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 450000,
+        "specs": "Broadsheet Front Color"
+      },
+      {
+        "option": "Full Page",
+        "price": 280000,
+        "specs": "Full Page Inside Color"
+      },
+      {
+        "option": "Half Page",
+        "price": 160000,
+        "specs": "Half Page Color"
+      }
+    ]
+  },
+  {
+    "id": "news-ht-brunch",
+    "name": "Hindustan Times - HT Brunch",
+    "tagline": "India’s Premier Sunday Lifestyle Magazine Supplement",
+    "publication": "Hindustan Times",
+    "publicationType": "Sunday Edition",
+    "editionType": "Supplement",
+    "category": "Lifestyle & Entertainment",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1850000,
+    "circulation": 2100000,
+    "minimumSpend": 320000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "Affluent Consumers",
+      "Professionals",
+      "Families",
+      "B2C"
+    ],
+    "adOptions": [
+      "Full Page",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 94,
+    "topSearched": true,
+    "description": "HT Brunch is the glossy Sunday lifestyle magazine accompanying Hindustan Times nationwide, featuring luxury, travel, food, and culture stories.",
+    "readershipProfile": "Sunday morning leisure readers, luxury consumers, metro families.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 320000,
+        "specs": "Full Page Glossy Color"
+      },
+      {
+        "option": "Half Page",
+        "price": 190000,
+        "specs": "Half Page Color"
+      }
+    ]
+  },
+  {
+    "id": "news-et-brand-equity",
+    "name": "The Economic Times - Brand Equity",
+    "tagline": "The Bible of Indian Advertising, Marketing & Brand Strategy",
+    "publication": "The Economic Times",
+    "publicationType": "Business Daily",
+    "editionType": "Supplement",
+    "category": "Business & Finance",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 820000,
+    "circulation": 950000,
+    "minimumSpend": 240000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "National"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "C-Suite",
+      "Business Owners",
+      "Professionals",
+      "B2B"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page"
+    ],
+    "popularity": 91,
+    "topSearched": false,
+    "description": "ET Brand Equity is the essential weekly supplement of The Economic Times focused on media, advertising, marketing strategy, and brand showcases.",
+    "readershipProfile": "CMOs, media planners, brand directors, marketing professionals.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 240000,
+        "specs": "Full Page Tabloid Color"
+      }
+    ]
+  },
+  {
+    "id": "news-the-hindu-metroplus",
+    "name": "The Hindu - MetroPlus",
+    "tagline": "City Life, Food, Culture & Arts Daily Pullout",
+    "publication": "The Hindu",
+    "publicationType": "Local Daily",
+    "editionType": "Supplement",
+    "category": "General News",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 920000,
+    "circulation": 1050000,
+    "minimumSpend": 210000,
+    "location": {
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "region": "South"
+    },
+    "languages": [
+      "English"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 88,
+    "topSearched": false,
+    "description": "MetroPlus is The Hindu’s daily lifestyle and city culture supplement, capturing southern metro communities with insightful local reporting.",
+    "readershipProfile": "South Indian metro residents, art enthusiasts, foodies and students.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 210000,
+        "specs": "Full Page Color"
+      }
+    ]
+  },
+  {
+    "id": "news-dainik-bhaskar-rasrang",
+    "name": "Dainik Bhaskar - Rasrang",
+    "tagline": "India’s Most Read Hindi Sunday Literature & Family Supplement",
+    "publication": "Dainik Bhaskar",
+    "publicationType": "Sunday Edition",
+    "editionType": "Supplement",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 2400000,
+    "circulation": 2800000,
+    "minimumSpend": 310000,
+    "location": {
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "region": "North"
+    },
+    "languages": [
+      "Hindi"
+    ],
+    "frequency": "Weekly",
+    "targetGroups": [
+      "Families",
+      "General Audience",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page"
+    ],
+    "popularity": 93,
+    "topSearched": false,
+    "description": "Rasrang is Dainik Bhaskar’s widely acclaimed Sunday literary and family supplement published across Rajasthan, MP, Haryana and Gujarat.",
+    "readershipProfile": "Hindi-speaking families, cultural readers, tier-2 and tier-3 households.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Full Page",
+        "price": 310000,
+        "specs": "Full Page Color"
+      }
+    ]
+  },
+  {
+    "id": "news-hindustan",
+    "name": "Hindustan",
+    "tagline": "Leading Hindi Daily of North India",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 2400000,
+    "circulation": 2800000,
+    "minimumSpend": 380000,
+    "location": {
+      "city": "Delhi",
+      "state": "Delhi NCR",
+      "region": "North"
+    },
+    "languages": [
+      "Hindi"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Tier-2 & Tier-3 Consumers",
+      "Families",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 94,
+    "topSearched": true,
+    "description": "Hindustan is one of the highest-read Hindi dailies across Northern India, published by HT Media. It delivers massive penetration in Delhi NCR, UP, Bihar, and Jharkhand.",
+    "readershipProfile": "Hindi-speaking households, traders, local business owners, and regional consumers.",
+    "minimumBooking": "1 Insertion (Booking deadline 24 hours prior to printing)",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 620000,
+        "specs": "Broadsheet Color",
+        "estimatedReach": "2,400,000 High-Impact Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 380000,
+        "specs": "Full Page Color (330mm x 520mm)",
+        "estimatedReach": "2,400,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 210000,
+        "specs": "Half Page (330mm x 260mm)",
+        "estimatedReach": "1,900,000 Readers"
+      },
+      {
+        "option": "Quarter Page",
+        "price": 120000,
+        "specs": "Quarter Page (160mm x 260mm)",
+        "estimatedReach": "1,500,000 Readers"
+      }
+    ],
+    "publication": "Hindustan",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-navbharat-times",
+    "name": "Navbharat Times",
+    "tagline": "Leading Hindi Daily of Metro Mumbai & Delhi",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1950000,
+    "circulation": 2200000,
+    "minimumSpend": 340000,
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "region": "National"
+    },
+    "languages": [
+      "Hindi"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "Urban Consumers",
+      "Small Business Owners",
+      "Professionals",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page",
+      "Back Page"
+    ],
+    "popularity": 91,
+    "topSearched": false,
+    "description": "Navbharat Times is a prominent Hindi newspaper published by Bennett, Coleman & Co. Ltd. offering high-density coverage across affluent Hindi readers in Mumbai and Delhi.",
+    "readershipProfile": "Urban Hindi readers, business owners, retail shoppers, and working professionals.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 540000,
+        "specs": "Broadsheet Color",
+        "estimatedReach": "1,950,000 High-Impact Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 340000,
+        "specs": "Full Page Color",
+        "estimatedReach": "1,950,000 Readers"
+      },
+      {
+        "option": "Half Page",
+        "price": 185000,
+        "specs": "Half Page",
+        "estimatedReach": "1,500,000 Readers"
+      }
+    ],
+    "publication": "Navbharat Times",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-rajasthan-patrika",
+    "name": "Rajasthan Patrika",
+    "tagline": "Trustworthy Regional Voice of Western India",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 2100000,
+    "circulation": 2500000,
+    "minimumSpend": 310000,
+    "location": {
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "region": "North"
+    },
+    "languages": [
+      "Hindi"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "General Audience",
+      "Agricultural Leaders",
+      "Traders",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 89,
+    "topSearched": false,
+    "description": "Rajasthan Patrika is renowned for independent and courageous journalism, commanding unparalleled loyalty across Rajasthan, Madhya Pradesh, and Gujarat.",
+    "readershipProfile": "Regional business communities, families, and educated rural and urban readers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 490000,
+        "specs": "Front Page Broadsheet Color",
+        "estimatedReach": "2,100,000 Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 310000,
+        "specs": "Full Page Color",
+        "estimatedReach": "2,100,000 Readers"
+      }
+    ],
+    "publication": "Rajasthan Patrika",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  },
+  {
+    "id": "news-sakshi",
+    "name": "Sakshi",
+    "tagline": "Leading Telugu Daily of Telangana & Andhra Pradesh",
+    "category": "Regional News",
+    "logo": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&q=80&w=200",
+    "coverImage": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800",
+    "audienceReach": 1850000,
+    "circulation": 2100000,
+    "minimumSpend": 290000,
+    "location": {
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "region": "South"
+    },
+    "languages": [
+      "Telugu"
+    ],
+    "frequency": "Daily",
+    "targetGroups": [
+      "Regional Audience",
+      "Retail Shoppers",
+      "Families",
+      "B2C"
+    ],
+    "adOptions": [
+      "Front Page",
+      "Full Page",
+      "Half Page",
+      "Quarter Page"
+    ],
+    "popularity": 88,
+    "topSearched": false,
+    "description": "Sakshi is a premier Telugu newspaper with comprehensive coverage throughout Telangana and Andhra Pradesh, popular for deep regional reporting and color clarity.",
+    "readershipProfile": "Telugu-speaking households, political leaders, and retail consumers.",
+    "minimumBooking": "1 Insertion",
+    "advertisingRates": [
+      {
+        "option": "Front Page",
+        "price": 470000,
+        "specs": "Broadsheet Color",
+        "estimatedReach": "1,850,000 Readers"
+      },
+      {
+        "option": "Full Page",
+        "price": 290000,
+        "specs": "Full Page Color",
+        "estimatedReach": "1,850,000 Readers"
+      }
+    ],
+    "publication": "Sakshi",
+    "publicationType": "Regional Daily",
+    "editionType": "Main Newspaper"
+  }
+]
